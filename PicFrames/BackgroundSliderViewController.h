@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 OutThinking India Pvt Ltd. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>//asdsdfsdfsdf
+#import <UIKit/UIKit.h> //asdsdfsdfsdf
 #import "GADInterstitial.h"  //sfdsdfsdffd
 
 @interface BackgroundSliderViewController : UIViewController<GADInterstitialDelegate>
