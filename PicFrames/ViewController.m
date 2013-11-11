@@ -53,7 +53,7 @@
     SNPopupView *colorAndPatternView;
     
     BOOL _editWhileImageSelection;
-    //UIImage *_selectedImageBeforeEdit;
+    //UIImage *_selectedImageBeforeEdit;dsl;vjsl;dighsl;idfh
     UIButton *_appoxeeBadge;
     
     BOOL isInEditMode;
