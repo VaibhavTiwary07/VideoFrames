@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GADInterstitial.h"
+#import "GADInterstitial.h"  //sfdsdfsdffd
 
 @interface BackgroundSliderViewController : UIViewController<GADInterstitialDelegate>
 

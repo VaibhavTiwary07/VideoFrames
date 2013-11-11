@@ -63,9 +63,9 @@
     //GADBannerView *bannerView_;
     
     /* Video Preview Global Vars */
-    BOOL gIsPreviewInProgress;
+    BOOL gIsPreviewInProgress; //asdasdfsdfsdf
     BOOL gIsPreviewPaused;
-    int  gCurPreviewFrameIndex;
+    int  gCurPreviewFrameIndex; //sdfbljsdfbksjdbg
     int  gTotalPreviewFrames;
     AVAudioPlayer *previewAudioPlayer;
     CMPopTipView *preViewControls;
@@ -76,6 +76,8 @@
     UIView *musicTrackCell;
 
     GADInterstitial *interstitial_; //fgthfjufghjghjk
+    
+    //asfadsfsdfsdfsd
 
 
     
