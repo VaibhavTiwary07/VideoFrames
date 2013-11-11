@@ -2,11 +2,11 @@
 //  ShapeMapping.h
 //  Instapicframes
 //
-//  Created by Vijaya kumar reddy Doddavala on 12/9/12.
+//  Created by Vijaya kumar reddy Doddavala on 12/9/12.z,.xcnzkljvzs
 //
 //
 
-#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h> /*asldhaksjalkjf*/
 
 typedef enum
 {

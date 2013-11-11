@@ -10,7 +10,7 @@
 
 @interface Photo ()
 {
-    //UIImageView *imgView;
+    //UIImageView *imgView;sdlnsdkhsdg
     NSTimer     *tapTimer;
     CGSize       imgSize;
     
