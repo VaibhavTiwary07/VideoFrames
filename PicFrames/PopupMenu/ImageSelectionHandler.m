@@ -10,11 +10,17 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <QuartzCore/CALayer.h>
-
-@interface ImageSelectionHandler()
+#import "CTAssetsPickerController.h"
+#import <MediaPlayer/MediaPlayer.h>
+@interface ImageSelectionHandler()<CTAssetsPickerControllerDelegate>
 {
     id _controller;
 }
+@property (nonatomic, retain) NSMutableArray *assets_array;
+
+@property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
+@property (nonatomic, strong) ALAsset *asset;
+
 @end
 
 @implementation ImageSelectionHandler
@@ -243,7 +249,50 @@
 	
 	return;
 }
+-(void)pickImage
+{
+    if (self.asset== nil) {
+        NSLog(@"new asset selected");
+        self.assets_array = [[NSMutableArray alloc] init];
+    }
 
+
+    CTAssetsPickerController *picker_photo = [[CTAssetsPickerController alloc] init];
+    picker_photo.maximumNumberOfSelection = 1;
+    picker_photo.assetsFilter = [ALAssetsFilter allPhotos];
+    picker_photo.delegate = self;
+
+    [_controller presentViewController:picker_photo animated:YES completion:NULL];
+}
+-(void)pickVideo
+{
+    if (self.asset== nil) {
+        NSLog(@"new asset selected");
+        self.assets_array = [[NSMutableArray alloc] init];
+    }
+
+
+    CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+    picker.maximumNumberOfSelection = 1;
+    picker.assetsFilter = [ALAssetsFilter allVideos];
+    picker.delegate = self;
+
+    [_controller presentViewController:picker animated:YES completion:NULL];
+}
+- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+{
+    ALAsset *asset = [assets objectAtIndex:0];
+    
+    [self.assets_array addObjectsFromArray:assets];
+
+    NSURL *videoURL = asset.defaultRepresentation.url;
+
+    [self videoSelected:videoURL result:nil];
+    [self.asset release];
+    self.asset = nil;
+    
+    
+}
 -(void)handleFacebookAlbum
 {
     if(NO == nvm.connectedToInternet)

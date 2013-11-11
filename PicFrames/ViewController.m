@@ -29,7 +29,7 @@
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
-@interface ViewController () <KxMenuDelegate,OT_TabBarDelegate,UIPopoverControllerDelegate,PopoverViewDelegate,AVAudioPlayerDelegate,MPMediaPickerControllerDelegate,InAppPurchasePreviewViewDelegate>
+@interface ViewController () <KxMenuDelegate,OT_TabBarDelegate,UIPopoverControllerDelegate,PopoverViewDelegate,AVAudioPlayerDelegate,MPMediaPickerControllerDelegate,InAppPurchasePreviewViewDelegate,CTAssetsPickerControllerDelegate>
 {
     eAppMode eMode;
     UIView  *pickerView;
@@ -76,22 +76,17 @@
     UIView *musicTrackCell;
 
     GADInterstitial *interstitial_; //fgthfjufghjghjk
-    
-    //asfadsfsdfsdfsd
- // Test ....
+
 
     
 }
-@property (nonatomic, retain) NSMutableArray *assets_array;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
-@property (nonatomic, strong) ALAsset *asset;
+
 -(void)selectEditTab;
 @end
 
 @implementation ViewController
-@synthesize assets_array;
-@synthesize dateFormatter;
+
+
 @synthesize tabBar;
 @synthesize imageForEdit;
 @synthesize applicationSuspended;
@@ -267,7 +262,7 @@
             BOOL optOutVideoHelp = [[[NSUserDefaults standardUserDefaults]objectForKey:@"optOutVideoHelp"]boolValue];
             if(optOutVideoHelp)
             {
-                [ish handleVideoAlbum];
+                [ish pickVideo];
             }
             else
             {
@@ -281,7 +276,7 @@
                          [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoHelp"];
                      }
                      
-                     [ish handleVideoAlbum];
+                     [ish pickVideo];
                  }
                               cancelButtonTitle:@"Ok"
                               otherButtonTitles:@"Got it",nil];
@@ -300,6 +295,7 @@
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
    // [Flurry logEvent:@"Popup Menu Selections" withParameters:dict];
 }
+
 
 -(void)showPhotoEffectsEditor
 {
