@@ -80,7 +80,7 @@
 
     
 }
-@property (nonatomic, retain) NSMutableArray *assets_array;	
+@property (nonatomic, retain) NSMutableArray *assets_array;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
 @property (nonatomic, strong) ALAsset *asset;
