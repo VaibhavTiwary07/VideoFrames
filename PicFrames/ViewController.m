@@ -65,7 +65,7 @@
     /* Video Preview Global Vars */
     BOOL gIsPreviewInProgress; //asdasdfsdfsdf
     BOOL gIsPreviewPaused;
-    int  gCurPreviewFrameIndex;
+    int  gCurPreviewFrameIndex; //sdfbljsdfbksjdbg
     int  gTotalPreviewFrames;
     AVAudioPlayer *previewAudioPlayer;
     CMPopTipView *preViewControls;
