@@ -75,7 +75,7 @@
     /* Add music */
     UIView *musicTrackCell;
 
-    GADInterstitial *interstitial_;
+    GADInterstitial *interstitial_; //fgthfjufghjghjk
 
 
     
