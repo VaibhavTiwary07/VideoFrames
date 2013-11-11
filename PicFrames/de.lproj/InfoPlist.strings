@@ -1,0 +1,7 @@
+/* Localized versions of Info.plist keys */
+
+/* Display name */
+"CFBundleDisplayName" = "Foto Rahmen";
+
+/* Bundle name */
+"CFBundleName" = "Foto Rahmen";

@@ -1,0 +1,7 @@
+/* Localized versions of Info.plist keys */
+
+/* Display name */
+"CFBundleDisplayName" = "相框";
+
+/* Bundle name */
+"CFBundleName" = "相框";

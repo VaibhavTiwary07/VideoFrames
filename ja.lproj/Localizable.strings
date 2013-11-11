@@ -1,0 +1,357 @@
+/* Actions */
+"ACTIONS" = "アクション";
+
+/* Add Photo Caption */
+"ADDCAPTION" = "写真に見出しを追加";
+
+/* Pic Shells */
+"APPNAME" = "Instapic Frames";
+
+/* Aspect Ratio */
+"ARATIO" = "縦横比";
+
+/* Select Background Image */
+"BGHEADER" = "背景画像を選択";
+
+/* Camera */
+"CAMERA" = "カメラ";
+
+/* Take live photo using Camera */
+"CAMERA_CAP" = "カメラでライブ写真を撮影";
+
+/* Cancel */
+"CANCEL" = "キャンセル";
+
+/* caption */
+"CAPTION" = "見出し";
+
+/* Successfully copied to Clipboard!!! */
+"CBSUCCESS" = "クリップボードにコピーしました！！";
+
+/* Color */
+"COLOR" = "色";
+
+/* Copy To Clipboard */
+"COPYTOCB" = "クリップボードにコピー";
+
+/* Copies the current session to Clipboard */
+"COPYTOCB_CAP" = "現在のセッションをクリップボードにコピーする";
+
+/* Created on */
+"CREATEDON" = "作成";
+
+/* Creating */
+"CREATING" = "作成中";
+
+/* Current Project */
+"CURPROJECT" = "現在のプロジェクト";
+
+/* Email */
+"EMAIL" = "メール";
+
+/* Email to your loved ones */
+"EMAIL_CAP" = "大切な人へメール";
+
+/* Successfully Sent the email!!! */
+"EMAILSUCCESS" = "メールを送信しました！！";
+
+/* Failed */
+"FAILED" = "失敗";
+
+/* Facebook */
+"FB" = "Facebook";
+
+/* Facebook Albums */
+"FBALBUM" = "Facebookアルバム";
+
+/* Upload to Facebook albums */
+"FBALBUM_CAP" = "Facebookアルバムへアップロード";
+
+/* your Facebook albums */
+"FBALBUMBG_CAP" = "あなたのFacebookアルバム";
+
+/* \nSelect the album to view and select the photos from the album */
+"FBALBUMLISTTITLE" = "\n閲覧するアルバムを選択し、アルバムから写真を選択";
+
+/* Empty Album,No photo in this album */
+"FBEMPTYALBUM" = "空のアルバム、アルバムに写真はありません";
+
+/* Login to facebook */
+"FBLOGIN" = "Facebookへログイン";
+
+/* Login to your facebook account */
+"FBLOGIN_CAP" = "Facebookアカウントへログイン";
+
+/* Log Out From Facebook */
+"FBLOGOUT" = "Facebookからログアウト";
+
+/* Logs out you from your facebook account */
+"FBLOGOUT_CAP" = "Facebookアカウントからログアウト";
+
+/* Facebook Profile Photo */
+"FBPROFILEPHOTO" = "Facebookプロフィール写真";
+
+/* your Facebook profile photo */
+"FBPROFILEPHOTOCAP" = "あなたのFacebookプロフィール写真";
+
+/* Facebook Upload */
+"FBUPLOAD" = "Facebookアップロード";
+
+/* Successfully posted to Facebook album!!! */
+"FBUPLOADSUCCESS" = "Facebookアルバムへ投稿しました！！";
+
+/* Facebook Wall */
+"FBWALL" = "Facebookウォール";
+
+/* Post on to your facebook wall */
+"FBWALL_CAP" = "Facebookウォールへ投稿";
+
+/* Your Albums */
+"FBYOURALBUMS" = "あなたのアルバム";
+
+/* Frames */
+"FRAMES" = "フレーム";
+
+/* From */
+"FROM" = "差出人";
+
+/* Generating */
+"GENERATING" = "生成中";
+
+/* Tap to Select Photo */
+"HELP1_B" = "写真選択をタップ";
+
+/* Select Photo */
+"HELP1_T" = "写真選択";
+
+/* Double Tap to Apply effects to Photo */
+"HELP2_B" = "ダブルタップで写真に効果を適用";
+
+/* Apply Effect */
+"HELP2_T" = "効果を適用";
+
+/* Pinch to Zoom in and Zoom out, Pan to move the photo around */
+"HELP3_B" = "ピンチ操作でズーム、パン操作で写真を移動";
+
+/* Zoom And Pan */
+"HELP3_T" = "ズームとパン";
+
+/* Drag The border to adjust the frame */
+"HELP4_B" = "ボーダーをドラッグしてフレームを調整";
+
+/* Adjust Frame */
+"HELP4_T" = "フレーム調整";
+
+/* Change Aspect Ratio to change the frame ratio */
+"HELP5_B" = "フレーム比を変更するには縦横比を変更";
+
+/* Aspect Ratio */
+"HELP5_T" = "縦横比";
+
+/* Use the Sliders to Adjust Corner radius and Frame Width */
+"HELP6_B" = "スライダーを使って角の丸みとフレームの幅を調整";
+
+/* Width And Corners */
+"HELP6_T" = "幅と角";
+
+/* Change Frame's Color and Pattern By using Color and Pattern Picker */
+"HELP7_B" = "カラー及びパターンピッカーを使ってフレームの色やパターンを変更";
+
+/* Color And Pattern */
+"HELP7_T" = "カラー及びパターン";
+
+/* Click On Menu To create New project or load the eralier saved projects */
+"HELP8_B" = "新規プロジェクトの作成または保存したプロジェクトを読み込むにはメニューをクリック";
+
+/* Projects */
+"HELP8_T" = "プロジェクト";
+
+/* High */
+"HIGH" = "高";
+
+/* High Quality */
+"HQUALITY" = "高画質";
+
+/* Image */
+"IMAGE" = "画像";
+
+/* Inner Radius */
+"INNERRADIUS" = "内側の半径";
+
+/* Iphone App!!!! */
+"IPHONEAPP" = "iPhoneアプリ！！";
+
+/* Would you like to see YOUR PHOTO on T-Shirt or iPhone Case or iPad case or Aluminum art or Key Chain, or water bottles.... */
+"IVOKEALERT" = "TシャツやiPhoneやiPadケース、アルミニウムアートやキーホルダー、水筒等にあなたの写真をのせたいですか？";
+
+/* Personalized Items */
+"IVOKEHEAD" = "カスタマイズアイテム";
+
+/* Like our Application */
+"LIKEOURAPP" = "アプリケーションにいいねを付ける";
+
+/* Like Us */
+"LIKEUS" = "いいね";
+
+/* Like our App's Facebook page */
+"LIKEUS_CAP" = "アプリFacebookページにいいねを付ける";
+
+/* Link To Image */
+"LINKTOIMAGE" = "画像にリンクを付ける";
+
+/* Loading */
+"LOADING" = "読み込み中";
+
+/* Load Project */
+"LOADPROJECT" = "プロジェクト読み込み";
+
+/* Login/Logout */
+"LOGINOUT" = "ログイン/ログアウト";
+
+/* Low */
+"LOW" = "低";
+
+/* Low Quality */
+"LQUALITY" = "低画質";
+
+/* Medium */
+"MEDIUM" = "中";
+
+/* Menu */
+"MENU" = "メニュー";
+
+/* Meadium Quality */
+"MQUALITY" = "中画質";
+
+/* Create New Project */
+"NEWPROJECT" = "新規プロジェクトを作成";
+
+/* Creates new Project */
+"NEWPROJECT_CAP" = "新規プロジェクトを作成";
+
+/* NO */
+"NO" = "いいえ";
+
+/* Email is not configured for this device!!! */
+"NOEMAIL" = "このデバイスにメールが設定されていません！！";
+
+/* No active internet connection to connect */
+"NOINTERNET" = "有効なインターネット接続がありません";
+
+/* No Thanks */
+"NOTHANKS" = "今はしない";
+
+/* OK */
+"OK" = "OK";
+
+/* Outer Radius */
+"OUTERRADIUS" = "外側の半径";
+
+/* No image present in the paste board to paste */
+"PASTEBOARD_EMPTY" = "貼付けボードに貼付ける画像がありません";
+
+/* Paste From Pasteboard */
+"PASTEFROMPB" = "貼付けボードから貼付ける";
+
+/* Paste your copied image */
+"PASTEFROMPB_CAP" = "コピーした画像の貼付け";
+
+/* Pattern */
+"PATTERN" = "パターン";
+
+/* Personalized Items */
+"PERITEMS" = "カスタマイズアイテム";
+
+/* T-shirts, Phone Case, Key chains, Tea mugs */
+"PERITEMS_CAP" = "Tシャツ、携帯ケース、キーホルダー、マグカップ";
+
+/* Photo Albums */
+"PHOTOALBUM" = "フォトアルバム";
+
+/* your local photo album */
+"PHOTOALBUMCAP" = "あなたのローカルフォトアルバム";
+
+/* photos in this album */
+"PHOTOSINALBUM" = "このアルバムの写真";
+
+/* Processing */
+"PROCESSING" = "加工中";
+
+/* Products */
+"PRODUCTS" = "プロダクト";
+
+/* Projects */
+"PROJECTS" = "プロジェクト";
+
+/* Radius */
+"RADIUS" = "半径";
+
+/* Rate Us */
+"RATEUS" = "評価してください";
+
+/* Rate us in Appstore */
+"RATEUS_CAP" = "App Storeで当社を評価する";
+
+/* Rendering */
+"RENDERING" = "レンダリング";
+
+/* Resolution */
+"RESOLUTION" = "解像度";
+
+/* Resume Project */
+"RESPROJECT" = "プロジェクトを再開";
+
+/* Retriving */
+"RETRIVING" = "取得";
+
+/* Saved Projects */
+"SAVEDPROJECT" = "保存したプロジェクト";
+
+/* Load/Edit your saved Projects */
+"SAVEDPROJECT_CAP" = "保存したプロジェクトの読み込み/編集";
+
+/* Save To Photo Album */
+"SAVETOALBUM" = "フォトアルバムへ保存";
+
+/* Save to local photo album */
+"SAVETOALBUM_CAP" = "ローカルフォトアルバムへ保存";
+
+/* Successfully saved to Photo Album!!! */
+"SAVETOALBUMSUCCESS" = "フォトアルバムへ保存しました！！";
+
+/* Select */
+"SELECT" = "選択";
+
+/* Share */
+"SHARE" = "シェア";
+
+/* Social Networks */
+"SOCIALNET" = "ソーシャルネットワーク";
+
+/* Swap */
+"SWAP" = "交換";
+
+/* Swap Images */
+"SWAPIMAGES" = "画像を交換";
+
+/* Twitter Upload */
+"TWITPICUPLOAD" = "Twitterアップロード";
+
+/* Successfully posted to twitpic!!! */
+"TWITPICUPLOADSUCCESS" = "twitpicへ投稿しました！！";
+
+/* Uploading */
+"UPLOADING" = "アップロード中";
+
+/* Video Tutorial */
+"VIDEOTUT" = "ビデオチュートリアル";
+
+/* Width */
+"WIDTH" = "幅";
+
+/* YES */
+"YES" = "はい";
+
+/* You have */
+"YOUHAVE" = "持っている";
+

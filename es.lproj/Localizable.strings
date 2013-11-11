@@ -1,0 +1,357 @@
+/* Actions */
+"ACTIONS" = "Acciones";
+
+/* Add Photo Caption */
+"ADDCAPTION" = "Añadir Título de Foto";
+
+/* Pic Shells */
+"APPNAME" = "Instapic Frames";
+
+/* Aspect Ratio */
+"ARATIO" = "Relación de Aspecto";
+
+/* Select Background Image */
+"BGHEADER" = "Selecciona Imagen de Fondo";
+
+/* Camera */
+"CAMERA" = "Cámara";
+
+/* Take live photo using Camera */
+"CAMERA_CAP" = "Hacer una foto en directo usando la Cámara";
+
+/* Cancel */
+"CANCEL" = "Cancelar";
+
+/* caption */
+"CAPTION" = "título";
+
+/* Successfully copied to Clipboard!!! */
+"CBSUCCESS" = "¡¡¡Copiado con éxito en el Portapapeles!!!";
+
+/* Color */
+"COLOR" = "Color";
+
+/* Copy To Clipboard */
+"COPYTOCB" = "Copiar En El Portapapeles";
+
+/* Copies the current session to Clipboard */
+"COPYTOCB_CAP" = "Copia la sesión actual en el Portapapeles";
+
+/* Created on */
+"CREATEDON" = "Creado en";
+
+/* Creating */
+"CREATING" = "Creando";
+
+/* Current Project */
+"CURPROJECT" = "Proyecto Actual";
+
+/* Email */
+"EMAIL" = "Email";
+
+/* Email to your loved ones */
+"EMAIL_CAP" = "Mandar por e-mail a tus seres queridos";
+
+/* Successfully Sent the email!!! */
+"EMAILSUCCESS" = "¡¡¡Enviado con éxito por e-mail!!!";
+
+/* Failed */
+"FAILED" = "Falló";
+
+/* Facebook */
+"FB" = "Facebook";
+
+/* Facebook Albums */
+"FBALBUM" = "Álbumes de Facebook";
+
+/* Upload to Facebook albums */
+"FBALBUM_CAP" = "Subir a álbumes de Facebook";
+
+/* your Facebook albums */
+"FBALBUMBG_CAP" = "tus álbumes de Facebook";
+
+/* \nSelect the album to view and select the photos from the album */
+"FBALBUMLISTTITLE" = "\nSelecciona el álbum para ver y seleccionar las fotos del álbum";
+
+/* Empty Album,No photo in this album */
+"FBEMPTYALBUM" = "Álbum Vacío. No hay fotos en este álbum";
+
+/* Login to facebook */
+"FBLOGIN" = "Iniciar sesión en facebook";
+
+/* Login to your facebook account */
+"FBLOGIN_CAP" = "Iniciar sesión en tu cuenta de facebook";
+
+/* Log Out From Facebook */
+"FBLOGOUT" = "Cerrar Sesión En Facebook";
+
+/* Logs out you from your facebook account */
+"FBLOGOUT_CAP" = "Salir de tu cuenta de facebook";
+
+/* Facebook Profile Photo */
+"FBPROFILEPHOTO" = "Foto de Perfil de Facebook";
+
+/* your Facebook profile photo */
+"FBPROFILEPHOTOCAP" = "tu foto de perfil de Facebook";
+
+/* Facebook Upload */
+"FBUPLOAD" = "Carga de Facebook";
+
+/* Successfully posted to Facebook album!!! */
+"FBUPLOADSUCCESS" = "¡¡¡El álbum se publicó con éxito en Facebook!!!";
+
+/* Facebook Wall */
+"FBWALL" = "Muro de Facebook";
+
+/* Post on to your facebook wall */
+"FBWALL_CAP" = "Publicar en tu muro de facebook";
+
+/* Your Albums */
+"FBYOURALBUMS" = "Tus Álbumes";
+
+/* Frames */
+"FRAMES" = "Marcos";
+
+/* From */
+"FROM" = "De";
+
+/* Generating */
+"GENERATING" = "Generar";
+
+/* Tap to Select Photo */
+"HELP1_B" = "Pulsa para Seleccionar Foto";
+
+/* Select Photo */
+"HELP1_T" = "Seleccionar Foto";
+
+/* Double Tap to Apply effects to Photo */
+"HELP2_B" = "Pulsa Dos Veces para Aplicar los efectos a la Foto";
+
+/* Apply Effect */
+"HELP2_T" = "Aplicar Efecto";
+
+/* Pinch to Zoom in and Zoom out, Pan to move the photo around */
+"HELP3_B" = "Pincha para Ampliar y Reducir, Haz Panorámica para mover la foto";
+
+/* Zoom And Pan */
+"HELP3_T" = "Zoom Y Panorámica";
+
+/* Drag The border to adjust the frame */
+"HELP4_B" = "Arrastra El borde para ajustar el marco";
+
+/* Adjust Frame */
+"HELP4_T" = "Ajustar Marco";
+
+/* Change Aspect Ratio to change the frame ratio */
+"HELP5_B" = "Cambiar Relación de Aspecto para cambiar la relación del marco";
+
+/* Aspect Ratio */
+"HELP5_T" = "Relación de Aspecto";
+
+/* Use the Sliders to Adjust Corner radius and Frame Width */
+"HELP6_B" = "Usa los Deslizadores para Ajustar los radios de las Esquinas y el Ancho del Marco";
+
+/* Width And Corners */
+"HELP6_T" = "Ancho y Esquinas";
+
+/* Change Frame's Color and Pattern By using Color and Pattern Picker */
+"HELP7_B" = "Cambia el Color y el Decorado del Marco Usando el Selector de Color y De Decorado";
+
+/* Color And Pattern */
+"HELP7_T" = "Color Y Decorado";
+
+/* Click On Menu To create New project or load the eralier saved projects */
+"HELP8_B" = "Haz Clic En el Menú Para Crear Un Proyecto Nuevo o cargar los últimos proyectos guardados";
+
+/* Projects */
+"HELP8_T" = "Proyectos";
+
+/* High */
+"HIGH" = "Alta";
+
+/* High Quality */
+"HQUALITY" = "Alta Calidad";
+
+/* Image */
+"IMAGE" = "Imagen";
+
+/* Inner Radius */
+"INNERRADIUS" = "Radio interior";
+
+/* Iphone App!!!! */
+"IPHONEAPP" = "¡¡¡Aplicación del iPhone!!!";
+
+/* Would you like to see YOUR PHOTO on T-Shirt or iPhone Case or iPad case or Aluminum art or Key Chain, or water bottles.... */
+"IVOKEALERT" = "¿Te gustaría ver TU FOTO en una Camiseta o Carcasa del iPhone o Carcasa del iPad o Artículo de Aluminio o Llavero, o botellas de agua...";
+
+/* Personalized Items */
+"IVOKEHEAD" = "Artículos Personalizados";
+
+/* Like our Application */
+"LIKEOURAPP" = "Te gusta nuestra Aplicación";
+
+/* Like Us */
+"LIKEUS" = "Te gustamos";
+
+/* Like our App's Facebook page */
+"LIKEUS_CAP" = "Di Me gusta en la página de Facebook de nuestra Aplicación";
+
+/* Link To Image */
+"LINKTOIMAGE" = "Enlazar A La Imagen";
+
+/* Loading */
+"LOADING" = "Cargando";
+
+/* Load Project */
+"LOADPROJECT" = "Cargar Proyecto";
+
+/* Login/Logout */
+"LOGINOUT" = "Iniciar Sesión/Cerrar Sesión";
+
+/* Low */
+"LOW" = "Baja";
+
+/* Low Quality */
+"LQUALITY" = "Baja Calidad";
+
+/* Medium */
+"MEDIUM" = "Media";
+
+/* Menu */
+"MENU" = "Menú";
+
+/* Meadium Quality */
+"MQUALITY" = "Calidad Media";
+
+/* Create New Project */
+"NEWPROJECT" = "Crear Proyecto Nuevo";
+
+/* Creates new Project */
+"NEWPROJECT_CAP" = "Crea un Proyecto nuevo";
+
+/* NO */
+"NO" = "NO";
+
+/* Email is not configured for this device!!! */
+"NOEMAIL" = "¡¡¡El e-mail no está configurado para este dispositivo!!!";
+
+/* No active internet connection to connect */
+"NOINTERNET" = "No hay ninguna conexión activa de Internet para conectarse";
+
+/* No Thanks */
+"NOTHANKS" = "No, Gracias";
+
+/* OK */
+"OK" = "OK";
+
+/* Outer Radius */
+"OUTERRADIUS" = "Radio Exterior";
+
+/* No image present in the paste board to paste */
+"PASTEBOARD_EMPTY" = "No hay ninguna imagen para pegar en la mesa de trabajo";
+
+/* Paste From Pasteboard */
+"PASTEFROMPB" = "Pega Desde La Mesa de Trabajo";
+
+/* Paste your copied image */
+"PASTEFROMPB_CAP" = "Pega tu imagen copiada";
+
+/* Pattern */
+"PATTERN" = "Decorado";
+
+/* Personalized Items */
+"PERITEMS" = "Artículos personalizados";
+
+/* T-shirts, Phone Case, Key chains, Tea mugs */
+"PERITEMS_CAP" = "Camisetas, Carcasa de Teléfono, Llavero, Taza de Té";
+
+/* Photo Albums */
+"PHOTOALBUM" = "Álbumes de Fotos";
+
+/* your local photo album */
+"PHOTOALBUMCAP" = "tu álbum de fotos local";
+
+/* photos in this album */
+"PHOTOSINALBUM" = "fotos en este álbum";
+
+/* Processing */
+"PROCESSING" = "Procesando";
+
+/* Products */
+"PRODUCTS" = "Productos";
+
+/* Projects */
+"PROJECTS" = "Proyectos";
+
+/* Radius */
+"RADIUS" = "Radio";
+
+/* Rate Us */
+"RATEUS" = "Valóranos";
+
+/* Rate us in Appstore */
+"RATEUS_CAP" = "Valóranos en el App Store";
+
+/* Rendering */
+"RENDERING" = "Renderizando";
+
+/* Resolution */
+"RESOLUTION" = "Resolución";
+
+/* Resume Project */
+"RESPROJECT" = "Resume Project";
+
+/* Retriving */
+"RETRIVING" = "Recuperando";
+
+/* Saved Projects */
+"SAVEDPROJECT" = "Proyectos Guardados";
+
+/* Load/Edit your saved Projects */
+"SAVEDPROJECT_CAP" = "Cargar/Editar tus Proyectos guardados";
+
+/* Save To Photo Album */
+"SAVETOALBUM" = "Guardar En El Álbum de Fotos";
+
+/* Save to local photo album */
+"SAVETOALBUM_CAP" = "Guardar en álbum de fotos local";
+
+/* Successfully saved to Photo Album!!! */
+"SAVETOALBUMSUCCESS" = "¡¡¡Guardado con éxito en el Álbum de Fotos!!!";
+
+/* Select */
+"SELECT" = "Seleccionar";
+
+/* Share */
+"SHARE" = "Compartir";
+
+/* Social Networks */
+"SOCIALNET" = "Redes Sociales";
+
+/* Swap */
+"SWAP" = "Intercambiar";
+
+/* Swap Images */
+"SWAPIMAGES" = "Intercambiar Imágenes";
+
+/* Twitter Upload */
+"TWITPICUPLOAD" = "Subir a Twitter";
+
+/* Successfully posted to twitpic!!! */
+"TWITPICUPLOADSUCCESS" = "¡¡¡Publicado con éxito en twitpic!!!";
+
+/* Uploading */
+"UPLOADING" = "Subiendo";
+
+/* Video Tutorial */
+"VIDEOTUT" = "Vídeo Tutorial";
+
+/* Width */
+"WIDTH" = "Ancho";
+
+/* YES */
+"YES" = "YES";
+
+/* You have */
+"YOUHAVE" = "Tienes";
+
