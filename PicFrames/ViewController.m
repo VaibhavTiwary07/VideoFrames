@@ -308,7 +308,7 @@
 
 }
 
-#if 1
+
 -(void)showPhotoOptions:(NSTimer*)t
 {
     float x = [[t.userInfo objectForKey:@"x_location"]floatValue];
@@ -321,46 +321,7 @@
     [menu showPopupIn:v at:CGPointMake(x, y)];
     curPopupViewParent = [t.userInfo objectForKey:@"scrollview"];
 }
-#else
--(void)showPhotoOptions:(NSTimer*)t
-{
-    /* allocate menu items */
-    KxMenuItem *photo    = [KxMenuItem menuItem:@"Select Photo"
-                                          image:[UIImage imageNamed:@"malbum.png"]
-                                         target:nil
-                                         action:NULL];
-    KxMenuItem *video = [KxMenuItem menuItem:@"Select Video"
-                                          image:[UIImage imageNamed:@"menucamera.png"]
-                                         target:self
-                                         action:@selector(handleResolutionOptionSelection:)];
-    KxMenuItem *remove = [KxMenuItem menuItem:@"Remove"
-                                          image:[UIImage imageNamed:@"trash.png"]
-                                         target:self
-                                         action:@selector(handleResolutionOptionSelection:)];
 
-    NSArray *menuItems   = @[photo,video,remove];
-    
-    for(int index = 0; index < [menuItems count]; index++)
-    {
-        KxMenuItem *menuitem = menuItems[index];
-        menuitem.alignment = NSTextAlignmentCenter;
-    }
-    
-    KxMenuItem *first = menuItems[0];
-    first.foreColor = PHOTO_DEFAULT_COLOR;
-    first.alignment = NSTextAlignmentCenter;
-    
-    float x = [[t.userInfo objectForKey:@"x_location"]floatValue];
-    float y = [[t.userInfo objectForKey:@"y_location"]floatValue];
-    CGRect rec = CGRectMake(x, y, 0.0, 0.0);
-    UIImageView *v = [t.userInfo objectForKey:@"view"];
-    
-    [KxMenu showMenuInView:v
-                  fromRect:rec
-                 menuItems:menuItems
-                  delegate:self];
-}
-#endif
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     /* Dismiss the controller */
@@ -481,8 +442,6 @@
 #if FULLSCREENADS_ENABLE
     if(bShowRevModAd)
     {
-        //[[OT_AdControl sharedInstance]showInterstitialIn:self];
-        //[[OT_FlurryAd sharedInstance]showFullscreenAd];
         bShowRevModAd = NO;
     }
 #endif
@@ -2483,14 +2442,6 @@
     radiusSettingsBgnd.alpha = 0.8;
     radiusSettingsBgnd.userInteractionEnabled = YES;
     radiusSettingsBgnd.tag = RADIUS_TAG_INDEX;
-#if 0    
-    UIButton *close = [[UIButton alloc]initWithFrame:CGRectMake(radiusSettingsBgnd.frame.origin.x+radiusSettingsBgnd.frame.size.width-25.0, 0, 25, 25)];
-    UIImage *img = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"close" ofType:@"png"]];
-    [close setImage:img forState:UIControlStateNormal];
-    [close addTarget:self action:@selector(exitAnySettings) forControlEvents:UIControlEventTouchUpInside];
-    [radiusSettingsBgnd addSubview:close];
-    [close release];
-#endif
     
     UILabel *innerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+innerRadiusIndex, 150, 25)];
     innerRadiusLbl.tag = RADIUS_TAG_INDEX+1;
@@ -3097,26 +3048,7 @@
 #pragma mark help implementation
 -(void)performHelp
 {
-#if 0
-    CGRect rect;
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        rect = CGRectMake(10, 50, 600, 700);
-    }
-    else
-    {
-        rect = CGRectMake(10,50,300,380);
-    }
-    
-    HelpGridView *hg = [[HelpGridView alloc]initWithFrame:rect];
-    
-    hg.center = self.view.center;
-    
-    [self.view addSubview:hg];
-    
-    [hg release];
-#else
+
 
     HelpScreenViewController  *helpScreen = [[HelpScreenViewController alloc] init];
     [UIView transitionWithView:self.view
@@ -3126,9 +3058,7 @@
                         [self.view addSubview:helpScreen.view];
                     }
                     completion:NULL];
-   // [self.view addSubview:helpScreen.view];
-   // [helpScreen release];
-#endif
+
 
 }
 
@@ -3358,17 +3288,25 @@
 
 -(void)togglePreviewState:(UIButton*)sender
 {
-    NSLog(@" ()()()()()()()()()()()()()()");
+
     if(sender.tag == TAG_PREVIEW_PAUSE)
     {
         sender.tag = TAG_PREVIEW_PLAY;
-        [sender setBackgroundImage:[UIImage imageNamed:@"play2"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"playNew"] forState:UIControlStateNormal];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [sender setImage:[UIImage imageNamed:@"play_ipad"] forState:UIControlStateNormal];
+
+        }
         [self pausePreView];
     }
     else if(sender.tag == TAG_PREVIEW_PLAY)
     {
         sender.tag = TAG_PREVIEW_PAUSE;
-        [sender setBackgroundImage:[UIImage imageNamed:@"pause2"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [sender setImage:[UIImage imageNamed:@"pause_ipad"] forState:UIControlStateNormal];
+
+        }
         [self resumePreview];
     }
 }
@@ -3416,11 +3354,6 @@
     [self addToolbarWithTitle:@"Preview" tag:TAG_TOOLBAR_PREVIEW];
 
     CGRect blockTouchRect = CGRectMake(0, 50, full_screen.size.width,customTabBar.frame.origin.y+customTabBar.frame.size.height);
-  //  GADBannerView *bannerView = (GADBannerView*)[self.view viewWithTag:TAG_BANNERAD_VIEW];
-  //  if(nil != bannerView)
-  ///  {
-   //     blockTouchRect.size.height = blockTouchRect.size.height - bannerView.frame.size.height;
-   // }
     
     UIView *blockTouches = [[UIView alloc]initWithFrame:blockTouchRect];
     blockTouches.userInteractionEnabled = YES;
@@ -3436,12 +3369,12 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(10, customBarHeight/4, customBarHeight/2, customBarHeight/2);
     button.tag = TAG_PREVIEW_PAUSE;
-    [button setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"pause_active"] forState:UIControlStateHighlighted];
+    [button setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [button setImage:[UIImage imageNamed:@"pause_ipad"] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:@"pause_ipad_active"] forState:UIControlStateHighlighted];
+
     }
 
     [button addTarget:self action:@selector(togglePreviewState:) forControlEvents:UIControlEventTouchUpInside];
@@ -3676,14 +3609,6 @@
     [self dismissModalViewControllerAnimated: YES];
 }
 
-/*
-- (NSNumber *)getPersistentId:(MPMediaItemCollection *)collection atIndex:(int)index
-{
-    MPMediaItem *mediaItem = [collection.items objectAtIndex:index];
-    NSNumber    *anId      = [mediaItem valueForProperty:MPMediaItemPropertyPersistentID];
-    
-    return anId;
-}*/
 
 -(NSURL*)getUrlFromMediaItemId:(NSNumber*)persistentId
 {
@@ -4123,86 +4048,6 @@
  //  [self uploadSelected];
 }
 
--(void)handleUploadOptionSelection:(KxMenuItem*)item
-{
-    nvm.uploadCommand    = item.tag;
- 
-    /* check if it is a video frame, for video frames we do not support resolution selection */
-    if(YES == [sess anyVideoFrameSelected])
-    {
-        [self uploadSelected];
-        
-        return;
-    }
-    
-    /* Lets open resolution selection */
-    CGRect full          = [[UIScreen mainScreen]bounds];
-    CGRect shareRect     = CGRectMake(full.size.width-80.0, full.size.height-50-20.0, 80.0, 50);
-    OT_TabBarItem *shareItem = [customTabBar getTabbarItemWithTag:MODE_SHARE];
-    if(nil != shareItem)
-    {
-        shareRect.origin.x = shareItem.frame.origin.x;
-        shareRect.size.width = shareItem.frame.size.width;
-        shareRect.size.height = shareItem.frame.size.height;
-        NSLog(@"Sharerect is %f,%f",shareRect.origin.x,shareRect.origin.y);
-    }
-    
-
-    //if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    //{
-    //    shareRect.origin.x = shareRect.origin.x - 180.0;
-    //}
-    
-    /* allocate menu items */
-    KxMenuItem *title    = [KxMenuItem menuItem:@"Resolution"
-                                          image:nil
-                                         target:nil
-                                         action:NULL];
-    KxMenuItem *res_2400 = [KxMenuItem menuItem:@"2400 x 2400"
-                                           image:nil
-                                          target:self
-                                          action:@selector(handleResolutionOptionSelection:)];
-    res_2400.tag         = RESOLUTION_PIXCOUNT_HIGH0;
-    KxMenuItem *res_2100 = [KxMenuItem menuItem:@"2100 x 2100"
-                                          image:nil
-                                         target:self
-                                         action:@selector(handleResolutionOptionSelection:)];
-    res_2100.tag         = RESOLUTION_PIXCOUNT_HIGH1;
-    KxMenuItem *res_1800 = [KxMenuItem menuItem:@"1800 x 1800"
-                                          image:nil
-                                         target:self
-                                         action:@selector(handleResolutionOptionSelection:)];
-    res_1800.tag         = RESOLUTION_PIXCOUNT_MED0;
-    KxMenuItem *res_1200 = [KxMenuItem menuItem:@"1200 x 1200"
-                                          image:nil
-                                         target:self
-                                         action:@selector(handleResolutionOptionSelection:)];
-    res_1200.tag         = RESOLUTION_PIXCOUNT_MED2;
-    KxMenuItem *res_600  = [KxMenuItem menuItem:@"600 x 600"
-                                          image:nil
-                                         target:self
-                                         action:@selector(handleResolutionOptionSelection:)];
-    res_600.tag          = RESOLUTION_PIXCOUNT_LOW1;
-    NSArray *menuItems   = @[title,res_2400,res_2100,res_1800,res_1200,res_600];
-    
-    for(int index = 0; index < [menuItems count]; index++)
-    {
-        KxMenuItem *menuitem = menuItems[index];
-        menuitem.alignment = NSTextAlignmentCenter;
-    }
-    
-    KxMenuItem *first = menuItems[0];
-    first.foreColor = PHOTO_DEFAULT_COLOR;
-    first.alignment = NSTextAlignmentCenter;
-    
-    [KxMenu showMenuInView:self.view
-                  fromRect:shareRect
-                 menuItems:menuItems
-                  delegate:self];
-    
-    
-    return;
-}
 
 -(void)KxMenuWillDismissByUser:(KxMenu*)menu
 {
@@ -4214,91 +4059,7 @@
     [self selectEditTab];
 }
 
-- (void)showUploadMenu:(UIButton *)sender
-{
-    
-    CGRect full               = [[UIScreen mainScreen]bounds];
-    CGRect shareRect          = CGRectMake(full.size.width-55.0, customTabBar.frame.origin.y, 55.0, 50);
-    NSMutableArray *menuItems = [[NSMutableArray alloc]initWithCapacity:1];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        shareRect.origin.x = shareRect.origin.x - 60.0;
-    }
-    
-    /* First Add all share options supported for both Image And Video */
-    KxMenuItem *saveToAlbum = [KxMenuItem menuItem:@"Save to album"
-                                             image:[UIImage imageNamed:@"6331-download.png"]
-                                            target:self
-                                            action:@selector(handleUploadOptionSelection:)];
-    saveToAlbum.tag         = UPLOAD_PHOTO_ALBUM;
-    [menuItems addObject:saveToAlbum];
-    
-    KxMenuItem *email       = [KxMenuItem menuItem:@"Email"
-                                             image:[UIImage imageNamed:@"489-gmail.png"]
-                                            target:self
-                                            action:@selector(handleUploadOptionSelection:)];
-    email.tag               = UPLOAD_EMAIL;
-    [menuItems addObject:email];
-    
-    
-    
-    KxMenuItem *facebook    = [KxMenuItem menuItem:@"Facebook"
-                                             image:[UIImage imageNamed:@"6485-facebook.png"]
-                                            target:self
-                                            action:@selector(handleUploadOptionSelection:)];
-    facebook.tag            = UPLOAD_FACEBOOK_ALBUM;
-    [menuItems addObject:facebook];
-    KxMenuItem *instagram   = [KxMenuItem menuItem:@"Instagram"
-                                             image:[UIImage imageNamed:@"6492-instagram.png"]
-                                            target:self
-                                            action:@selector(handleUploadOptionSelection:)];
 
-    
-    
-    /* Clipboard support and twitter is there only for image */
-    if(NO == [sess anyVideoFrameSelected])
-    {
-         instagram.tag           = SEND_TO_INSTAGRAM;
-        [menuItems addObject:instagram];
-        KxMenuItem *clipboard   = [KxMenuItem menuItem:@"Copy to Clipboard"
-                                             image:[UIImage imageNamed:@"330-layers4.png"]
-                                            target:self
-                                            action:@selector(handleUploadOptionSelection:)];
-        clipboard.tag           = UPLOAD_CLIPBOARD;
-        [menuItems addObject:clipboard];
-        
-        /*KxMenuItem *twitter   = [KxMenuItem menuItem:@"Twitter"
-                                                 image:[UIImage imageNamed:@"498-twitter.png"]
-                                                target:self
-                                                action:@selector(handleUploadOptionSelection:)];
-        twitter.tag           = UPLOAD_TWITTER;
-        [menuItems addObject:twitter];*/
-    }
-    else
-    {
-         instagram.tag           = UPLOAD_INSTAGRAM;
-        [menuItems addObject:instagram];
-        KxMenuItem *youtube   = [KxMenuItem menuItem:@"Youtube"
-                                                 image:[UIImage imageNamed:@"youtube.png"]
-                                                target:self
-                                                action:@selector(handleUploadOptionSelection:)];
-        youtube.tag           = UPLOAD_YOUTUBE;
-        [menuItems addObject:youtube];
-        
-        KxMenuItem *viddy   = [KxMenuItem menuItem:@"Viddy"
-                                               image:[UIImage imageNamed:@"viddy.png"]
-                                              target:self
-                                              action:@selector(handleUploadOptionSelection:)];
-        viddy.tag           = UPLOAD_VIDDY;
-        [menuItems addObject:viddy];
-    }
-
-    [KxMenu showMenuInView:self.view
-                  fromRect:shareRect
-                 menuItems:menuItems
-                  delegate:self];
-}
 
 -(void)allocateResourcesForUpload
 {
@@ -4348,74 +4109,8 @@
     }
 }
 
--(void)colorAndPalletSelectionChanged:(UISegmentedControl*)sgctrl
-{
-    if(nil == pickerView)
-    {
-        NSLog(@"colorAndPalletSelectionChanged:No tip view to add the color or pattern picker");
-        return;
-    }
-    
-    if(sgctrl.selectedSegmentIndex == 0)
-    {
-        GridView *pView = nil;
-        UIView   *cView = nil;
-        pView = (GridView*)[pickerView viewWithTag:TAG_PATTERNPICKER];
-        if(nil != pView)
-        {
-            [pView removeFromSuperview];
-        }
-        
-        cView = [self allocatePatternPicker:TAG_GRIDVIEW_COLOR];
-        [pickerView addSubview:cView];
-        [cView release];
-    }
-    else if(sgctrl.selectedSegmentIndex == 1)
-    {
-        GridView *pView = nil;
-        UIView *cView   = nil;
-        
-        cView = [pickerView viewWithTag:TAG_COLORPICKER];
-        if(nil != cView)
-        {
-            [cView removeFromSuperview];
-        }
-        
-        pView = [self allocatePatternPicker:TAG_GRIDVIEW_PATTERN];
-        [pickerView addSubview:pView];
-        [pView release];
-    }
-    
-}
 
--(GridView*)allocatePatternPicker:(int)colorORPattern
-{
-    GridView *grd = nil;
-    
-    if (colorORPattern == TAG_GRIDVIEW_COLOR)
-    {
-        grd = [[GridView alloc]initWithFrame:CGRectMake(20.0, 40.0, 200.0, 240.0) option:colorORPattern];
-        //grd.totalItemsCount = 48;
-        grd.totalItemsCount = 52;
-        grd.tag = TAG_COLORPICKER;
-        grd.filePrefix = FILENAME_PATTERN_PREFIX;
-        grd.userInteractionEnabled = YES;
-        [grd setRowCount:4 colCount:4];
-        grd.delegate = self;
-    }
-    else
-    {
-        grd = [[GridView alloc]initWithFrame:CGRectMake(20.0, 40.0, 200.0, 240.0) option:colorORPattern];
-        grd.totalItemsCount = 54;
-        grd.tag = TAG_PATTERNPICKER;
-        grd.filePrefix = FILENAME_PATTERN_PREFIX;
-        grd.userInteractionEnabled = YES;
-        [grd setRowCount:4 colCount:4];
-        grd.delegate = self;
-    }
-    
-    return grd;
-}
+
 
 -(void)releaseResourcesForAdjustSettings
 {
@@ -4763,79 +4458,11 @@
    sess.color = [GridView getPatternAtIndex:but.tag];
 }
 
--(void)allocateResourcesForColorAndPatternSettings:(OT_TabBarItem*)tItem
-{
-    [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_ADJUST];
-    
-    CGRect backgroundRect = CGRectMake(0, 0, RADIUS_SETTINGS_WIDTH-40, RADIUS_SETTINGS_WIDTH);
-    
-    if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
-    {
-        backgroundRect = CGRectMake(0,0, RADIUS_SETTINGS_WIDTH-40, RADIUS_SETTINGS_WIDTH);
-    }
-    
-    CGRect full = [[UIScreen mainScreen]bounds];
-    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, full.size.height-100)];
-    touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
-    touchSheiled.userInteractionEnabled = YES;
-    [self.view addSubview:touchSheiled];
-    [touchSheiled release];
-    
-    UIImageView *backGround = [[UIImageView alloc]initWithFrame:backgroundRect];
-    [self.view addSubview:backGround];
-    backGround.backgroundColor = popup_color;
-    backGround.tag = TAG_ADJUST_BG;
-    [backGround release];
-    backGround.userInteractionEnabled = YES;
-
-    pickerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, backGround.frame.size.width, backGround.frame.size.height)];
-    pickerView.tag = TAG_COLORPICKER_BG;
-    /* by default show the color picker */
-    
-    /* add segment control */
-    NSArray *sgItems = [NSArray arrayWithObjects:NSLocalizedString(@"COLOR",@"Color"),NSLocalizedString(@"PATTERN",@"Pattern"), nil];
-    UISegmentedControl *sgctrl = [[UISegmentedControl alloc]initWithItems:sgItems];
-    sgctrl.frame = CGRectMake(0, 10, 150, 30);
-    sgctrl.selectedSegmentIndex = 0;
-    sgctrl.segmentedControlStyle = UISegmentedControlStyleBar;
-    sgctrl.tintColor = [UIColor grayColor];
-    sgctrl.center    = CGPointMake(pickerView.center.x, sgctrl.center.y);
-    [sgctrl addTarget:self
-               action:@selector(colorAndPalletSelectionChanged:)
-     forControlEvents:UIControlEventValueChanged];
-    [pickerView addSubview:sgctrl];
-    [sgctrl release];
-    
-    UIView *pickerBg = [self allocatePatternPicker:TAG_GRIDVIEW_COLOR];
-    
-    [pickerView addSubview:pickerBg];
-    
-    [backGround addSubview:pickerView];
-    
-    
-    popOver = [PopoverView showPopoverAtPoint:CGPointMake(tItem.center.x, customTabBar.frame.origin.y)
-                                       inView:self.view
-                              withContentView:backGround
-                                     delegate:self];
-    
-    /* relelase picker bg */
-    [pickerBg release];
-    [pickerView release];
-}
-
 -(void)colorItemSelected:(UIColor *)selectedColor
 {
     sess.color = selectedColor;
 }
-/*
--(void)popoverViewDidDismiss:(PopoverView *)popoverView
-{
-    //[customTabBar setSelectedItem:1];
-    [customTabBar unselectCurrentSelectedTab];
-    [self releaseResourcesForModeChange];
-    [self selectEditTab];
-}
-*/
+
 -(void)releaseResourcesForUpload
 {
     [self releaseToolBarIfAny];
@@ -4843,99 +4470,6 @@
     self.navigationController.navigationBar.hidden = YES;
 }
 
-#if STANDARD_TABBAR
--(void)releaseResourcesForModeChange
-{
-    switch (eMode)
-    {
-        case MODE_FRAMES:
-        {
-            [self releaseResourcesForFrames];
-            break;
-        }
-        case MODE_EDIT:
-        {
-            [self releaseResourcesForEdit];
-            break;
-        }
-        case MODE_FREEAPPS:
-        {
-            //[self releaseResourcesForFreeApps];
-            [self releaseResourcesForAdjust];
-            break;
-        }
-        case MODE_SHARE:
-        {
-            [self releaseResourcesForUpload];
-            break;
-        }
-        case MODE_SWAP:
-        {
-            [self releaseResourcesForSwap];
-            //[self releaseResourcesForUpload];
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
-}
-
-- (void)tabBar:(UITabBar *)tab didSelectItem:(UITabBarItem *)item
-{
-    [self.tabBar setNeedsDisplay];
-    
-    /* First release resources of the previous mode */
-    [self releaseResourcesForModeChange];
-    
-    if(nil == item)
-    {
-        eMode = MODE_MAX;
-    }
-    else
-    {
-        /* Now get the new mode */
-        eMode = (eAppMode)item.tag;
-    }
-    
-    /* handle the new mode */
-    switch (eMode) 
-    {
-        case MODE_FRAMES:
-        {
-            [self allocateResourcesForFrames];
-            break;
-        }
-        case MODE_EDIT:
-        {
-            [self allocateResourcesForEdit];
-            break;
-        }
-        case MODE_FREEAPPS:
-        {
-            //[self allocateResourcesForFreeApps];
-            [self allocateResourcesForAdjust];
-            break;
-        }
-        case MODE_SHARE:
-        {
-            [self allocateResourcesForUpload];
-            break;
-        }
-        case MODE_SWAP:
-        {
-            [self allocateResourcesForSwap];
-            //[self allocateResourcesForUpload];
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
-}
-#else
 -(void)releaseResourcesForModeChange
 {
     NSLog(@"releaseResourcesForModeChange");
@@ -5050,7 +4584,7 @@
         }
     }
 }
-#endif
+
 #pragma mark smooth transition
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
