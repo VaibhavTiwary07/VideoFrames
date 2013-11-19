@@ -418,6 +418,7 @@
 {
 
     sess = [[Session alloc]initWithSessionId:nvm.currentSessionIndex];
+
     if(nil == sess)
     {
         sess = [[Session alloc]initWithFrameNumber:nvm.currentFrameNumber];
@@ -3242,7 +3243,23 @@
 -(void)frameSelectedAtIndex:(int)index ofGridView:(FrameGridView *)gView
 {
     NSLog(@"frame selected at index %d",index);
+
+ /*   UIImageView *background = (UIImageView *)[self.view viewWithTag:TAG_ADJUST_BGPAD];
+    if (background != nil) {
+
+    UISlider *innerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+2];
+    UISlider *outerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+4];
+    UISlider *frameWidth = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+6];
+
+    innerRadius . value = 0.0;
+    outerRadius . value = 0.0;
+    frameWidth . value = 10.0;
+    } */
+
     sess.frameNumber = index;
+    sess. frameWidth = 10.0;
+    sess . innerRadius = 0.0;
+    sess . outerRadius = 0.0;
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(selectEditTab) userInfo:nil repeats:NO];
 }
 
