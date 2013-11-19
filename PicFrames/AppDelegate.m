@@ -24,7 +24,7 @@
 @synthesize viewController = _viewController;
 @synthesize firstViewController = _firstViewController;
 @synthesize navigationController = _navigationController;
-
+@synthesize interstitial;
 static NSString *kAppKey = pushwizard_dev_sdkkey;
 
 - (void)dealloc
@@ -177,6 +177,15 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    if(bought_watermarkpack == NO)
+    {
+        interstitial.delegate = nil;
+
+        [interstitial release];
+
+        interstitial = nil;
+    }
+
     [PushWizard endSession];
     
 }
@@ -189,24 +198,24 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     
     [Appirater appEnteredForeground:YES];
     [FrameSelectionController handleIfAnySocialFollowInProgress];
-#if FULLSCREENADS_ENABLE
-    /*if ([FlurryAds adReadyForSpace:ot_flurryfullscreenad_name])
-    {
-        NSLog(@"Displaying Fullscreen Ad ===========");
-        [FlurryAds displayAdForSpace:ot_flurryfullscreenad_name onView:self.viewController.view];
-    }
-    else
-    {
-        [FlurryAds fetchAdForSpace:ot_flurryfullscreenad_name frame:self.viewController.view.frame size:FULLSCREEN];
-    }*/
-    
-    //[[OT_FlurryAd sharedInstance]showFullscreenAd];
-#endif
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    /* Allocate interstitial */
+    if (bought_watermarkpack == NO) {
+        interstitial = [[GADInterstitial alloc] init];
+
+        interstitial.delegate = self;
+
+        interstitial.adUnitID = fullscreen_admob_id;
+
+        [interstitial loadRequest:[GADRequest request]];
+    }
+
+    NSLog(@" APPLICATION DID BECOME ACTIVE ........");
 #if ADS_ENABLE
 #if FULLSCREENADS_ENABLE
     [[OT_AdControl sharedInstance] cacheInterstitials];
@@ -220,6 +229,40 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     [[OT_Facebook SharedInstance]handleApplicationDidBecomeActive];
     
     [PushWizard updateSessionWithValues:nil];
+}
+-(void)showAdmobFullscreenAd:(NSTimer*)timer
+
+{
+    NSLog(@"FULL SCREEN AD GET CALLED");
+    GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
+
+    if(self.navigationController.visibleViewController == self)
+
+    {
+        if(interstitial_.hasBeenUsed == NO)
+
+        {
+            [interstitial_ presentFromRootViewController:self];
+        }
+
+    }
+
+    else
+
+    {
+        [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(showAdmobFullscreenAd:) userInfo:interstitial_ repeats:NO];
+    }
+
+}
+-(void)interstitialDidReceiveAd:(GADInterstitial *)ad
+
+{
+    if (bought_watermarkpack == NO) {
+        [ad presentFromRootViewController:self.navigationController];
+
+    }
+    NSLog(@"Did receive fullscreen ad......");
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

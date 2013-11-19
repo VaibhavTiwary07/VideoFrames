@@ -25,7 +25,7 @@
     if (self)
     {
         // Initialization code
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
         self.layer.cornerRadius = 10.0;
         self.delegate   = self;
         self.dataSource = self;
@@ -148,11 +148,12 @@
     }
     
     /* Configure the cell */
-    cell. backgroundColor = popup_color;
+    cell. backgroundColor = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
     cell.textLabel.text = [self.menudelegate popupMenu:self titleForItemAtIndex:indexPath.row];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.font = POPUPMENU_FONT;
+
     
     UIImageView *i = (UIImageView*)[cell.contentView viewWithTag:658];
     if(nil != i)

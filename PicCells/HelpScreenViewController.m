@@ -25,12 +25,29 @@
 {
     NSString *str = (NSString *)notification.object;
      UIButton *but = (UIButton *)[self.view viewWithTag:10];
-    if ([str isEqualToString:@"SHOW"]) {
-        but . enabled = YES;
+    if ([str isEqualToString:@"SHOW"])
+    {
+        //but . enabled = YES;
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [self.view bringSubviewToFront:but];
+            but.frame = CGRectMake(0, full_screen.size.height -50, full_screen.size.width, 50);
+
+        }completion:^(BOOL finished) {
+
+
+        }];
     }else
     {
-        [but setImage:[UIImage imageNamed:@"close_help.png"] forState:UIControlStateDisabled];
-      but . enabled = YES;
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [self.view bringSubviewToFront:but];
+            but.frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 00);
+
+        }completion:^(BOOL finished) {
+
+            //[self.view bringSubviewToFront:but];
+        }];
+//        [but setImage:[UIImage imageNamed:@"close_help.png"] forState:UIControlStateDisabled];
+//      but . enabled = YES;
     }
    
     
@@ -44,7 +61,7 @@
     [self.view addSubview:backgroundImage];
 
     UIImageView *barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, fullScreen.size.width, 50)];
-    barImage . image = [UIImage imageNamed:@"top-bar_vpf.png"];
+ //   barImage . image = [UIImage imageNamed:@"top-bar_vpf.png"];
     barImage . userInteractionEnabled = YES;
     [self.view addSubview:barImage];
 
@@ -63,35 +80,39 @@
     bottomBarImage . userInteractionEnabled = YES;
     [self.view addSubview:bottomBarImage];
 
-    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeButton . frame = CGRectMake(220, 0, 200, 40);
-    closeButton. center = CGPointMake(fullScreen.size.width/2, bottomBarImage.frame.size.height/2);
-    closeButton . tag = 10;
-    closeButton . enabled = NO;
-    [closeButton setImage:[UIImage imageNamed:@"close_active.png"] forState:UIControlStateNormal];
-    [closeButton  addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
-    [bottomBarImage addSubview:closeButton];
 
-    slideshow = [[KASlideShow alloc] initWithFrame:CGRectMake(0, 50, fullScreen.size.width , fullScreen.size.height-100)];
-
+    slideshow = [[KASlideShow alloc] initWithFrame:CGRectMake(0, 0, fullScreen.size.width , fullScreen.size.height)];
     slideshow.delegate = self;
     [slideshow addGesture:KASlideShowGestureAll];
     [slideshow setDelay:3]; // Delay between transitions
     [slideshow setTransitionDuration:1]; // Transition duration
-    [slideshow setTransitionType:KASlideShowTransitionFade]; // Choose a transition type (fade or slide)
+    [slideshow setTransitionType:KASlideShowTransitionSlide]; // Choose a transition type (fade or slide)
     [slideshow setImagesContentMode:UIViewContentModeScaleAspectFill]; // Choose a content mode for images to display
     [slideshow addImagesFromResources:@[@"help-01.png",@"help-02.png",@"help-03.png",@"help-04.png",@"help-05.png",@"help-06.png",@"help-07.png",@"help-08.png"]];
 
     [self.view addSubview:slideshow];
     [slideshow start];
 
+    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton . frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 0);
+    closeButton. center = CGPointMake(fullScreen.size.width/2, bottomBarImage.frame.size.height/2);
+    closeButton . tag = 10;
+    //closeButton . enabled = NO;
+    [closeButton setBackgroundColor:[UIColor blueColor]];
+    //[closeButton setImage:[UIImage imageNamed:@"close_active.png"] forState:UIControlStateNormal];
+    [closeButton  addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:closeButton];
+    [closeButton bringSubviewToFront:closeButton];
+
 }
 -(void)close
 {
+    UIButton *but = (UIButton *)[self.view viewWithTag:10];
     [UIView transitionWithView:self.view
                       duration:1.0
                        options:UIViewAnimationOptionTransitionCurlUp
                     animations:^{
+                        [but removeFromSuperview];
                         [slideshow removeFromSuperview];
                     }
                     completion:^(BOOL finish){

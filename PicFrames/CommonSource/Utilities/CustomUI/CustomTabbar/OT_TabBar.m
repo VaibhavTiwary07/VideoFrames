@@ -144,6 +144,7 @@
 
 -(void)unselectCurrentSelectedTab
 {
+    
     id item = nil;
     int index = 0;
     
@@ -153,7 +154,7 @@
         
         if((item != nil)&&([item isKindOfClass:[OT_TabBarItem class]]))
         {
-            NSLog(@" unselect current tabbar");
+            
             OT_TabBarItem *bItem = item;
             [bItem setBackgroundImage:nil forState:UIControlStateNormal];
             bItem.isSelected = NO;

@@ -30,10 +30,12 @@
 
 -(void)setRowCount:(int)rows colCount:(int)cols;
 - (id)initWithFrame:(CGRect)frame option:(int)colorOrPattern;
-
++(UIColor *)getColorAtIndex:(int)index;
++(UIColor *)getPatternAtIndex:(int)index;
 @end
 
 @protocol GridViewDelegate 
 - (void)itemSelectedAtIndex:(int)index ofGridView:(GridView*)gView;
 -(void)colorItemSelected:(UIColor *)selectedColor;
+
 @end

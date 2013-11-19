@@ -50,7 +50,7 @@
 #import "GADBannerViewDelegate.h"
 #import "GADInterstitial.h"
 
-@interface ViewController : UIViewController <UITabBarDelegate,UINavigationControllerDelegate,RSColorPickerViewDelegate,GridViewDelegate,MFMailComposeViewControllerDelegate,FrameGridViewDelegate,UIImagePickerControllerDelegate,SNPopupViewModalDelegate,UIDocumentInteractionControllerDelegate,PopupMenuDelegate>
+@interface ViewController : UIViewController <UITabBarDelegate,UINavigationControllerDelegate,RSColorPickerViewDelegate,GridViewDelegate,MFMailComposeViewControllerDelegate,FrameGridViewDelegate,UIImagePickerControllerDelegate,SNPopupViewModalDelegate,UIDocumentInteractionControllerDelegate,PopupMenuDelegate,GADBannerViewDelegate,GADInterstitialDelegate>
 {
     Settings *nvm;
 

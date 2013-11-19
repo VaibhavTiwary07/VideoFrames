@@ -12,6 +12,22 @@
 #define PicFrames_Config_h
 #define proVersion 0
 
+
+#define colorBackgroundBarHeightHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?100.0:60.0)
+#define colorBurttonHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?80.0:50.0)
+#define bottombarImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"bottom bar_ipad.png":@"bottom bar.png")
+#define backgroundBarImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"backgroundStrip_ipad.png":@"backgroundStrip.png")
+#define colorPatternBarImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"color-gallery-strip_ipad.png":@"color-gallery-strip.png")
+#define colorButtonImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"color_button_ipad.png":@"color_button.png")
+
+#define patternButtonImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"pattern_button_ipad.png":@"pattern_button.png")
+
+#define colorButtonImage_active ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"color_active_ipad.png":@"color-active_button.png")
+
+#define patternButtonImage_active ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"pattern_button_active_ipad.png":@"pattern_active_button.png")
+
+#define customBarHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?70.0:50.0)
+
 #define ad_x ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?75.0:25.0)
 #define ad_y ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?35.0:10.0)
 #define ad_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?50.0:25.0)
@@ -19,7 +35,7 @@
 #define pro_x ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?150.0:90.0)
 
 #define hepl_button_x ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?30.0:0.0)
-#define appoxee_button_x ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?70.0:37.50)
+#define appoxee_button_x ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?70.0:42.50)
 
 #define frame_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"frame~ipad":@"frames_vpf")
 
@@ -93,7 +109,7 @@
 #define RADIUS_SETTINGS_WIDTH  (280.0)
 #define RADIUS_SETTINGS_HEIGHT (130.0)
 //#define RADIUS_SETTINGS_SLIDER_WIDTH ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)?420.0:140.0)
-#define RADIUS_SETTINGS_SLIDER_WIDTH (160.0)
+#define RADIUS_SETTINGS_SLIDER_WIDTH ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)?500.0:180.0)
 #define RADIUS_SETTINGS_MAXIMUM 60.0
 
 
@@ -106,9 +122,9 @@
 #define IPAD_POPOVER_HEIGHT 700.0
 
 /* Application theame related settings */
-#define PHOTO_DEFAULT_COLOR_R (1.0f/256.0f) //28.0     //28 1c
-#define PHOTO_DEFAULT_COLOR_G (94.0f/256.0f)  //184   //184 b8
-#define PHOTO_DEFAULT_COLOR_B (72.0f/256.0f)  //233   //233 e9
+#define PHOTO_DEFAULT_COLOR_R (0.0f/256.0f) //28.0     //28 1c
+#define PHOTO_DEFAULT_COLOR_G (113.0f/256.0f)  //184   //184 b8
+#define PHOTO_DEFAULT_COLOR_B (148.0f/256.0f)  //233   //233 e9
 #define PHOTO_DEFAULT_COLOR_A (1.0f)
 
 #define PHOTO_DEFAULT_COLOR ([UIColor colorWithRed:PHOTO_DEFAULT_COLOR_R green:PHOTO_DEFAULT_COLOR_G blue:PHOTO_DEFAULT_COLOR_B alpha:PHOTO_DEFAULT_COLOR_A])
@@ -175,6 +191,7 @@
 #define admobmediationid_iphone @"fa41477ba08c4abe"
 #define admobmediationid_ipad @"baa65b9955184e72"
 #define admobpublishedid_ipad @"51266bd4923d43d1"
+#define fullscreen_admob_id   @"5ca06978c5a04f6a"
 
 #define admobunitid_iphone @"c4c18ab3c700453e"
 #define admobunitid_ipad @"027203f42678455b"
@@ -225,6 +242,8 @@
 #define TAG_ADJUST_BG           124
 #define TAG_ADJUST_BGPAD        125
 #define TAG_ADJUST_TOUCHSHEILD  126
+#define TAG_PREVIEW_BGPAD        127
+#define TAG_VIDEOSETTINGS_BGPAD        128
 
 #define TAG_SLIDERS_TIPVIEW     130
 

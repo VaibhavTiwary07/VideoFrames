@@ -727,7 +727,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 -(UIImageView*)addToolbarWithTitle:(NSString*)title tag:(int)toolbarTag
 {
     CGRect fullScreen = [[UIScreen mainScreen]bounds];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 23)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, customBarHeight)];
     label.textAlignment = UITextAlignmentCenter;
     label.backgroundColor = [UIColor clearColor];
     label.shadowOffset = CGSizeMake(0, 1);
@@ -735,8 +735,8 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     label.text = title;
     label.font = [UIFont boldSystemFontOfSize:20.0];
 
-    UIImageView *toolbar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, 50.0)];
-    toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
+    UIImageView *toolbar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight)];
+    //toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
     toolbar.userInteractionEnabled = YES;
     toolbar.tag = TAG_TOOLBAR_EDIT;
 
@@ -747,21 +747,21 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     UIButton *help = [UIButton buttonWithType:UIButtonTypeInfoLight];
     help. tintColor = [UIColor whiteColor];
     [help addTarget:self action:@selector(performHelp) forControlEvents:UIControlEventTouchUpInside];
-    help.frame = CGRectMake(fullScreen.size.width-50, 0, 50, 50);
+    help.frame = CGRectMake(fullScreen.size.width-customBarHeight, 0, customBarHeight, customBarHeight);
     [toolbar addSubview:help];
     help.showsTouchWhenHighlighted = YES;
 
     UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
     [back addTarget:self action:@selector(performBack) forControlEvents:UIControlEventTouchUpInside];
-    [back setBackgroundImage:[UIImage imageNamed:@"back_vpf.png"] forState:UIControlStateNormal];
-    back.frame = CGRectMake(12.5, 12.5,  25, 25);
+    [back setImage:[UIImage imageNamed:@"back_vpf.png"] forState:UIControlStateNormal];
+    back.frame = CGRectMake(0, 0,  customBarHeight, customBarHeight);
     [toolbar addSubview:back];
     back.showsTouchWhenHighlighted = YES;
 
     UIButton *proButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
     [proButton setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
-    proButton.frame = CGRectMake(fullScreen.size.width-100, 0, 50, 50);
+    proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
     [toolbar addSubview:proButton];
     proButton.showsTouchWhenHighlighted = YES;
     [self addAnimationToProButton:proButton];
@@ -1084,7 +1084,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     //imgView.image        = [UIImage imageWithContentsOfFile:[Utility documentDirectoryPathForFile:@"mainbackground.jpg"]];
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
     {
-        imgView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background~ipad" ofType:@"png"]];
+        imgView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_ipad" ofType:@"png"]];
     }
     else
     {

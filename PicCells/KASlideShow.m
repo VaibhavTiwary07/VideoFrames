@@ -93,7 +93,20 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
     [self addSubview:pager];
 
 }
-
+/*
+-(void)allocateResourcesForStartButton
+{
+    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton . frame = CGRectMake(220, 0, 200, 40);
+    closeButton. center = CGPointMake(full_screen.size.width/2, 25);
+    closeButton . tag = 10;
+    closeButton . enabled = NO;
+    [closeButton setImage:[UIImage imageNamed:@"close_active.png"] forState:UIControlStateNormal];
+    [closeButton  addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBarImage addSubview:closeButton];
+    [closeButton bringSubviewToFront:closeButton];
+}
+ */
 - (void) setImagesContentMode:(UIViewContentMode)mode
 {
     _topImageView.contentMode = mode;
@@ -168,6 +181,8 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 {
     if(! _isAnimating){
 
+
+        /*
                 if (_currentIndex == ([self.images count]-1))
         {
             pager. currentPage = 1;
@@ -179,7 +194,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
             NSString *str = @"HIDE";
            [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationDidreachLastImage" object:str];
         }
-        
+        */
         // Next Image
         NSUInteger nextIndex = (_currentIndex+1)%[self.images count];
         _topImageView.image = self.images[_currentIndex];
@@ -198,6 +213,15 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                 
         }
         pager . currentPage = _currentIndex;
+        NSLog(@" Print current index : %d",_currentIndex);
+        if (_currentIndex == [self.images count]-1) {
+            NSString *str = @"SHOW";
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationDidreachLastImage" object:str];
+        }else if(_currentIndex == 0 )
+        {
+            NSString *str = @"HIDE";
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationDidreachLastImage" object:str];
+        }
 
 
         // Call delegate
@@ -214,11 +238,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 
         // Previous image
         NSUInteger prevIndex;
-        if (_currentIndex == [self.images count])
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationDidreachLastImage" object:nil];
 
-        }
         if(_currentIndex == 0){
             return;
             //prevIndex = [self.images count] - 1;
@@ -230,6 +250,13 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
         _currentIndex = prevIndex;
 
          pager.currentPage = _currentIndex;
+
+        if (_currentIndex == [self.images count]-2)
+        {
+             NSString *str = @"HIDE";
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationDidreachLastImage" object:str];
+
+        }
         
         // Animate
         switch (transitionType) {

@@ -24,4 +24,5 @@
 -(void)handleFacebookAlbum;
 -(void)handleProfilePhoto;
 -(void)pickVideo;
+-(void)pickImage;
 @end

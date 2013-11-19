@@ -281,7 +281,7 @@ eRGBValues rgbValues[52]={
 {
     float vSpaceForItems = ITEM_HEIGHT * _rows;
     float gap = (scrlView.frame.size.height-vSpaceForItems)/(_rows+1);
-    
+   
     return gap;
 }
 
@@ -396,7 +396,21 @@ eRGBValues rgbValues[52]={
     
     return v;
 }
++(UIColor *)getColorAtIndex:(int)index
+{
+    UIColor *color = [UIColor colorWithRed:(rgbValues[index].redValue/255) green:(rgbValues[index].greenValue/255) blue:(rgbValues[index].bluevalue/255) alpha:1.0];
+    return  color;
+}
++(UIColor *)getPatternAtIndex:(int)index
+{
+    NSString *pFileName = nil;
+    pFileName = [NSString stringWithFormat:@"patt%d",index];
 
+    UIImage *patternImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:pFileName ofType:@"png"]];
+    UIColor *pattern = [UIColor colorWithPatternImage:patternImage];
+    return pattern;
+
+}
 -(void)loadPage:(int)pageNum
 {
     if((pageNum < 0) || (pageNum >= _pageCount))

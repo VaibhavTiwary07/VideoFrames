@@ -74,7 +74,7 @@
     mUsernameField . contentVerticalAlignment = UIControlContentHorizontalAlignmentCenter;
     [backgroundImage addSubview:mUsernameField];
 
-    mPasswordField = [[UITextField alloc] initWithFrame:CGRectMake(115, 125, 150,35)];
+    mPasswordField = [[UITextField alloc] initWithFrame:CGRectMake(115, 130, 150,35)];
     mPasswordField . backgroundColor = [UIColor clearColor];
     mPasswordField . secureTextEntry = YES;
     mPasswordField . textColor = [UIColor whiteColor];

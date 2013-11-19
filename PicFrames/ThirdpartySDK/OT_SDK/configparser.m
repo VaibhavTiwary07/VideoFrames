@@ -207,7 +207,7 @@ static configparser *SettingsSingleton = nil;
     UIButton *b = (UIButton*)[v viewWithTag:tag_adview];
     if(nil != b)
     {
-        NSLog(@"unscheduled timer !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         //[_shakeTimer invalidate];
         //_shakeTimer = nil;
         [b removeFromSuperview];
@@ -228,7 +228,7 @@ static configparser *SettingsSingleton = nil;
     
     [viewShowingAdView addSubview:adView];
     
-    NSLog(@"Added the adview");
+
 }
 
 -(void)showAdInView:(UIView*)v
@@ -237,7 +237,7 @@ static configparser *SettingsSingleton = nil;
     UIButton *b = (UIButton*)[v viewWithTag:tag_adview];
     if(nil != b)
     {
-        NSLog(@"unscheduled timer !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         //[_shakeTimer invalidate];
         //_shakeTimer = nil;
         [b removeFromSuperview];
@@ -258,7 +258,7 @@ static configparser *SettingsSingleton = nil;
     
     [viewShowingAdView addSubview:adView];
     
-    NSLog(@"Added the adview");
+    
 }
 
 -(void)removeAd
@@ -276,7 +276,7 @@ static configparser *SettingsSingleton = nil;
     
     if(nil != _shakeTimer)
     {
-        //NSLog(@"unscheduled timer !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         [_shakeTimer invalidate];
     }
     

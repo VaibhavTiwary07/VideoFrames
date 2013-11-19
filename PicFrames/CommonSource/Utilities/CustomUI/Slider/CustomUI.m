@@ -19,14 +19,14 @@
     
     if([img respondsToSelector:@selector(resizableImageWithCapInsets)])
     {
-        stretchableFillImage = [[UIImage imageNamed:@"slider-fill"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 6.0f, 0.0f, 6.0f)];
-        stretchableTrackImage = [[UIImage imageNamed:@"slider-track"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 6.0f, 0.0f, 6.0f)];
+        stretchableFillImage = [[UIImage imageNamed:@"fill@2x"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 6.0f, 0.0f, 6.0f)];
+        stretchableTrackImage = [[UIImage imageNamed:@"track@2x"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 6.0f, 0.0f, 6.0f)];
     }
     else
     {
         //NSLog(@"Using our method for streach filling");
-        stretchableFillImage = [[UIImage imageNamed:@"slider-fill@2x.png"] stretchableImageWithLeftCapWidth:12 topCapHeight:0];
-        stretchableTrackImage = [[UIImage imageNamed:@"slider-track@2x.png"]stretchableImageWithLeftCapWidth:12 topCapHeight:0];       
+        stretchableFillImage = [[UIImage imageNamed:@"fill@2x.png"] stretchableImageWithLeftCapWidth:2 topCapHeight:0];
+        stretchableTrackImage = [[UIImage imageNamed:@"track@2x.png"]stretchableImageWithLeftCapWidth:2 topCapHeight:0];
     }
     
     [lblBackgroundOpacitySlider setMinimumTrackImage:stretchableFillImage forState:UIControlStateNormal];

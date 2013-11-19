@@ -177,7 +177,7 @@
     [super viewDidLoad];
     [self setupViews];
     [self setupButtons];
-    [self localize];
+   // [self localize];
     [self setupGroup];
 }
 

@@ -256,16 +256,18 @@
         self.assets_array = [[NSMutableArray alloc] init];
     }
 
-
     CTAssetsPickerController *picker_photo = [[CTAssetsPickerController alloc] init];
+    picker_photo. title = @"PhotoPicker";
     picker_photo.maximumNumberOfSelection = 1;
     picker_photo.assetsFilter = [ALAssetsFilter allPhotos];
     picker_photo.delegate = self;
 
     [_controller presentViewController:picker_photo animated:YES completion:NULL];
 }
+
 -(void)pickVideo
 {
+
     if (self.asset== nil) {
         NSLog(@"new asset selected");
         self.assets_array = [[NSMutableArray alloc] init];
@@ -273,25 +275,49 @@
 
 
     CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+    picker.title = @"VideoPicker";
     picker.maximumNumberOfSelection = 1;
     picker.assetsFilter = [ALAssetsFilter allVideos];
     picker.delegate = self;
 
     [_controller presentViewController:picker animated:YES completion:NULL];
 }
+
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets
 {
+
+    if ([assets count]==0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Item Selected" message:@"Currently no image/video selected." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+        return;
+
+    }
+    NSLog(@" ******  %@ ******",picker.title);
     ALAsset *asset = [assets objectAtIndex:0];
-    
     [self.assets_array addObjectsFromArray:assets];
 
-    NSURL *videoURL = asset.defaultRepresentation.url;
+    if ([picker.title isEqualToString:@"VideoPicker"])
+    {
+        NSURL *videoURL = asset.defaultRepresentation.url;
+        [self videoSelected:videoURL result:nil];
 
-    [self videoSelected:videoURL result:nil];
+    }else
+    {
+
+
+        UIImage *fullResolutionImage =
+        [UIImage imageWithCGImage:asset.defaultRepresentation.fullResolutionImage
+                            scale:1.0f
+                      orientation:(UIImageOrientation)asset.defaultRepresentation.orientation];
+
+        [self imageSelected:fullResolutionImage result:nil];
+    }
+
+    
     [self.asset release];
     self.asset = nil;
-    
-    
+
 }
 -(void)handleFacebookAlbum
 {

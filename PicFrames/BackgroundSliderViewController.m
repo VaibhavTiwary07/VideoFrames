@@ -11,11 +11,11 @@
 #import "Config.h"
 #define fullscreen   ([[UIScreen mainScreen]bounds])
 #define animationTime ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?5.0f:15.0f)
-#define foregroundImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"foreground1024.png":@"foreground960.png")
-#define cloudImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"cloud1024.png":@"cloud1136.png")
+#define foregroundImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"FirstScreen_background1024.png":@"FirstScreen_background.png")
+#define cloudImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"bluecloud1024.png":@"blueCloud.png")
 #define startButton_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?150:100)
 #define socialButton_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?100:75)
-#define startImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"start~ipad.png":@"start.png")
+
 @interface BackgroundSliderViewController ()
 {
     int valueToADD;
@@ -25,6 +25,7 @@
     UIWebView *webView;
 
 }
+
 @end
 
 @implementation BackgroundSliderViewController
@@ -60,7 +61,7 @@
     NSString *image_name = foregroundImage;
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && fullscreen.size.height>480) {
-        image_name = @"foreground1136.png";
+        image_name = @"FirstScreen_background1136.png";
     }
     backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,2400,fullscreen.size.height)];
     backgroundImageView . image = [UIImage imageNamed:cloudImage];
@@ -77,7 +78,7 @@
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     startButton . frame = CGRectMake(100, 100, startButton_size, startButton_size);
     startButton . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/1.45);
-    [startButton setImage:[UIImage imageNamed:startImage] forState:UIControlStateNormal];
+    [startButton setImage:[UIImage imageNamed:@"start_new.png"] forState:UIControlStateNormal];
     [startButton addTarget:self action:@selector(startAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:startButton];
 
@@ -108,9 +109,6 @@
     [self addAnimationToButton:facebookButton];
     [self addAnimationToButton:twitterButton];
     [self addAnimationToButton:instagramButton];
-
-    
-
 
 }
 

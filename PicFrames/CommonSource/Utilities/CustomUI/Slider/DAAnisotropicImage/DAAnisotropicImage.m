@@ -34,10 +34,10 @@ static double rightImageRotation = 0.0;
         // It is wise to allocate and retain them here to minimize future lag.
         // The difference is imperceptible, yet exists.
         
-		base = [UIImage imageNamed:@"base"];
-        dark = [UIImage imageNamed:@"dark"];
-        left = [UIImage imageNamed:@"left"];
-        right = [UIImage imageNamed:@"right"];
+		base = [UIImage imageNamed:@"circle_slider"];
+        dark = [UIImage imageNamed:@"circle_slider"];
+        left = [UIImage imageNamed:@"circle_slider"];
+        right = [UIImage imageNamed:@"circle_slider"];
     }
 }
 
@@ -64,10 +64,10 @@ static double rightImageRotation = 0.0;
 
 + (UIImage *)imageFromAccelerometerData:(CMAccelerometerData *)data
 {
-    base = [UIImage imageNamed:@"base"];
-    dark = [UIImage imageNamed:@"dark"];
-    left = [UIImage imageNamed:@"left"];
-    right = [UIImage imageNamed:@"right"];
+    base = [UIImage imageNamed:@"circle_slider"];
+    dark = [UIImage imageNamed:@"circle_slider"];
+    left = [UIImage imageNamed:@"circle_slider"];
+    right = [UIImage imageNamed:@"circle_slider"];
     
     CMAcceleration acceleration = [data acceleration];
     CGSize imageSize = base.size;

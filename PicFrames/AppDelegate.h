@@ -19,16 +19,19 @@
 #import "OT_Config.h"
 #import "WCAlertView.h"
 #import "BackgroundSliderViewController.h"
-
+#import "GADInterstitial.h"
 @class ViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,GADInterstitialDelegate>
 {
 #if ADS_ENABLE
     OT_PullNotifications *pull;
-#endif
-}
 
+#endif
+
+
+}
+@property(nonatomic, retain) GADInterstitial *interstitial;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) ViewController *viewController;
 @property (strong, nonatomic) BackgroundSliderViewController *firstViewController;

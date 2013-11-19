@@ -26,8 +26,11 @@
 #import "CTAssetsPickerController.h"
 #import <MediaPlayer/MediaPlayer.h>
 
+
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
+
 
 @interface ViewController () <KxMenuDelegate,OT_TabBarDelegate,UIPopoverControllerDelegate,PopoverViewDelegate,AVAudioPlayerDelegate,MPMediaPickerControllerDelegate,InAppPurchasePreviewViewDelegate,CTAssetsPickerControllerDelegate>
 {
@@ -75,18 +78,21 @@
     /* Add music */
     UIView *musicTrackCell;
 
-    GADInterstitial *interstitial_; //fgthfjufghjghjk
+
+
+//    GADInterstitial *interstitial_; //fgthfjufghjghjk
 
 
     
 }
 
 -(void)selectEditTab;
+@property(nonatomic, assign) BOOL isVideoFile;
 @end
 
 @implementation ViewController
 
-
+@synthesize isVideoFile;
 @synthesize tabBar;
 @synthesize imageForEdit;
 @synthesize applicationSuspended;
@@ -95,6 +101,7 @@
 -(void)doneWithPhotoEffectsEditor:(NSTimer*)t
 {
     UIImage *img = [t.userInfo objectForKey:@"image"];
+
     if(nil == img)
     {
         return;
@@ -110,7 +117,6 @@
 
 -(NSString*)sgwController:(sgwController*)sender titleForTheItemAtIndex:(int)index
 {
-    //return @"Shape";
     return [ShapeMapping nameOfTheShapeAtIndex:index];
 }
 
@@ -133,7 +139,6 @@
 
 -(void)sgwControllerDidCancel:(sgwController*)sender initialItem:(int)index
 {
-    //[sess shapePreviewCancelled];
     [sess shapeSelectedForPhoto:index];
 }
 
@@ -254,7 +259,7 @@
     {
         case 0:
         {
-            [ish handlePhotoAlbum];
+            [ish pickImage];
             break;
         }
         case 1:
@@ -311,6 +316,7 @@
     UIImageView *v = [t.userInfo objectForKey:@"view"];
     
     PopupMenu *menu = menu = [[PopupMenu alloc]initWithFrame:CGRectMake(0, 0, 200.0, 300.0) style:UITableViewStylePlain delegate:self];
+
     [menu reloadData];
     [menu showPopupIn:v at:CGPointMake(x, y)];
     curPopupViewParent = [t.userInfo objectForKey:@"scrollview"];
@@ -449,7 +455,7 @@
 
 -(void)loadTheSession
 {
-    NSLog(@"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
     sess = [[Session alloc]initWithSessionId:nvm.currentSessionIndex];
     if(nil == sess)
     {
@@ -1706,6 +1712,7 @@
         if (nil != previewAudioPlayer)
         {
             [previewAudioPlayer stop];
+
         }
         
         gIsPreviewInProgress = NO;
@@ -1816,7 +1823,7 @@
     }
     else if([[notification name] isEqualToString:loadSession])
     {
-        NSLog(@" *******  loadSession ********");
+
         if((nil != sess)&&(sess.sessionId == nvm.currentSessionIndex))
         {
             return;
@@ -1935,7 +1942,7 @@
     }
     else if([[notification name]isEqualToString:uploaddone])
     {
-        [self KxMenuWillDismissByUser:nil];
+        //[self KxMenuWillDismissByUser:nil];
     }
     else if([[notification name]isEqualToString:@"notificationdidfinishwithframeview"])
     {
@@ -2026,14 +2033,14 @@
 {
     [[InAppPurchaseManager Instance]puchaseProductWithId:kInAppPurchaseRemoveWaterMarkPack];
 }
-- (BOOL)prefersStatusBarHidden {
+
+- (BOOL)prefersStatusBarHidden
+{
     return YES;
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-
 
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
         // iOS 7
@@ -2053,44 +2060,7 @@
     /* First register for notifications */
     [self registerForNotifications];
 
-#if STANDARD_TABBAR
-    /* Allocate tabbar and add tabbar items to it */
-    tabBar = [[UITabBar alloc]initWithFrame:CGRectMake(0, full_screen.size.height-50.0, full_screen.size.width, 50.0)];
-    
-    UITabBarItem *frames = [[UITabBarItem alloc]initWithTitle:NSLocalizedString(@"FRAMES", @"Frames")
-                                                        image:[UIImage imageNamed:@"Frames.png"]
-                                                          tag:0];
-    UITabBarItem *select = [[UITabBarItem alloc]initWithTitle:NSLocalizedString(@"SELECT", @"Select")
-                                                        image:[UIImage imageNamed:@"move.png"]
-                                                          tag:1];
-    UITabBarItem *swap =   [[UITabBarItem alloc]initWithTitle:@"Adjust"
-                                                        image:[UIImage imageNamed:@"colorpickernew.png"]
-                                                          tag:2];
-    UITabBarItem *share =  [[UITabBarItem alloc]initWithTitle:NSLocalizedString(@"SHARE", @"Share")
-                                                        image:[UIImage imageNamed:@"uploadnew.png"]
-                                                          tag:2];
-    
-    tabBar.items    = [NSArray arrayWithObjects:frames,select,swap,share, nil];
-    tabBar.delegate = self;
-    
-    [self.view addSubview:tabBar];
-    [tabBar release];
-    [frames release];
-    [select release];
-    [swap release];
-    [share release];
-    
-    UIImageView *imgview = (UIImageView*)self.view;
-    if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
-    {
-        imgview.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"mainbackground_ipad" ofType:@"png"]];
-    }
-    else
-    {
-        imgview.image = [UIImage imageWithContentsOfFile:[Utility documentDirectoryPathForFile:@"mainbackground.jpg"]];
-    }
-    
-#else
+
     UIImageView *imgview = [[UIImageView alloc]initWithFrame:self.view.frame];
     self.view = imgview;
     self.view.userInteractionEnabled = YES;
@@ -2098,7 +2068,7 @@
     if(NO == bought_watermarkpack)
     {
         UIButton *removeWaterMark = [UIButton buttonWithType:UIButtonTypeCustom];
-        removeWaterMark.frame = CGRectMake(0,50,full_screen.size.width,30);
+        removeWaterMark.frame = CGRectMake(0,customBarHeight,full_screen.size.width,30);
         removeWaterMark.backgroundColor = PHOTO_DEFAULT_COLOR;
         [removeWaterMark setTitle:@"Remove Watermark" forState:UIControlStateNormal];
         removeWaterMark.titleLabel.font = [UIFont boldSystemFontOfSize:13];
@@ -2111,37 +2081,16 @@
     
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
     {
-        imgview.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background~ipad" ofType:@"png"]];
-         [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-70,full_screen.size.width,70)];
+        imgview.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_ipad" ofType:@"png"]];
+         [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
     }
     else
     {
         imgview.image = [UIImage imageNamed:@"background"];
-         [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-50,full_screen.size.width,50)];
+         [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
     }
     
 
-#endif
-    
-
-#if STANDARD_TABBAR    
-    if(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-    {
-        if([self.tabBar respondsToSelector:@selector(setBackgroundImage:)])
-        {
-            if(self.tabBar.items.count == 5)
-            {
-                self.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar5.png"];
-                self.tabBar.selectionIndicatorImage = [UIImage imageNamed:@"tabselection5.png"];
-            }
-            else
-            {
-                self.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar4.png"];
-                self.tabBar.selectionIndicatorImage = [UIImage imageNamed:@"tabselection4.png"];
-            }
-        }
-    }
-#endif
     
 #if FULLSCREENADS_ENABLE
     bShowRevModAd = YES;
@@ -2162,7 +2111,11 @@
     CGPoint point = CGPointMake(full_screen.size.width-adviewdistancefromwall-adviewsize, adjustDistanceFromWall+50);
     [[configparser Instance] showAdInView:self.view atPoint:point];
     [[configparser Instance] bringAdToTheTop];
-    
+#if BANNERADS_ENABLE
+    [self showBannerAd];
+
+#endif
+
     return;
 }
 -(void)allocateUIForTabbar:(CGRect )rect
@@ -2192,7 +2145,7 @@
                                                            tag:MODE_SHARE];
     preview.nestedSelectionEnabled = NO;
     customTabBar.showOverlayOnSelection = NO;
-    customTabBar.backgroundImage = [UIImage imageNamed:@"bottom bar"];
+    customTabBar.backgroundImage = [UIImage imageNamed:bottombarImage];
     customTabBar.delegate        = self;
     customTabBar.items = [NSArray arrayWithObjects:frames,colorAndPattern,adjustSettings,videoSettings,preview,share, nil];
 
@@ -2205,8 +2158,6 @@
     [videoSettings release];
     [share release];
 
-
-
 }
 
 - (void)viewDidUnload
@@ -2218,25 +2169,61 @@
         [sess release];
         sess = nil;
     }
-#if BANNERADS_ENABLE
-    //[[OT_AdControl sharedInstance]removeBannerAds];
-#endif
-    NSLog(@"View Did Unload----------------");
     [super viewDidUnload];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-#if BANNERADS_ENABLE
-    //[[OT_AdControl sharedInstance] pauseBannerAds];
-#endif
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+
+}
+-(void)showAdmobFullscreenAd:(NSTimer*)timer
+
+{
+
+    GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
+
+    if(self.navigationController.visibleViewController == self)
+
+    {
+        if(interstitial_.hasBeenUsed == NO)
+
+        {
+            [interstitial_ presentFromRootViewController:self];
+        }
+
+    }
+
+    else
+
+    {
+        [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(showAdmobFullscreenAd:) userInfo:interstitial_ repeats:NO];
+    }
+    
+}
+-(void)interstitialDidReceiveAd:(GADInterstitial *)ad
+
+{
+    if(bought_watermarkpack== NO)
+    {
+        if(self.navigationController.visibleViewController == self)
+
+        {
+            [ad presentFromRootViewController:self];
+        }
+        else
+
+        {
+            [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(showAdmobFullscreenAd:) userInfo:ad repeats:NO];
+        }
+    }
 }
 
 #if BANNERADS_ENABLE
@@ -2296,6 +2283,7 @@
     [UIView animateWithDuration:0.1 delay:0.1 options:UIViewAnimationOptionTransitionFlipFromTop
                      animations:^{
                          customTabBar.frame = rect;
+                         [customTabBar setNeedsDisplay];
                      }
                      completion:nil ];
 }
@@ -2304,6 +2292,7 @@
 {
     //Never gets called, should be called when both iAd and AdMob fails.
     [self hideBannerAd];
+    NSLog(@" HIDE BANNER AD000000000");
 }
 
 -(void)hideBannerAd
@@ -2325,12 +2314,16 @@
     }
     
     
-    [UIView animateWithDuration:0.1 delay:0.1
+    [UIView animateWithDuration:0.05 delay:0.05
                         options:UIViewAnimationOptionTransitionFlipFromTop
                      animations:^{
                          customTabBar.frame = rect;
+
                      }
-                     completion:nil ];
+                     completion:^(BOOL complete){
+                         [self allocateUIForTabbar:rect];
+                     }
+     ];
     
     return;
 }
@@ -2339,11 +2332,8 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-#if BANNERADS_ENABLE
-    [self showBannerAd];
-    
-    //[[OT_AdControl sharedInstance] resumeBannerAds];
-#endif
+
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -2614,6 +2604,37 @@
     {
         //[self exitRadiusSettings];
     }
+    UIImageView *adjustImageView = (UIImageView *)[self.view viewWithTag:TAG_ADJUST_BG];
+    UIImageView *previewImageView  = (UIImageView *)[self.view viewWithTag:TAG_PREVIEW_BGPAD];
+     UIImageView *settings = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
+
+   // [self releaseResourcesForColorAndPatternSettings_updated];
+   if (eMode == MODE_ADJUST_SETTINGS)
+    {
+        if ((location.y >adjustImageView.frame.origin.y+adjustImageView.frame.size.height) || (location.y < adjustImageView.frame.origin.y))
+        {
+          [self releaseResourcesForAdjustSettings];
+        }
+
+    }else if(eMode == MODE_COLOR_AND_PATTERN)
+    {
+          [self releaseResourcesForColorAndPatternSettings_updated];
+
+    }else if (eMode == MODE_VIDEO_SETTINGS)
+    {
+        if ((location.y >settings.frame.origin.y+settings.frame.size.height) || (location.y < settings.frame.origin.y))
+        {
+        [self releaseResourcesForVideoSetttings];
+        }
+
+    }else if (eMode == MODE_PREVIEW)
+    {
+        if ((location.y >previewImageView.frame.origin.y+previewImageView.frame.size.height) || (location.y < previewImageView.frame.origin.y))
+        {
+        [self releaseResourcesForPreview];
+        }
+    }
+
 }
 
 #pragma mark color and pattern picker
@@ -3114,6 +3135,7 @@
 #pragma utility functions mainly to clean the resources
 -(void)releaseToolBarIfAny
 {
+
     UIToolbar *toolBar = (UIToolbar*)[self.view viewWithTag:TAG_TOOLBAR_EDIT];
     if(nil != toolBar)
     {
@@ -3235,7 +3257,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _appoxeeBadge = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+        _appoxeeBadge = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, customBarHeight, customBarHeight)];
         [_appoxeeBadge addTarget:self action:@selector(showAppoxee:) forControlEvents:UIControlEventTouchDown];
         [_appoxeeBadge setImage:[UIImage imageNamed:@"357-store.png"] forState:UIControlStateNormal];
     }
@@ -3256,6 +3278,7 @@
 
 -(void)allocateResourcesForEdit
 {
+    [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Select Images" tag:TAG_TOOLBAR_EDIT];
     
     if(nil == sess)
@@ -3335,6 +3358,7 @@
 
 -(void)togglePreviewState:(UIButton*)sender
 {
+    NSLog(@" ()()()()()()()()()()()()()()");
     if(sender.tag == TAG_PREVIEW_PAUSE)
     {
         sender.tag = TAG_PREVIEW_PLAY;
@@ -3366,6 +3390,7 @@
     /* check if it is video frame, if not exit from preview */
     if(NO == [sess anyVideoFrameSelected])
     {
+        [self releaseToolBarIfAny];
         [self selectEditTab];
         eMode = MODE_MAX;
         [WCAlertView showAlertWithTitle:@"Info"
@@ -3386,63 +3411,83 @@
         NSLog(@"Preview screen is already active");
         return;
     }
-    
+
+    [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Preview" tag:TAG_TOOLBAR_PREVIEW];
-    CGRect blockTouchRect = CGRectMake(0, 50, full_screen.size.width,full_screen.size.height-50.0-50.0);
-    GADBannerView *bannerView = (GADBannerView*)[self.view viewWithTag:TAG_BANNERAD_VIEW];
-    if(nil != bannerView)
-    {
-        blockTouchRect.size.height = blockTouchRect.size.height - bannerView.frame.size.height;
-    }
+
+    CGRect blockTouchRect = CGRectMake(0, 50, full_screen.size.width,customTabBar.frame.origin.y+customTabBar.frame.size.height);
+  //  GADBannerView *bannerView = (GADBannerView*)[self.view viewWithTag:TAG_BANNERAD_VIEW];
+  //  if(nil != bannerView)
+  ///  {
+   //     blockTouchRect.size.height = blockTouchRect.size.height - bannerView.frame.size.height;
+   // }
     
     UIView *blockTouches = [[UIView alloc]initWithFrame:blockTouchRect];
     blockTouches.userInteractionEnabled = YES;
     blockTouches.tag = TAG_PREVIEW_BLOCKTOUCHES;
     [self.view addSubview:blockTouches];
     
-    UIView *previewControlsBgnd = [[UIView alloc]initWithFrame:CGRectMake(0, 0, full_screen.size.width-25, 25)];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 25, 25);
-    button.tag = TAG_PREVIEW_PAUSE;
-    [button setBackgroundImage:[UIImage imageNamed:@"pause2"] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(togglePreviewState:) forControlEvents:UIControlEventTouchUpInside];
-    [previewControlsBgnd addSubview:button];
+    UIImageView *previewControlsBgnd = [[UIImageView alloc]initWithFrame:CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0)];
+    previewControlsBgnd . userInteractionEnabled = YES;
+    previewControlsBgnd . image = [UIImage imageNamed:@"color-gallery-strip.png"];
+    previewControlsBgnd . tag = TAG_PREVIEW_BGPAD;
+    [self.view addSubview:previewControlsBgnd];
 
-    previewTimeLabel = [[UILabel alloc]initWithFrame:CGRectMake(previewControlsBgnd.frame.size.width-25, 0, 25, 25.0)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(10, customBarHeight/4, customBarHeight/2, customBarHeight/2);
+    button.tag = TAG_PREVIEW_PAUSE;
+    [button setBackgroundImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"pause_active"] forState:UIControlStateHighlighted];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [button setImage:[UIImage imageNamed:@"pause_ipad"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"pause_ipad_active"] forState:UIControlStateHighlighted];
+    }
+
+    [button addTarget:self action:@selector(togglePreviewState:) forControlEvents:UIControlEventTouchUpInside];
+
+
+    previewTimeLabel = [[UILabel alloc]initWithFrame:CGRectMake(previewControlsBgnd.frame.size.width-30, 0, 25, customBarHeight)];
     previewTimeLabel.backgroundColor = [UIColor clearColor];
     previewTimeLabel.textColor = [UIColor whiteColor];
     previewTimeLabel.font = [UIFont boldSystemFontOfSize:12.0];
     previewTimeLabel.text = [self getCurrentPreviewTime];
-    [previewControlsBgnd addSubview:previewTimeLabel];
-    [previewTimeLabel release];
+
     
-    previewAdjSlider = [CustomUI allocateCustomSlider:CGRectMake(button.frame.origin.x+button.frame.size.width+5, 0, previewControlsBgnd.frame.size.width-button.frame.size.width-button.frame.origin.x-10-previewTimeLabel.frame.size.width, 25)];
+    previewAdjSlider = [CustomUI allocateCustomSlider:CGRectMake(button.frame.origin.x+button.frame.size.width+5, 0, previewControlsBgnd.frame.size.width-button.frame.size.width-button.frame.origin.x-15-previewTimeLabel.frame.size.width, customBarHeight)];
     previewAdjSlider.tag = RADIUS_TAG_INDEX+2;
     /* Configure the brush Slider  */
 	previewAdjSlider.maximumValue     = [sess getFrameCountOfFrame:sess.frame];
 	previewAdjSlider.minimumValue     = 0;
 	previewAdjSlider.continuous       = NO;
-    
-    [previewControlsBgnd addSubview:previewAdjSlider];
-    [previewAdjSlider release];
 
-    preViewControls = [[CMPopTipView alloc]initWithCustomView:previewControlsBgnd];
-    preViewControls.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:78.0/256.0 blue:78.0/256.0 alpha:1.0];
-    preViewControls.disableTapToDismiss = YES;
-    [preViewControls presentPointingAtView:tItem inView:self.view animated:NO];
-    [previewControlsBgnd release];
-    //[preViewControls presentModalAtPoint:CGPointMake(180.0, full_screen.size.height-50) inView:self.view];
+
+
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        previewControlsBgnd.frame = CGRectMake(0, customTabBar.frame.origin.y-customBarHeight, full_screen.size.width, customBarHeight);
+
+    }completion:^(BOOL finished)
+     {
+         [previewControlsBgnd addSubview:button];
+         [previewControlsBgnd addSubview:previewTimeLabel];
+         [previewTimeLabel release];
+         [previewControlsBgnd addSubview:previewAdjSlider];
+         [previewAdjSlider release];
+     }];
+
     
     [self previewVideo];
 }
 
 -(void)releaseResourcesForPreview
 {
+
     if(NO == gIsPreviewInProgress)
     {
+        NSLog(@" no progresssssss");
         [self releaseToolBarIfAny];
-        
+        [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_EDIT];
         UIView *blockTouches = [self.view viewWithTag:TAG_PREVIEW_BLOCKTOUCHES];
         if(nil != blockTouches)
         {
@@ -3452,7 +3497,22 @@
         [preViewControls dismissAnimated:NO];
         [preViewControls release];
         preViewControls = nil;
-        
+
+        UIImageView *previewImageView  = (UIImageView *)[self.view viewWithTag:TAG_PREVIEW_BGPAD];
+        NSArray *viewToRemove = [previewImageView subviews];
+        for (UIView *v in viewToRemove)
+        {
+            [v removeFromSuperview];
+
+        }
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+            previewImageView.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
+
+        }completion:^(BOOL finished)
+         {
+             [previewImageView removeFromSuperview];
+         }];
     }
     else
     {
@@ -3460,34 +3520,7 @@
         [self stopPreview];
     }
     
-    //[preViewControls dismissAnimated:NO];
-    
-    /*
-    UIButton *btn = (UIButton*)[self.view viewWithTag:TAG_PREVIEW_PAUSE];
-    if(nil != btn)
-    {
-        [btn removeFromSuperview];
-    }
-    
-    btn = (UIButton*)[self.view viewWithTag:TAG_PREVIEW_PLAY];
-    if(nil != btn)
-    {
-        [btn removeFromSuperview];
-    }*/
-    
-    /*
-    UIView *blockTouches = [self.view viewWithTag:TAG_PREVIEW_BLOCKTOUCHES];
-    if(nil != blockTouches)
-    {
-        [blockTouches removeFromSuperview];
-    }
-    
-    [preViewControls dismissAnimated:NO];
-    [preViewControls release];
-    preViewControls = nil;*/
-    
-    /* Release resources */
-    //[self releaseToolBarIfAny];
+
 }
 
 -(UIView*)allocateVideoSettingsCellWithRect:(CGRect)rect
@@ -3495,7 +3528,7 @@
     UIImageView *bgnd = [[UIImageView alloc]initWithFrame:rect];
     UIImageView *color = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, bgnd.frame.size.width, bgnd.frame.size.height)];
     color.backgroundColor = [UIColor blackColor];
-    color.alpha = 0.4;
+    color.alpha = 0.3;
     [bgnd addSubview:color];
     [color release];
     
@@ -3804,24 +3837,37 @@
 
 -(void)allocateResourcesForVideoSettings:(OT_TabBarItem*)tItem
 {
+    [self releaseToolBarIfAny];
+
+    /* Add settings title to toolbar */
+    [self addToolbarWithTitle:@"Select Music" tag:TAG_TOOLBAR_SETTINGS];
     NSNumber *mediaItemId  = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
-    CGRect    settingsRect = CGRectMake(0, 0, full_screen.size.width-20, 140);
+    CGRect    settingsRect = CGRectMake(0, customTabBar.frame.origin.y-130, full_screen.size.width, 130);
     CGRect  musicTrackRect = CGRectMake(0, 0, settingsRect.size.width, settingsRect.size.height/2.0-1.25);
     CGRect selectTrackRect = CGRectMake(0, settingsRect.size.height/2.0+1.25,
                                         settingsRect.size.width, settingsRect.size.height/2.0-1.25);
-    UIView       *settings = nil;
+
+    /* Add touch sheild */
+    CGRect full = [[UIScreen mainScreen]bounds];
+    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height)];
+    touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
+    touchSheiled.userInteractionEnabled = YES;
+    [self.view addSubview:touchSheiled];
+    [touchSheiled release];
+
+    UIImageView       *settings = nil;
     BOOL      enableStatus = [[[NSUserDefaults standardUserDefaults]objectForKey:KEY_USE_AUDIO_SELECTED_FROM_LIBRARY]boolValue];
-    
-    
-    /* Add settings title to toolbar */
-    [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_SETTINGS];
-    
-    settings = [[UIView alloc]initWithFrame:settingsRect];
-    settings.backgroundColor = popup_color;
+
+    settings = [[UIImageView alloc]initWithFrame:CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0)];
+    settings . tag = TAG_VIDEOSETTINGS_BGPAD;
+    settings . image = [UIImage imageNamed:@"color-gallery-strip.png"];
+    //settings.backgroundColor = popup_color;
     settings.userInteractionEnabled = YES;
-    
+    [self.view addSubview:settings];
+
     if(nil != mediaItemId)
     {
+
         NSString *musicTitle   = [self getTitleFromMediaItemId:mediaItemId];
         UIImage  *musicImage   = [self getImageFromMediaItemId:mediaItemId];
         
@@ -3830,15 +3876,13 @@
                                                                    title:musicTitle
                                                                    image:musicImage
                                                                   enable:enableStatus];
-        [settings addSubview:musicTrackCell];
-        [musicTrackCell release];
     }
     else
     {
         NSLog(@"Media Item id is nil");
-        settingsRect = CGRectMake(settingsRect.origin.x, settingsRect.origin.y,
-                                  settingsRect.size.width, settingsRect.size.height/2.0);
-        settings.frame = settingsRect;
+
+        settingsRect = CGRectMake(settingsRect.origin.x, settingsRect.origin.y+settingsRect.size.height/2.0,
+                                    settingsRect.size.width, settingsRect.size.height/2.0);
         selectTrackRect = CGRectMake(0, 0,settingsRect.size.width, settingsRect.size.height);
     }
     
@@ -3853,18 +3897,29 @@
     selectMusicButton.center = CGPointMake(selectMusic.center.x-selectMusic.frame.origin.x, selectMusic.center.y-selectMusic.frame.origin.y);
     selectMusicButton.tag = TAG_AUDIO_CELL_SELECT_AUDIO;
     [selectMusicButton addTarget:self action:@selector(showAudioPicker) forControlEvents:UIControlEventTouchUpInside];
-    [selectMusic addSubview:selectMusicButton];
+
     
     /* Lets add popup with music items */
     selectMusic.userInteractionEnabled = YES;
-    [settings addSubview:selectMusic];
-    [selectMusic release];
-    
-    popOver = [PopoverView showPopoverAtPoint:CGPointMake(tItem.center.x, customTabBar.frame.origin.y)
-                                       inView:self.view
-                              withContentView:settings
-                                     delegate:self];
-    [settings release];
+
+
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        settings.frame = settingsRect;
+
+    }completion:^(BOOL finished)
+     {
+         if (nil != mediaItemId) {
+              [settings addSubview:musicTrackCell];
+               [musicTrackCell release];
+         }
+
+          [settings addSubview:selectMusic];
+          [selectMusic addSubview:selectMusicButton];
+          [selectMusic release];
+     }];
+
+
     
     return;
 }
@@ -3872,6 +3927,33 @@
 -(void)releaseResourcesForVideoSetttings
 {
     [self releaseToolBarIfAny];
+    [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_ADJUST];
+
+    UIView *a  = (UIView*)[self.view viewWithTag:TAG_ADJUST_TOUCHSHEILD];
+    if(nil != a)
+    {
+        [a removeFromSuperview];
+    }
+
+    UIImageView *settings = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
+    NSArray *viewToRemove = [settings subviews];
+    for (UIView *v in viewToRemove)
+    {
+        [v removeFromSuperview];
+    }
+    if (nil != settings)
+    {
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+            settings.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
+
+        }completion:^(BOOL finished)
+         {
+             [customTabBar unselectCurrentSelectedTab];
+        [settings removeFromSuperview];
+        [settings release];
+         }];
+    }
 }
 
 -(void)releaseResourcesForSwap
@@ -3888,84 +3970,21 @@
     [sess.frame enterSwapMode];
 }
 
-#if 0
--(UIToolbar*)addToolbarWithTitle:(NSString*)title tag:(int)toolbarTag
-{
-    CGRect fullScreen = [[UIScreen mainScreen]bounds];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 23)];
-    label.textAlignment = UITextAlignmentCenter;
-    label.backgroundColor = [UIColor clearColor];
-    //label.shadowColor = UIColorFromRGB(0xe5e7eb);
-    label.shadowOffset = CGSizeMake(0, 1);
-    label.textColor = UIColorFromRGB(0xFFFFFFFF);
-    label.text = title;//NSLocalizedString(@"SWAPIMAGES", @"Select Images");
-    label.font = [UIFont boldSystemFontOfSize:20.0];
-    UIBarButtonItem *toolBarTitle = [[UIBarButtonItem alloc] initWithCustomView:label];
-    [label release];
-    
-    UIBarButtonItem *newsBarButton = [[UIBarButtonItem alloc]initWithCustomView:_appoxeeBadge];
-    newsBarButton.style = UIBarButtonItemStylePlain;
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
 
-    [button addTarget:self action:@selector(performHelp) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *infoItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
-    /* flexible toolbar item */
-    UIBarButtonItem *flex1BarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *flex2BarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    NSArray *itms = [[NSArray alloc]initWithObjects:infoItem,flex1BarButton,toolBarTitle,flex2BarButton,newsBarButton,nil];
-    
-    /* Now allocate the toolbar */
-    UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0.0, 0.0, fullScreen.size.width, 50.0)];
-    toolBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    toolBar.layer.shadowOffset = CGSizeMake(0.0, 1.0);
-    toolBar.layer.shadowOpacity = 0.7;
-    toolBar.layer.shadowRadius = 1.0;
-    if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
-    {
-        [toolBar setBackgroundImage:[UIImage imageNamed:@"toolbar_ipad.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-    }
-    else
-    {
-        [toolBar setBackgroundImage:[UIImage imageNamed:@"toolbar.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-    }
-    toolBar.barStyle = UIBarStyleBlack;
-    toolBar.tag = toolbarTag;
-    [toolBar sizeToFit];
-    
-    /* set the toolbar items */
-    [toolBar setItems:itms];
-    
-    [itms release];
-    [flex1BarButton release];
-    [flex2BarButton release];
-    [toolBarTitle release];
-    [infoItem release];
-    [newsBarButton release];
-    
-    [self.view addSubview:toolBar];
-    
-    [toolBar release];
-    
-    return toolBar;
-}
-#else
 -(UIImageView*)addToolbarWithTitle:(NSString*)title tag:(int)toolbarTag
 {
+
     CGRect fullScreen = [[UIScreen mainScreen]bounds];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 23)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, customBarHeight)];
     label.textAlignment = UITextAlignmentCenter;
     label.backgroundColor = [UIColor clearColor];
     label.shadowOffset = CGSizeMake(0, 1);
     label.textColor = UIColorFromRGB(0xFFFFFFFF);
     label.text = title;
-    label.font = [UIFont boldSystemFontOfSize:20.0];
+    label.font = [UIFont systemFontOfSize:20.0];
     
-    UIImageView *toolbar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, 50.0)];
-    toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
+    UIImageView *toolbar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight)];
+   // toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
     toolbar.userInteractionEnabled = YES;
     toolbar.tag = TAG_TOOLBAR_EDIT;
     
@@ -3976,7 +3995,7 @@
     UIButton *help = [UIButton buttonWithType:UIButtonTypeInfoLight];
     help. tintColor = [UIColor whiteColor];
     [help addTarget:self action:@selector(performHelp) forControlEvents:UIControlEventTouchUpInside];
-    help.frame = CGRectMake(hepl_button_x, 0, 50, 50);
+    help.frame = CGRectMake(hepl_button_x, 0, customBarHeight, customBarHeight);
     [toolbar addSubview:help];
     help.showsTouchWhenHighlighted = YES;
 
@@ -3984,14 +4003,14 @@
     proButton . tag = 8000;
     [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
     [proButton setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
-    proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, 50, 50);
+    proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
     [toolbar addSubview:proButton];
     proButton.showsTouchWhenHighlighted = YES;
 
     [self addAnimationToProButton:proButton];
 
     
-    _appoxeeBadge.frame = CGRectMake(fullScreen.size.width-appoxee_button_x, 12.5, 25, 25);
+    _appoxeeBadge.frame = CGRectMake(fullScreen.size.width-appoxee_button_x, 0, customBarHeight, customBarHeight);
     _appoxeeBadge.showsTouchWhenHighlighted = YES;
     
     [toolbar addSubview:_appoxeeBadge];
@@ -4012,7 +4031,7 @@
     
     return toolbar;
 }
-#endif
+
 
 -(void)addAnimationToProButton:(UIButton *)aButton
 {
@@ -4099,8 +4118,9 @@
 -(void)handleResolutionOptionSelection:(KxMenuItem*)item
 {
     nvm.uploadResolution = item.tag;
-    
-    [self uploadSelected];
+[self allocateShareResources];
+  //  [self allocateResourcesForUpload];
+ //  [self uploadSelected];
 }
 
 -(void)handleUploadOptionSelection:(KxMenuItem*)item
@@ -4282,6 +4302,7 @@
 
 -(void)allocateResourcesForUpload
 {
+    [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Share" tag:TAG_TOOLBAR_SHARE];
     
     /* first check if the frame is video frame or not */
@@ -4291,14 +4312,16 @@
         {
             if(YES == status)
             {
-                [self performSelectorOnMainThread:@selector(showUploadMenu:) withObject:nil waitUntilDone:YES];
+                isVideoFile = YES;
+                [self performSelectorOnMainThread:@selector(allocateShareResources) withObject:nil waitUntilDone:YES];
             }
         }];
     }
     else
     {
-        /* show menu */
-        [self showUploadMenu:nil];
+        isVideoFile = NO;
+        [self showResolutionOptios];
+       // [self allocateShareResources];
     }
 }
 
@@ -4325,282 +4348,6 @@
     }
 }
 
-#if 0
--(void)colorAndPalletSelectionChanged:(UISegmentedControl*)sgctrl
-{
-    if(nil == pickerView)
-    {
-        NSLog(@"colorAndPalletSelectionChanged:No tip view to add the color or pattern picker");
-        return;
-    }
-    
-    if(sgctrl.selectedSegmentIndex == 0)
-    {
-        GridView *pView = nil;
-        UIView   *cView = nil;
-        pView = (GridView*)[pickerView viewWithTag:TAG_PATTERNPICKER];
-        if(nil != pView)
-        {
-            [pView removeFromSuperview];
-        }
-        
-        cView = [self allocatePatternPicker:TAG_GRIDVIEW_COLOR];
-        [pickerView addSubview:cView];
-        [cView release];
-    }
-    else if(sgctrl.selectedSegmentIndex == 1)
-    {
-        GridView *pView = nil;
-        UIView *cView   = nil;
-        
-        cView = [pickerView viewWithTag:TAG_COLORPICKER];
-        if(nil != cView)
-        {
-            [cView removeFromSuperview];
-        }
-        
-        pView = [self allocatePatternPicker:TAG_GRIDVIEW_PATTERN];
-        [pickerView addSubview:pView];
-        [pView release];
-    }
-    
-}
-
--(GridView*)allocatePatternPicker:(int)colorORPattern
-{
-    GridView *grd = nil;
-    
-    if (colorORPattern == TAG_GRIDVIEW_COLOR)
-    {
-        grd = [[GridView alloc]initWithFrame:CGRectMake(20.0, 40.0, 200.0, 120.0) option:colorORPattern];
-        grd.totalItemsCount = 48;
-        grd.tag = TAG_COLORPICKER;
-        grd.filePrefix = FILENAME_PATTERN_PREFIX;
-        grd.userInteractionEnabled = YES;
-        [grd setRowCount:2 colCount:4];
-        grd.delegate = self;
-    }
-    else
-    {
-        grd = [[GridView alloc]initWithFrame:CGRectMake(20.0, 40.0, 200.0, 120.0) option:colorORPattern];
-        grd.totalItemsCount = 54;
-        grd.tag = TAG_PATTERNPICKER;
-        grd.filePrefix = FILENAME_PATTERN_PREFIX;
-        grd.userInteractionEnabled = YES;
-        [grd setRowCount:2 colCount:4];
-        grd.delegate = self;
-    }
-    
-    return grd;
-}
-
--(void)allocateResourcesForSettings
-{
-    CGRect fullScreen = [[UIScreen mainScreen]bounds];
-    
-    [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_ADJUST];
-    
-    CGRect backgroundRect = CGRectMake(fullScreen.size.width-RADIUS_SETTINGS_WIDTH+40-5, full_screen.size.height-368-60.0, RADIUS_SETTINGS_WIDTH-40, 368.0);
-    
-    if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
-    {
-        backgroundRect = CGRectMake(fullScreen.size.width-RADIUS_SETTINGS_WIDTH+40-200, full_screen.size.height-348-60.0, RADIUS_SETTINGS_WIDTH-40, 348.0);
-    }
-    
-    CGRect full = [[UIScreen mainScreen]bounds];
-    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, full.size.height-100)];
-    touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
-    touchSheiled.userInteractionEnabled = YES;
-    [self.view addSubview:touchSheiled];
-    [touchSheiled release];
-    
-    UIView *blackBgnd = [[UIImageView alloc]initWithFrame:backgroundRect];
-    blackBgnd.layer.cornerRadius = 10.0;
-    blackBgnd.backgroundColor = [UIColor darkGrayColor];
-    blackBgnd.alpha = 1.0;
-    blackBgnd.tag = TAG_ADJUST_BGPAD;
-    //  [self.view addSubview:blackBgnd];
-    [blackBgnd release];
-    
-    UIImageView *backGround = [[UIImageView alloc]initWithFrame:backgroundRect];
-    [self.view addSubview:backGround];
-    backGround.backgroundColor = [UIColor darkGrayColor];
-    backGround.tag = TAG_ADJUST_BG;
-    [backGround release];
-    backGround.userInteractionEnabled = YES;
-    
-    
-    /* add radius sliders */
-    CGRect       rect              = CGRectMake(RADIUS_SETTINGS_X, RADIUS_SETTINGS_Y, RADIUS_SETTINGS_WIDTH-40, RADIUS_SETTINGS_HEIGHT);
-    UISlider    *outerRadius       = nil;
-    UISlider    *innerRadius       = nil;
-    //UIView *radiusSettingsBgnd = nil;
-    UIFont *lblFont = [UIFont systemFontOfSize:14.0];
-    float outerRadiusIndex = 10.0;
-    float innerRadiusIndex = 50.0;
-    float widthIndex       = 90.0;
-    //float musicLibraryIndex       = 130.0;
-    //float playseuqentialIndex = 170;
-    
-    UILabel *innerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+innerRadiusIndex, 150, 20)];
-    innerRadiusLbl.tag = RADIUS_TAG_INDEX+1;
-    innerRadiusLbl.font = lblFont;
-    innerRadiusLbl.text = NSLocalizedString(@"INNERRADIUS", @"Inner Radius");
-    innerRadiusLbl.textAlignment = UITextAlignmentLeft;
-    innerRadiusLbl.backgroundColor = [UIColor clearColor];
-    innerRadiusLbl.textColor = [UIColor whiteColor];
-    
-    
-    innerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+innerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 20.0)];
-    innerRadius.tag = RADIUS_TAG_INDEX+2;
-    /* Configure the brush Slider  */
-	innerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
-	innerRadius.minimumValue     = 0.0;
-	innerRadius.continuous       = YES;
-	innerRadius.value            = sess.innerRadius;
-    [innerRadius addTarget:self action:@selector(innerRadiusChanged:)
-          forControlEvents:UIControlEventValueChanged];
-    
-    
-    UILabel *outerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+outerRadiusIndex, 150, 20)];
-    outerRadiusLbl.tag =RADIUS_TAG_INDEX+3;
-    outerRadiusLbl.text = NSLocalizedString(@"OUTERRADIUS",@"Outer Radius");
-    outerRadiusLbl.font = lblFont;
-    outerRadiusLbl.textAlignment = UITextAlignmentLeft;
-    outerRadiusLbl.backgroundColor = [UIColor clearColor];
-    outerRadiusLbl.textColor = [UIColor whiteColor];
-    
-    
-    /* Allocate the slider */
-    outerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    //outerRadius = [[UISlider alloc]initWithFrame:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    outerRadius.tag = RADIUS_TAG_INDEX+4;
-    /* Configure the brush Slider  */
-	outerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
-	outerRadius.minimumValue     = 0;
-	outerRadius.continuous       = YES;
-	outerRadius.value            = sess.outerRadius;
-    
-    [outerRadius addTarget:self action:@selector(outerRadiusChanged:)
-          forControlEvents:UIControlEventValueChanged];
-    
-    
-    UILabel *widthLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+widthIndex, 150, 20)];
-    widthLbl.tag =RADIUS_TAG_INDEX+5;
-    widthLbl.text = NSLocalizedString(@"WIDTH",@"Width");
-    widthLbl.font = lblFont;
-    widthLbl.textAlignment = UITextAlignmentLeft;
-    widthLbl.backgroundColor = [UIColor clearColor];
-    widthLbl.textColor = [UIColor whiteColor];
-    
-    
-    UISlider *width = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+widthIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    width.tag = RADIUS_TAG_INDEX+6;
-    /* Configure the brush Slider  */
-	width.maximumValue     = 30;
-	width.minimumValue     = 0;
-	width.continuous       = YES;
-	width.value            = sess.frameWidth;
-    
-    [width addTarget:self action:@selector(widthChanged:)
-    forControlEvents:UIControlEventValueChanged];
-    
-    /*
-    UILabel *selectMusicLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+musicLibraryIndex, 150, 20)];
-    selectMusicLbl.tag =RADIUS_TAG_INDEX+6;
-    selectMusicLbl.text = NSLocalizedString(@"Select Music",@"Select Music");
-    selectMusicLbl.font = lblFont;
-    selectMusicLbl.textAlignment = UITextAlignmentLeft;
-    selectMusicLbl.backgroundColor = [UIColor clearColor];
-    selectMusicLbl.textColor = [UIColor whiteColor];
-    
-    
-    UIButton *chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    chooseButton . tag = RADIUS_TAG_INDEX + 7;
-    chooseButton . frame = CGRectMake(selectMusicLbl.frame.origin.x+selectMusicLbl.frame.size.width+13 , rect.origin.y+musicLibraryIndex, 60, 25);
-    [chooseButton addTarget:self action:@selector(choose:) forControlEvents:UIControlEventTouchUpInside];
-    [chooseButton setBackgroundImage:[UIImage imageNamed:@"choose"] forState:UIControlStateNormal];
-    
-    
-    UILabel *playSeuqentiallylbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+playseuqentialIndex, 155, 20)];
-    playSeuqentiallylbl.tag =RADIUS_TAG_INDEX+8;
-    playSeuqentiallylbl.text = NSLocalizedString(@"Play Video Seuqentially",@"Play Video Sequentially");
-    playSeuqentiallylbl.font = lblFont;
-    playSeuqentiallylbl.textAlignment = UITextAlignmentLeft;
-    playSeuqentiallylbl.backgroundColor = [UIColor clearColor];
-    playSeuqentiallylbl.textColor = [UIColor whiteColor];
-    
-    UISwitch *onOffSwitch = [[UISwitch alloc] init];
-    onOffSwitch . frame = CGRectMake(playSeuqentiallylbl.frame.origin.x+playSeuqentiallylbl.frame.size.width ,
-                                     rect.origin.y+playseuqentialIndex,
-                                     40, 20);
-    onOffSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
-    onOffSwitch.tag = RADIUS_TAG_INDEX+9;
-    [onOffSwitch addTarget:self action:@selector(onOrOff:) forControlEvents:UIControlEventValueChanged];
-    */
-    
-    [backGround addSubview:innerRadiusLbl];
-    [backGround addSubview:outerRadiusLbl];
-    [backGround addSubview:innerRadius];
-    [backGround addSubview:outerRadius];
-    [backGround addSubview:widthLbl];
-    [backGround addSubview:width];
-    //[backGround addSubview:selectMusicLbl];
-    //[backGround addSubview:chooseButton];
-    //[backGround addSubview:playSeuqentiallylbl];
-    //[backGround addSubview:onOffSwitch];
-    
-    
-    [width release];
-    [widthLbl release];
-    [innerRadiusLbl release];
-    [outerRadius release];
-    [innerRadius release];
-    [outerRadiusLbl release];
-    
-    
-    pickerView = [[UIView alloc]initWithFrame:CGRectMake(0, rect.origin.y+widthIndex+120, 250, 150)];
-    pickerView.tag = TAG_COLORPICKER_BG;
-    /* by default show the color picker */
-    
-    /* add segment control */
-    NSArray *sgItems = [NSArray arrayWithObjects:NSLocalizedString(@"COLOR",@"Color"),NSLocalizedString(@"PATTERN",@"Pattern"), nil];
-    UISegmentedControl *sgctrl = [[UISegmentedControl alloc]initWithItems:sgItems];
-    sgctrl.frame = CGRectMake(0, 0, 150, 30);
-    sgctrl.selectedSegmentIndex = 0;
-    sgctrl.segmentedControlStyle = UISegmentedControlStyleBar;
-    sgctrl.tintColor = [UIColor grayColor];
-    sgctrl.center    = CGPointMake(pickerView.center.x, sgctrl.center.y);
-    [sgctrl addTarget:self
-               action:@selector(colorAndPalletSelectionChanged:)
-     forControlEvents:UIControlEventValueChanged];
-    [pickerView addSubview:sgctrl];
-    [sgctrl release];
-    
-    UIView *pickerBg = [self allocatePatternPicker:TAG_GRIDVIEW_COLOR];
-    
-    [pickerView addSubview:pickerBg];
-    
-    [backGround addSubview:pickerView];
-    
-    
-    popOver = [PopoverView showPopoverAtPoint:CGPointMake(full_screen.size.width/2-30, full.size.height- toolbar_height) inView:self.view withContentView:backGround delegate:self];
-    
-    /* relelase picker bg */
-    [pickerBg release];
-    [pickerView release];
-}
-
--(void)colorItemSelected:(UIColor *)selectedColor
-{
-    sess.color = selectedColor;
-}
-
--(void)popoverViewDidDismiss:(PopoverView *)popoverView
-{
-    [customTabBar setSelectedItem:1];
-}
-#else
 -(void)colorAndPalletSelectionChanged:(UISegmentedControl*)sgctrl
 {
     if(nil == pickerView)
@@ -4672,12 +4419,26 @@
 
 -(void)releaseResourcesForAdjustSettings
 {
+
+
     [self releaseToolBarIfAny];
+    [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_ADJUST];
+   //  [customTabBar unselectCurrentSelectedTab];
     
     UIImageView *ta = (UIImageView*)[self.view viewWithTag:TAG_ADJUST_BG];
     if(nil != ta)
     {
+        NSArray *viewsToRemove = [ta subviews];
+        for (UIView *v in viewsToRemove) [v removeFromSuperview];
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+            ta.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
+
+        }completion:^(BOOL finished)
+         {
+             [customTabBar unselectCurrentSelectedTab];
         [ta removeFromSuperview];
+         }];
     }
     
     UIView *a = (UIView*)[self.view viewWithTag:TAG_ADJUST_BGPAD];
@@ -4695,18 +4456,28 @@
 
 -(void)allocateResourcesForAdjustSettings:(OT_TabBarItem*)tItem
 {
+    [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Adjust" tag:TAG_TOOLBAR_ADJUST];
     
-    CGRect backgroundRect = CGRectMake(0, 0, RADIUS_SETTINGS_WIDTH, 120);
-    
+    CGRect backgroundRect = CGRectMake(0, customTabBar.frame.origin.y, RADIUS_SETTINGS_WIDTH, 0);
+    float height_bar= 150;
+    float outerRadiusIndex         = 15.0;
+    float innerRadiusIndex         = 65.0;
+    float widthIndex               = 115.0;
+    float gap                       = 0;
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
     {
-        backgroundRect = CGRectMake(0,0, RADIUS_SETTINGS_WIDTH, 120);
+        backgroundRect = CGRectMake(0,customTabBar.frame.origin.y, full_screen.size.width, 0);
+        height_bar =  300;
+         outerRadiusIndex         = 40.0;
+         innerRadiusIndex         = 135.0;
+         widthIndex               = 240.0;
+         gap                       = 50;
     }
     
     /* Add touch sheild */
     CGRect full = [[UIScreen mainScreen]bounds];
-    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, full.size.height-100)];
+    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height)];
     touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
     touchSheiled.userInteractionEnabled = YES;
     [self.view addSubview:touchSheiled];
@@ -4715,22 +4486,27 @@
     /* Add background */
     UIImageView *backGround = [[UIImageView alloc]initWithFrame:backgroundRect];
     [self.view addSubview:backGround];
-    backGround.backgroundColor = popup_color;
+    //backGround.backgroundColor = popup_color;
+    backGround . image = [UIImage imageNamed:@"settingsBackground.png"];
     backGround.tag = TAG_ADJUST_BG;
     [backGround release];
     backGround.userInteractionEnabled = YES;
-    
+
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        backGround.frame = CGRectMake(0, customTabBar.frame.origin.y-height_bar, full_screen.size.width, height_bar);
+
+    }completion:^(BOOL finished)
+     {
+
     /* add radius sliders */
     CGRect       rect              = CGRectMake(RADIUS_SETTINGS_X, RADIUS_SETTINGS_Y, RADIUS_SETTINGS_WIDTH-40,         RADIUS_SETTINGS_HEIGHT);
     UISlider    *outerRadius       = nil;
     UISlider    *innerRadius       = nil;
-    float outerRadiusIndex         = 10.0;
-    float innerRadiusIndex         = 50.0;
-    float widthIndex               = 90.0;
-    UIFont *lblFont                = [UIFont systemFontOfSize:14.0];
+
+    UIFont *lblFont                = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
     
-    
-    UILabel *innerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+innerRadiusIndex, 150, 20)];
+    UILabel *innerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+innerRadiusIndex, 150, 20)];
     innerRadiusLbl.tag = RADIUS_TAG_INDEX+1;
     innerRadiusLbl.font = lblFont;
     innerRadiusLbl.text = NSLocalizedString(@"INNERRADIUS", @"Inner Radius");
@@ -4738,7 +4514,7 @@
     innerRadiusLbl.backgroundColor = [UIColor clearColor];
     innerRadiusLbl.textColor = [UIColor whiteColor];
     
-    innerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+innerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 20.0)];
+    innerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+innerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 20.0)];
     innerRadius.tag = RADIUS_TAG_INDEX+2;
     /* Configure the brush Slider  */
 	innerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
@@ -4749,7 +4525,7 @@
           forControlEvents:UIControlEventValueChanged];
     
     
-    UILabel *outerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+outerRadiusIndex, 150, 20)];
+    UILabel *outerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+outerRadiusIndex, 150, 20)];
     outerRadiusLbl.tag =RADIUS_TAG_INDEX+3;
     outerRadiusLbl.text = NSLocalizedString(@"OUTERRADIUS",@"Outer Radius");
     outerRadiusLbl.font = lblFont;
@@ -4759,7 +4535,7 @@
     
     
     /* Allocate the slider */
-    outerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
+    outerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
     //outerRadius = [[UISlider alloc]initWithFrame:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
     outerRadius.tag = RADIUS_TAG_INDEX+4;
     /* Configure the brush Slider  */
@@ -4772,7 +4548,7 @@
           forControlEvents:UIControlEventValueChanged];
     
     
-    UILabel *widthLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+widthIndex, 150, 20)];
+    UILabel *widthLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+widthIndex, 150, 20)];
     widthLbl.tag =RADIUS_TAG_INDEX+5;
     widthLbl.text = NSLocalizedString(@"WIDTH",@"Width");
     widthLbl.font = lblFont;
@@ -4781,7 +4557,7 @@
     widthLbl.textColor = [UIColor whiteColor];
     
     
-    UISlider *width = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+widthIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
+    UISlider *width = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+widthIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
     width.tag = RADIUS_TAG_INDEX+6;
     /* Configure the brush Slider  */
 	width.maximumValue     = 30;
@@ -4807,21 +4583,188 @@
     [outerRadius release];
     [innerRadius release];
     [outerRadiusLbl release];
+     }];
     
-    
-    popOver = [PopoverView showPopoverAtPoint:CGPointMake(tItem.center.x, customTabBar.frame.origin.y)
+ /*   popOver = [PopoverView showPopoverAtPoint:CGPointMake(tItem.center.x, customTabBar.frame.origin.y)
                                        inView:self.view
                               withContentView:backGround
-                                     delegate:self];
+                                     delegate:self]; */
     
     //[self.view addSubview:backGround];
 
 }
+-(CABasicAnimation *)addAnimation:(float)fromValue tovalue:(float)toValue
+{
+   CABasicAnimation  *move = [CABasicAnimation animationWithKeyPath:@"transform.translation.y" ];
+
+    [move setFromValue:[NSNumber numberWithFloat:fromValue]];
+
+    [move setToValue:[NSNumber numberWithFloat:200]];
+
+    [move setDuration:1.0f];
+    return move;
+
+}
+-(void)releaseResourcesForColorAndPatternSettings_updated
+{
+    NSLog(@"releaseResourcesForColorAndPatternSettings_updated.........");
+
+    [self releaseToolBarIfAny];
+
+    [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SETTINGS];
+
+    UIImageView *parentView = (UIImageView *)[self.view viewWithTag:2002];
+    UIScrollView *scrollView = (UIScrollView *)[parentView viewWithTag:4000];
+    UIButton *colorBut = (UIButton *)[parentView viewWithTag:10098];
+    UIButton  *patternBut = (UIButton *)[parentView viewWithTag:20000];
+    if (scrollView) {
+        parentView . image = [UIImage imageNamed:@"backgroundStrip.png"];
+
+        [colorBut   setHidden:NO];
+        [patternBut setHidden:NO];
+        [scrollView removeFromSuperview];
+        [scrollView release];
+        scrollView = nil;
+        return;
+    }
+    if (parentView) {
+
+        UIView  *a = (UIView*)[self.view viewWithTag:TAG_ADJUST_TOUCHSHEILD];
+        [a removeFromSuperview];
+        [colorBut   removeFromSuperview];
+        [patternBut removeFromSuperview];
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+            parentView.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 00);
+
+        }completion:^(BOOL finished) {
+            [parentView removeFromSuperview];
+
+            [customTabBar unselectCurrentSelectedTab];
+           // [self releaseResourcesForModeChange];
+           // [self selectEditTab];
+
+            
+        }];
+    }
+
+}
+-(void)allocateResourcesForColorAndPatternSettings_updated:(OT_TabBarItem*)tItem
+{
+    NSLog(@" allocate colore n pattern");
+
+     [self releaseToolBarIfAny];
+     [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_ADJUST];
+
+    /* Add touch sheild */
+    CGRect full = [[UIScreen mainScreen]bounds];
+    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height)];
+    touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
+    touchSheiled.userInteractionEnabled = YES;
+    [self.view addSubview:touchSheiled];
+    [touchSheiled release];
+
+    UIImageView *sliderBackground = [[UIImageView alloc]init];
+    sliderBackground . frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
+    sliderBackground . tag   = 2002;
+    sliderBackground . image = [UIImage imageNamed:backgroundBarImage];
+    sliderBackground . UserInteractionEnabled = YES;
+    sliderBackground. backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:sliderBackground];
+
+
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        sliderBackground.frame = CGRectMake(0, customTabBar.frame.origin.y-colorBackgroundBarHeightHeight, full_screen.size.width, colorBackgroundBarHeightHeight);
+
+    }completion:^(BOOL finished)
+    {
+        UIButton *colorButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        colorButton . tag = 10098;
+        colorButton . frame = CGRectMake(0, 0, full_screen.size.width*0.48, colorBurttonHeight);
+        colorButton . center = CGPointMake(full_screen.size.width*0.25, sliderBackground.frame.size.height/2);
+        [colorButton setImage:[UIImage imageNamed:colorButtonImage] forState:UIControlStateNormal];
+        [colorButton setImage:[UIImage imageNamed:colorButtonImage_active] forState:UIControlStateHighlighted];
+        [colorButton addTarget:self action:@selector(addActionForSelection:) forControlEvents:UIControlEventTouchUpInside];
+        [sliderBackground addSubview:colorButton];
+
+        UIButton *patternButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        patternButton . tag = 20000;
+        patternButton . frame = CGRectMake(0, 0, full_screen.size.width*0.48, colorBurttonHeight);
+        patternButton . center = CGPointMake(full_screen.size.width*0.75, sliderBackground.frame.size.height/2);
+        [patternButton setImage:[UIImage imageNamed:patternButtonImage] forState:UIControlStateNormal];
+        [patternButton setImage:[UIImage imageNamed:patternButtonImage_active] forState:UIControlStateHighlighted];
+        [patternButton addTarget:self action:@selector(addActionForSelection:) forControlEvents:UIControlEventTouchUpInside];
+        [sliderBackground addSubview:patternButton];
+
+    }];
+}
+
+-(void )addActionForSelection:(UIButton *)aButton
+{
+    UIImageView *parentView = (UIImageView *)[self.view viewWithTag:2002];
+    parentView . image =[UIImage imageNamed:colorPatternBarImage];
+    UIButton *colorBut = (UIButton *)[parentView viewWithTag:10098];
+    UIButton  *patternBut = (UIButton *)[parentView viewWithTag:20000];
+    [colorBut setHidden:YES];
+    [patternBut setHidden:YES];
+
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, full_screen.size.width, colorBackgroundBarHeightHeight)];
+    scrollView . tag = 4000;
+    scrollView . backgroundColor = [UIColor clearColor];
+    scrollView . userInteractionEnabled = YES;
+
+    float xAxis = 5;
+    float yAxis = (colorBackgroundBarHeightHeight - colorBurttonHeight)/2;
+    float width = colorBurttonHeight;
+    float height = colorBurttonHeight;
+    int   gap   = colorBurttonHeight+10;
+
+    if (aButton.tag == 10098)
+    {
+        for ( int i = 0; i<51; i++)
+        {
+            UIButton *but  = [UIButton buttonWithType:UIButtonTypeCustom];
+            but . tag = i;
+            but . frame = CGRectMake(xAxis, yAxis, width, height);
+
+            [but setBackgroundColor:[GridView getColorAtIndex:i]];
+            [but addTarget:self action:@selector(applyColor:) forControlEvents:UIControlEventTouchUpInside];
+            [scrollView addSubview:but];
+            xAxis = xAxis+gap;
+        }
+        scrollView . contentSize = CGSizeMake(xAxis, height);
+    }else
+    {
+        for ( int i = 0; i<30; i++) {
+            UIButton *but  = [UIButton buttonWithType:UIButtonTypeCustom];
+            but . tag = i;
+            but . frame = CGRectMake(xAxis, yAxis, width, height);
+            [but setBackgroundColor:[GridView getPatternAtIndex:i]];
+            [but addTarget:self action:@selector(applyPattern:) forControlEvents:UIControlEventTouchUpInside];
+            [scrollView addSubview:but];
+            xAxis = xAxis+gap;
+        }
+    }
+
+    scrollView . contentSize = CGSizeMake(xAxis, height);
+    scrollView . showsHorizontalScrollIndicator = NO;
+    scrollView . showsVerticalScrollIndicator = NO;
+    [parentView addSubview:scrollView];
+}
+
+-(void)applyColor:(UIButton *)but
+{
+    sess.color = [GridView getColorAtIndex:but.tag];
+}
+
+-(void)applyPattern:(UIButton *)but
+{
+   sess.color = [GridView getPatternAtIndex:but.tag];
+}
 
 -(void)allocateResourcesForColorAndPatternSettings:(OT_TabBarItem*)tItem
 {
-    //CGRect fullScreen = [[UIScreen mainScreen]bounds];
-    
     [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_ADJUST];
     
     CGRect backgroundRect = CGRectMake(0, 0, RADIUS_SETTINGS_WIDTH-40, RADIUS_SETTINGS_WIDTH);
@@ -4838,151 +4781,13 @@
     [self.view addSubview:touchSheiled];
     [touchSheiled release];
     
-    //UIView *blackBgnd = [[UIImageView alloc]initWithFrame:backgroundRect];
-    //blackBgnd.layer.cornerRadius = 10.0;
-    //blackBgnd.backgroundColor = [UIColor darkGrayColor];
-    //blackBgnd.alpha = 1.0;
-    //blackBgnd.tag = TAG_ADJUST_BGPAD;
-    //[self.view addSubview:blackBgnd];
-    //[blackBgnd release];
-    
     UIImageView *backGround = [[UIImageView alloc]initWithFrame:backgroundRect];
     [self.view addSubview:backGround];
     backGround.backgroundColor = popup_color;
     backGround.tag = TAG_ADJUST_BG;
     [backGround release];
     backGround.userInteractionEnabled = YES;
-    
-    
-    /* add radius sliders */
-    //CGRect       rect              = CGRectMake(RADIUS_SETTINGS_X, RADIUS_SETTINGS_Y, RADIUS_SETTINGS_WIDTH-40, RADIUS_SETTINGS_HEIGHT);
-    //UISlider    *outerRadius       = nil;
-    //UISlider    *innerRadius       = nil;
-    //UIView *radiusSettingsBgnd = nil;
-    //UIFont *lblFont = [UIFont systemFontOfSize:14.0];
-    //float outerRadiusIndex = 10.0;
-    //float innerRadiusIndex = 50.0;
-    //float widthIndex       = 90.0;
-    //float musicLibraryIndex       = 130.0;
-    //float playseuqentialIndex = 170;
-    
-    //UILabel *innerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+innerRadiusIndex, 150, 20)];
-    //innerRadiusLbl.tag = RADIUS_TAG_INDEX+1;
-    //innerRadiusLbl.font = lblFont;
-    //innerRadiusLbl.text = NSLocalizedString(@"INNERRADIUS", @"Inner Radius");
-    //innerRadiusLbl.textAlignment = UITextAlignmentLeft;
-    //innerRadiusLbl.backgroundColor = [UIColor clearColor];
-    //innerRadiusLbl.textColor = [UIColor whiteColor];
-    
-    
-    //innerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+innerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 20.0)];
-    //innerRadius.tag = RADIUS_TAG_INDEX+2;
-    /* Configure the brush Slider  */
-	//innerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
-	//innerRadius.minimumValue     = 0.0;
-	//innerRadius.continuous       = YES;
-	//innerRadius.value            = sess.innerRadius;
-    //[innerRadius addTarget:self action:@selector(innerRadiusChanged:)
-    //      forControlEvents:UIControlEventValueChanged];
-    
-    
-    //UILabel *outerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+outerRadiusIndex, 150, 20)];
-    //outerRadiusLbl.tag =RADIUS_TAG_INDEX+3;
-    //outerRadiusLbl.text = NSLocalizedString(@"OUTERRADIUS",@"Outer Radius");
-    //outerRadiusLbl.font = lblFont;
-    //outerRadiusLbl.textAlignment = UITextAlignmentLeft;
-    //outerRadiusLbl.backgroundColor = [UIColor clearColor];
-    //outerRadiusLbl.textColor = [UIColor whiteColor];
-    
-    
-    /* Allocate the slider */
-    //outerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    //outerRadius = [[UISlider alloc]initWithFrame:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    //outerRadius.tag = RADIUS_TAG_INDEX+4;
-    /* Configure the brush Slider  */
-	//outerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
-	//outerRadius.minimumValue     = 0;
-	//outerRadius.continuous       = YES;
-	//outerRadius.value            = sess.outerRadius;
-    
-    //[outerRadius addTarget:self action:@selector(outerRadiusChanged:)
-    //      forControlEvents:UIControlEventValueChanged];
-    
-    
-    //UILabel *widthLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+widthIndex, 150, 20)];
-    //widthLbl.tag =RADIUS_TAG_INDEX+5;
-    //widthLbl.text = NSLocalizedString(@"WIDTH",@"Width");
-    //widthLbl.font = lblFont;
-    //widthLbl.textAlignment = UITextAlignmentLeft;
-    //widthLbl.backgroundColor = [UIColor clearColor];
-    //widthLbl.textColor = [UIColor whiteColor];
-    
-    
-    //UISlider *width = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+100.0, rect.origin.y+widthIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    //width.tag = RADIUS_TAG_INDEX+6;
-    /* Configure the brush Slider  */
-	//width.maximumValue     = 30;
-	//width.minimumValue     = 0;
-	//width.continuous       = YES;
-	//width.value            = sess.frameWidth;
-    
-    //[width addTarget:self action:@selector(widthChanged:)
-    //forControlEvents:UIControlEventValueChanged];
-    
-    /*
-     UILabel *selectMusicLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+musicLibraryIndex, 150, 20)];
-     selectMusicLbl.tag =RADIUS_TAG_INDEX+6;
-     selectMusicLbl.text = NSLocalizedString(@"Select Music",@"Select Music");
-     selectMusicLbl.font = lblFont;
-     selectMusicLbl.textAlignment = UITextAlignmentLeft;
-     selectMusicLbl.backgroundColor = [UIColor clearColor];
-     selectMusicLbl.textColor = [UIColor whiteColor];
-     
-     
-     UIButton *chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-     chooseButton . tag = RADIUS_TAG_INDEX + 7;
-     chooseButton . frame = CGRectMake(selectMusicLbl.frame.origin.x+selectMusicLbl.frame.size.width+13 , rect.origin.y+musicLibraryIndex, 60, 25);
-     [chooseButton addTarget:self action:@selector(choose:) forControlEvents:UIControlEventTouchUpInside];
-     [chooseButton setBackgroundImage:[UIImage imageNamed:@"choose"] forState:UIControlStateNormal];
-     
-     
-     UILabel *playSeuqentiallylbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+playseuqentialIndex, 155, 20)];
-     playSeuqentiallylbl.tag =RADIUS_TAG_INDEX+8;
-     playSeuqentiallylbl.text = NSLocalizedString(@"Play Video Seuqentially",@"Play Video Sequentially");
-     playSeuqentiallylbl.font = lblFont;
-     playSeuqentiallylbl.textAlignment = UITextAlignmentLeft;
-     playSeuqentiallylbl.backgroundColor = [UIColor clearColor];
-     playSeuqentiallylbl.textColor = [UIColor whiteColor];
-     
-     UISwitch *onOffSwitch = [[UISwitch alloc] init];
-     onOffSwitch . frame = CGRectMake(playSeuqentiallylbl.frame.origin.x+playSeuqentiallylbl.frame.size.width ,
-     rect.origin.y+playseuqentialIndex,
-     40, 20);
-     onOffSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
-     onOffSwitch.tag = RADIUS_TAG_INDEX+9;
-     [onOffSwitch addTarget:self action:@selector(onOrOff:) forControlEvents:UIControlEventValueChanged];
-     */
-    
-    //[backGround addSubview:innerRadiusLbl];
-    //[backGround addSubview:outerRadiusLbl];
-    //[backGround addSubview:innerRadius];
-    //[backGround addSubview:outerRadius];
-    //[backGround addSubview:widthLbl];
-    //[backGround addSubview:width];
-    //[backGround addSubview:selectMusicLbl];
-    //[backGround addSubview:chooseButton];
-    //[backGround addSubview:playSeuqentiallylbl];
-    //[backGround addSubview:onOffSwitch];
-    
-    
-    //[width release];
-    //[widthLbl release];
-    //[innerRadiusLbl release];
-    //[outerRadius release];
-    //[innerRadius release];
-    //[outerRadiusLbl release];
-    
-    
+
     pickerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, backGround.frame.size.width, backGround.frame.size.height)];
     pickerView.tag = TAG_COLORPICKER_BG;
     /* by default show the color picker */
@@ -5022,7 +4827,7 @@
 {
     sess.color = selectedColor;
 }
-
+/*
 -(void)popoverViewDidDismiss:(PopoverView *)popoverView
 {
     //[customTabBar setSelectedItem:1];
@@ -5030,14 +4835,13 @@
     [self releaseResourcesForModeChange];
     [self selectEditTab];
 }
-#endif
+*/
 -(void)releaseResourcesForUpload
 {
     [self releaseToolBarIfAny];
     
     self.navigationController.navigationBar.hidden = YES;
 }
-
 
 #if STANDARD_TABBAR
 -(void)releaseResourcesForModeChange
@@ -5134,7 +4938,7 @@
 #else
 -(void)releaseResourcesForModeChange
 {
-    [self releaseResourcesForEdit];
+    NSLog(@"releaseResourcesForModeChange");
     
     switch (eMode)
     {
@@ -5145,8 +4949,8 @@
         }
         case MODE_COLOR_AND_PATTERN:
         {
-            //[self releaseResourcesForSettings];
-            [self releaseResourcesForColorAndPatternSettings];
+
+            [self releaseResourcesForColorAndPatternSettings_updated];
             break;
         }
         case MODE_ADJUST_SETTINGS:
@@ -5156,7 +4960,7 @@
         }
         case MODE_VIDEO_SETTINGS:
         {
-            //[self releaseResourcesForSwap];
+
             [self releaseResourcesForVideoSetttings];
             break;
         }
@@ -5179,6 +4983,9 @@
 
 -(void)otTabBar:(OT_TabBar*)tbar didSelectItem:(OT_TabBarItem*)tItem
 {
+
+    NSLog(@" tab bar item clicked  %d",tItem.tag);
+     NSLog(@"************* emode = %d",eMode);
     if(NO == tItem.nestedSelectionEnabled)
     {
         if(tItem.tag == eMode)
@@ -5200,7 +5007,7 @@
         /* Now get the new mode */
         eMode = (eAppMode)tItem.tag;
     }
-    
+
     /* handle the new mode */
     switch (eMode)
     {
@@ -5211,16 +5018,14 @@
         }
         case MODE_COLOR_AND_PATTERN:
         {
-            [self allocateResourcesForColorAndPatternSettings:tItem];
+
+            [self allocateResourcesForColorAndPatternSettings_updated:tItem];
             break;
         }
         case MODE_ADJUST_SETTINGS:
         {
-            //[self allocateResourcesForSettings:tItem];
+
             [self allocateResourcesForAdjustSettings:tItem];
-            //[self allocateResourcesForSettings];
-            //[self showRadiusSettings:nil fromFrame:CGRectMake(40, full_screen.size.height-50, 40, 50)];
-            
             break;
         }
         case MODE_VIDEO_SETTINGS:
@@ -5234,12 +5039,6 @@
             [self allocateResourcesForUpload];
             break;
         }
-        //case MODE_SWAP:
-        //{
-            //[self allocateResourcesForSwap];
-        //    [self allocateResourcesForVideoSettings:tItem];
-        //    break;
-        //}
         case MODE_PREVIEW:
         {
             [self allocateResourcesForPreview:tItem];
@@ -5514,5 +5313,280 @@
     
     return;
 }
+
+-(void)allocateShareResources
+{
+    UIImageView *backgroundView = [[UIImageView alloc] init];
+    backgroundView . tag = 2134;
+    backgroundView . frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 0);
+    backgroundView . image =[UIImage imageNamed:@"background.png"];
+    backgroundView . userInteractionEnabled = YES;
+    [self.view addSubview:backgroundView];
+
+    if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
+    {
+        backgroundView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_ipad" ofType:@"png"]];
+    }
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        backgroundView.frame = CGRectMake(0, 0, full_screen.size.width, full_screen.size.height);
+    }completion:^(BOOL finished)
+     {
+     }];
+
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, full_screen.size.width, customBarHeight)];
+    titleLabel. text = @"Share";
+    titleLabel . textAlignment = NSTextAlignmentCenter;
+    titleLabel . textColor = [UIColor whiteColor];
+    titleLabel . backgroundColor = [UIColor clearColor];
+    titleLabel . font = [UIFont systemFontOfSize:20.0f];
+    [backgroundView addSubview:titleLabel];
+
+    float xaxis = 43;
+    float yaxis = 70;
+    float width = 95;
+    float height = 95;
+    float xgap = 140;
+    float ygap = 120;
+    float limit = 250;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        xaxis =  128;
+        yaxis  = 150;
+        height = 192;
+        width = 192;
+        xgap = 320;
+        ygap = 260;
+        limit = 500;
+    }
+
+    if (isVideoFile)
+    {
+        for (int index = 1; index<=6; index++) {
+            NSString *shareImage = [NSString stringWithFormat:@"share_option%d.png",index];
+            NSString *shareImage_active = [NSString stringWithFormat:@"share_option%d_active.png",index];
+            UIButton *shareButton = [UIButton  buttonWithType:UIButtonTypeCustom];
+            shareButton . tag = index;
+            shareButton . frame = CGRectMake(xaxis, yaxis, width, height);
+            [shareButton setImage:[UIImage imageNamed:shareImage] forState:UIControlStateNormal];
+            [shareButton setImage:[UIImage imageNamed:shareImage_active] forState:UIControlStateHighlighted];
+            [shareButton addTarget:self action:@selector(handleVideoAndImageSharing:) forControlEvents:UIControlEventTouchUpInside];
+            [backgroundView addSubview:shareButton];
+            xaxis = xaxis + xgap;
+
+            if (xaxis>limit) {
+                yaxis = yaxis+ygap;
+                xaxis = 50;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    xaxis = 128;
+                }
+            }
+            
+        }
+    }
+    else
+    {
+        for (int index = 1; index<=5; index++) {
+            NSString *shareImage = [NSString stringWithFormat:@"share_option%d.png",index];
+            NSString *shareImage_active = [NSString stringWithFormat:@"share_option%d_active.png",index];
+            UIButton *shareButton = [UIButton  buttonWithType:UIButtonTypeCustom];
+            shareButton . tag = index;
+            [shareButton setImage:[UIImage imageNamed:shareImage] forState:UIControlStateNormal];
+            [shareButton setImage:[UIImage imageNamed:shareImage_active] forState:UIControlStateHighlighted];
+            shareButton . frame = CGRectMake(xaxis, yaxis, width, height);
+
+            if (index == 3) {
+                shareButton . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/2);
+                [shareButton setImage:[UIImage imageNamed:@"share_option5_image.png"] forState:UIControlStateNormal];
+                [shareButton setImage:[UIImage imageNamed:@"share_option5_image_active.png"] forState:UIControlStateHighlighted];
+                
+            }
+            if (index == 4) {
+
+                [shareButton setImage:[UIImage imageNamed:@"share_option6.png"] forState:UIControlStateNormal];
+                [shareButton setImage:[UIImage imageNamed:@"share_option6_active.png"] forState:UIControlStateHighlighted];
+
+            }
+
+            [shareButton addTarget:self action:@selector(handleVideoAndImageSharing:) forControlEvents:UIControlEventTouchUpInside];
+            [backgroundView addSubview:shareButton];
+            xaxis = xaxis + xgap;
+            if (index == 3) {
+                xaxis = 300;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    xaxis = limit+1;
+                }
+            }
+            if (xaxis>limit) {
+                yaxis = yaxis+ygap;
+                xaxis = 50;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    xaxis = 128;
+                }
+            }
+
+        }
+    }
+
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancelButton . frame = CGRectMake(0, full_screen.size.height-customBarHeight, full_screen.size.width, customBarHeight);
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [backgroundView addSubview:cancelButton];
+}
+-(void)handleVideoAndImageSharing:(UIButton *)aBUtton
+{
+    switch (aBUtton.tag) {
+        case 1:
+        {
+            nvm.uploadCommand = UPLOAD_FACEBOOK_ALBUM;
+            break;
+        }
+        case 2:
+        {
+            nvm.uploadCommand = UPLOAD_INSTAGRAM;
+            break;
+        }
+        case 3:
+        {
+            if (isVideoFile) {
+                nvm.uploadCommand = UPLOAD_YOUTUBE;
+            }
+            else
+            {
+                nvm . uploadCommand = UPLOAD_CLIPBOARD;
+            }
+
+            break;
+        }
+        case 4:
+        {
+            if (isVideoFile) {
+            nvm.uploadCommand = UPLOAD_VIDDY;
+            }else
+            {
+            nvm.uploadCommand = UPLOAD_EMAIL;
+            }
+            break;
+        }
+        case 5:
+        {
+            if (isVideoFile) {
+             nvm.uploadCommand = UPLOAD_PHOTO_ALBUM;
+            }else
+            {
+            nvm.uploadCommand = UPLOAD_PHOTO_ALBUM;
+            }
+
+            break;
+        }
+        case 6:
+        {
+            nvm.uploadCommand = UPLOAD_EMAIL;
+            break;
+        }
+        default:
+            break;
+    }
+    if (isVideoFile)
+    {
+        [self uploadVideo];
+    }else
+    {
+        [self uploadImage];
+    }
+
+}
+
+-(void)goBack
+{
+    [self releaseToolBarIfAny];
+
+    [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SHARE];
+
+
+    UIImageView *shareView = (UIImageView *)[self.view viewWithTag:2134];
+    NSArray *viewToRemove = [shareView subviews];
+    for (UIView *v in viewToRemove) {
+        [v removeFromSuperview];
+    }
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        shareView.frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 0);
+
+    }completion:^(BOOL finished)
+     {
+         if (nil!= shareView) {
+             [customTabBar unselectCurrentSelectedTab];
+             [shareView removeFromSuperview];
+         }
+     }];
+
+}
+-(void)showResolutionOptios
+{
+
+    CGRect full               = [[UIScreen mainScreen]bounds];
+    CGRect shareRect          = CGRectMake(full.size.width-55.0, customTabBar.frame.origin.y, full_screen.size.width, 50);
+   // NSMutableArray *menuItems = [[NSMutableArray alloc]initWithCapacity:1];
+
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        shareRect.origin.x = shareRect.origin.x - 60.0;
+    }
+
+
+    KxMenuItem *title    = [KxMenuItem menuItem:@"Resolution"
+                                          image:nil
+                                         target:nil
+                                         action:NULL];
+    KxMenuItem *res_2400 = [KxMenuItem menuItem:@"2400 x 2400"
+                                          image:nil
+                                         target:self
+                                         action:@selector(handleResolutionOptionSelection:)];
+    res_2400.tag         = RESOLUTION_PIXCOUNT_HIGH0;
+    KxMenuItem *res_2100 = [KxMenuItem menuItem:@"2100 x 2100"
+                                          image:nil
+                                         target:self
+                                         action:@selector(handleResolutionOptionSelection:)];
+    res_2100.tag         = RESOLUTION_PIXCOUNT_HIGH1;
+    KxMenuItem *res_1800 = [KxMenuItem menuItem:@"1800 x 1800"
+                                          image:nil
+                                         target:self
+                                         action:@selector(handleResolutionOptionSelection:)];
+    res_1800.tag         = RESOLUTION_PIXCOUNT_MED0;
+    KxMenuItem *res_1200 = [KxMenuItem menuItem:@"1200 x 1200"
+                                          image:nil
+                                         target:self
+                                         action:@selector(handleResolutionOptionSelection:)];
+    res_1200.tag         = RESOLUTION_PIXCOUNT_MED2;
+    KxMenuItem *res_600  = [KxMenuItem menuItem:@"600 x 600"
+                                          image:nil
+                                         target:self
+                                         action:@selector(handleResolutionOptionSelection:)];
+    res_600.tag          = RESOLUTION_PIXCOUNT_LOW1;
+
+    NSArray *menuItems   = @[title,res_2400,res_2100,res_1800,res_1200,res_600];
+
+    for(int index = 0; index < [menuItems count]; index++)
+    {
+        KxMenuItem *menuitem = menuItems[index];
+
+        menuitem.alignment = NSTextAlignmentCenter;
+    }
+
+    KxMenuItem *first = menuItems[0];
+
+    first.foreColor = PHOTO_DEFAULT_COLOR;
+
+    first.alignment = NSTextAlignmentCenter;
+
+    [KxMenu showMenuInView:self.view
+                  fromRect:shareRect
+                 menuItems:menuItems
+                  delegate:self];
+
+
+}
+
 
 @end

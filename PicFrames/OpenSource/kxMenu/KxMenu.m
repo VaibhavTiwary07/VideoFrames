@@ -457,7 +457,9 @@ typedef enum {
     
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     contentView.autoresizingMask = UIViewAutoresizingNone;
-    contentView.backgroundColor = popup_color;
+   // contentView.backgroundColor = popup_color;
+    /* *******  Change background color of the kxmenu ****** */
+    contentView . backgroundColor = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
     contentView.opaque = NO;
     
     CGFloat itemY = kMarginY * 2;
