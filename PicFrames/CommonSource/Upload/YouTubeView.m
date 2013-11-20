@@ -67,14 +67,14 @@
     mTitleField = [[UITextField alloc] init];
     mDescriptionField = [[UITextField alloc] init];
 
-    mUsernameField = [[UITextField alloc] initWithFrame:CGRectMake(115, 75, 150, 35)];
+    mUsernameField = [[UITextField alloc] initWithFrame:CGRectMake(110, 75, 138, 35)];
     mUsernameField . backgroundColor = [UIColor clearColor];
     mUsernameField.textColor = [UIColor whiteColor];
     mUsernameField . textAlignment = NSTextAlignmentLeft;
     mUsernameField . contentVerticalAlignment = UIControlContentHorizontalAlignmentCenter;
     [backgroundImage addSubview:mUsernameField];
 
-    mPasswordField = [[UITextField alloc] initWithFrame:CGRectMake(115, 130, 150,35)];
+    mPasswordField = [[UITextField alloc] initWithFrame:CGRectMake(110, 130, 138,35)];
     mPasswordField . backgroundColor = [UIColor clearColor];
     mPasswordField . secureTextEntry = YES;
     mPasswordField . textColor = [UIColor whiteColor];

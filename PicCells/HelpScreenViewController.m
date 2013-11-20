@@ -27,10 +27,9 @@
      UIButton *but = (UIButton *)[self.view viewWithTag:10];
     if ([str isEqualToString:@"SHOW"])
     {
-        //but . enabled = YES;
-        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
             [self.view bringSubviewToFront:but];
-            but.frame = CGRectMake(0, full_screen.size.height -50, full_screen.size.width, 50);
+            but.frame = CGRectMake(0, 0, full_screen.size.width, colorBurttonHeight);
 
         }completion:^(BOOL finished) {
 
@@ -38,16 +37,13 @@
         }];
     }else
     {
-        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
             [self.view bringSubviewToFront:but];
-            but.frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 00);
+            but.frame = CGRectMake(0, 0, full_screen.size.width, 00);
 
         }completion:^(BOOL finished) {
-
-            //[self.view bringSubviewToFront:but];
         }];
-//        [but setImage:[UIImage imageNamed:@"close_help.png"] forState:UIControlStateDisabled];
-//      but . enabled = YES;
+
     }
    
     
@@ -88,18 +84,34 @@
     [slideshow setTransitionDuration:1]; // Transition duration
     [slideshow setTransitionType:KASlideShowTransitionSlide]; // Choose a transition type (fade or slide)
     [slideshow setImagesContentMode:UIViewContentModeScaleAspectFill]; // Choose a content mode for images to display
+
+
+
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && (fullScreen . size. height>480))
+    {
+
+    [slideshow addImagesFromResources:@[@"help-01_1136.png",@"help-02_1136.png",@"help-03_1136.png",@"help-04_1136.png",@"help-05_1136.png",@"help-06_1136.png",@"help-07_1136.png",@"help-08_1136.png"]];
+
+    }else if((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) && (fullScreen.size.height== 480))
+    {
     [slideshow addImagesFromResources:@[@"help-01.png",@"help-02.png",@"help-03.png",@"help-04.png",@"help-05.png",@"help-06.png",@"help-07.png",@"help-08.png"]];
+    }
+
+
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        [slideshow addImagesFromResources:@[@"help-01_1024.png",@"help-02_1024.png",@"help-03_1024.png",@"help-04_1024.png",@"help-05_1024.png",@"help-06_1024.png",@"help-07_1024.png",@"help-08_1024.png"]];
+
+    }
 
     [self.view addSubview:slideshow];
     [slideshow start];
 
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeButton . frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 0);
-    closeButton. center = CGPointMake(fullScreen.size.width/2, bottomBarImage.frame.size.height/2);
+    closeButton . frame = CGRectMake(0, 0, full_screen.size.width, 0);
     closeButton . tag = 10;
-    //closeButton . enabled = NO;
-    [closeButton setBackgroundColor:[UIColor blueColor]];
-    //[closeButton setImage:[UIImage imageNamed:@"close_active.png"] forState:UIControlStateNormal];
+   
+    [closeButton setImage:[UIImage imageNamed:help_close_Button] forState:UIControlStateNormal];
     [closeButton  addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeButton];
     [closeButton bringSubviewToFront:closeButton];

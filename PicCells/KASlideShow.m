@@ -82,14 +82,14 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 
 
     pager = [[UIPageControl alloc] init];
-    pager . frame = CGRectMake(0, 0, 130,10);
-    pager . layer . cornerRadius = 5.0;
-    pager . layer. borderColor = [[UIColor whiteColor] CGColor];
-    pager . backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.9];
+    pager . frame = CGRectMake(0, self.frame.size.height-10, 130,10);
+  //  pager . layer . cornerRadius = 5.0;
+   // pager . layer. borderColor = [[UIColor whiteColor] CGColor];
+   // pager . backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.9];
     pager . center = CGPointMake(self.frame.size.width/2,self.frame.size.height-7);
     pager . currentPage = 0;
     pager . pageIndicatorTintColor = [UIColor whiteColor];
-    pager . currentPageIndicatorTintColor = [UIColor grayColor];
+    pager . currentPageIndicatorTintColor = [UIColor blackColor];
     [self addSubview:pager];
 
 }

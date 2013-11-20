@@ -11,7 +11,7 @@
 #ifndef PicFrames_Config_h
 #define PicFrames_Config_h
 #define proVersion 0
-
+#define help_close_Button ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"exit-button_ipad.png":@"exit-button.png")
 
 #define colorBackgroundBarHeightHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?100.0:60.0)
 #define colorBurttonHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?80.0:50.0)

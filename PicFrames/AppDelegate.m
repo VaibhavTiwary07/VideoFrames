@@ -41,10 +41,10 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
         alertView.labelTextColor = [UIColor whiteColor];//[UIColor colorWithRed:0.11f green:0.08f blue:0.39f alpha:1.00f];
     alertView.labelShadowColor = [UIColor blackColor];
     
-    UIColor *topGradient = [UIColor colorWithRed:53.0f/256.0f green:55.0f/256.0f blue:56.0f/256.0f alpha:1.0f];
+    UIColor *topGradient = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
         
-    UIColor *middleGradient = [UIColor colorWithRed:53.0f/256.0f green:55.0f/256.0f blue:56.0f/256.0f alpha:1.0f];
-    UIColor *bottomGradient = [UIColor colorWithRed:53.0f/256.0f green:55.0f/256.0f blue:56.0f/256.0f alpha:1.0f];
+    UIColor *middleGradient = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
+    UIColor *bottomGradient = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
     alertView.gradientColors = @[topGradient,middleGradient,bottomGradient];
     
     alertView.outerFrameColor = [UIColor colorWithRed:250.0f/255.0f green:250.0f/255.0f blue:250.0f/255.0f alpha:1.0f];

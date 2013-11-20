@@ -547,7 +547,7 @@
     double duration = CMTimeGetSeconds([inputAsset duration]);
     double nrFrames = CMTimeGetSeconds([inputAsset duration]) * 30;
     int frameIndex = 0;
-    int origCount = 0;
+    int origCount  = 0;
     int duplicateFrequency = 0;
     BOOL requiresDuplication = NO;
     
@@ -558,14 +558,18 @@
     }
     
     nrFrames = duration * 30;
+    NSLog(@"VIDEO NIMINAL FRAME RATE -------  %f",inputAssetTrack. nominalFrameRate);
     
     /* Caluclate how often do we need to repeat the frames to achive 30fps, and inject those frames while
      reading and saving those frames */
     if(inputAssetTrack.nominalFrameRate < 30.0f)
     {
+        NSLog(@"Add some Duplicate frames");
         float currentFrameCount          = inputAssetTrack.nominalFrameRate * duration;
         float framesRequiredToReach30fps = (currentFrameCount/inputAssetTrack.nominalFrameRate)*30.0f;
         float framesToDuplicate = framesRequiredToReach30fps - currentFrameCount;
+
+        NSLog(@" PRINT Values current framecount : %f framesRequiredToReach30fps:%f framesToDuplicate:%f",currentFrameCount,framesRequiredToReach30fps, framesToDuplicate);
         
         /* How often do we need to Duplicate the frames */
         duplicateFrequency = (int)((float)currentFrameCount/framesToDuplicate);
@@ -658,8 +662,11 @@
             
             if(requiresDuplication)
             {
+                NSLog(@"Calculate Value  : %d",(origCount%duplicateFrequency));
+                NSLog(@"DuplicateFrequency : %d", duplicateFrequency);
                 if((0 != duplicateFrequency)&&(0 ==(origCount%duplicateFrequency)))
                 {
+                    NSLog(@" Duplicating .....");
                     //NSLog(@"Duplicating %d with %d original count %d duplicate frequency %d",frameIndex,frameIndex-1,origCount,duplicateFrequency);
                     [self writeFrame:[UIImage imageWithCGImage:newImage scale:1.0 orientation:videoAssetOrientation_] atFrameIndex:frameIndex videoIndex:[sess photoNumberOfCurrentSelectedPhoto] ofTotalFrame:nrFrames];
                     frameIndex++;
@@ -4321,9 +4328,7 @@
 {
     NSLog(@"releaseResourcesForColorAndPatternSettings_updated.........");
 
-    [self releaseToolBarIfAny];
 
-    [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SETTINGS];
 
     UIImageView *parentView = (UIImageView *)[self.view viewWithTag:2002];
     UIScrollView *scrollView = (UIScrollView *)[parentView viewWithTag:4000];
@@ -4340,6 +4345,9 @@
         return;
     }
     if (parentView) {
+        [self releaseToolBarIfAny];
+
+        [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SETTINGS];
 
         UIView  *a = (UIView*)[self.view viewWithTag:TAG_ADJUST_TOUCHSHEILD];
         [a removeFromSuperview];
@@ -4434,7 +4442,7 @@
 
     if (aButton.tag == 10098)
     {
-        for ( int i = 0; i<51; i++)
+        for ( int i = 0; i<52; i++)
         {
             UIButton *but  = [UIButton buttonWithType:UIButtonTypeCustom];
             but . tag = i;
@@ -4446,7 +4454,8 @@
             xAxis = xAxis+gap;
         }
         scrollView . contentSize = CGSizeMake(xAxis, height);
-    }else
+    }
+    else
     {
         for ( int i = 0; i<30; i++) {
             UIButton *but  = [UIButton buttonWithType:UIButtonTypeCustom];
