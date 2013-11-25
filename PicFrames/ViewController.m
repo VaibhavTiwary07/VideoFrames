@@ -1913,9 +1913,18 @@
     }
     else if([[notification name]isEqualToString:@"notificationdidfinishwithframeview"])
     {
-        NSLog(@"ghghghghhghghghghghghghghhghghgh");
+
         [self.navigationController popViewControllerAnimated:NO];
        [[NSNotificationCenter defaultCenter]postNotificationName:@"notificationDidEnterToFirstScreen" object:nil];
+    }
+    else if([[notification name]isEqualToString:@"notificationdidLoadView"])
+    {
+        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self
+                                       selector:@selector(showFrameSelectionController)
+                                       userInfo:nil
+                                        repeats:NO];
+
+        
     }
     return;
 }
@@ -2054,6 +2063,9 @@
     else
     {
         imgview.image = [UIImage imageNamed:@"background"];
+        if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && full_screen.size.height>480) {
+            imgview.image = [UIImage imageNamed:@"background_1136.png"] ;
+        }
          [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
     }
     
@@ -3064,6 +3076,7 @@
                        options:UIViewAnimationOptionTransitionCurlDown
                     animations:^{
                         [self.view addSubview:helpScreen.view];
+                        [self.view bringSubviewToFront:helpScreen.view];
                     }
                     completion:NULL];
 
@@ -4765,10 +4778,7 @@
                         }
                       cancelButtonTitle:@"Cancel"
                       otherButtonTitles:@"Download", nil];
-        /*
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Failed" message:@"Instagram is not installed in your device. You need to install Instagram application to share your image with Instagram. Would you like to download it now?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Download", nil];
-        [alert show];
-        [alert release];*/
+
     }
 }
 
@@ -4887,6 +4897,9 @@
     {
         backgroundView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_ipad" ofType:@"png"]];
     }
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && full_screen.size.height>480) {
+        backgroundView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_1136" ofType:@"png"]];
+    }
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
 
         backgroundView.frame = CGRectMake(0, 0, full_screen.size.width, full_screen.size.height);
@@ -4917,6 +4930,10 @@
         xgap = 320;
         ygap = 260;
         limit = 500;
+    }
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) && (full_screen.size.height >480)) {
+        yaxis = 90;
+        ygap = 140;
     }
 
     if (isVideoFile)

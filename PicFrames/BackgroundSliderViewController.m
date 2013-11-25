@@ -23,6 +23,7 @@
     NSTimer *timer1, *timer2;
     CABasicAnimation *move, *move2;
     UIWebView *webView;
+     ViewController *viewController;
 
 }
 
@@ -125,7 +126,12 @@
 
 -(void)startAction
 {
-    ViewController *viewController = [[ViewController alloc] init];
+    if (viewController == nil)
+    {
+        viewController = [[ViewController alloc] init];
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationdidLoadView" object:nil];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 -(void)moveAnimation

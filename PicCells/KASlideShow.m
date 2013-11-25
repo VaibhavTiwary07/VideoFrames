@@ -308,8 +308,7 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
     }else if(mode == KASlideShowSlideModeForward){
         _bottomImageView.transform = CGAffineTransformMakeTranslation(_bottomImageView.frame.size.width, 0);
     }
-    
-    
+
     [UIView animateWithDuration:transitionDuration
                      animations:^{
                          
@@ -321,10 +320,8 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                              _bottomImageView.transform = CGAffineTransformMakeTranslation(0, 0);
                          }
                      }
-                     completion:^(BOOL finished){
-
-                        
-                         
+                     completion:^(BOOL finished)
+                        {
                          _topImageView.image = _bottomImageView.image;
                          _topImageView.transform = CGAffineTransformMakeTranslation(0, 0);
                          
@@ -336,7 +333,6 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
                          }
                      }];
 }
-
 
 - (void) stop
 {

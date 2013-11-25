@@ -719,6 +719,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
                        options:UIViewAnimationOptionTransitionCurlDown
                     animations:^{
                         [self.view addSubview:helpScreen.view];
+                         [self.view bringSubviewToFront:helpScreen.view];
                     }
                     completion:NULL];
 #endif
@@ -1089,6 +1090,10 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     else
     {
         imgView.image = [UIImage imageNamed:@"background"];
+       if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && full_screen.size.height>480) {
+        imgView.image = [UIImage imageNamed:@"background_1136.png"] ;
+    }
+
     }
 
     imgView.tag = TAG_FRAMEGRID_CONTROLLER;

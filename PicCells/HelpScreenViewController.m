@@ -45,8 +45,6 @@
         }];
 
     }
-   
-    
 }
 -(void)option1
 {
@@ -55,26 +53,6 @@
     backgroundImage . image = [UIImage imageNamed:@"background.png"];
     backgroundImage . userInteractionEnabled = YES;
     [self.view addSubview:backgroundImage];
-
-    UIImageView *barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, fullScreen.size.width, 50)];
- //   barImage . image = [UIImage imageNamed:@"top-bar_vpf.png"];
-    barImage . userInteractionEnabled = YES;
-    [self.view addSubview:barImage];
-
-    UILabel *helpTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-    helpTextLabel . center = CGPointMake(fullScreen.size.width/2, barImage.frame.size.height/2);
-    helpTextLabel . backgroundColor = [UIColor clearColor];
-    helpTextLabel . text = @"HELP";
-    helpTextLabel . textColor = [UIColor whiteColor];
-    helpTextLabel . font = [UIFont boldSystemFontOfSize:16];
-    helpTextLabel . textAlignment = NSTextAlignmentCenter;
-    [barImage addSubview:helpTextLabel];
-
-
-    UIImageView *bottomBarImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, fullScreen.size.height-50, fullScreen.size.width, 50)];
-    bottomBarImage . image = [UIImage imageNamed:@"bottom bar.png"];
-    bottomBarImage . userInteractionEnabled = YES;
-    [self.view addSubview:bottomBarImage];
 
 
     slideshow = [[KASlideShow alloc] initWithFrame:CGRectMake(0, 0, fullScreen.size.width , fullScreen.size.height)];
@@ -125,21 +103,14 @@
                        options:UIViewAnimationOptionTransitionCurlUp
                     animations:^{
                         [but removeFromSuperview];
+                        [slideshow stop];
                         [slideshow removeFromSuperview];
                     }
                     completion:^(BOOL finish){
                         [self.view removeFromSuperview];
                     }];
 }
--(void)showPrevious
-{
-    NSLog(@"%d",slideshow.currentIndex);
-    [slideshow previous];
-}
--(void)showNext
-{
-    [slideshow next];
-}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
