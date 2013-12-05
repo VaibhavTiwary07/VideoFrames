@@ -10,10 +10,12 @@
 #import "Config.h"
 @interface HelpScreenViewController ()
 @property(nonatomic,retain)KASlideShow * slideshow;
+@property (nonatomic , assign)bool finished;
 @end
 
 @implementation HelpScreenViewController
 @synthesize slideshow;
+@synthesize finished;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -25,6 +27,7 @@
 {
     NSString *str = (NSString *)notification.object;
      UIButton *but = (UIButton *)[self.view viewWithTag:10];
+
     if ([str isEqualToString:@"SHOW"])
     {
         [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -37,7 +40,7 @@
         }];
     }else
     {
-        [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
             [self.view bringSubviewToFront:but];
             but.frame = CGRectMake(0, 0, full_screen.size.width, 00);
 
@@ -46,14 +49,16 @@
 
     }
 }
+
 -(void)option1
 {
     CGRect fullScreen = [[UIScreen mainScreen] bounds];
-    UIImageView *backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, fullScreen.size.width, 50)];
-    backgroundImage . image = [UIImage imageNamed:@"background.png"];
-    backgroundImage . userInteractionEnabled = YES;
-    [self.view addSubview:backgroundImage];
+   
 
+    UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(00, 0, full_screen.size.width, full_screen.size.height)];
+    backgroundView . userInteractionEnabled = YES;
+    backgroundView. tag = 50;
+    [self.view addSubview:backgroundView];
 
     slideshow = [[KASlideShow alloc] initWithFrame:CGRectMake(0, 0, fullScreen.size.width , fullScreen.size.height)];
     slideshow.delegate = self;
@@ -82,7 +87,7 @@
 
     }
 
-    [self.view addSubview:slideshow];
+    [backgroundView addSubview:slideshow];
     [slideshow start];
 
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -91,23 +96,29 @@
    
     [closeButton setImage:[UIImage imageNamed:help_close_Button] forState:UIControlStateNormal];
     [closeButton  addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:closeButton];
-    [closeButton bringSubviewToFront:closeButton];
+    [backgroundView addSubview:closeButton];
+    [backgroundView bringSubviewToFront:closeButton];
 
 }
 -(void)close
 {
+    UIView *backgroundView = (UIView *)[self.view viewWithTag:50];
     UIButton *but = (UIButton *)[self.view viewWithTag:10];
     [UIView transitionWithView:self.view
                       duration:1.0
                        options:UIViewAnimationOptionTransitionCurlUp
                     animations:^{
+                        
                         [but removeFromSuperview];
                         [slideshow stop];
                         [slideshow removeFromSuperview];
                     }
                     completion:^(BOOL finish){
+                        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationDidreachLastImage" object:nil];
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"didEnterToTouchDetectedMode" object:nil];
+                        [backgroundView removeFromSuperview];
                         [self.view removeFromSuperview];
+
                     }];
 }
 

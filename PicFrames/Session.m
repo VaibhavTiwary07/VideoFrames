@@ -7,7 +7,7 @@
 //
 
 #import "Session.h"
-
+#import <AssetsLibrary/AssetsLibrary.h>
 @interface Session ()
 {
     Photo *photoFromFrame;
@@ -1140,28 +1140,41 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 {
     return photoFromFrame.photoNumber;
 }
--(NSString*)saveVideoToDocDirectory:(NSURL*)url
+
+-(void)saveVideoToDocDirectory:(NSURL*)url completion:(void (^)(NSString *localVideoPath))complete
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
+
+    ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
+
+    [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset) {
+
+        ALAssetRepresentation *rep = [asset defaultRepresentation];
+        Byte *buffer = (Byte*)malloc((unsigned long)rep.size);
+        NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:(NSUInteger)rep.size error:nil];
+        NSData *videoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+        NSString * videoName = [NSString stringWithFormat:@"student_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
+        NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
+
+        NSLog(@"video path-%@",videoPath);
+
+        [videoData writeToFile:videoPath atomically:YES];
+
+        if(nil != complete)
+        {
+            complete(videoPath);
+        }
+
+    } failureBlock:^(NSError *error) {
+
+        if(nil != complete)
+        {
+            complete(nil);
+        }
+    }];
     
-    
-    NSData *videoData = [NSData dataWithContentsOfURL:url];
-    if(nil == videoData)
-    {
-        NSLog(@"Video Data is nil");
-    }
-    
-    NSString * videoName = [NSString stringWithFormat:@"student_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
-    NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
-    
-    NSLog(@"video path-%@",videoPath);
-    
-    [videoData writeToFile:videoPath atomically:YES];
-    
-    /* Now save the files one by one */
-    
-    return videoPath;
+    return ;
 }
 
 -(void)saveAndSetTheEditedImageToPhoto

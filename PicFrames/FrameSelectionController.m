@@ -692,26 +692,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 
 -(void)performHelp
 {
-#if 0
-    CGRect rect;
 
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        rect = CGRectMake(10, 50, 600, 700);
-    }
-    else
-    {
-        rect = CGRectMake(10,50,300,380);
-    }
-
-    HelpGridView *hg = [[HelpGridView alloc]initWithFrame:rect];
-
-    hg.center = self.view.center;
-
-    [self.view addSubview:hg];
-
-    [hg release];
-#else
 
     HelpScreenViewController  *helpScreen = [[HelpScreenViewController alloc] init];
     [UIView transitionWithView:self.view
@@ -720,9 +701,11 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
                     animations:^{
                         [self.view addSubview:helpScreen.view];
                          [self.view bringSubviewToFront:helpScreen.view];
+                        
+                        
                     }
                     completion:NULL];
-#endif
+
 }
 
 -(UIImageView*)addToolbarWithTitle:(NSString*)title tag:(int)toolbarTag

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "KASlideShow.h"
 @interface HelpScreenViewController : UIViewController<KASlideShowDelegate,UIGestureRecognizerDelegate>
-
+-(void)finishedWithHelpScreen:(void (^)(bool finished))complete;
 @end

@@ -87,7 +87,7 @@ typedef struct
 //-(void)videoSelectedForCurrentPhotoWithInfo:(NSDictionary*)videoInfo;
 -(void)videoSelectedForCurrentPhotoWithInfo:(NSDictionary*)videoInfo image:(UIImage*)img;
 -(void)previewVideo;
--(NSString*)saveVideoToDocDirectory:(NSURL*)url;
+-(void)saveVideoToDocDirectory:(NSURL*)url completion:(void (^)(NSString *localVideoPath))complete;
 -(int)photoNumberOfCurrentSelectedPhoto;
 -(NSString*)pathForImageAtIndex:(int)index inPhoto:(int)photoIndex;
 -(NSString*)getVideoInfoKeyForPhotoAtIndex:(int)index;

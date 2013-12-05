@@ -88,11 +88,13 @@
 
 -(void)selectEditTab;
 @property(nonatomic, assign) BOOL isVideoFile;
+@property (nonatomic, assign) BOOL isTouchWillDetect;
 @end
 
 @implementation ViewController
 
 @synthesize isVideoFile;
+@synthesize isTouchWillDetect;
 @synthesize tabBar;
 @synthesize imageForEdit;
 @synthesize applicationSuspended;
@@ -752,7 +754,7 @@
     touchBlock.userInteractionEnabled = YES;
     touchBlock.tag = 33658;
     [self.view addSubview:touchBlock];
-    [touchBlock release];
+    //[touchBlock release];
     
     /* add lable and bar display frame */
     UIView *displayArea = [[UIView alloc]initWithFrame:CGRectMake(0, 0, full.size.width-150, 100)];
@@ -1225,32 +1227,36 @@
     {
         NSAssert(nil != videoURL,@"Video path is nil to import");
     }
-    
-    NSString *localPath = [[sess saveVideoToDocDirectory:videoURL]retain];
-    
-    /* Initialize AVImage Generator */
-    AVURLAsset *inputAsset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+    NSLog(@"importVideo:%@",videoURL);
+    [sess saveVideoToDocDirectory:videoURL completion:^(NSString *localVideoPath) {
 
-    [inputAsset loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^{
-        
-        [self performSelectorOnMainThread:@selector(addprogressBarWithMsg:) withObject:@"Importing Video" waitUntilDone:YES];
-        
-        [self saveVideoFramesToHDD:inputAsset onCompletion:^(BOOL status, NSMutableDictionary *videoInfo) {
-            if(status == YES)
-            {
-                [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
-                /* Get the first image */
-                UIImage *img = [UIImage imageWithContentsOfFile:[sess pathForImageAtIndex:2 inPhoto:[sess photoNumberOfCurrentSelectedPhoto]]];
-                NSAssert(nil != img, @"Image in Video is nil, looks like video parsing went wrong");
-                NSURL *url = [NSURL fileURLWithPath:localPath];
-                [videoInfo setObject:url forKey:@"videoPath"];
-                //[videoInfo setObject:img forKey:@"image"];
-                NSDictionary *info = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:img,videoInfo, nil]
-                                                                 forKeys:[NSArray arrayWithObjects:@"image",@"videoInfo", nil]];
-                [self performSelectorOnMainThread:@selector(handleVideoSelectionWithInfo:) withObject:info waitUntilDone:NO];
-            }
+        // NSString *localPath = [localVideoPath retain];
+        /* Initialize AVImage Generator */
+        AVURLAsset *inputAsset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+        [self clearCurImage];
+
+        [inputAsset loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^{
+
+            [self performSelectorOnMainThread:@selector(addprogressBarWithMsg:) withObject:@"Importing Video" waitUntilDone:YES];
+
+            [self saveVideoFramesToHDD:inputAsset onCompletion:^(BOOL status, NSMutableDictionary *videoInfo) {
+                if(status == YES)
+                {
+                    [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
+                    /* Get the first image */
+                    UIImage *img = [UIImage imageWithContentsOfFile:[sess pathForImageAtIndex:2 inPhoto:[sess photoNumberOfCurrentSelectedPhoto]]];
+                    NSAssert(nil != img, @"Image in Video is nil, looks like video parsing went wrong");
+                    NSURL *url = [NSURL fileURLWithPath:localVideoPath];
+                    [videoInfo setObject:url forKey:@"videoPath"];
+                    //[videoInfo setObject:img forKey:@"image"];
+                    NSDictionary *info = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:img,videoInfo, nil]
+                                                                     forKeys:[NSArray arrayWithObjects:@"image",@"videoInfo", nil]];
+                    [self performSelectorOnMainThread:@selector(handleVideoSelectionWithInfo:) withObject:info waitUntilDone:NO];
+                }
+            }];
         }];
     }];
+
     
     return;
 }
@@ -1472,8 +1478,7 @@
 
 -(void)addWaterMarkToFrame
 {
-    if(NO == bought_watermarkpack)
-    {
+
         float width = 172.0;
         float height = 50.0;
         CGRect waterMarkRect = CGRectMake(sess.frame.frame.size.width-width, sess.frame.frame.size.height-height, width, height);
@@ -1482,10 +1487,13 @@
         waterMark.backgroundColor = [UIColor clearColor];
         waterMark.tag = TAG_WATERMARK_LABEL;
         waterMark.font = [UIFont boldSystemFontOfSize:13.0];
+    if(NO == bought_watermarkpack)
+    {
         waterMark.text = @"www.videocollageapp.com";
+    }
         waterMark.textColor = [UIColor whiteColor];
         [sess.frame addSubview:waterMark];
-    }
+
 }
 
 -(void)removeWaterMarkFromFrame
@@ -1925,6 +1933,9 @@
                                         repeats:NO];
 
         
+    }else if ([[notification name]isEqualToString:@"didEnterToTouchDetectedMode"])
+    {
+        isTouchWillDetect = YES;
     }
     return;
 }
@@ -2017,6 +2028,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    isTouchWillDetect = YES;
 
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
         // iOS 7
@@ -2160,11 +2172,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSLog(@" ***************************************");
     self.navigationController.navigationBarHidden = YES;
+
 
 }
 -(void)showAdmobFullscreenAd:(NSTimer*)timer
-
 {
 
     GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
@@ -2580,6 +2593,8 @@
      UIImageView *settings = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
 
    // [self releaseResourcesForColorAndPatternSettings_updated];
+    if (isTouchWillDetect) {
+
    if (eMode == MODE_ADJUST_SETTINGS)
     {
         if ((location.y >adjustImageView.frame.origin.y+adjustImageView.frame.size.height) || (location.y < adjustImageView.frame.origin.y))
@@ -2604,6 +2619,7 @@
         {
         [self releaseResourcesForPreview];
         }
+    }
     }
 
 }
@@ -3068,17 +3084,17 @@
 #pragma mark help implementation
 -(void)performHelp
 {
-
-
     HelpScreenViewController  *helpScreen = [[HelpScreenViewController alloc] init];
     [UIView transitionWithView:self.view
                       duration:1.0
                        options:UIViewAnimationOptionTransitionCurlDown
                     animations:^{
+                        isTouchWillDetect = NO;
                         [self.view addSubview:helpScreen.view];
                         [self.view bringSubviewToFront:helpScreen.view];
+
                     }
-                    completion:NULL];
+                    completion:nil ];
 
 
 }
@@ -3390,7 +3406,7 @@
     [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Preview" tag:TAG_TOOLBAR_PREVIEW];
 
-    CGRect blockTouchRect = CGRectMake(0, 50, full_screen.size.width,customTabBar.frame.origin.y+customTabBar.frame.size.height);
+    CGRect blockTouchRect = CGRectMake(0, 00, full_screen.size.width,customTabBar.frame.origin.y+customTabBar.frame.size.height+colorBackgroundBarHeightHeight);
     
     UIView *blockTouches = [[UIView alloc]initWithFrame:blockTouchRect];
     blockTouches.userInteractionEnabled = YES;
@@ -3811,7 +3827,7 @@
 
     /* Add touch sheild */
     CGRect full = [[UIScreen mainScreen]bounds];
-    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height)];
+    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 0.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height+colorBackgroundBarHeightHeight)];
     touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
     touchSheiled.userInteractionEnabled = YES;
     [self.view addSubview:touchSheiled];
@@ -4209,7 +4225,7 @@
     
     /* Add touch sheild */
     CGRect full = [[UIScreen mainScreen]bounds];
-    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height)];
+    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 00.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height+colorBackgroundBarHeightHeight)];
     touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
     touchSheiled.userInteractionEnabled = YES;
     [self.view addSubview:touchSheiled];
@@ -4391,7 +4407,7 @@
 
     /* Add touch sheild */
     CGRect full = [[UIScreen mainScreen]bounds];
-    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 50.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height)];
+    UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 0.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height+colorBackgroundBarHeightHeight)];
     touchSheiled.tag = TAG_ADJUST_TOUCHSHEILD;
     touchSheiled.userInteractionEnabled = YES;
     [self.view addSubview:touchSheiled];
@@ -4892,6 +4908,7 @@
     backgroundView . image =[UIImage imageNamed:@"background.png"];
     backgroundView . userInteractionEnabled = YES;
     [self.view addSubview:backgroundView];
+    [self.view bringSubviewToFront:backgroundView];
 
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
     {
@@ -5007,7 +5024,7 @@
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelButton . frame = CGRectMake(0, full_screen.size.height-customBarHeight, full_screen.size.width, customBarHeight);
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [cancelButton addTarget:self action:@selector(closeShareView) forControlEvents:UIControlEventTouchUpInside];
     [backgroundView addSubview:cancelButton];
 }
 -(void)handleVideoAndImageSharing:(UIButton *)aBUtton
@@ -5074,11 +5091,9 @@
 
 }
 
--(void)goBack
+-(void)closeShareView
 {
-    [self releaseToolBarIfAny];
 
-    [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SHARE];
 
 
     UIImageView *shareView = (UIImageView *)[self.view viewWithTag:2134];
@@ -5086,7 +5101,7 @@
     for (UIView *v in viewToRemove) {
         [v removeFromSuperview];
     }
-    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.1f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
 
         shareView.frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 0);
 
@@ -5095,6 +5110,9 @@
          if (nil!= shareView) {
              [customTabBar unselectCurrentSelectedTab];
              [shareView removeFromSuperview];
+             [self releaseToolBarIfAny];
+
+             [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SHARE];
          }
      }];
 
