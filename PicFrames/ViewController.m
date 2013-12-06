@@ -299,7 +299,7 @@
 
     }
     
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
+   // NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
    // [Flurry logEvent:@"Popup Menu Selections" withParameters:dict];
 }
 
