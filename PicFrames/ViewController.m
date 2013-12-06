@@ -77,22 +77,24 @@
     
     /* Add music */
     UIView *musicTrackCell;
-
-
-
-//    GADInterstitial *interstitial_; //fgthfjufghjghjk
-
-
+    
+    
+    
+    //    GADInterstitial *interstitial_; //fgthfjufghjghjk
+    
+    
     
 }
 
 -(void)selectEditTab;
 @property(nonatomic, assign) BOOL isVideoFile;
 @property (nonatomic, assign) BOOL isTouchWillDetect;
+@property (nonatomic  , assign) int videoTimeRange;
 @end
 
 @implementation ViewController
 
+@synthesize videoTimeRange;
 @synthesize isVideoFile;
 @synthesize isTouchWillDetect;
 @synthesize tabBar;
@@ -103,7 +105,7 @@
 -(void)doneWithPhotoEffectsEditor:(NSTimer*)t
 {
     UIImage *img = [t.userInfo objectForKey:@"image"];
-
+    
     if(nil == img)
     {
         return;
@@ -257,11 +259,28 @@
 - (void)popupMenu:(PopupMenu*)sender itemDidSelectAtIndex:(int)index
 {
     ImageSelectionHandler *ish = [[ImageSelectionHandler alloc]initWithViewController:self];
+    int maximumNumberOfImage = 0;
+    
+    for (int index= 0; index< sess.frame.photoCount; index++)
+    {
+        Photo *pht = [sess.frame getPhotoAtIndex:index ];
+        if (pht.image == nil) {
+            maximumNumberOfImage ++;
+        }
+        
+    }
+    Photo *currentSelectedPhoto = [sess.frame getPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
+    if (currentSelectedPhoto.image != nil ) {
+        maximumNumberOfImage++;
+    }
+    NSLog(@" mAximum Number of image %d",maximumNumberOfImage);
+    
     switch(index)
     {
         case 0:
         {
-            [ish pickImage];
+            
+            [ish pickImage:maximumNumberOfImage];
             break;
         }
         case 1:
@@ -296,18 +315,18 @@
             [self clearCurImage];
             break;
         }
-
+            
     }
     
-   // NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
-   // [Flurry logEvent:@"Popup Menu Selections" withParameters:dict];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
+    // [Flurry logEvent:@"Popup Menu Selections" withParameters:dict];
 }
 
 
 -(void)showPhotoEffectsEditor
 {
     [Utility removeActivityIndicatorFrom:self.view];
-
+    
 }
 
 
@@ -318,7 +337,7 @@
     UIImageView *v = [t.userInfo objectForKey:@"view"];
     
     PopupMenu *menu = menu = [[PopupMenu alloc]initWithFrame:CGRectMake(0, 0, 200.0, 300.0) style:UITableViewStylePlain delegate:self];
-
+    
     [menu reloadData];
     [menu showPopupIn:v at:CGPointMake(x, y)];
     curPopupViewParent = [t.userInfo objectForKey:@"scrollview"];
@@ -395,10 +414,10 @@
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
     
     /* Set the source type */
-    imgPicker.sourceType    = UIImagePickerControllerSourceTypePhotoLibrary; 
+    imgPicker.sourceType    = UIImagePickerControllerSourceTypePhotoLibrary;
     
     /* Do not allow editing */
-    imgPicker.allowsEditing = NO; 
+    imgPicker.allowsEditing = NO;
     
     /* Set th delegate for the picker view */
     imgPicker.delegate = self;
@@ -418,9 +437,9 @@
 
 -(void)loadTheSession
 {
-
+    
     sess = [[Session alloc]initWithSessionId:nvm.currentSessionIndex];
-
+    
     if(nil == sess)
     {
         sess = [[Session alloc]initWithFrameNumber:nvm.currentFrameNumber];
@@ -435,7 +454,7 @@
     [self selectEditTab];
     
     [Utility removeActivityIndicatorFrom:self.view];
-
+    
     nvm = [Settings Instance];
     if(nvm.videoTutorialWatched == NO)
     {
@@ -525,8 +544,8 @@
 -(void)writeFrame:(UIImage*)image atFrameIndex:(int)frmIndex videoIndex:(int)vidIndex ofTotalFrame:(int)frames
 {
     /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    NSString *imgPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",index,frmIndex]];*/
+     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+     NSString *imgPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",index,frmIndex]];*/
     NSString *imgPath = [sess pathForImageAtIndex:frmIndex inPhoto:vidIndex];
     
     [UIImageJPEGRepresentation(image, 0.8) writeToFile:imgPath atomically:YES];
@@ -570,7 +589,7 @@
         float currentFrameCount          = inputAssetTrack.nominalFrameRate * duration;
         float framesRequiredToReach30fps = (currentFrameCount/inputAssetTrack.nominalFrameRate)*30.0f;
         float framesToDuplicate = framesRequiredToReach30fps - currentFrameCount;
-
+        
         NSLog(@" PRINT Values current framecount : %f framesRequiredToReach30fps:%f framesToDuplicate:%f",currentFrameCount,framesRequiredToReach30fps, framesToDuplicate);
         
         /* How often do we need to Duplicate the frames */
@@ -587,7 +606,7 @@
     // Check status of "tracks", make sure they were loaded
     AVKeyValueStatus tracksStatus = [inputAsset statusOfValueForKey:@"tracks" error:&error];
     if (!tracksStatus == AVKeyValueStatusLoaded)
-    {   
+    {
         // failed to load
         if(nil != completion)
         {
@@ -712,21 +731,21 @@
 -(void)updateProgress:(NSNumber*)prog
 {
     /*UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
-    if(nil != pv)
-    {
-        [pv setProgress:[prog floatValue]];
-    }*/
+     if(nil != pv)
+     {
+     [pv setProgress:[prog floatValue]];
+     }*/
     
     UIImageView *touchBlock = (UIImageView*)[self.view viewWithTag:33658];
     if(nil != touchBlock)
     {
         //[touchBlock removeFromSuperview];
         
-         UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
-         if(nil != pv)
-         {
-             [pv setProgress:[prog floatValue]];
-         }
+        UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
+        if(nil != pv)
+        {
+            [pv setProgress:[prog floatValue]];
+        }
     }
 }
 
@@ -737,11 +756,11 @@
     {
         [touchBlock removeFromSuperview];
         /*
-        UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
-        if(nil != pv)
-        {
-            [pv removeFromSuperview];
-        }*/
+         UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
+         if(nil != pv)
+         {
+         [pv removeFromSuperview];
+         }*/
     }
 }
 
@@ -825,10 +844,10 @@
     NSParameterAssert(pxdata != NULL);
     
     CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-
+    
     CGContextRef context = CGBitmapContextCreate(pxdata, size.width,
                                                  size.height, 8, 4*size.width, rgbColorSpace,
-                                                (CGBitmapInfo) kCGImageAlphaNoneSkipFirst);
+                                                 (CGBitmapInfo) kCGImageAlphaNoneSkipFirst);
     NSParameterAssert(context);
     
     //CGContextTranslateCTM(context, 0, CGImageGetHeight(image));
@@ -998,7 +1017,7 @@
     NSString *currentVideoPath = [sess pathToCurrentVideo];
     AVAssetWriterInputPixelBufferAdaptor *adaptor = nil;
     float renderSize = [self getRenderSize];
-
+    
     /* check if we already have a generated video, if yes, no need to generate it again */
     if(YES == [[NSFileManager defaultManager]fileExistsAtPath:interVideoPath])
     {
@@ -1014,7 +1033,7 @@
         
         return;
     }
-
+    
     /* Setup the writer */
     NSAutoreleasePool *bpool = [NSAutoreleasePool new];
     NSError *error = nil;
@@ -1229,16 +1248,16 @@
     }
     NSLog(@"importVideo:%@",videoURL);
     [sess saveVideoToDocDirectory:videoURL completion:^(NSString *localVideoPath) {
-
+        
         // NSString *localPath = [localVideoPath retain];
         /* Initialize AVImage Generator */
         AVURLAsset *inputAsset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
         [self clearCurImage];
-
+        
         [inputAsset loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^{
-
+            
             [self performSelectorOnMainThread:@selector(addprogressBarWithMsg:) withObject:@"Importing Video" waitUntilDone:YES];
-
+            
             [self saveVideoFramesToHDD:inputAsset onCompletion:^(BOOL status, NSMutableDictionary *videoInfo) {
                 if(status == YES)
                 {
@@ -1256,7 +1275,7 @@
             }];
         }];
     }];
-
+    
     
     return;
 }
@@ -1272,30 +1291,30 @@
     
     if(NO == optOutVideoHelp)
     {
-    [WCAlertView showAlertWithTitle:@"Info"
-                            message:@"Please do not close the application while generating video, On doing so Video generation will fail!!"
-                 customizationBlock:nil
-                    completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
-     {
-         if(buttonIndex == 1)
+        [WCAlertView showAlertWithTitle:@"Info"
+                                message:@"Please do not close the application while generating video, On doing so Video generation will fail!!"
+                     customizationBlock:nil
+                        completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
          {
-             [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoGenerationHelp"];
+             if(buttonIndex == 1)
+             {
+                 [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoGenerationHelp"];
+             }
+             
+             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                 [self continueGenerateVideo:^(BOOL status, NSString *videoPath) {
+                     NSLog(@"Completed generating video with Status %d path %@",status,videoPath);
+                     [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
+                     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+                     if(nil != complete)
+                     {
+                         complete(status,videoPath);
+                     }
+                 }];
+             });
          }
-         
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-             [self continueGenerateVideo:^(BOOL status, NSString *videoPath) {
-                 NSLog(@"Completed generating video with Status %d path %@",status,videoPath);
-                 [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
-                 [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-                 if(nil != complete)
-                 {
-                     complete(status,videoPath);
-                 }
-             }];
-         });
-     }
-                  cancelButtonTitle:@"OK"
-                  otherButtonTitles:@"Got It",nil];
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:@"Got It",nil];
     }
     else
     {
@@ -1303,7 +1322,7 @@
             [self continueGenerateVideo:^(BOOL status, NSString *videoPath) {
                 NSLog(@"Completed generating video with Status %d path %@",status,videoPath);
                 [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
-                 [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+                [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
                 if(nil != complete)
                 {
                     complete(status,videoPath);
@@ -1327,18 +1346,18 @@
     
     /* Check if user has selected the music from Library and enabled it */
     /*if(userMusicEnabled)
-    {
-        NSNumber *persistentId = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
-        NSURL *audioUrl = [self getUrlFromMediaItemId:persistentId];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(nil != completion)
-            {
-                NSLog(@"Found local audio file selected from libraray %@",audioUrl.path);
-                completion(YES,audioUrl.path);
-            }});
-        [bpool release];
-        return;
-    }*/
+     {
+     NSNumber *persistentId = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
+     NSURL *audioUrl = [self getUrlFromMediaItemId:persistentId];
+     dispatch_async(dispatch_get_main_queue(), ^{
+     if(nil != completion)
+     {
+     NSLog(@"Found local audio file selected from libraray %@",audioUrl.path);
+     completion(YES,audioUrl.path);
+     }});
+     [bpool release];
+     return;
+     }*/
     
     if(userMusicEnabled)
     {
@@ -1352,10 +1371,10 @@
         NSAssert(userMusicEnabled == NO, @"Failed to delete audio mix in above step");
         NSLog(@"No Need to mix Audio, Mixed file already exists");
         dispatch_async(dispatch_get_main_queue(), ^{
-        if(nil != completion)
-        {
-            completion(YES,audioPath);
-        }});
+            if(nil != completion)
+            {
+                completion(YES,audioPath);
+            }});
         [bpool release];
         return;
     }
@@ -1444,22 +1463,22 @@
         [_assetExport exportAsynchronouslyWithCompletionHandler:
          ^(void ) {
              dispatch_async(dispatch_get_main_queue(), ^{
-            
-                if(_assetExport.status != AVAssetExportSessionStatusCompleted)
-                {
-                    if(nil != completion)
-                    {
-                        completion(NO,nil);
-                    }
-                }
-                else
-                {
-                    if(nil != completion)
-                    {
-                        completion(YES,audioPath);
-                    }
-                }
-            });
+                 
+                 if(_assetExport.status != AVAssetExportSessionStatusCompleted)
+                 {
+                     if(nil != completion)
+                     {
+                         completion(NO,nil);
+                     }
+                 }
+                 else
+                 {
+                     if(nil != completion)
+                     {
+                         completion(YES,audioPath);
+                     }
+                 }
+             });
              
          }];
     }
@@ -1478,22 +1497,22 @@
 
 -(void)addWaterMarkToFrame
 {
-
-        float width = 172.0;
-        float height = 50.0;
-        CGRect waterMarkRect = CGRectMake(sess.frame.frame.size.width-width, sess.frame.frame.size.height-height, width, height);
-        
-        UILabel *waterMark = [[UILabel alloc]initWithFrame:waterMarkRect];
-        waterMark.backgroundColor = [UIColor clearColor];
-        waterMark.tag = TAG_WATERMARK_LABEL;
-        waterMark.font = [UIFont boldSystemFontOfSize:13.0];
+    
+    float width = 172.0;
+    float height = 50.0;
+    CGRect waterMarkRect = CGRectMake(sess.frame.frame.size.width-width, sess.frame.frame.size.height-height, width, height);
+    
+    UILabel *waterMark = [[UILabel alloc]initWithFrame:waterMarkRect];
+    waterMark.backgroundColor = [UIColor clearColor];
+    waterMark.tag = TAG_WATERMARK_LABEL;
+    waterMark.font = [UIFont boldSystemFontOfSize:13.0];
     if(NO == bought_watermarkpack)
     {
         waterMark.text = @"www.videocollageapp.com";
     }
-        waterMark.textColor = [UIColor whiteColor];
-        [sess.frame addSubview:waterMark];
-
+    waterMark.textColor = [UIColor whiteColor];
+    [sess.frame addSubview:waterMark];
+    
 }
 
 -(void)removeWaterMarkFromFrame
@@ -1584,7 +1603,7 @@
     
     gIsPreviewInProgress = YES;
     gIsPreviewPaused = NO;
-
+    
     [sess enterNoTouchMode];
     
     /* Mix audio */
@@ -1608,16 +1627,16 @@
             gCurPreviewFrameIndex = 0;
             
             /* Started  */
-            //NSLog(@"updatePreviewFrame:updating frame %d Started ",gTotalPreviewFrames);
+            NSLog(@"updatePreviewFrame:updating frame %d Started ",gTotalPreviewFrames);
             
             if(NO == gIsPreviewPaused)
             {
                 /* start perodic timer to change the frames of the video */
-                 [NSTimer scheduledTimerWithTimeInterval:1.0/30.0
-                                                  target:self
-                                                selector:@selector(updatePreviewFrame:)
-                                                userInfo:nil
-                                                 repeats:YES];
+                [NSTimer scheduledTimerWithTimeInterval:1.0/30.0
+                                                 target:self
+                                               selector:@selector(updatePreviewFrame:)
+                                               userInfo:nil
+                                                repeats:YES];
                 if(nil != previewAudioPlayer)
                 {
                     [previewAudioPlayer play];
@@ -1626,14 +1645,14 @@
         }
         else
         {
-            gIsPreviewInProgress = NO;
-            gIsPreviewPaused = NO;
-            gTotalPreviewFrames = 0;
+            gIsPreviewInProgress  = NO;
+            gIsPreviewPaused      = NO;
+            gTotalPreviewFrames   = 0;
             gCurPreviewFrameIndex = 0;
             
         }
     }];
-
+    
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
@@ -1687,7 +1706,7 @@
         if (nil != previewAudioPlayer)
         {
             [previewAudioPlayer stop];
-
+            
         }
         
         gIsPreviewInProgress = NO;
@@ -1698,18 +1717,40 @@
 {
     UIImage *img = [info objectForKey:@"image"];
     NSDictionary *videoInfo = [info objectForKey:@"videoInfo"];
-
+    
     [sess videoSelectedForCurrentPhotoWithInfo:videoInfo image:img];
 }
 
 -(void)handleImageSelection:(NSTimer*)timer
 {
-    if(_editWhileImageSelection)
+    NSMutableArray *imageArray =  [timer.userInfo objectForKey:@"imageArray"];
+    
+    for (int index = 0; index<[imageArray count]; index++)
     {
-        UIImage *image = [timer.userInfo objectForKey:@"image"];
-        [image retain];
-        [sess imageSelectedForPhoto:image];
+        UIImage *image = [imageArray objectAtIndex:index];
+        if (index == 0)
+        {
+            [sess imageSelectedForPhoto:image indexOfPhoto:sess.photoNumberOfCurrentSelectedPhoto];
+            
+        }else
+        {
+            for (int photoNumber = 0; photoNumber<sess.frame.photoCount; photoNumber++)
+            {
+                Photo *pht = [sess.frame getPhotoAtIndex:photoNumber];
+                
+                if (pht.image ==  nil)
+                {
+                    [sess imageSelectedForPhoto:image indexOfPhoto:photoNumber];
+                    image = nil;
+                    break;
+                }
+            }
+        }
     }
+    [imageArray release];
+    imageArray = nil;
+    
+    [Utility removeActivityIndicatorFrom:self.view];
 }
 
 #pragma mark notification center methods
@@ -1725,10 +1766,10 @@
     {
         isInEditMode = YES;
         //self.imageForEdit = notification.object;
-
+        
         [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoOptions:) userInfo:notification.userInfo repeats:NO];
     }
-
+    
     else if([[notification name] isEqualToString:createNewSession])
     {
         if(nil != sess)
@@ -1749,8 +1790,8 @@
     }
     else if([[notification name] isEqualToString:newframeselected])
     {
-
-
+        
+        
         if(bought_watermarkpack)
         {
             UIButton *removeWaterMark = (UIButton*)[self.view viewWithTag:TAG_WATERMARK_BUTTON];
@@ -1764,7 +1805,7 @@
             NSLog(@"Invalid newframeselected Event, No frame number is passed");
             return;
         }
-
+        
         NSNumber *frame = [notification.userInfo objectForKey:@"FrameNumber"];
         NSLog(@"ViewController: New frame selected %d",[frame integerValue]);
         [sess deleteCurrentAudioMix];
@@ -1798,7 +1839,7 @@
     }
     else if([[notification name] isEqualToString:loadSession])
     {
-
+        
         if((nil != sess)&&(sess.sessionId == nvm.currentSessionIndex))
         {
             return;
@@ -1828,20 +1869,31 @@
             [backgroundPopover dismissPopoverAnimated:YES];
         }
         
-        UIImage *img = [[notification userInfo] objectForKey:@"backgroundImageSelected"]; 
-        if(nil == img)
-        {
+        /* UIImage *img = [[notification userInfo] objectForKey:@"backgroundImageSelected"];
+         if(nil == img)
+         {
+         return;
+         }*/
+        
+        NSMutableArray *imageArray = [[NSMutableArray alloc] init];
+        imageArray = [[notification userInfo] objectForKey:@"backgroundImageSelected"];
+        if ([imageArray count]== 0) {
             return;
         }
         
         _editWhileImageSelection = YES;
         //self.imageForEdit = img;
         [sess deleteCurrentAudioMix];
+        [Utility removeActivityIndicatorFrom:self.view];
         [Utility addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"LOADING",@"Loading")];
-
-        NSDictionary *input = [NSDictionary dictionaryWithObject:img forKey:@"image"];
+        
+        //    NSDictionary *input = [NSDictionary dictionaryWithObject:img forKey:@"image"];
         //[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoEffectsEditor) userInfo:nil repeats:NO];
+        NSDictionary *input = [NSDictionary dictionaryWithObject:imageArray forKey:@"imageArray"];
+        
         [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(handleImageSelection:) userInfo:input repeats:NO];
+        [imageArray release];
+        imageArray = nil;
     }
     else if([[notification name] isEqualToString:backgroundVideoSelected])
     {
@@ -1873,7 +1925,7 @@
         _editWhileImageSelection = YES;
         self.imageForEdit = img;
         [Utility addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"LOADING",@"Loading")];
-
+        
         [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoEffectsEditor) userInfo:nil repeats:NO];
     }
     else if([[notification name] isEqualToString:openIpadPhotoAlbum])
@@ -1921,9 +1973,9 @@
     }
     else if([[notification name]isEqualToString:@"notificationdidfinishwithframeview"])
     {
-
+        
         [self.navigationController popViewControllerAnimated:NO];
-       [[NSNotificationCenter defaultCenter]postNotificationName:@"notificationDidEnterToFirstScreen" object:nil];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"notificationDidEnterToFirstScreen" object:nil];
     }
     else if([[notification name]isEqualToString:@"notificationdidLoadView"])
     {
@@ -1931,7 +1983,7 @@
                                        selector:@selector(showFrameSelectionController)
                                        userInfo:nil
                                         repeats:NO];
-
+        
         
     }else if ([[notification name]isEqualToString:@"didEnterToTouchDetectedMode"])
     {
@@ -1943,14 +1995,14 @@
 -(void)unregisterForNotifications
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:nil 
+                                                    name:nil
                                                   object:nil];
 }
 
 -(void)registerForNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:) 
+                                             selector:@selector(receiveNotification:)
                                                  name:nil
                                                object:sess];
 }
@@ -1958,7 +2010,7 @@
 -(void)dealloc
 {
     [self unregisterForNotifications];
-
+    
     [super dealloc];
 }
 #pragma frame thumbnail image generation
@@ -2004,7 +2056,7 @@
     [mg release];
 #else
     FrameSelectionController *sc = [[FrameSelectionController alloc]init];
-
+    
     if(nil == sc)
     {
         return;
@@ -2029,7 +2081,7 @@
 {
     [super viewDidLoad];
     isTouchWillDetect = YES;
-
+    
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
         // iOS 7
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
@@ -2037,7 +2089,7 @@
         // iOS 6
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     }
-
+    
     [[InAppPurchaseManager Instance]loadStore];
     
     /* Get the settings instance */
@@ -2047,8 +2099,8 @@
     
     /* First register for notifications */
     [self registerForNotifications];
-
-
+    
+    
     UIImageView *imgview = [[UIImageView alloc]initWithFrame:self.view.frame];
     self.view = imgview;
     self.view.userInteractionEnabled = YES;
@@ -2070,7 +2122,7 @@
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
     {
         imgview.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_ipad" ofType:@"png"]];
-         [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
+        [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
     }
     else
     {
@@ -2078,10 +2130,10 @@
         if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && full_screen.size.height>480) {
             imgview.image = [UIImage imageNamed:@"background_1136.png"] ;
         }
-         [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
+        [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
     }
     
-
+    
     
 #if FULLSCREENADS_ENABLE
     bShowRevModAd = YES;
@@ -2098,15 +2150,15 @@
     {
         adjustDistanceFromWall =30;
     }
-
+    
     CGPoint point = CGPointMake(full_screen.size.width-adviewdistancefromwall-adviewsize, adjustDistanceFromWall+50);
     [[configparser Instance] showAdInView:self.view atPoint:point];
     [[configparser Instance] bringAdToTheTop];
 #if BANNERADS_ENABLE
     [self showBannerAd];
-
+    
 #endif
-
+    
     return;
 }
 -(void)allocateUIForTabbar:(CGRect )rect
@@ -2139,7 +2191,7 @@
     customTabBar.backgroundImage = [UIImage imageNamed:bottombarImage];
     customTabBar.delegate        = self;
     customTabBar.items = [NSArray arrayWithObjects:frames,colorAndPattern,adjustSettings,videoSettings,preview,share, nil];
-
+    
     [self.view addSubview:customTabBar];
     [customTabBar release];
     [frames release];
@@ -2148,7 +2200,7 @@
     [preview release];
     [videoSettings release];
     [share release];
-
+    
 }
 
 - (void)viewDidUnload
@@ -2166,52 +2218,43 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSLog(@" ***************************************");
+    
     self.navigationController.navigationBarHidden = YES;
-
-
+    
+    
 }
 -(void)showAdmobFullscreenAd:(NSTimer*)timer
 {
-
     GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
-
+    
     if(self.navigationController.visibleViewController == self)
-
     {
         if(interstitial_.hasBeenUsed == NO)
-
         {
             [interstitial_ presentFromRootViewController:self];
         }
-
     }
-
     else
-
     {
         [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(showAdmobFullscreenAd:) userInfo:interstitial_ repeats:NO];
     }
     
 }
 -(void)interstitialDidReceiveAd:(GADInterstitial *)ad
-
 {
     if(bought_watermarkpack== NO)
     {
         if(self.navigationController.visibleViewController == self)
-
         {
             [ad presentFromRootViewController:self];
         }
         else
-
         {
             [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(showAdmobFullscreenAd:) userInfo:ad repeats:NO];
         }
@@ -2232,7 +2275,7 @@
         NSLog(@"Pro version, so don't show the ads");
         return;
     }
-
+    
     
     GADBannerView *bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
     bannerView . delegate = self;
@@ -2241,7 +2284,7 @@
     
     NSString *banner_ID  = admobpublishedid_iphone;
     CGRect     aRect     = CGRectMake(0, full_screen.size.height-topBarHeight , full_screen.size . width, 50);
-
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         banner_ID = admobpublishedid_ipad;
         aRect = CGRectMake(0, full_screen.size.height-70, full_screen.size.width, 70);
@@ -2262,7 +2305,7 @@
 
 -(void)adViewDidReceiveAd:(GADBannerView *)view
 {
-     CGRect rect;
+    CGRect rect;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         rect = CGRectMake(0, full_screen.size.height-140, full_screen.size.width, 70);
@@ -2270,8 +2313,8 @@
     {
         rect = CGRectMake(0, full_screen.size.height-100, full_screen.size.width, 50);
     }
-
-
+    
+    
     [UIView animateWithDuration:0.1 delay:0.1 options:UIViewAnimationOptionTransitionFlipFromTop
                      animations:^{
                          customTabBar.frame = rect;
@@ -2310,7 +2353,7 @@
                         options:UIViewAnimationOptionTransitionFlipFromTop
                      animations:^{
                          customTabBar.frame = rect;
-
+                         
                      }
                      completion:^(BOOL complete){
                          [self allocateUIForTabbar:rect];
@@ -2324,8 +2367,8 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
-
+    
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -2338,7 +2381,7 @@
 #pragma mark comman exit function for settings
 -(void)exitAnySettings
 {
-#if CMTIPPOPVIEW_ENABLE     
+#if CMTIPPOPVIEW_ENABLE
     CMPopTipView *v1 = (CMPopTipView*)[self.view viewWithTag:TAG_SLIDERS_TIPVIEW];
     if(nil != v1)
     {
@@ -2366,7 +2409,7 @@
         [sliders dismissModal];
         [sliders release];
         sliders = nil;
-    }    
+    }
     
     if(nil != colorAndPatternView)
     {
@@ -2398,7 +2441,7 @@
     /* needs to delete */
     [sess setOuterRadius:slider.value];
     
-#if CMTIPPOPVIEW_ENABLE    
+#if CMTIPPOPVIEW_ENABLE
     CMPopTipView *v = (CMPopTipView*)[self.view viewWithTag:TAG_SLIDERS_TIPVIEW];
     if(nil != v)
     {
@@ -2410,7 +2453,7 @@
     //{
     //    [v setNeedsDisplay];
     //}
-#endif    
+#endif
 }
 
 -(void)innerRadiusChanged:(UISlider*)slider
@@ -2418,7 +2461,7 @@
     
     [sess setInnerRadius:slider.value];
     
-#if CMTIPPOPVIEW_ENABLE    
+#if CMTIPPOPVIEW_ENABLE
     CMPopTipView *v = (CMPopTipView*)[self.view viewWithTag:TAG_SLIDERS_TIPVIEW];
     if(nil != v)
     {
@@ -2430,28 +2473,28 @@
     //{
     //    [v setNeedsDisplay];
     //}
-#endif    
+#endif
 }
 
 -(void)widthChanged:(UISlider*)slider
 {
     
-#if CMTIPPOPVIEW_ENABLE    
+#if CMTIPPOPVIEW_ENABLE
     CMPopTipView *v = (CMPopTipView*)[self.view viewWithTag:TAG_SLIDERS_TIPVIEW];
     if(nil != v)
     {
         [v setNeedsDisplay];
     }
-//#else
+    //#else
     SNPopupView *v = (SNPopupView*)[self.view viewWithTag:TAG_SLIDERS_TIPVIEW];
     if(nil != v)
     {
         [v setNeedsDisplay];
-    }    
+    }
 #endif
-
+    
     [sess setFrameWidth:slider.value];
-
+    
     //v.hidden = NO;
 }
 
@@ -2512,9 +2555,9 @@
 	outerRadius.minimumValue     = 0;
 	outerRadius.continuous       = YES;
 	outerRadius.value            = sess.outerRadius;
-
-    [outerRadius addTarget:self action:@selector(outerRadiusChanged:) 
-        forControlEvents:UIControlEventValueChanged];
+    
+    [outerRadius addTarget:self action:@selector(outerRadiusChanged:)
+          forControlEvents:UIControlEventValueChanged];
     
     UILabel *widthLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+10, rect.origin.y+widthIndex, 150, 25)];
     widthLbl.tag =RADIUS_TAG_INDEX+5;
@@ -2533,8 +2576,8 @@
 	width.continuous       = YES;
 	width.value            = sess.frameWidth;
     
-    [width addTarget:self action:@selector(widthChanged:) 
-          forControlEvents:UIControlEventValueChanged];
+    [width addTarget:self action:@selector(widthChanged:)
+    forControlEvents:UIControlEventValueChanged];
     
     [radiusSettingsBgnd addSubview:innerRadiusLbl];
     [radiusSettingsBgnd addSubview:outerRadiusLbl];
@@ -2590,42 +2633,42 @@
     }
     UIImageView *adjustImageView = (UIImageView *)[self.view viewWithTag:TAG_ADJUST_BG];
     UIImageView *previewImageView  = (UIImageView *)[self.view viewWithTag:TAG_PREVIEW_BGPAD];
-     UIImageView *settings = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
-
-   // [self releaseResourcesForColorAndPatternSettings_updated];
+    UIImageView *settings = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
+    
+    // [self releaseResourcesForColorAndPatternSettings_updated];
     if (isTouchWillDetect) {
-
-   if (eMode == MODE_ADJUST_SETTINGS)
-    {
-        if ((location.y >adjustImageView.frame.origin.y+adjustImageView.frame.size.height) || (location.y < adjustImageView.frame.origin.y))
+        
+        if (eMode == MODE_ADJUST_SETTINGS)
         {
-          [self releaseResourcesForAdjustSettings];
-        }
-
-    }else if(eMode == MODE_COLOR_AND_PATTERN)
-    {
-          [self releaseResourcesForColorAndPatternSettings_updated];
-
-    }else if (eMode == MODE_VIDEO_SETTINGS)
-    {
-        if ((location.y >settings.frame.origin.y+settings.frame.size.height) || (location.y < settings.frame.origin.y))
+            if ((location.y >adjustImageView.frame.origin.y+adjustImageView.frame.size.height) || (location.y < adjustImageView.frame.origin.y))
+            {
+                [self releaseResourcesForAdjustSettings];
+            }
+            
+        }else if(eMode == MODE_COLOR_AND_PATTERN)
         {
-        [self releaseResourcesForVideoSetttings];
-        }
-
-    }else if (eMode == MODE_PREVIEW)
-    {
-        if ((location.y >previewImageView.frame.origin.y+previewImageView.frame.size.height) || (location.y < previewImageView.frame.origin.y))
+            [self releaseResourcesForColorAndPatternSettings_updated];
+            
+        }else if (eMode == MODE_VIDEO_SETTINGS)
         {
-        [self releaseResourcesForPreview];
+            if ((location.y >settings.frame.origin.y+settings.frame.size.height) || (location.y < settings.frame.origin.y))
+            {
+                [self releaseResourcesForVideoSetttings];
+            }
+            
+        }else if (eMode == MODE_PREVIEW)
+        {
+            if ((location.y >previewImageView.frame.origin.y+previewImageView.frame.size.height) || (location.y < previewImageView.frame.origin.y))
+            {
+                [self releaseResourcesForPreview];
+            }
         }
     }
-    }
-
+    
 }
 
 #pragma mark color and pattern picker
--(void)colorPickerDidChangeSelection:(RSColorPickerView *)cp 
+-(void)colorPickerDidChangeSelection:(RSColorPickerView *)cp
 {
     sess.color = [cp selectionColor];
     
@@ -2777,12 +2820,12 @@
     UIView *pickerBg = [self allocateColorPicker];
     
     [pickerView addSubview:pickerBg];
-
+    
     colorAndPatternView = [[SNPopupView alloc]initWithContentView:pickerView contentSize:pickerView.frame.size];
     colorAndPatternView.delegate = self;
     UIBarButtonItem *bar = (UIBarButtonItem*)sender;
     colorAndPatternView.tag = TAG_COLORPICKER_TIPVIEW;
-
+    
     UIView *targetView = (UIView *)[bar performSelector:@selector(view)];
     CGPoint tipPoint = CGPointMake(targetView.center.x, targetView.frame.origin.y+targetView.frame.size.height);
     [colorAndPatternView presentModalAtPoint:tipPoint inView:self.view];
@@ -2790,21 +2833,21 @@
     /* relelase picker bg */
     [pickerBg release];
     [pickerView release];
-
+    
     return;
 }
 
 #pragma mark Aspect Ratio UI
 -(void)releaseAspectRatioMenu
 {
-#if CMTIPPOPVIEW_ENABLE     
+#if CMTIPPOPVIEW_ENABLE
     CMPopTipView * v = (CMPopTipView*)[self.view viewWithTag:TAG_ASPECTRATIO_TIPVIEW];
     if(nil == v)
     {
         NSLog(@"releaseAspectRatioMenu: something is seriously wrong, CMPopTipView is nil");
         return;
     }
-  
+    
     [v dismissAnimated:NO];
     [v release];
 #else
@@ -2824,7 +2867,7 @@
 {
     NSNumber *num    = theTimer.userInfo;
     eAspectRatio eRat = [num intValue];
- 
+    
     /* Release aspect ratio menu */
     [self releaseAspectRatioMenu];
     
@@ -2876,7 +2919,7 @@
     float aspectButtonY     = 4.0;
     float aspectButtonX     = 0.0;
     for(index = 0; index < ASPECTRATIO_MAX; index++)
-    {      
+    {
         UIButton *aspect = [[UIButton alloc]initWithFrame:CGRectMake(aspectButtonX, aspectButtonY, aspectButtonWidth, aspectButtonWidth)];
         CGPoint cntr = aspect.center;
         CGSize  ratio = [Settings aspectRatioToValues:index];
@@ -2906,7 +2949,7 @@
         [aspect release];
         aspectRatioMenu.contentSize = CGSizeMake(aspectButtonWidth * index + 70.0, 50.0);
     }
-#if CMTIPPOPVIEW_ENABLE    
+#if CMTIPPOPVIEW_ENABLE
     /* add it on top of tipview */
     CMPopTipView *aspectRatioView = [[CMPopTipView alloc]initWithCustomView:aspectRatioMenu];
     aspectRatioView.backgroundColor = [UIColor blackColor];
@@ -2929,28 +2972,28 @@
 
 #pragma mark save
 
-- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo 
-{  
-    if (!error) 
+- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if (!error)
     {
         NSLog(@"Successfuly saved the image");
-    } 
-    else 
-    {  
+    }
+    else
+    {
         /* update the status */
-        NSLog(@"failed to save the image"); 
+        NSLog(@"failed to save the image");
     }
     
     return;
-} 
+}
 
 -(void)saveImage
 {
     UIImage *img = [sess.frame renderToImageOfSize:CGSizeMake(2400, 2400)];
-
+    
     if(nil != img)
     {
-        UIImageWriteToSavedPhotosAlbum(img, self, @selector(imageSavedToPhotosAlbum: didFinishSavingWithError: contextInfo:), nil); 
+        UIImageWriteToSavedPhotosAlbum(img, self, @selector(imageSavedToPhotosAlbum: didFinishSavingWithError: contextInfo:), nil);
     }
     else
     {
@@ -3049,10 +3092,10 @@
     rotationAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
     
     rotationAnimation.values = [NSArray arrayWithObjects:
-                                [NSNumber numberWithFloat:0.0 * M_PI], 
-                                [NSNumber numberWithFloat:0.75 * M_PI], 
-                                [NSNumber numberWithFloat:1.5 * M_PI], 
-                                [NSNumber numberWithFloat:2.0 * M_PI], nil]; 
+                                [NSNumber numberWithFloat:0.0 * M_PI],
+                                [NSNumber numberWithFloat:0.75 * M_PI],
+                                [NSNumber numberWithFloat:1.5 * M_PI],
+                                [NSNumber numberWithFloat:2.0 * M_PI], nil];
     rotationAnimation.calculationMode = kCAAnimationPaced;
     
     rotationAnimation.removedOnCompletion = NO;
@@ -3065,7 +3108,7 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(clearSessionAnimationStoped:finished:context:)];
     [UIView setAnimationDuration:0.5f];
-
+    
     /* Now Animate the view */
     for(index = 0; index < [viewsForAnimation count]; index++)
     {
@@ -3075,7 +3118,7 @@
         //img.frame        = targetView.frame;
     }
     [UIView commitAnimations];
-  
+    
     NSLog(@"Deleting %d images",[viewsForAnimation count]);
     
     [viewsForAnimation release];
@@ -3092,17 +3135,17 @@
                         isTouchWillDetect = NO;
                         [self.view addSubview:helpScreen.view];
                         [self.view bringSubviewToFront:helpScreen.view];
-
+                        
                     }
                     completion:nil ];
-
-
+    
+    
 }
 
 #pragma utility functions mainly to clean the resources
 -(void)releaseToolBarIfAny
 {
-
+    
     UIToolbar *toolBar = (UIToolbar*)[self.view viewWithTag:TAG_TOOLBAR_EDIT];
     if(nil != toolBar)
     {
@@ -3165,7 +3208,7 @@
 
 - (void)showAppoxee:(id)sender
 {
-
+    
     //Ask the Appoxee to appear (only for modal mode)
     //[[AppoxeeManager sharedManager] show];
     [self showStore];
@@ -3183,8 +3226,8 @@
 
 -(void)inAppPurchasePreview:(InAppPurchasePreview *)gView itemPurchasedAtIndex:(int)index
 {
-
-        [[InAppPurchaseManager Instance]puchaseProductWithId:kInAppPurchaseRemoveWaterMarkPack];
+    
+    [[InAppPurchaseManager Instance]puchaseProductWithId:kInAppPurchaseRemoveWaterMarkPack];
 }
 
 -(void)showStore
@@ -3195,11 +3238,11 @@
     [self.view addSubview:preview];
     preview.delegate = self;
     
-
+    
     NSString *watermarkPackPrice = [[InAppPurchaseManager Instance]getPriceOfProduct:kInAppPurchaseRemoveWaterMarkPack];
     NSString *watermarkPackTitle = [[InAppPurchaseManager Instance]getTitleOfProduct:kInAppPurchaseRemoveWaterMarkPack];
     NSString *watermarkPackDescription = [[InAppPurchaseManager Instance]getDescriptionOfProduct:kInAppPurchaseRemoveWaterMarkPack];
-
+    
     
     if(nil == watermarkPackPrice)
     {
@@ -3207,9 +3250,9 @@
         watermarkPackTitle = DEFAULT_WATERMARK_PACK_TITLE;
         watermarkPackDescription = DEFAULT_WATERMARK_PACK_DESCRIPTION;
     }
-
+    
     NSArray *framesPackKeys = [NSArray arrayWithObjects:key_inapppreview_package_image,key_inapppreview_package_price,key_inapppreview_package_msgheading, key_inapppreview_package_msgbody,nil];
-
+    
     NSArray *watermarkPackObjs = [NSArray arrayWithObjects:watermarkPackPrice,watermarkPackTitle, watermarkPackDescription,nil];
     NSArray *watermarkPackKeys = [NSArray arrayWithObjects:key_inapppreview_package_price,key_inapppreview_package_msgheading, key_inapppreview_package_msgbody,nil];
     NSDictionary *watermarkPack = [NSDictionary dictionaryWithObjects:watermarkPackObjs forKeys:watermarkPackKeys];
@@ -3270,7 +3313,7 @@
     [customTabBar unselectCurrentSelectedTab];
     
     [self allocateResourcesForEdit];
-
+    
     
     eMode = MODE_MAX;
 #endif
@@ -3279,19 +3322,19 @@
 -(void)frameSelectedAtIndex:(int)index ofGridView:(FrameGridView *)gView
 {
     NSLog(@"frame selected at index %d",index);
-
- /*   UIImageView *background = (UIImageView *)[self.view viewWithTag:TAG_ADJUST_BGPAD];
-    if (background != nil) {
-
-    UISlider *innerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+2];
-    UISlider *outerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+4];
-    UISlider *frameWidth = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+6];
-
-    innerRadius . value = 0.0;
-    outerRadius . value = 0.0;
-    frameWidth . value = 10.0;
-    } */
-
+    
+    /*   UIImageView *background = (UIImageView *)[self.view viewWithTag:TAG_ADJUST_BGPAD];
+     if (background != nil) {
+     
+     UISlider *innerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+2];
+     UISlider *outerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+4];
+     UISlider *frameWidth = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+6];
+     
+     innerRadius . value = 0.0;
+     outerRadius . value = 0.0;
+     frameWidth . value = 10.0;
+     } */
+    
     sess.frameNumber = index;
     sess. frameWidth = 10.0;
     sess . innerRadius = 0.0;
@@ -3319,7 +3362,7 @@
     
     /* Release tool bar if available */
     [self releaseToolBarIfAny];
-
+    
 #if defined(APP_INSTAPICFRAMES)
     /* release grid view */
     FrameGridView *fgv = (FrameGridView*)[self.view viewWithTag:TAG_EVENFRAME_GRIDVIEW];
@@ -3341,14 +3384,14 @@
 
 -(void)togglePreviewState:(UIButton*)sender
 {
-
+    
     if(sender.tag == TAG_PREVIEW_PAUSE)
     {
         sender.tag = TAG_PREVIEW_PLAY;
         [sender setImage:[UIImage imageNamed:@"playNew"] forState:UIControlStateNormal];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [sender setImage:[UIImage imageNamed:@"play_ipad"] forState:UIControlStateNormal];
-
+            
         }
         [self pausePreView];
     }
@@ -3358,7 +3401,7 @@
         [sender setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [sender setImage:[UIImage imageNamed:@"pause_ipad"] forState:UIControlStateNormal];
-
+            
         }
         [self resumePreview];
     }
@@ -3402,10 +3445,10 @@
         NSLog(@"Preview screen is already active");
         return;
     }
-
+    
     [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Preview" tag:TAG_TOOLBAR_PREVIEW];
-
+    
     CGRect blockTouchRect = CGRectMake(0, 00, full_screen.size.width,customTabBar.frame.origin.y+customTabBar.frame.size.height+colorBackgroundBarHeightHeight);
     
     UIView *blockTouches = [[UIView alloc]initWithFrame:blockTouchRect];
@@ -3418,27 +3461,27 @@
     previewControlsBgnd . image = [UIImage imageNamed:@"color-gallery-strip.png"];
     previewControlsBgnd . tag = TAG_PREVIEW_BGPAD;
     [self.view addSubview:previewControlsBgnd];
-
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(10, customBarHeight/4, customBarHeight/2, customBarHeight/2);
     button.tag = TAG_PREVIEW_PAUSE;
     [button setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
-
-
+    
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [button setImage:[UIImage imageNamed:@"pause_ipad"] forState:UIControlStateNormal];
-
+        
     }
-
+    
     [button addTarget:self action:@selector(togglePreviewState:) forControlEvents:UIControlEventTouchUpInside];
-
-
+    
+    
     previewTimeLabel = [[UILabel alloc]initWithFrame:CGRectMake(previewControlsBgnd.frame.size.width-30, 0, 25, customBarHeight)];
     previewTimeLabel.backgroundColor = [UIColor clearColor];
     previewTimeLabel.textColor = [UIColor whiteColor];
     previewTimeLabel.font = [UIFont boldSystemFontOfSize:12.0];
     previewTimeLabel.text = [self getCurrentPreviewTime];
-
+    
     
     previewAdjSlider = [CustomUI allocateCustomSlider:CGRectMake(button.frame.origin.x+button.frame.size.width+5, 0, previewControlsBgnd.frame.size.width-button.frame.size.width-button.frame.origin.x-15-previewTimeLabel.frame.size.width, customBarHeight)];
     previewAdjSlider.tag = RADIUS_TAG_INDEX+2;
@@ -3446,13 +3489,13 @@
 	previewAdjSlider.maximumValue     = [sess getFrameCountOfFrame:sess.frame];
 	previewAdjSlider.minimumValue     = 0;
 	previewAdjSlider.continuous       = NO;
-
-
-
+    
+    
+    
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+        
         previewControlsBgnd.frame = CGRectMake(0, customTabBar.frame.origin.y-customBarHeight, full_screen.size.width, customBarHeight);
-
+        
     }completion:^(BOOL finished)
      {
          [previewControlsBgnd addSubview:button];
@@ -3461,14 +3504,14 @@
          [previewControlsBgnd addSubview:previewAdjSlider];
          [previewAdjSlider release];
      }];
-
+    
     
     [self previewVideo];
 }
 
 -(void)releaseResourcesForPreview
 {
-
+    
     if(NO == gIsPreviewInProgress)
     {
         NSLog(@" no progresssssss");
@@ -3483,18 +3526,18 @@
         [preViewControls dismissAnimated:NO];
         [preViewControls release];
         preViewControls = nil;
-
+        
         UIImageView *previewImageView  = (UIImageView *)[self.view viewWithTag:TAG_PREVIEW_BGPAD];
         NSArray *viewToRemove = [previewImageView subviews];
         for (UIView *v in viewToRemove)
         {
             [v removeFromSuperview];
-
+            
         }
         [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+            
             previewImageView.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
-
+            
         }completion:^(BOOL finished)
          {
              [previewImageView removeFromSuperview];
@@ -3506,7 +3549,7 @@
         [self stopPreview];
     }
     
-
+    
 }
 
 -(UIView*)allocateVideoSettingsCellWithRect:(CGRect)rect
@@ -3572,7 +3615,7 @@
     albumImageView.tag = TAG_AUDIO_CELL_IMAGE;
     [cell addSubview:albumImageView];
     [albumImageView release];
-
+    
     
     /* Add switch */
     UISwitch *swit = [[UISwitch alloc]initWithFrame:CGRectMake(cell.frame.size.width-switchWidth, 0, switchWidth, switchHeight)];
@@ -3580,7 +3623,7 @@
     swit.tag = TAG_AUDIO_CELL_SWITCH;
     [cell addSubview:swit];
     swit.center = CGPointMake(swit.center.x, cell.center.y);
-   
+    
     /* Add action to switch */
     [swit addTarget:self
              action:@selector(handleUpadteAudioFromLibraraySwitchStatus:)
@@ -3741,14 +3784,14 @@
     
     
     /*
-    OT_TabBarItem *item = [customTabBar getTabbarItemWithTag:4];
-    if(nil != item)
-    {
-        [self allocateResourcesForVideoSettings:item];
-    }
-    else{
-        NSLog(@"item is nil to show video settings");
-    }*/
+     OT_TabBarItem *item = [customTabBar getTabbarItemWithTag:4];
+     if(nil != item)
+     {
+     [self allocateResourcesForVideoSettings:item];
+     }
+     else{
+     NSLog(@"item is nil to show video settings");
+     }*/
 }
 
 - (void)mediaPicker:(MPMediaPickerController *) mediaPicker didPickMediaItems: (MPMediaItemCollection *) mediaItemCollection
@@ -3816,7 +3859,7 @@
 -(void)allocateResourcesForVideoSettings:(OT_TabBarItem*)tItem
 {
     [self releaseToolBarIfAny];
-
+    
     /* Add settings title to toolbar */
     [self addToolbarWithTitle:@"Select Music" tag:TAG_TOOLBAR_SETTINGS];
     NSNumber *mediaItemId  = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
@@ -3824,7 +3867,7 @@
     CGRect  musicTrackRect = CGRectMake(0, 0, settingsRect.size.width, settingsRect.size.height/2.0-1.25);
     CGRect selectTrackRect = CGRectMake(0, settingsRect.size.height/2.0+1.25,
                                         settingsRect.size.width, settingsRect.size.height/2.0-1.25);
-
+    
     /* Add touch sheild */
     CGRect full = [[UIScreen mainScreen]bounds];
     UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 0.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height+colorBackgroundBarHeightHeight)];
@@ -3832,35 +3875,35 @@
     touchSheiled.userInteractionEnabled = YES;
     [self.view addSubview:touchSheiled];
     [touchSheiled release];
-
+    
     UIImageView       *settings = nil;
     BOOL      enableStatus = [[[NSUserDefaults standardUserDefaults]objectForKey:KEY_USE_AUDIO_SELECTED_FROM_LIBRARY]boolValue];
-
+    
     settings = [[UIImageView alloc]initWithFrame:CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0)];
     settings . tag = TAG_VIDEOSETTINGS_BGPAD;
     settings . image = [UIImage imageNamed:@"color-gallery-strip.png"];
     //settings.backgroundColor = popup_color;
     settings.userInteractionEnabled = YES;
     [self.view addSubview:settings];
-
+    
     if(nil != mediaItemId)
     {
-
+        
         NSString *musicTitle   = [self getTitleFromMediaItemId:mediaItemId];
         UIImage  *musicImage   = [self getImageFromMediaItemId:mediaItemId];
         
         /* Allocate music track cell */
         musicTrackCell = [self allocateVideoSettingsCellWithRect:musicTrackRect
-                                                                   title:musicTitle
-                                                                   image:musicImage
-                                                                  enable:enableStatus];
+                                                           title:musicTitle
+                                                           image:musicImage
+                                                          enable:enableStatus];
     }
     else
     {
         NSLog(@"Media Item id is nil");
-
+        
         settingsRect = CGRectMake(settingsRect.origin.x, settingsRect.origin.y+settingsRect.size.height/2.0,
-                                    settingsRect.size.width, settingsRect.size.height/2.0);
+                                  settingsRect.size.width, settingsRect.size.height/2.0);
         selectTrackRect = CGRectMake(0, 0,settingsRect.size.width, settingsRect.size.height);
     }
     
@@ -3875,29 +3918,29 @@
     selectMusicButton.center = CGPointMake(selectMusic.center.x-selectMusic.frame.origin.x, selectMusic.center.y-selectMusic.frame.origin.y);
     selectMusicButton.tag = TAG_AUDIO_CELL_SELECT_AUDIO;
     [selectMusicButton addTarget:self action:@selector(showAudioPicker) forControlEvents:UIControlEventTouchUpInside];
-
+    
     
     /* Lets add popup with music items */
     selectMusic.userInteractionEnabled = YES;
-
-
+    
+    
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+        
         settings.frame = settingsRect;
-
+        
     }completion:^(BOOL finished)
      {
          if (nil != mediaItemId) {
-              [settings addSubview:musicTrackCell];
-               [musicTrackCell release];
+             [settings addSubview:musicTrackCell];
+             [musicTrackCell release];
          }
-
-          [settings addSubview:selectMusic];
-          [selectMusic addSubview:selectMusicButton];
-          [selectMusic release];
+         
+         [settings addSubview:selectMusic];
+         [selectMusic addSubview:selectMusicButton];
+         [selectMusic release];
      }];
-
-
+    
+    
     
     return;
 }
@@ -3906,13 +3949,13 @@
 {
     [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_ADJUST];
-
+    
     UIView *a  = (UIView*)[self.view viewWithTag:TAG_ADJUST_TOUCHSHEILD];
     if(nil != a)
     {
         [a removeFromSuperview];
     }
-
+    
     UIImageView *settings = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
     NSArray *viewToRemove = [settings subviews];
     for (UIView *v in viewToRemove)
@@ -3922,14 +3965,14 @@
     if (nil != settings)
     {
         [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+            
             settings.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
-
+            
         }completion:^(BOOL finished)
          {
              [customTabBar unselectCurrentSelectedTab];
-        [settings removeFromSuperview];
-        [settings release];
+             [settings removeFromSuperview];
+             [settings release];
          }];
     }
 }
@@ -3951,7 +3994,7 @@
 
 -(UIImageView*)addToolbarWithTitle:(NSString*)title tag:(int)toolbarTag
 {
-
+    
     CGRect fullScreen = [[UIScreen mainScreen]bounds];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, customBarHeight)];
     label.textAlignment = UITextAlignmentCenter;
@@ -3962,7 +4005,7 @@
     label.font = [UIFont systemFontOfSize:20.0];
     
     UIImageView *toolbar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight)];
-   // toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
+    // toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
     toolbar.userInteractionEnabled = YES;
     toolbar.tag = TAG_TOOLBAR_EDIT;
     
@@ -3976,7 +4019,7 @@
     help.frame = CGRectMake(hepl_button_x, 0, customBarHeight, customBarHeight);
     [toolbar addSubview:help];
     help.showsTouchWhenHighlighted = YES;
-
+    
     UIButton *proButton = [UIButton buttonWithType:UIButtonTypeCustom];
     proButton . tag = 8000;
     [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
@@ -3984,9 +4027,9 @@
     proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
     [toolbar addSubview:proButton];
     proButton.showsTouchWhenHighlighted = YES;
-
+    
     [self addAnimationToProButton:proButton];
-
+    
     
     _appoxeeBadge.frame = CGRectMake(fullScreen.size.width-appoxee_button_x, 0, customBarHeight, customBarHeight);
     _appoxeeBadge.showsTouchWhenHighlighted = YES;
@@ -4003,7 +4046,7 @@
     {
         adjustDistanceFromWall =30;
     }
-
+    
     [[configparser Instance] showAdInView:self.view atPoint:CGPointMake(fullScreen.size.width-adviewdistancefromwall-adviewsize, 50+adjustDistanceFromWall)];
     [[configparser Instance] bringAdToTheTop];
     
@@ -4013,7 +4056,7 @@
 
 -(void)addAnimationToProButton:(UIButton *)aButton
 {
-
+    
     CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     pulseAnimation.duration = 0.5;
     pulseAnimation.fromValue = [NSNumber numberWithFloat:1.0];
@@ -4022,7 +4065,7 @@
     pulseAnimation.autoreverses = YES;
     pulseAnimation.repeatCount = FLT_MAX;
     [aButton.layer addAnimation:pulseAnimation forKey:nil];
-
+    
 }
 -(void)openProVersion
 {
@@ -4030,7 +4073,7 @@
     UIView *backgroundView = [[UIView alloc] initWithFrame:fullScreen];
     backgroundView . tag = 5000;
     [backgroundView setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.8]];
-
+    
     [UIView transitionWithView:self.view
                       duration:1.0
                        options:UIViewAnimationOptionTransitionCurlDown
@@ -4038,11 +4081,11 @@
                         [self.view addSubview:backgroundView];
                     }
                     completion:NULL];
-
-
+    
+    
     UIImageView *proImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,fullScreen.size.width , fullScreen.size.height)];
     [proImageView setImage:[UIImage imageNamed:@"ProAd.png"]];
-
+    
     if (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPhone && fullScreen.size.height>480)
     {
         [proImageView setImage:[UIImage imageNamed:@"ProAd1136.png"] ];
@@ -4051,7 +4094,7 @@
         [proImageView setImage:[UIImage imageNamed:@"ProAd~ipad.png"]];
     }
     [backgroundView addSubview:proImageView];
-
+    
     UIButton *bigInstall = [UIButton buttonWithType:UIButtonTypeCustom];
     bigInstall . frame = proImageView.frame;
     //[bigInstall setImage:[UIImage imageNamed:@"install.png"] forState:UIControlStateNormal];
@@ -4063,8 +4106,8 @@
     [crossButton setImage:[UIImage imageNamed:@"close_ad.png"] forState:UIControlStateNormal];
     [crossButton addTarget:self action:@selector(closeView) forControlEvents:UIControlEventTouchUpInside];
     [backgroundView addSubview:crossButton];
-
-
+    
+    
     UIButton *installButton = [UIButton buttonWithType:UIButtonTypeCustom];
     installButton . frame = CGRectMake(ad_x, ad_y+20, install_size_width, ad_size);
     [installButton setImage:[UIImage imageNamed:@"install.png"] forState:UIControlStateNormal];
@@ -4096,9 +4139,9 @@
 -(void)handleResolutionOptionSelection:(KxMenuItem*)item
 {
     nvm.uploadResolution = item.tag;
-[self allocateShareResources];
-  //  [self allocateResourcesForUpload];
- //  [self uploadSelected];
+    [self allocateShareResources];
+    //  [self allocateResourcesForUpload];
+    //  [self uploadSelected];
 }
 
 
@@ -4123,19 +4166,19 @@
     if([sess anyVideoFrameSelected])
     {
         [self generateVideo:^(BOOL status, NSString *videoPath)
-        {
-            if(YES == status)
-            {
-                isVideoFile = YES;
-                [self performSelectorOnMainThread:@selector(allocateShareResources) withObject:nil waitUntilDone:YES];
-            }
-        }];
+         {
+             if(YES == status)
+             {
+                 isVideoFile = YES;
+                 [self performSelectorOnMainThread:@selector(allocateShareResources) withObject:nil waitUntilDone:YES];
+             }
+         }];
     }
     else
     {
         isVideoFile = NO;
         [self showResolutionOptios];
-       // [self allocateShareResources];
+        // [self allocateShareResources];
     }
 }
 
@@ -4167,11 +4210,11 @@
 
 -(void)releaseResourcesForAdjustSettings
 {
-
-
+    
+    
     [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_ADJUST];
-   //  [customTabBar unselectCurrentSelectedTab];
+    //  [customTabBar unselectCurrentSelectedTab];
     
     UIImageView *ta = (UIImageView*)[self.view viewWithTag:TAG_ADJUST_BG];
     if(nil != ta)
@@ -4179,13 +4222,13 @@
         NSArray *viewsToRemove = [ta subviews];
         for (UIView *v in viewsToRemove) [v removeFromSuperview];
         [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+            
             ta.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
-
+            
         }completion:^(BOOL finished)
          {
              [customTabBar unselectCurrentSelectedTab];
-        [ta removeFromSuperview];
+             [ta removeFromSuperview];
          }];
     }
     
@@ -4217,10 +4260,10 @@
     {
         backgroundRect = CGRectMake(0,customTabBar.frame.origin.y, full_screen.size.width, 0);
         height_bar =  300;
-         outerRadiusIndex         = 40.0;
-         innerRadiusIndex         = 135.0;
-         widthIndex               = 240.0;
-         gap                       = 50;
+        outerRadiusIndex         = 40.0;
+        innerRadiusIndex         = 135.0;
+        widthIndex               = 240.0;
+        gap                       = 50;
     }
     
     /* Add touch sheild */
@@ -4239,133 +4282,133 @@
     backGround.tag = TAG_ADJUST_BG;
     [backGround release];
     backGround.userInteractionEnabled = YES;
-
+    
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+        
         backGround.frame = CGRectMake(0, customTabBar.frame.origin.y-height_bar, full_screen.size.width, height_bar);
-
+        
     }completion:^(BOOL finished)
      {
-
-    /* add radius sliders */
-    CGRect       rect              = CGRectMake(RADIUS_SETTINGS_X, RADIUS_SETTINGS_Y, RADIUS_SETTINGS_WIDTH-40,         RADIUS_SETTINGS_HEIGHT);
-    UISlider    *outerRadius       = nil;
-    UISlider    *innerRadius       = nil;
-
-    UIFont *lblFont                = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
-    
-    UILabel *innerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+innerRadiusIndex, 150, 20)];
-    innerRadiusLbl.tag = RADIUS_TAG_INDEX+1;
-    innerRadiusLbl.font = lblFont;
-    innerRadiusLbl.text = NSLocalizedString(@"INNERRADIUS", @"Inner Radius");
-    innerRadiusLbl.textAlignment = UITextAlignmentLeft;
-    innerRadiusLbl.backgroundColor = [UIColor clearColor];
-    innerRadiusLbl.textColor = [UIColor whiteColor];
-    
-    innerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+innerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 20.0)];
-    innerRadius.tag = RADIUS_TAG_INDEX+2;
-    /* Configure the brush Slider  */
-	innerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
-	innerRadius.minimumValue     = 0.0;
-	innerRadius.continuous       = YES;
-	innerRadius.value            = sess.innerRadius;
-    [innerRadius addTarget:self action:@selector(innerRadiusChanged:)
-          forControlEvents:UIControlEventValueChanged];
-    
-    
-    UILabel *outerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+outerRadiusIndex, 150, 20)];
-    outerRadiusLbl.tag =RADIUS_TAG_INDEX+3;
-    outerRadiusLbl.text = NSLocalizedString(@"OUTERRADIUS",@"Outer Radius");
-    outerRadiusLbl.font = lblFont;
-    outerRadiusLbl.textAlignment = UITextAlignmentLeft;
-    outerRadiusLbl.backgroundColor = [UIColor clearColor];
-    outerRadiusLbl.textColor = [UIColor whiteColor];
-    
-    
-    /* Allocate the slider */
-    outerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    //outerRadius = [[UISlider alloc]initWithFrame:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    outerRadius.tag = RADIUS_TAG_INDEX+4;
-    /* Configure the brush Slider  */
-	outerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
-	outerRadius.minimumValue     = 0;
-	outerRadius.continuous       = YES;
-	outerRadius.value            = sess.outerRadius;
-    
-    [outerRadius addTarget:self action:@selector(outerRadiusChanged:)
-          forControlEvents:UIControlEventValueChanged];
-    
-    
-    UILabel *widthLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+widthIndex, 150, 20)];
-    widthLbl.tag =RADIUS_TAG_INDEX+5;
-    widthLbl.text = NSLocalizedString(@"WIDTH",@"Width");
-    widthLbl.font = lblFont;
-    widthLbl.textAlignment = UITextAlignmentLeft;
-    widthLbl.backgroundColor = [UIColor clearColor];
-    widthLbl.textColor = [UIColor whiteColor];
-    
-    
-    UISlider *width = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+widthIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
-    width.tag = RADIUS_TAG_INDEX+6;
-    /* Configure the brush Slider  */
-	width.maximumValue     = 30;
-	width.minimumValue     = 0;
-	width.continuous       = YES;
-	width.value            = sess.frameWidth;
-    
-    [width addTarget:self action:@selector(widthChanged:)
-    forControlEvents:UIControlEventValueChanged];
-    
-    /* Add all UI elements to background view */
-    [backGround addSubview:innerRadiusLbl];
-    [backGround addSubview:outerRadiusLbl];
-    [backGround addSubview:innerRadius];
-    [backGround addSubview:outerRadius];
-    [backGround addSubview:widthLbl];
-    [backGround addSubview:width];
-    
-    /* Release the resources that are not required any more */
-    [width release];
-    [widthLbl release];
-    [innerRadiusLbl release];
-    [outerRadius release];
-    [innerRadius release];
-    [outerRadiusLbl release];
+         
+         /* add radius sliders */
+         CGRect       rect              = CGRectMake(RADIUS_SETTINGS_X, RADIUS_SETTINGS_Y, RADIUS_SETTINGS_WIDTH-40,         RADIUS_SETTINGS_HEIGHT);
+         UISlider    *outerRadius       = nil;
+         UISlider    *innerRadius       = nil;
+         
+         UIFont *lblFont                = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
+         
+         UILabel *innerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+innerRadiusIndex, 150, 20)];
+         innerRadiusLbl.tag = RADIUS_TAG_INDEX+1;
+         innerRadiusLbl.font = lblFont;
+         innerRadiusLbl.text = NSLocalizedString(@"INNERRADIUS", @"Inner Radius");
+         innerRadiusLbl.textAlignment = UITextAlignmentLeft;
+         innerRadiusLbl.backgroundColor = [UIColor clearColor];
+         innerRadiusLbl.textColor = [UIColor whiteColor];
+         
+         innerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+innerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 20.0)];
+         innerRadius.tag = RADIUS_TAG_INDEX+2;
+         /* Configure the brush Slider  */
+         innerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
+         innerRadius.minimumValue     = 0.0;
+         innerRadius.continuous       = YES;
+         innerRadius.value            = sess.innerRadius;
+         [innerRadius addTarget:self action:@selector(innerRadiusChanged:)
+               forControlEvents:UIControlEventValueChanged];
+         
+         
+         UILabel *outerRadiusLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+outerRadiusIndex, 150, 20)];
+         outerRadiusLbl.tag =RADIUS_TAG_INDEX+3;
+         outerRadiusLbl.text = NSLocalizedString(@"OUTERRADIUS",@"Outer Radius");
+         outerRadiusLbl.font = lblFont;
+         outerRadiusLbl.textAlignment = UITextAlignmentLeft;
+         outerRadiusLbl.backgroundColor = [UIColor clearColor];
+         outerRadiusLbl.textColor = [UIColor whiteColor];
+         
+         
+         /* Allocate the slider */
+         outerRadius = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
+         //outerRadius = [[UISlider alloc]initWithFrame:CGRectMake(rect.origin.x+100.0, rect.origin.y+outerRadiusIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
+         outerRadius.tag = RADIUS_TAG_INDEX+4;
+         /* Configure the brush Slider  */
+         outerRadius.maximumValue     = RADIUS_SETTINGS_MAXIMUM;
+         outerRadius.minimumValue     = 0;
+         outerRadius.continuous       = YES;
+         outerRadius.value            = sess.outerRadius;
+         
+         [outerRadius addTarget:self action:@selector(outerRadiusChanged:)
+               forControlEvents:UIControlEventValueChanged];
+         
+         
+         UILabel *widthLbl = [[UILabel alloc]initWithFrame:CGRectMake(rect.origin.x+20+gap, rect.origin.y+widthIndex, 150, 20)];
+         widthLbl.tag =RADIUS_TAG_INDEX+5;
+         widthLbl.text = NSLocalizedString(@"WIDTH",@"Width");
+         widthLbl.font = lblFont;
+         widthLbl.textAlignment = UITextAlignmentLeft;
+         widthLbl.backgroundColor = [UIColor clearColor];
+         widthLbl.textColor = [UIColor whiteColor];
+         
+         
+         UISlider *width = [CustomUI allocateCustomSlider:CGRectMake(rect.origin.x+115.0+2*gap, rect.origin.y+widthIndex, RADIUS_SETTINGS_SLIDER_WIDTH, 19.0)];
+         width.tag = RADIUS_TAG_INDEX+6;
+         /* Configure the brush Slider  */
+         width.maximumValue     = 30;
+         width.minimumValue     = 0;
+         width.continuous       = YES;
+         width.value            = sess.frameWidth;
+         
+         [width addTarget:self action:@selector(widthChanged:)
+         forControlEvents:UIControlEventValueChanged];
+         
+         /* Add all UI elements to background view */
+         [backGround addSubview:innerRadiusLbl];
+         [backGround addSubview:outerRadiusLbl];
+         [backGround addSubview:innerRadius];
+         [backGround addSubview:outerRadius];
+         [backGround addSubview:widthLbl];
+         [backGround addSubview:width];
+         
+         /* Release the resources that are not required any more */
+         [width release];
+         [widthLbl release];
+         [innerRadiusLbl release];
+         [outerRadius release];
+         [innerRadius release];
+         [outerRadiusLbl release];
      }];
     
- /*   popOver = [PopoverView showPopoverAtPoint:CGPointMake(tItem.center.x, customTabBar.frame.origin.y)
-                                       inView:self.view
-                              withContentView:backGround
-                                     delegate:self]; */
+    /*   popOver = [PopoverView showPopoverAtPoint:CGPointMake(tItem.center.x, customTabBar.frame.origin.y)
+     inView:self.view
+     withContentView:backGround
+     delegate:self]; */
     
     //[self.view addSubview:backGround];
-
+    
 }
 -(CABasicAnimation *)addAnimation:(float)fromValue tovalue:(float)toValue
 {
-   CABasicAnimation  *move = [CABasicAnimation animationWithKeyPath:@"transform.translation.y" ];
-
+    CABasicAnimation  *move = [CABasicAnimation animationWithKeyPath:@"transform.translation.y" ];
+    
     [move setFromValue:[NSNumber numberWithFloat:fromValue]];
-
+    
     [move setToValue:[NSNumber numberWithFloat:200]];
-
+    
     [move setDuration:1.0f];
     return move;
-
+    
 }
 -(void)releaseResourcesForColorAndPatternSettings_updated
 {
     NSLog(@"releaseResourcesForColorAndPatternSettings_updated.........");
-
-
-
+    
+    
+    
     UIImageView *parentView = (UIImageView *)[self.view viewWithTag:2002];
     UIScrollView *scrollView = (UIScrollView *)[parentView viewWithTag:4000];
     UIButton *colorBut = (UIButton *)[parentView viewWithTag:10098];
     UIButton  *patternBut = (UIButton *)[parentView viewWithTag:20000];
     if (scrollView) {
         parentView . image = [UIImage imageNamed:@"backgroundStrip.png"];
-
+        
         [colorBut   setHidden:NO];
         [patternBut setHidden:NO];
         [scrollView removeFromSuperview];
@@ -4375,36 +4418,36 @@
     }
     if (parentView) {
         [self releaseToolBarIfAny];
-
+        
         [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SETTINGS];
-
+        
         UIView  *a = (UIView*)[self.view viewWithTag:TAG_ADJUST_TOUCHSHEILD];
         [a removeFromSuperview];
         [colorBut   removeFromSuperview];
         [patternBut removeFromSuperview];
         [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+            
             parentView.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 00);
-
+            
         }completion:^(BOOL finished) {
             [parentView removeFromSuperview];
-
+            
             [customTabBar unselectCurrentSelectedTab];
-           // [self releaseResourcesForModeChange];
-           // [self selectEditTab];
-
+            // [self releaseResourcesForModeChange];
+            // [self selectEditTab];
+            
             
         }];
     }
-
+    
 }
 -(void)allocateResourcesForColorAndPatternSettings_updated:(OT_TabBarItem*)tItem
 {
     NSLog(@" allocate colore n pattern");
-
-     [self releaseToolBarIfAny];
-     [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_ADJUST];
-
+    
+    [self releaseToolBarIfAny];
+    [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_ADJUST];
+    
     /* Add touch sheild */
     CGRect full = [[UIScreen mainScreen]bounds];
     UIView *touchSheiled = [[UIView alloc]initWithFrame:CGRectMake(0, 0.0, full.size.width, customTabBar.frame.origin.y+customTabBar.frame.size.height+colorBackgroundBarHeightHeight)];
@@ -4412,7 +4455,7 @@
     touchSheiled.userInteractionEnabled = YES;
     [self.view addSubview:touchSheiled];
     [touchSheiled release];
-
+    
     UIImageView *sliderBackground = [[UIImageView alloc]init];
     sliderBackground . frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 0);
     sliderBackground . tag   = 2002;
@@ -4420,33 +4463,33 @@
     sliderBackground . UserInteractionEnabled = YES;
     sliderBackground. backgroundColor = [UIColor yellowColor];
     [self.view addSubview:sliderBackground];
-
-
+    
+    
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+        
         sliderBackground.frame = CGRectMake(0, customTabBar.frame.origin.y-colorBackgroundBarHeightHeight, full_screen.size.width, colorBackgroundBarHeightHeight);
-
+        
     }completion:^(BOOL finished)
-    {
-        UIButton *colorButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        colorButton . tag = 10098;
-        colorButton . frame = CGRectMake(0, 0, full_screen.size.width*0.48, colorBurttonHeight);
-        colorButton . center = CGPointMake(full_screen.size.width*0.25, sliderBackground.frame.size.height/2);
-        [colorButton setImage:[UIImage imageNamed:colorButtonImage] forState:UIControlStateNormal];
-        [colorButton setImage:[UIImage imageNamed:colorButtonImage_active] forState:UIControlStateHighlighted];
-        [colorButton addTarget:self action:@selector(addActionForSelection:) forControlEvents:UIControlEventTouchUpInside];
-        [sliderBackground addSubview:colorButton];
-
-        UIButton *patternButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        patternButton . tag = 20000;
-        patternButton . frame = CGRectMake(0, 0, full_screen.size.width*0.48, colorBurttonHeight);
-        patternButton . center = CGPointMake(full_screen.size.width*0.75, sliderBackground.frame.size.height/2);
-        [patternButton setImage:[UIImage imageNamed:patternButtonImage] forState:UIControlStateNormal];
-        [patternButton setImage:[UIImage imageNamed:patternButtonImage_active] forState:UIControlStateHighlighted];
-        [patternButton addTarget:self action:@selector(addActionForSelection:) forControlEvents:UIControlEventTouchUpInside];
-        [sliderBackground addSubview:patternButton];
-
-    }];
+     {
+         UIButton *colorButton = [UIButton buttonWithType:UIButtonTypeCustom];
+         colorButton . tag = 10098;
+         colorButton . frame = CGRectMake(0, 0, full_screen.size.width*0.48, colorBurttonHeight);
+         colorButton . center = CGPointMake(full_screen.size.width*0.25, sliderBackground.frame.size.height/2);
+         [colorButton setImage:[UIImage imageNamed:colorButtonImage] forState:UIControlStateNormal];
+         [colorButton setImage:[UIImage imageNamed:colorButtonImage_active] forState:UIControlStateHighlighted];
+         [colorButton addTarget:self action:@selector(addActionForSelection:) forControlEvents:UIControlEventTouchUpInside];
+         [sliderBackground addSubview:colorButton];
+         
+         UIButton *patternButton = [UIButton buttonWithType:UIButtonTypeCustom];
+         patternButton . tag = 20000;
+         patternButton . frame = CGRectMake(0, 0, full_screen.size.width*0.48, colorBurttonHeight);
+         patternButton . center = CGPointMake(full_screen.size.width*0.75, sliderBackground.frame.size.height/2);
+         [patternButton setImage:[UIImage imageNamed:patternButtonImage] forState:UIControlStateNormal];
+         [patternButton setImage:[UIImage imageNamed:patternButtonImage_active] forState:UIControlStateHighlighted];
+         [patternButton addTarget:self action:@selector(addActionForSelection:) forControlEvents:UIControlEventTouchUpInside];
+         [sliderBackground addSubview:patternButton];
+         
+     }];
 }
 
 -(void )addActionForSelection:(UIButton *)aButton
@@ -4457,18 +4500,18 @@
     UIButton  *patternBut = (UIButton *)[parentView viewWithTag:20000];
     [colorBut setHidden:YES];
     [patternBut setHidden:YES];
-
+    
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, full_screen.size.width, colorBackgroundBarHeightHeight)];
     scrollView . tag = 4000;
     scrollView . backgroundColor = [UIColor clearColor];
     scrollView . userInteractionEnabled = YES;
-
+    
     float xAxis = 5;
     float yAxis = (colorBackgroundBarHeightHeight - colorBurttonHeight)/2;
     float width = colorBurttonHeight;
     float height = colorBurttonHeight;
     int   gap   = colorBurttonHeight+10;
-
+    
     if (aButton.tag == 10098)
     {
         for ( int i = 0; i<52; i++)
@@ -4476,8 +4519,11 @@
             UIButton *but  = [UIButton buttonWithType:UIButtonTypeCustom];
             but . tag = i;
             but . frame = CGRectMake(xAxis, yAxis, width, height);
-
+            
             [but setBackgroundColor:[GridView getColorAtIndex:i]];
+            if ([GridView getLockStatusOfColor:i ]) {
+                [but setImage:[UIImage imageNamed:@"lock1.png"] forState:UIControlStateNormal];
+            }
             [but addTarget:self action:@selector(applyColor:) forControlEvents:UIControlEventTouchUpInside];
             [scrollView addSubview:but];
             xAxis = xAxis+gap;
@@ -4491,12 +4537,15 @@
             but . tag = i;
             but . frame = CGRectMake(xAxis, yAxis, width, height);
             [but setBackgroundColor:[GridView getPatternAtIndex:i]];
+            if ([GridView getLockStatusOfPattern:i ]) {
+                [but setImage:[UIImage imageNamed:@"lock1.png"] forState:UIControlStateNormal];
+            }
             [but addTarget:self action:@selector(applyPattern:) forControlEvents:UIControlEventTouchUpInside];
             [scrollView addSubview:but];
             xAxis = xAxis+gap;
         }
     }
-
+    
     scrollView . contentSize = CGSizeMake(xAxis, height);
     scrollView . showsHorizontalScrollIndicator = NO;
     scrollView . showsVerticalScrollIndicator = NO;
@@ -4505,12 +4554,44 @@
 
 -(void)applyColor:(UIButton *)but
 {
-    sess.color = [GridView getColorAtIndex:but.tag];
+    BOOL isLock = [GridView getLockStatusOfColor:but.tag];
+    if (isLock) {
+        [WCAlertView showAlertWithTitle:@"Upgrade To Pro" message:@"This item is locked. Upgrade free version to pro to avail this item." customizationBlock:nil completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView){
+            if (buttonIndex == 0) {
+                return ;
+            }
+            else
+            {
+                [self openProVersion];
+            }
+            
+            
+        } cancelButtonTitle:@"Cancel" otherButtonTitles:@"Upgrade", nil];
+    }else
+    {
+        sess.color = [GridView getColorAtIndex:but.tag];
+    }
 }
 
 -(void)applyPattern:(UIButton *)but
 {
-   sess.color = [GridView getPatternAtIndex:but.tag];
+    BOOL isLock = [GridView getLockStatusOfPattern:but.tag];
+    if (isLock) {
+        [WCAlertView showAlertWithTitle:@"Upgrade To Pro" message:@"This item is locked. Upgrade free version to pro to avail this item." customizationBlock:nil completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView){
+            if (buttonIndex == 0) {
+                return ;
+            }
+            else
+            {
+                [self openProVersion];
+            }
+            
+            
+        } cancelButtonTitle:@"Cancel" otherButtonTitles:@"Upgrade", nil];
+    }else
+    {
+        sess.color = [GridView getPatternAtIndex:but.tag];
+    }
 }
 
 -(void)colorItemSelected:(UIColor *)selectedColor
@@ -4538,7 +4619,7 @@
         }
         case MODE_COLOR_AND_PATTERN:
         {
-
+            
             [self releaseResourcesForColorAndPatternSettings_updated];
             break;
         }
@@ -4549,7 +4630,7 @@
         }
         case MODE_VIDEO_SETTINGS:
         {
-
+            
             [self releaseResourcesForVideoSetttings];
             break;
         }
@@ -4572,9 +4653,7 @@
 
 -(void)otTabBar:(OT_TabBar*)tbar didSelectItem:(OT_TabBarItem*)tItem
 {
-
-    NSLog(@" tab bar item clicked  %d",tItem.tag);
-     NSLog(@"************* emode = %d",eMode);
+    
     if(NO == tItem.nestedSelectionEnabled)
     {
         if(tItem.tag == eMode)
@@ -4596,7 +4675,7 @@
         /* Now get the new mode */
         eMode = (eAppMode)tItem.tag;
     }
-
+    
     /* handle the new mode */
     switch (eMode)
     {
@@ -4607,13 +4686,13 @@
         }
         case MODE_COLOR_AND_PATTERN:
         {
-
+            
             [self allocateResourcesForColorAndPatternSettings_updated:tItem];
             break;
         }
         case MODE_ADJUST_SETTINGS:
         {
-
+            
             [self allocateResourcesForAdjustSettings:tItem];
             break;
         }
@@ -4652,7 +4731,7 @@
 
 #pragma mark upload implementation
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
-{	
+{
 	/* Dismiss the modelview controller */
 	[controller dismissModalViewControllerAnimated:YES];
 	
@@ -4720,9 +4799,9 @@
             picker.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
             
             /* Attach an image to the email */
-            //[picker addAttachmentData:UIImagePNGRepresentation([sess.frame renderToImageOfSize:nvm.uploadSize]) 
+            //[picker addAttachmentData:UIImagePNGRepresentation([sess.frame renderToImageOfSize:nvm.uploadSize])
             //                 mimeType:@"image/png" fileName:@"PicShells"];
-            [picker addAttachmentData:UIImageJPEGRepresentation([sess.frame renderToImageOfSize:nvm.uploadSize],1.0) 
+            [picker addAttachmentData:UIImageJPEGRepresentation([sess.frame renderToImageOfSize:nvm.uploadSize],1.0)
                              mimeType:@"image/jpeg" fileName:@"PicShells"];
             
             /* Fill out the email body text */
@@ -4753,13 +4832,13 @@
     return;
 }
 
--(void) saveImageToInstagram:(UIImage *)pImage 
+-(void) saveImageToInstagram:(UIImage *)pImage
 {
     if(nil == pImage)
     {
         NSLog(@"Image is nil");
     }
-    /* First Save the Image to documents directory 
+    /* First Save the Image to documents directory
      1. Generate the path to save the file*/
     NSString *pathToSave = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/captions1.ig"];
     
@@ -4778,7 +4857,7 @@
         documentInteractionController.annotation = [NSDictionary dictionaryWithObject:caption forKey:@"InstagramCaption"];
         [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
     }
-    else 
+    else
     {
         [[NSNotificationCenter defaultCenter]postNotificationName:uploaddone object:nil];
         
@@ -4786,15 +4865,15 @@
                                 message:@"Instagram is not installed in your device. You need to install Instagram application to share your image with Instagram. Would you like to download it now?"
                      customizationBlock:nil
                         completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
-                        {
-                            if(buttonIndex == 1)
-                            {
-                                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/instagram/id389801252?mt=8"]];
-                            }
-                        }
+         {
+             if(buttonIndex == 1)
+             {
+                 [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/instagram/id389801252?mt=8"]];
+             }
+         }
                       cancelButtonTitle:@"Cancel"
                       otherButtonTitles:@"Download", nil];
-
+        
     }
 }
 
@@ -4810,12 +4889,12 @@
     {
         [self uploadToEmail];
     }
-#ifdef POSTCARD_SINCERLY   
+#ifdef POSTCARD_SINCERLY
     else if(nvm.uploadCommand == SEND_POSTCARD)
     {
         [self sendPostCard];
     }
-#endif    
+#endif
     else if(nvm.uploadCommand == SEND_TO_INSTAGRAM)
     {
         //[self orderPersanalItem];
@@ -4909,7 +4988,7 @@
     backgroundView . userInteractionEnabled = YES;
     [self.view addSubview:backgroundView];
     [self.view bringSubviewToFront:backgroundView];
-
+    
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
     {
         backgroundView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_ipad" ofType:@"png"]];
@@ -4918,12 +4997,12 @@
         backgroundView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_1136" ofType:@"png"]];
     }
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+        
         backgroundView.frame = CGRectMake(0, 0, full_screen.size.width, full_screen.size.height);
     }completion:^(BOOL finished)
      {
      }];
-
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, full_screen.size.width, customBarHeight)];
     titleLabel. text = @"Share";
     titleLabel . textAlignment = NSTextAlignmentCenter;
@@ -4931,7 +5010,7 @@
     titleLabel . backgroundColor = [UIColor clearColor];
     titleLabel . font = [UIFont systemFontOfSize:20.0f];
     [backgroundView addSubview:titleLabel];
-
+    
     float xaxis = 43;
     float yaxis = 70;
     float width = 95;
@@ -4952,7 +5031,7 @@
         yaxis = 90;
         ygap = 140;
     }
-
+    
     if (isVideoFile)
     {
         for (int index = 1; index<=6; index++) {
@@ -4966,7 +5045,7 @@
             [shareButton addTarget:self action:@selector(handleVideoAndImageSharing:) forControlEvents:UIControlEventTouchUpInside];
             [backgroundView addSubview:shareButton];
             xaxis = xaxis + xgap;
-
+            
             if (xaxis>limit) {
                 yaxis = yaxis+ygap;
                 xaxis = 50;
@@ -4987,7 +5066,7 @@
             [shareButton setImage:[UIImage imageNamed:shareImage] forState:UIControlStateNormal];
             [shareButton setImage:[UIImage imageNamed:shareImage_active] forState:UIControlStateHighlighted];
             shareButton . frame = CGRectMake(xaxis, yaxis, width, height);
-
+            
             if (index == 3) {
                 shareButton . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/2);
                 [shareButton setImage:[UIImage imageNamed:@"share_option5_image.png"] forState:UIControlStateNormal];
@@ -4995,12 +5074,12 @@
                 
             }
             if (index == 4) {
-
+                
                 [shareButton setImage:[UIImage imageNamed:@"share_option6.png"] forState:UIControlStateNormal];
                 [shareButton setImage:[UIImage imageNamed:@"share_option6_active.png"] forState:UIControlStateHighlighted];
-
+                
             }
-
+            
             [shareButton addTarget:self action:@selector(handleVideoAndImageSharing:) forControlEvents:UIControlEventTouchUpInside];
             [backgroundView addSubview:shareButton];
             xaxis = xaxis + xgap;
@@ -5017,10 +5096,10 @@
                     xaxis = 128;
                 }
             }
-
+            
         }
     }
-
+    
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelButton . frame = CGRectMake(0, full_screen.size.height-customBarHeight, full_screen.size.width, customBarHeight);
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
@@ -5049,28 +5128,28 @@
             {
                 nvm . uploadCommand = UPLOAD_CLIPBOARD;
             }
-
+            
             break;
         }
         case 4:
         {
             if (isVideoFile) {
-            nvm.uploadCommand = UPLOAD_VIDDY;
+                nvm.uploadCommand = UPLOAD_VIDDY;
             }else
             {
-            nvm.uploadCommand = UPLOAD_EMAIL;
+                nvm.uploadCommand = UPLOAD_EMAIL;
             }
             break;
         }
         case 5:
         {
             if (isVideoFile) {
-             nvm.uploadCommand = UPLOAD_PHOTO_ALBUM;
+                nvm.uploadCommand = UPLOAD_PHOTO_ALBUM;
             }else
             {
-            nvm.uploadCommand = UPLOAD_PHOTO_ALBUM;
+                nvm.uploadCommand = UPLOAD_PHOTO_ALBUM;
             }
-
+            
             break;
         }
         case 6:
@@ -5088,48 +5167,48 @@
     {
         [self uploadImage];
     }
-
+    
 }
 
 -(void)closeShareView
 {
-
-
-
+    
+    
+    
     UIImageView *shareView = (UIImageView *)[self.view viewWithTag:2134];
     NSArray *viewToRemove = [shareView subviews];
     for (UIView *v in viewToRemove) {
         [v removeFromSuperview];
     }
     [UIView animateWithDuration:0.1f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-
+        
         shareView.frame = CGRectMake(0, full_screen.size.height, full_screen.size.width, 0);
-
+        
     }completion:^(BOOL finished)
      {
          if (nil!= shareView) {
              [customTabBar unselectCurrentSelectedTab];
              [shareView removeFromSuperview];
              [self releaseToolBarIfAny];
-
+             
              [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SHARE];
          }
      }];
-
+    
 }
 -(void)showResolutionOptios
 {
-
+    
     CGRect full               = [[UIScreen mainScreen]bounds];
     CGRect shareRect          = CGRectMake(full.size.width-55.0, customTabBar.frame.origin.y, full_screen.size.width, 50);
-   // NSMutableArray *menuItems = [[NSMutableArray alloc]initWithCapacity:1];
-
+    // NSMutableArray *menuItems = [[NSMutableArray alloc]initWithCapacity:1];
+    
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         shareRect.origin.x = shareRect.origin.x - 60.0;
     }
-
-
+    
+    
     KxMenuItem *title    = [KxMenuItem menuItem:@"Resolution"
                                           image:nil
                                          target:nil
@@ -5159,28 +5238,28 @@
                                          target:self
                                          action:@selector(handleResolutionOptionSelection:)];
     res_600.tag          = RESOLUTION_PIXCOUNT_LOW1;
-
+    
     NSArray *menuItems   = @[title,res_2400,res_2100,res_1800,res_1200,res_600];
-
+    
     for(int index = 0; index < [menuItems count]; index++)
     {
         KxMenuItem *menuitem = menuItems[index];
-
+        
         menuitem.alignment = NSTextAlignmentCenter;
     }
-
+    
     KxMenuItem *first = menuItems[0];
-
+    
     first.foreColor = PHOTO_DEFAULT_COLOR;
-
+    
     first.alignment = NSTextAlignmentCenter;
-
+    
     [KxMenu showMenuInView:self.view
                   fromRect:shareRect
                  menuItems:menuItems
                   delegate:self];
-
-
+    
+    
 }
 
 

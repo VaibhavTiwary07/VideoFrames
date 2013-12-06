@@ -41,36 +41,12 @@
 {
     if(nil != videoPath)
     {
+        NSLog(@" Video path not nil");
         NSDictionary *usrInfo = [NSDictionary dictionaryWithObject:videoPath forKey:backgroundVideoSelected];
         [[NSNotificationCenter defaultCenter] postNotificationName:backgroundVideoSelected object:nil userInfo:usrInfo];
         if(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
         {
-          //  [[_controller navigationController] popToRootViewControllerAnimated:NO];
-             [[_controller navigationController] popToViewController:_controller animated:NO];
-        }
-    }
-    else
-    {
-        if(nil != res)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"FAILED",@"Failed") message:res delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",@"OK") otherButtonTitles:nil];
-            [alert show];
-            [alert release];
-        }
-    }
-    
-    [self release];
-}
-
--(void)imageSelected:(UIImage *)img result:(NSString*)res
-{
-    if(nil != img)
-    {
-        NSDictionary *usrInfo = [NSDictionary dictionaryWithObject:img forKey:@"backgroundImageSelected"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:backgroundImageSelected object:nil userInfo:usrInfo];
-        if(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-        {
-           // [[_controller navigationController] popToRootViewControllerAnimated:NO];
+            //  [[_controller navigationController] popToRootViewControllerAnimated:NO];
             [[_controller navigationController] popToViewController:_controller animated:NO];
         }
     }
@@ -87,80 +63,53 @@
     [self release];
 }
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+-(void)imageSelected:(NSMutableArray *)imgArray result:(NSString*)res
 {
-    /* Dismiss the controller */
-    [picker dismissModalViewControllerAnimated:NO];
     
-    /* Get Media Type */
-    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeMovie, 0)
-        == kCFCompareEqualTo)
+    if(0 != imgArray.count)
     {
-        NSURL *moviePath = [info objectForKey:UIImagePickerControllerMediaURL];
-        [moviePath retain];
-        [self videoSelected:moviePath result:nil];
+        NSDictionary *usrInfo = [NSDictionary dictionaryWithObject:imgArray forKey:@"backgroundImageSelected"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:backgroundImageSelected object:nil userInfo:usrInfo];
+        if(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+        {
+            // [[_controller navigationController] popToRootViewControllerAnimated:NO];
+            [[_controller navigationController] popToViewController:_controller animated:NO];
+        }
     }
     else
     {
-        UIImage *selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-        
-        /* Image selected */
-        [self imageSelected:selectedImage result:nil];
+        if(nil != res)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"FAILED",@"Failed") message:res delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",@"OK") otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
     }
     
-	return;
+    /*  if(nil != img)
+     {
+     NSDictionary *usrInfo = [NSDictionary dictionaryWithObject:img forKey:@"backgroundImageSelected"];
+     [[NSNotificationCenter defaultCenter] postNotificationName:backgroundImageSelected object:nil userInfo:usrInfo];
+     if(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+     {
+     // [[_controller navigationController] popToRootViewControllerAnimated:NO];
+     [[_controller navigationController] popToViewController:_controller animated:NO];
+     }
+     }
+     else
+     {
+     if(nil != res)
+     {
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"FAILED",@"Failed") message:res delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",@"OK") otherButtonTitles:nil];
+     [alert show];
+     [alert release];
+     }
+     }*/
+    
+    [self release];
 }
 
--(void)handlePhotoAlbum
-{
-    NSAutoreleasePool *localPool = [[NSAutoreleasePool alloc] init];
-	
-	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
-	{
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:openIpadPhotoAlbum object:nil userInfo:nil];
-            return;
-        }
-        
-		/* Allocate the picker view */
-		UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
-		
-		/* Set the source type */
-		imgPicker.sourceType    = UIImagePickerControllerSourceTypePhotoLibrary;
-		
-		/* Do not allow editing */
-		imgPicker.allowsEditing = NO;
-		
-		/* Set th delegate for the picker view */
-		imgPicker.delegate = self;
-		
-		/* Set the model transition style */
-		imgPicker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        
-        [_controller presentModalViewController:imgPicker animated:YES];
-        
-		/* Release the image picker */
-		[imgPicker release];
-	}
-	else
-	{
-		UIAlertView *pickerAlert;
-		
-		pickerAlert = [[UIAlertView alloc] initWithTitle:@"Photo Library" message:@"Photo Library is not available to pick the background!!!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
-		
-		/* Show the alert */
-		[pickerAlert show];
-		
-		/* Release the alert */
-		[pickerAlert release];
-	}
-	
-	[localPool release];
-	
-	return;
-}
+
 
 -(void)handleVideoAlbum
 {
@@ -249,75 +198,84 @@
 	
 	return;
 }
--(void)pickImage
+-(void)pickImage:(int)maximumNumberOfImage
 {
     if (self.asset== nil) {
         NSLog(@"new asset selected");
         self.assets_array = [[NSMutableArray alloc] init];
     }
-
+    
     CTAssetsPickerController *picker_photo = [[CTAssetsPickerController alloc] init];
     picker_photo. title = @"PhotoPicker";
-    picker_photo.maximumNumberOfSelection = 1;
+    picker_photo.maximumNumberOfSelection = maximumNumberOfImage;
     picker_photo.assetsFilter = [ALAssetsFilter allPhotos];
     picker_photo.delegate = self;
-
+    
     [_controller presentViewController:picker_photo animated:YES completion:NULL];
 }
 
 -(void)pickVideo
 {
-
+    
     if (self.asset== nil) {
         NSLog(@"new asset selected");
         self.assets_array = [[NSMutableArray alloc] init];
     }
-
-
+    
+    NSLog(@"Video picker selcted");
     CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
     picker.title = @"VideoPicker";
     picker.maximumNumberOfSelection = 1;
     picker.assetsFilter = [ALAssetsFilter allVideos];
     picker.delegate = self;
-
+    
     [_controller presentViewController:picker animated:YES completion:NULL];
 }
 
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets
 {
-
+    
     if ([assets count]==0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Item Selected" message:@"Currently no image/video selected." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
         [alert release];
         return;
-
+        
     }
-    NSLog(@" ******  %@ ******",picker.title);
-    ALAsset *asset = [assets objectAtIndex:0];
-    [self.assets_array addObjectsFromArray:assets];
-
+    NSLog(@" !!!!!!!!!!!!  %@ ******",picker.title);
+    //  ALAsset *asset = [assets objectAtIndex:0];
+    //   [self.assets_array addObjectsFromArray:assets];
+    
     if ([picker.title isEqualToString:@"VideoPicker"])
     {
+        ALAsset *asset = [assets objectAtIndex:0];
+        
+        //  [self.assets_array addObjectsFromArray:assets];
+        
         NSURL *videoURL = asset.defaultRepresentation.url;
         [self videoSelected:videoURL result:nil];
-
+        
     }else
     {
-
-
-        UIImage *fullResolutionImage =
-        [UIImage imageWithCGImage:asset.defaultRepresentation.fullResolutionImage
-                            scale:1.0f
-                      orientation:(UIImageOrientation)asset.defaultRepresentation.orientation];
-
-        [self imageSelected:fullResolutionImage result:nil];
+        
+        for (ALAsset *selectedImage in assets) {
+            UIImage *fullResolutionImage =
+            [UIImage imageWithCGImage:selectedImage.defaultRepresentation.fullResolutionImage
+                                scale:1.0f
+                          orientation:(UIImageOrientation)selectedImage.defaultRepresentation.orientation];
+            [self.assets_array addObject:fullResolutionImage];
+            
+        }
+        
+        [self imageSelected:self.assets_array result:nil];
+        [self.asset release];
+        self.asset = nil;
+        
     }
-
     
-    [self.asset release];
-    self.asset = nil;
-
+    
+    
+    
 }
 -(void)handleFacebookAlbum
 {
@@ -347,7 +305,7 @@
     [[OT_Facebook SharedInstance]profilePhoto:^(UIImage *profilePhoto){
         [self imageSelected:profilePhoto result:nil];
     }];
-
+    
     return;
 }
 

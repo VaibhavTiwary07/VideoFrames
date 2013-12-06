@@ -70,6 +70,7 @@ typedef struct
 -(void)showSessionOn:(UIView*)view;
 -(void)hideSession;
 -(void)imageSelectedForPhoto:(UIImage*)img;
+-(void)imageSelectedForPhoto:(UIImage*)img indexOfPhoto:(int)photoNumer;
 -(void)imageEditedForPhoto:(UIImage*)img;
 -(NSMutableArray*)eraseAndReturnImagesForAnimation;
 -(void)deleteAllSessionResources;

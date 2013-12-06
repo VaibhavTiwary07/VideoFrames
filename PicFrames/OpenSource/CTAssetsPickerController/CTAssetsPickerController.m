@@ -206,7 +206,7 @@
 
 - (void)localize
 {
-    self.title = NSLocalizedString(@"Photos", nil);
+  //  self.title = NSLocalizedString(@"Photos", nil);
 }
 
 - (void)setupGroup

@@ -275,10 +275,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSLog(@"addPhotosAndAdjustorsFromFrame");
     int index = 0;
     
-#if 0    
+#if 0
     /* open the database */
     FMDatabase* db = [DBUtilities openDataBase];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"getThePhotoInfoForFrameNumber:Could not open db.");
@@ -295,7 +295,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* open the database */
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"openDataBase:Could not open db.");
@@ -305,7 +305,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* begin transaction */
     [db beginTransaction];
-#if DB_TRACE_EXECUTION    
+#if DB_TRACE_EXECUTION
     [db setTraceExecution:YES];
 #endif
     
@@ -349,10 +349,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSLog(@"updatePhotosAndAdjustorsFromFrame");
     int index = 0;
     
-#if 0    
+#if 0
     /* open the database */
     FMDatabase* db = [DBUtilities openDataBase];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"getThePhotoInfoForFrameNumber:Could not open db.");
@@ -369,7 +369,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* open the database */
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"openDataBase:Could not open db.");
@@ -379,7 +379,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* begin transaction */
     [db beginTransaction];
-#if DB_TRACE_EXECUTION    
+#if DB_TRACE_EXECUTION
     [db setTraceExecution:YES];
 #endif
     
@@ -393,9 +393,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         }
         
         [db executeUpdate:@"update sessiondimensions set photo_x = ?, photo_y = ?, photo_width = ?, photo_height = ? where sessionId = ? and photoIndex = ? and type = ?",[NSNumber numberWithFloat:pht.frame.origin.x],[NSNumber numberWithFloat:pht.frame.origin.y],[NSNumber numberWithFloat:pht.frame.size.width],[NSNumber numberWithFloat:pht.frame.size.height],[NSNumber numberWithInt:iSessionId],[NSNumber numberWithInt:index],[NSNumber numberWithInt:0]];
-#if 0        
+#if 0
         [db executeUpdate:@"insert into sessiondimensions (sessionId, photoIndex, type, photo_x, photo_y, photo_width, photo_height) values (?,?,?,?,?,?,?)",[NSNumber numberWithInt:iSessionId],[NSNumber numberWithInt:index],[NSNumber numberWithInt:0],[NSNumber numberWithFloat:pht.frame.origin.x],[NSNumber numberWithFloat:pht.frame.origin.y],[NSNumber numberWithFloat:pht.frame.size.width],[NSNumber numberWithFloat:pht.frame.size.height]];
-#endif        
+#endif
         //NSLog(@"Pht (%d): (%f,%f,%f,%f)",index,pht.frame.origin.x,pht.frame.origin.y,pht.frame.size.width,pht.frame.size.height);
     }
     
@@ -409,9 +409,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         }
         
         [db executeUpdate:@"update sessiondimensions set photo_x = ?, photo_y = ?, photo_width = ?, photo_height = ? where sessionId = ? and photoIndex = ? and type = ?",[NSNumber numberWithFloat:adj.frame.origin.x],[NSNumber numberWithFloat:adj.frame.origin.y],[NSNumber numberWithFloat:adj.frame.size.width],[NSNumber numberWithFloat:adj.frame.size.height],[NSNumber numberWithInt:iSessionId],[NSNumber numberWithInt:index],[NSNumber numberWithInt:1]];
-#if 0        
+#if 0
         [db executeUpdate:@"insert into sessiondimensions (sessionId, photoIndex, type, photo_x, photo_y, photo_width, photo_height) values (?,?,?,?,?,?,?)",[NSNumber numberWithInt:iSessionId],[NSNumber numberWithInt:index],[NSNumber numberWithInt:1],[NSNumber numberWithFloat:adj.frame.origin.x],[NSNumber numberWithFloat:adj.frame.origin.y],[NSNumber numberWithFloat:adj.frame.size.width],[NSNumber numberWithFloat:adj.frame.size.height]];
-#endif        
+#endif
     }
     
     /* commit the update */
@@ -546,7 +546,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSString * videoName = [NSString stringWithFormat:@"tempaudio_%d.m4a",iSessionId];
     NSString *videoPath  = [documentsDirectory stringByAppendingPathComponent:videoName];
     
-  
+    
     return videoPath;
 }
 
@@ -711,19 +711,19 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     double duration = [[videoInfo objectForKey:@"Duration"]floatValue];
     
     NSLog(@"Duration for photo %d is %f ",index,duration);
-
+    
     return duration;
 }
 
 /*
--(void)saveVideo:(NSURL*)videopath atIndex:(int)index
-{
-    NSString *key     = [NSString stringWithFormat:@"video%d_%d.png",iSessionId,index];
-    NSString *path    = videopath.path;
-    NSLog(@"Saving %@ url as key %@",videopath,key);
-    [[NSUserDefaults standardUserDefaults]setObject:path forKey:key];
-}
-*/
+ -(void)saveVideo:(NSURL*)videopath atIndex:(int)index
+ {
+ NSString *key     = [NSString stringWithFormat:@"video%d_%d.png",iSessionId,index];
+ NSString *path    = videopath.path;
+ NSLog(@"Saving %@ url as key %@",videopath,key);
+ [[NSUserDefaults standardUserDefaults]setObject:path forKey:key];
+ }
+ */
 -(void)saveVideoInfo:(NSMutableDictionary*)videoInfo atIndex:(int)index
 {
     /* generate key for storing video info */
@@ -886,9 +886,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return;
 }
-
+#if 1
 -(void)imageSelectedForPhoto:(UIImage*)img
 {
+    // photoFromFrame.photoNumber = photoNumer;
     [self handleVideoFrameSettingsUpdate];
     
     self.imageFromApp = img;
@@ -902,6 +903,85 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* schedule the timer to start the HDD saving, DB updated and setting to photo */
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheResourceToPhoto:) userInfo:nil repeats:NO];
+}
+#endif
+-(void)saveAndSetTheResourceForPhoto:(NSTimer*)timer
+{
+    Photo *pht = [timer.userInfo objectForKey:@"Photo"];
+    UIImage *selectedImage = [timer.userInfo objectForKey:@"selectedImage"];
+    
+    NSURL *pathToVideo = nil;
+    eFrameResourceType eType = FRAME_RESOURCE_TYPE_PHOTO;
+    
+    if(nil != timer.userInfo)
+    {
+        eType = FRAME_RESOURCE_TYPE_VIDEO;
+        pathToVideo = [timer.userInfo objectForKey:@"videoPath"];
+        if(nil != pathToVideo)
+        {
+            [self saveVideoInfo:timer.userInfo atIndex:pht.photoNumber];
+            NSLog(@"saveAndSetTheResourceToPhoto:Saving Video");
+        }
+    }
+    
+#if IMAGE_SELECTION
+    /* First generate the optimized image of the selected image */
+    UIImage *optimizedImage = [Utility optimizedImage:selectedImage];
+    
+    NSLog(@"Optimized image from (%f,%f) to (%f,%f)",selectedImage.size.width,selectedImage.size.height,optimizedImage.size.width,optimizedImage.size.height);
+    
+    /* Free the selected image image */
+    [selectedImage release];
+    
+    /* Make the optimized image as the selected image */
+    selectedImage = optimizedImage;
+#endif
+    /* save the image to HDD */
+    [self saveImage:selectedImage atIndex:pht.photoNumber];
+    
+    /* save frame type */
+    [self saveFrameResourceType:eType atIndex:pht.photoNumber];
+    
+    /*  update the database */
+    [SessionDB updateImageSizeInDBWith:selectedImage.size atIndex:pht.photoNumber forSession:iSessionId];
+    //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber ofType:eType atPath:pathToVideo forSession:iSessionId];
+    
+    /* set the image to photo */
+    pht.image = selectedImage;
+    
+    /* decrement the retain count */
+    //[imageBeingSelected release];
+    
+    selectedImage = nil;
+    
+    /* Update the Session Icon */
+    [self updateTheSessionIcon];
+    
+    [Utility removeActivityIndicatorFrom:_frame.superview];
+    
+    return;
+}
+
+-(void)imageSelectedForPhoto:(UIImage*)img indexOfPhoto:(int)photoNumer
+{
+    Photo *pht = [self.frame getPhotoAtIndex:photoNumer];
+    UIImage *selectedImage = nil;
+    NSAssert(nil != pht, @"Photo at Index %d is nil",photoNumer);
+    
+    [self handleVideoFrameSettingsUpdate];
+    
+    selectedImage = [img retain];
+    
+    [self saveVideoInfo:nil atIndex:photoNumer];
+    
+    [self deleteVideoFramesForPhotoAtIndex:photoNumer];
+    
+    /* start the activity controller */
+    [Utility addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
+    
+    NSDictionary *input = [NSDictionary dictionaryWithObjectsAndKeys:selectedImage,@"selectedImage",pht,@"Photo", nil];
+    /* schedule the timer to start the HDD saving, DB updated and setting to photo */
+    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheResourceForPhoto:) userInfo:input repeats:NO];
 }
 
 -(BOOL)anyVideoFrameSelected
@@ -1145,29 +1225,29 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
-
+    
     ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
-
+    
     [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset) {
-
+        
         ALAssetRepresentation *rep = [asset defaultRepresentation];
         Byte *buffer = (Byte*)malloc((unsigned long)rep.size);
         NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:(NSUInteger)rep.size error:nil];
         NSData *videoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
         NSString * videoName = [NSString stringWithFormat:@"student_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
         NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
-
+        
         NSLog(@"video path-%@",videoPath);
-
+        
         [videoData writeToFile:videoPath atomically:YES];
-
+        
         if(nil != complete)
         {
             complete(videoPath);
         }
-
+        
     } failureBlock:^(NSError *error) {
-
+        
         if(nil != complete)
         {
             complete(nil);
@@ -1187,7 +1267,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [SessionDB updateImageSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber forSession:iSessionId];
     //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size
     //                              atIndex:photoFromFrame.photoNumber ofType:FRAME_RESOURCE_TYPE_PHOTO atPath:nil forSession:iSessionId];
-
+    
     /* set the image to photo */
     [photoFromFrame setEditedImage:self.imageFromApp];
     
@@ -1240,10 +1320,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     sColor.fBlue = 255.0;
     sColor.fAlpha = 255.0;
     
-#if 0    
+#if 0
     /* open the database */
     FMDatabase* db = [DBUtilities openDataBase];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"getThePhotoInfoForFrameNumber:Could not open db.");
@@ -1260,7 +1340,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* open the database */
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"openDataBase:Could not open db.");
@@ -1269,10 +1349,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 #endif
     
     [db beginTransaction];
-#if DB_TRACE_EXECUTION    
+#if DB_TRACE_EXECUTION
     [db setTraceExecution:YES];
 #endif
-
+    
     /* Now insert the session into the database */
     [db executeUpdate:@"insert into sessions (iSessionId, iFrameNumber, iPattern, iAspectRatio, fInnerRadius, fOuterRadius,fFrameWidth,bPatternSelected,fRed,fGreen,fBlue,fAlpha) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ,
      [NSNumber numberWithInt:iSessionId],
@@ -1287,7 +1367,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
      [NSNumber numberWithDouble:sColor.fGreen],
      [NSNumber numberWithDouble:sColor.fBlue],
      [NSNumber numberWithDouble:sColor.fAlpha]];
-
+    
     [db commit];
     
     /* close the database */
@@ -1413,14 +1493,14 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 -(void)unregisterForNotifications
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:nil 
+                                                    name:nil
                                                   object:nil];
 }
 
 -(void)registerForNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:) 
+                                             selector:@selector(receiveNotification:)
                                                  name:nil
                                                object:nil];
 }
@@ -1473,13 +1553,13 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     viewsForAnimation = [[NSMutableArray alloc]initWithCapacity:MAX_PHOTOS_SUPPORTED];
     
     /* Loop through the photos and allocate the UIImageView for each photo with image is set
-       For all photos in the frame
-           if image is set for the photo
-               allocate UIImageView and add it to the array
-               set the photo.image to UIImageView
-               set photo.imahe = nil
-           else
-               continue;
+     For all photos in the frame
+     if image is set for the photo
+     allocate UIImageView and add it to the array
+     set the photo.image to UIImageView
+     set photo.imahe = nil
+     else
+     continue;
      */
     for(index = 0; index < [_frame photoCount]; index++)
     {
@@ -1626,7 +1706,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         
         /* open the database */
         FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-        if (![db open]) 
+        if (![db open])
         {
             [db release];
             NSLog(@"openDataBase:Could not open db.");
@@ -1711,7 +1791,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 {
                     free(phtInfo);
                 }
-              
+                
                 /* configure the adjustors one by one */
                 stAdjustorInfo *adjInfo = NULL;
                 
@@ -1732,17 +1812,17 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 {
                     free(adjInfo);
                 }
-               
+                
                 [self initiClassVariables];
                 
                 [self registerForNotifications];
-               
+                
                 /* Now configure the session */
                 self.innerRadius = fInnerRadius;
-                self.outerRadius = fOuterRadius; 
+                self.outerRadius = fOuterRadius;
                 self.frameWidth  = fFrameWidth;
                 //[self setPhotoWidth:fFrameWidth];
-
+                
                 [self applyScaleAndOffsetForTheFrame];
                 
                 [sessions close];
@@ -1779,7 +1859,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         
         [sessions close];
         [db close];
-#if 0        
+#if 0
         NSLog(@"initWithSessionId: sessionId is not found in DB, so creating new session");
         if(NO == [self createAndAddSessionToDbWithId:sessionId])
         {
@@ -1861,7 +1941,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     {
         /* Create instance for nvm */
         nvm = [Settings Instance];
-     
+        
         /* allocate the frame */
         Frame *frm = [[Frame alloc]initWithFrameNumber:iFrmNumber];
         if(nil == frm)
@@ -1945,11 +2025,11 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 #pragma mark other session related functions
 -(void)updateSessionInDB
-{	
-#if 0    
+{
+#if 0
     /* open the database */
     FMDatabase* db = [DBUtilities openDataBase];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"getThePhotoInfoForFrameNumber:Could not open db.");
@@ -1966,7 +2046,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* open the database */
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open]) 
+    if (![db open])
     {
         [db release];
         NSLog(@"openDataBase:Could not open db.");
@@ -1975,8 +2055,8 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 #endif
     
     [db beginTransaction];
-
-#if DB_TRACE_EXECUTION    
+    
+#if DB_TRACE_EXECUTION
     [db setTraceExecution:YES];
 #endif
     
@@ -2043,9 +2123,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* first release the frame assosiated with the session */
     if(nil != _frame.superview)
     {
-        [_frame removeFromSuperview];        
+        [_frame removeFromSuperview];
     }
-
+    
     /* release the frame */
     if(nil != _frame)
     {
@@ -2055,7 +2135,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* allocate the new frame */
     _frame = [[Frame alloc]initWithFrameNumber:FrameNumber];
-
+    
     
     [self deletePhotosAndAdjustors];
     
@@ -2095,14 +2175,14 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 -(UIColor*)color
 {
     UIColor *clr = [UIColor colorWithRed:sColor.fRed green:sColor.fGreen blue:sColor.fBlue alpha:sColor.fAlpha];
-
+    
     return clr;
 }
 
 -(void)setColor:(UIColor *)color
 {
     const float *components = NULL;
-
+    
     [self handleVideoFrameSettingsUpdate];
     
     components = CGColorGetComponents(color.CGColor);
@@ -2214,7 +2294,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 -(void)setFrameWidth:(float)frameWidth
 {
     [self handleVideoFrameSettingsUpdate];
- 
+    
     fFrameWidth = frameWidth;
     
     /* Update Frame Width */
@@ -2235,7 +2315,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [self handleVideoFrameSettingsUpdate];
     
     nvm = [Settings Instance];
-
+    
     iAspectRatio = aspectRatio;
     nvm.aspectRatio = aspectRatio;
     
