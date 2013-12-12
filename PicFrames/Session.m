@@ -549,7 +549,17 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return videoPath;
 }
-
+-(NSString *)pathToAudioOfRespectedVideo:(int)videoIndex
+{
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString * videoName = [NSString stringWithFormat:@"tempaudio_%d_%d.m4a",iSessionId,videoIndex];
+    NSString *videoPath  = [documentsDirectory stringByAppendingPathComponent:videoName];
+    
+    
+    return videoPath;
+}
 -(NSString*)pathToMusciSelectedFromLibrary
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -567,6 +577,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     if([[NSFileManager defaultManager]fileExistsAtPath:currentMix])
     {
+        
         [[NSFileManager defaultManager]removeItemAtPath:currentMix error:nil];
     }
 }
@@ -583,12 +594,48 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:docPath error:&error];
         NSAssert(YES == folderDeleted, @"deleteVideoFramesForPhotoAtIndex: Failed to delete %@, error %@",docPath,error.localizedDescription);
     }
-    
-    [self deleteCurrentAudioMix];
+
     
     return;
 }
-
+-(void)deleteVideoAtPhototIndex:(int)photoIndex
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSString * videoName = [NSString stringWithFormat:@"student_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
+    NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
+    
+    NSLog(@"Trying to delete video at path :%@", videoPath);
+    
+    if([[NSFileManager defaultManager]fileExistsAtPath:videoPath])
+    {
+        NSError *error;
+        BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:videoPath error:&error];
+        NSAssert(YES == folderDeleted, @"deleteVideoFramesForPhotoAtIndex: Failed to delete %@, error %@",videoPath,error.localizedDescription);
+        NSLog(@" FINISHED");
+    }
+    
+    
+    return;
+}
+-(void)deleteImageOfFrame:(int)photoIndex frame:(int)frameIndex
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSString *folderPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"video%d",photoIndex]];
+     NSString *imgPath = [folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",photoIndex,frameIndex]];
+    NSLog(@" frame image path %@", imgPath);
+   
+    if ([[NSFileManager defaultManager]fileExistsAtPath:imgPath]) {
+        
+        NSError *error;
+        BOOL imageDeleted = [[NSFileManager defaultManager]removeItemAtPath:imgPath error:&error];
+        NSLog(@" Image deleted at index %d_%d  successful =  %d",photoIndex,frameIndex,imageDeleted);
+        
+    }
+    
+  
+}
 -(NSString*)pathForImageAtIndex:(int)index inPhoto:(int)photoIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -602,9 +649,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                                                                              error:nil];
         NSAssert(YES == folderCreated, @"pathForImageAtIndex: Failed To create folder %@",folderPath);
     }
-    
+   
     NSString *imgPath = [folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",photoIndex,index]];
-    
+   
     return imgPath;
 }
 
@@ -629,13 +676,14 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
     NSData *myData    = [[NSUserDefaults standardUserDefaults]objectForKey:key];
     NSDictionary *videoInfo = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:myData];
-    
+    if (key == nil)
+    {
+        return 0;
+    }
     if(nil == videoInfo)
     {
         return 0;
     }
-    
-    NSLog(@"getFrameCountForPhotoAtIndex: %d is %d",index,[[videoInfo objectForKey:@"FrameCount"]integerValue]);
     
     return [[videoInfo objectForKey:@"FrameCount"]integerValue];
 }
@@ -681,16 +729,23 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return url;
 }
 
--(double)getMaxVideoDuration
+-(double)getMaxVideoDuration:(BOOL)isSequentialPlay
 {
     double duration = 0.0f;
     
     for(int index = 0; index < self.frame.photoCount; index++)
     {
         double temDuration = [self getVideoDurationForPhotoAtIndex:index];
-        if(temDuration > duration)
+
+        if (isSequentialPlay) {
+            
+        duration = duration+temDuration;
+        }else
         {
-            duration = temDuration;
+            if(temDuration > duration)
+            {
+                duration = temDuration;
+            }
         }
     }
     

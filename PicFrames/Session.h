@@ -98,14 +98,17 @@ typedef struct
 -(UIImage*)getVideoFrameAtIndex:(int)frameIndex forPhoto:(int)photoIndex;
 -(eFrameResourceType)getFrameResourceTypeAtIndex:(int)index;
 -(double)getVideoDurationForPhotoAtIndex:(int)index;
--(double)getMaxVideoDuration;
+-(double)getMaxVideoDuration:(BOOL)isSequentialPlay;
 -(NSURL*)getVideoUrlForPhotoAtIndex:(int)index;
 -(NSString*)pathToIntermediateVideo;
 -(void)deleteVideoFramesForPhotoAtIndex:(int)photoIndex;
+-(void)deleteVideoAtPhototIndex:(int)photoIndex;
+-(void)deleteImageOfFrame:(int)photoIndex frame:(int)frameIndex;
 -(BOOL)anyVideoFrameSelected;
 -(void)handleVideoFrameSettingsUpdate;
 -(void)restoreFrameImages;
 -(NSString*)pathToCurrentAudioMix;
+-(NSString *)pathToAudioOfRespectedVideo:(int)videoIndex;
 -(void)deleteCurrentAudioMix;
 -(NSString*)pathToMusciSelectedFromLibrary;
 -(void)enterNoTouchMode;

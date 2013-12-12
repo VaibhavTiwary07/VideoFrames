@@ -70,6 +70,7 @@
     BOOL gIsPreviewPaused;
     int  gCurPreviewFrameIndex; //sdfbljsdfbksjdbg
     int  gTotalPreviewFrames;
+    int  gPreviewFrameCounterVariable;
     AVAudioPlayer *previewAudioPlayer;
     CMPopTipView *preViewControls;
     UISlider *previewAdjSlider;
@@ -77,6 +78,8 @@
     
     /* Add music */
     UIView *musicTrackCell;
+    
+    BOOL isSequentialPlay;
     
     
     
@@ -90,6 +93,7 @@
 @property(nonatomic, assign) BOOL isVideoFile;
 @property (nonatomic, assign) BOOL isTouchWillDetect;
 @property (nonatomic  , assign) int videoTimeRange;
+@property (nonatomic  , assign) int initialPhotoIndex;
 @end
 
 @implementation ViewController
@@ -100,6 +104,7 @@
 @synthesize tabBar;
 @synthesize imageForEdit;
 @synthesize applicationSuspended;
+@synthesize initialPhotoIndex;
 #pragma mark image editing
 
 -(void)doneWithPhotoEffectsEditor:(NSTimer*)t
@@ -281,6 +286,7 @@
         {
             
             [ish pickImage:maximumNumberOfImage];
+            
             break;
         }
         case 1:
@@ -312,6 +318,12 @@
         }
         case 2:
         {
+            
+            NSString *key     = [sess getVideoInfoKeyForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+            [sess deleteCurrentAudioMix];
+            [sess deleteVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
+            [sess deleteVideoFramesForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
             [self clearCurImage];
             break;
         }
@@ -571,13 +583,14 @@
     int origCount  = 0;
     int duplicateFrequency = 0;
     BOOL requiresDuplication = NO;
-    
+    videoTimeRange =videoTimeRange+ duration;
     //round the duration to 30 seconds
     if(duration > 30.0)
     {
         duration = 30.0;
+        videoTimeRange =videoTimeRange+ 30;
     }
-    
+    NSLog(@"Print video Duration %d",videoTimeRange);
     nrFrames = duration * 30;
     NSLog(@"VIDEO NIMINAL FRAME RATE -------  %f",inputAssetTrack. nominalFrameRate);
     
@@ -683,11 +696,10 @@
             
             if(requiresDuplication)
             {
-                NSLog(@"Calculate Value  : %d",(origCount%duplicateFrequency));
-                NSLog(@"DuplicateFrequency : %d", duplicateFrequency);
+                
                 if((0 != duplicateFrequency)&&(0 ==(origCount%duplicateFrequency)))
                 {
-                    NSLog(@" Duplicating .....");
+                    
                     //NSLog(@"Duplicating %d with %d original count %d duplicate frequency %d",frameIndex,frameIndex-1,origCount,duplicateFrequency);
                     [self writeFrame:[UIImage imageWithCGImage:newImage scale:1.0 orientation:videoAssetOrientation_] atFrameIndex:frameIndex videoIndex:[sess photoNumberOfCurrentSelectedPhoto] ofTotalFrame:nrFrames];
                     frameIndex++;
@@ -1062,38 +1074,101 @@
     int frameCount = [sess getFrameCountOfFrame:sess.frame];
     int frameIndex = 0;
     int photoIndex = 0;
+    int  initialFrameCount = 0;
+    int  currentPhotoIndex = 0;
+    int  tempFrameIndex    = 0;
     
     [self addWaterMarkToFrame];
     
     [sess enterNoTouchMode];
     
+    int totalNumberOfFrames = 0;
+    for (int i = 0; i < sess.frame.photoCount; i++)
+    {
+        totalNumberOfFrames = totalNumberOfFrames + [sess getFrameCountForPhotoAtIndex:i];
+        
+    }
+    if (isSequentialPlay == TRUE) {
+       frameCount = totalNumberOfFrames;
+    }
+    
+    
+     gTotalPreviewFrames = [sess getFrameCountOfFrame:sess.frame];
+    if (isSequentialPlay) {
+        
+    gTotalPreviewFrames = totalNumberOfFrames;
+    }
+    
     /* we couldn't find the existing video, so lets generate one by ourself */
     for(frameIndex = 0; frameIndex < frameCount; frameIndex++)
     {
         NSAutoreleasePool *pool = [NSAutoreleasePool new];
-        
-        //initialize the frame
-        for(photoIndex = 0; photoIndex < sess.frame.photoCount; photoIndex++)
+        if (isSequentialPlay)
         {
-            Photo *pht = [sess.frame getPhotoAtIndex:photoIndex];
+         
+            int _photoIndex =0;
+            if (frameIndex < initialFrameCount+[sess getFrameCountForPhotoAtIndex:currentPhotoIndex])
+            {
+            _photoIndex = currentPhotoIndex;
+            tempFrameIndex++;
             
-            UIImage *image = [sess getVideoFrameAtIndex:frameIndex forPhoto:photoIndex];
+            }else
+            {
+                initialFrameCount =initialFrameCount + [sess getFrameCountForPhotoAtIndex:currentPhotoIndex];
+                tempFrameIndex  = 0;
+                currentPhotoIndex++;
+            
+                if (currentPhotoIndex>= sess. frame. photoCount)
+                {
+        
+                break;
+                
+                }
+                _photoIndex = currentPhotoIndex;
+            
+             }
+            if (frameIndex ==0)
+            {
+                //initialize the frame
+                for(photoIndex = 0; photoIndex < sess.frame.photoCount; photoIndex++)
+                {
+            
+                    Photo *pht = [sess.frame getPhotoAtIndex:photoIndex];
+            
+                    UIImage *image = [sess getVideoFrameAtIndex:frameIndex forPhoto:photoIndex];
+                    if(nil != image)
+                    {
+                        pht.view.imageView.image = image;
+                    }
+                 }
+            }else
+            {
+            NSLog(@"  Frame   :   %d   photo   :  %d", tempFrameIndex, _photoIndex);
+            Photo *pht = [sess.frame getPhotoAtIndex:_photoIndex];
+            
+            UIImage *image = [sess getVideoFrameAtIndex:tempFrameIndex forPhoto:_photoIndex];
             if(nil != image)
             {
-                //pht.image  = image;
+               
                 pht.view.imageView.image = image;
             }
-        }
-#if 0
-        int rendersize ;
-        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-            rendersize = 639;
+ 
+            }
         }else
         {
-            rendersize = 640;
-            
+            for(photoIndex = 0; photoIndex < sess.frame.photoCount; photoIndex++)
+            {
+                Photo *pht = [sess.frame getPhotoAtIndex:photoIndex];
+                
+                UIImage *image = [sess getVideoFrameAtIndex:frameIndex forPhoto:photoIndex];
+                if(nil != image)
+                {
+                    //pht.image  = image;
+                    pht.view.imageView.image = image;
+                }
+            }
         }
-#endif
+
         /* render current frame */
         UIImage *img = [sess.frame renderToImageOfSize:CGSizeMake(renderSize, renderSize)];
         //UIImage *img = [sess.frame quickRenderToImageOfSize:CGSizeMake(639, 639)];
@@ -1137,7 +1212,7 @@
             return;
         }
     }
-    
+
     [self removeWaterMarkFromFrame];
     
     [writerInput markAsFinished];
@@ -1223,7 +1298,7 @@
             return;
         }
         
-        [self addAudioFilesAtPath:audioFiles usingMode:NO toVideoAtPath:interVideoPath outputToFileAtApath:currentVideoPath onCompletion:^(BOOL status) {
+        [self addAudioFilesAtPath:audioFiles usingMode:isSequentialPlay toVideoAtPath:interVideoPath outputToFileAtApath:currentVideoPath onCompletion:^(BOOL status) {
             if(nil != completion)
             {
                 completion(status,currentVideoPath);
@@ -1339,25 +1414,12 @@
     CMTime                audioStartTime = kCMTimeZero;
     int                   audioFileCount = 0;
     float                  kRecordingFPS = 30.0;
-    BOOL                    serialMixing = NO;
+    BOOL                    serialMixing = isSequentialPlay;
     AVMutableComposition *mixComposition = [AVMutableComposition composition];
     BOOL userMusicEnabled = [[[NSUserDefaults standardUserDefaults]objectForKey:KEY_USE_AUDIO_SELECTED_FROM_LIBRARY]boolValue];
     BOOL userMusicIsValid = NO;
     
-    /* Check if user has selected the music from Library and enabled it */
-    /*if(userMusicEnabled)
-     {
-     NSNumber *persistentId = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
-     NSURL *audioUrl = [self getUrlFromMediaItemId:persistentId];
-     dispatch_async(dispatch_get_main_queue(), ^{
-     if(nil != completion)
-     {
-     NSLog(@"Found local audio file selected from libraray %@",audioUrl.path);
-     completion(YES,audioUrl.path);
-     }});
-     [bpool release];
-     return;
-     }*/
+    
     
     if(userMusicEnabled)
     {
@@ -1391,12 +1453,17 @@
         {
             audioFileCount++;
             
-            double maxVideoDuration = [sess getMaxVideoDuration];
+            double maxVideoDuration = [sess getMaxVideoDuration:isSequentialPlay];
+
             if(duration > maxVideoDuration)
             {
                 duration = maxVideoDuration;
             }
-            
+            if (isSequentialPlay== TRUE) {
+                duration = maxVideoDuration;
+            }
+        
+            NSLog(@" maximum duration :%f",duration);
             AVAssetTrack * audioAssetTrack = [[urlAsset tracksWithMediaType:AVMediaTypeAudio]objectAtIndex:0];
             AVMutableCompositionTrack *compositionAudioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio
                                                                                            preferredTrackID: kCMPersistentTrackID_Invalid];
@@ -1444,7 +1511,10 @@
             AVMutableCompositionTrack *compositionAudioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio
                                                                                            preferredTrackID: kCMPersistentTrackID_Invalid];
             CMTime audioAssetDuration = CMTimeMake((int) (duration * kRecordingFPS), kRecordingFPS);
+           // [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero,audioAssetDuration) ofTrack:audioAssetTrack atTime:audioStartTime error:nil];
+            
             [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero,audioAssetDuration) ofTrack:audioAssetTrack atTime:audioStartTime error:nil];
+           
             
             if(serialMixing)
             {
@@ -1524,9 +1594,10 @@
     }
 }
 
--(void)updatePreviewFrame:(NSTimer*)timer
+-(void)updatePreviewFrame:(NSTimer *)timer
 {
     int frameIndex = gCurPreviewFrameIndex;
+    int   photoIndex = initialPhotoIndex;
     if(0 == frameIndex)
     {
         [self addWaterMarkToFrame];
@@ -1542,6 +1613,8 @@
         gIsPreviewInProgress  = NO;
         gCurPreviewFrameIndex = 0;
         gTotalPreviewFrames   = 0;
+        gPreviewFrameCounterVariable = 0;
+        
         [sess exitNoTouchMode];
         
         [self releaseToolBarIfAny];
@@ -1571,26 +1644,70 @@
     {
         return;
     }
-    
-    for(int photoIndex = 0; photoIndex < sess.frame.photoCount; photoIndex++)
-    {
-        Photo *pht = [sess.frame getPhotoAtIndex:photoIndex];
+    if (isSequentialPlay) {
         
+        Photo *pht = [sess.frame getPhotoAtIndex:photoIndex];
         UIImage *image = [sess getVideoFrameAtIndex:frameIndex forPhoto:photoIndex];
+        
         if(nil != image)
         {
-            //pht.image  = image;
+            //NSLog(@" Frame index %d  photoIndex :%d", frameIndex , photoIndex);
+            
             pht.view.imageView.image = image;
+        }else
+        {
+            photoIndex++;
+            if (photoIndex>= sess. frame. photoCount) {
+                initialPhotoIndex     = 0;
+                gPreviewFrameCounterVariable = 0;
+                gCurPreviewFrameIndex = gTotalPreviewFrames;
+                
+                return;
+                
+            }else
+            {
+                frameIndex = 0;
+                initialPhotoIndex = photoIndex;
+                gCurPreviewFrameIndex = frameIndex;
+                pht= [sess.frame getPhotoAtIndex:photoIndex];
+            }
+        }
+        [previewAdjSlider setValue:gPreviewFrameCounterVariable];
+        
+        gCurPreviewFrameIndex++;
+        gPreviewFrameCounterVariable++;
+        
+        if(gPreviewFrameCounterVariable == (gPreviewFrameCounterVariable%gTotalPreviewFrames))
+        {
+            previewTimeLabel.text = [self getCurrentPreviewTime];
+            
+        }
+        
+    }else
+    {
+        for (int photo_Index = 0; photo_Index< sess.frame.photoCount; photo_Index++)
+        {
+             Photo *pht = [sess.frame getPhotoAtIndex:photo_Index];
+            UIImage *image = [sess getVideoFrameAtIndex:frameIndex forPhoto:photo_Index];
+            if(nil != image)
+            {
+                pht.view.imageView.image = image;
+            }
+        }
+        
+        [previewAdjSlider setValue:gCurPreviewFrameIndex];
+        gCurPreviewFrameIndex++;
+        
+        if(gCurPreviewFrameIndex == (gCurPreviewFrameIndex%gTotalPreviewFrames))
+        {
+            previewTimeLabel.text = [self getCurrentPreviewTime];
         }
     }
-    [previewAdjSlider setValue:gCurPreviewFrameIndex];
-    gCurPreviewFrameIndex++;
+   
     
-    if(0 == (gCurPreviewFrameIndex%30))
-    {
-        previewTimeLabel.text = [self getCurrentPreviewTime];
-    }
+    
 }
+
 
 -(void)playPreviewOfVideoFrame
 {
@@ -1615,15 +1732,24 @@
                 NSURL *audioUrl1 = [NSURL fileURLWithPath:audioPath];
                 previewAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioUrl1 error:NULL];
                 previewAudioPlayer.delegate = self;
-                
                 [previewAudioPlayer prepareToPlay];
             }
             else
             {
                 previewAudioPlayer = nil;
             }
-            
+            int totalNumberOfFrames = 0;
+            for (int i = 0; i < sess.frame.photoCount; i++)
+            {
+                totalNumberOfFrames = totalNumberOfFrames + [sess getFrameCountForPhotoAtIndex:i];
+                
+            }
+    
             gTotalPreviewFrames = [sess getFrameCountOfFrame:sess.frame];
+            if (isSequentialPlay) {
+                gTotalPreviewFrames = totalNumberOfFrames;
+                
+            }
             gCurPreviewFrameIndex = 0;
             
             /* Started  */
@@ -1631,6 +1757,8 @@
             
             if(NO == gIsPreviewPaused)
             {
+                
+               [previewAdjSlider setMaximumValue:gTotalPreviewFrames];
                 /* start perodic timer to change the frames of the video */
                 [NSTimer scheduledTimerWithTimeInterval:1.0/30.0
                                                  target:self
@@ -1641,6 +1769,7 @@
                 {
                     [previewAudioPlayer play];
                 }
+
             }
         }
         else
@@ -1654,6 +1783,7 @@
     }];
     
 }
+
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
@@ -1701,7 +1831,16 @@
 {
     if(gIsPreviewInProgress)
     {
-        gCurPreviewFrameIndex = gTotalPreviewFrames;
+        /* Below 3 initializtion for serial play not required in ParallelPlay*/
+        if (isSequentialPlay) {
+           
+        gCurPreviewFrameIndex = 0;
+        gTotalPreviewFrames   = 0;
+        gPreviewFrameCounterVariable = 0;
+        }else
+        {
+           gCurPreviewFrameIndex = gTotalPreviewFrames;
+        }
         
         if (nil != previewAudioPlayer)
         {
@@ -2080,6 +2219,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    BOOL      enableStatus = [[[NSUserDefaults standardUserDefaults]objectForKey:KEY_USE_SEQUENTIAL_Play_STATUS]boolValue];
+    isSequentialPlay = enableStatus;
     isTouchWillDetect = YES;
     
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
@@ -3066,8 +3208,12 @@
     NSLog(@"Deleting %d images",[viewsForAnimation count]);
     
     [viewsForAnimation release];
+//    [sess deleteVideoFramesForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
+//  //  [sess deleteVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
+//    
+//    [sess handleVideoFrameSettingsUpdate];
     
-    [sess deleteCurrentAudioMix];
+
 }
 
 -(void)clearTheSession:(id)sender
@@ -3410,7 +3556,13 @@
 -(NSString*)getCurrentPreviewTime
 {
     int totalTime = gTotalPreviewFrames * (1.0/30.0);
-    int elapsedTime = gCurPreviewFrameIndex * (1.0/30.0);
+    int elapsedTime= 0;
+    if (isSequentialPlay) {
+       elapsedTime = gPreviewFrameCounterVariable * (1.0/30.0);
+    }else
+    {
+      elapsedTime =  gCurPreviewFrameIndex*(1.0/30.0);
+    }
     int remainingSeconds = totalTime-elapsedTime;
     
     int mins = remainingSeconds/60;
@@ -3618,11 +3770,13 @@
     
     
     /* Add switch */
-    UISwitch *swit = [[UISwitch alloc]initWithFrame:CGRectMake(cell.frame.size.width-switchWidth, 0, switchWidth, switchHeight)];
+    UISwitch *swit = [[UISwitch alloc]initWithFrame:CGRectMake(cell.frame.size.width-switchWidth, 15, switchWidth, switchHeight)];
     swit.on = enableStatus;
     swit.tag = TAG_AUDIO_CELL_SWITCH;
     [cell addSubview:swit];
-    swit.center = CGPointMake(swit.center.x, cell.center.y);
+    
+    NSLog(@"  X  :  %f  Y : %f", swit.frame.origin.x , swit.frame.origin.y);
+   // swit.center = CGPointMake(swit.center.x, cell.center.y);
     
     /* Add action to switch */
     [swit addTarget:self
@@ -3633,16 +3787,66 @@
     
     return cell;
 }
+-(UIView*)allocateSquentialPlayButtonCellWithRect:(CGRect)rect  enable:(BOOL)enableStatus
+{
+    UIView *cell         = [self allocateVideoSettingsCellWithRect:rect];
+    float   labelSize    = cell.frame.size.height;
+    float   switchWidth  = cell.frame.size.height + 10;
+    float   switchHeight = cell.frame.size.height;
+    
+    
+    UILabel *songTitle = [[UILabel alloc]initWithFrame:CGRectMake(labelSize, 0, cell.frame.size.width-labelSize-switchWidth, cell.frame.size.height)];
+    songTitle.backgroundColor = [UIColor clearColor];
+    songTitle.text = @"SequentialPlay";
+    songTitle.textColor = [UIColor whiteColor];
+    songTitle.font = [UIFont boldSystemFontOfSize:16];
+    songTitle.textAlignment = UITextAlignmentCenter;
+   // songTitle.tag = TAG_AUDIO_CELL_TITLE;
+    [cell addSubview:songTitle];
+    [songTitle release];
+    
+    /* Add switch */
+    UISwitch *swit = [[UISwitch alloc]initWithFrame:CGRectMake(cell.frame.size.width-switchWidth, 15, switchWidth, switchHeight)];
+    swit.on = enableStatus;
+    swit.tag = TAG_SQUENTIAL_CELL_SWITCH;
+   //swit.center = CGPointMake((cell.frame.size.width-switchWidth) +(switchWidth/2), cell.center.y);
+    /* Add action to switch */
+    [swit addTarget:self
+             action:@selector(handleUpdateFromSquentialPlaySwitchStatus:)
+   forControlEvents:UIControlEventValueChanged];
+    [cell addSubview:swit];
+   
+    [swit release];
+    
+    return cell;
 
+}
 -(void)handleUpadteAudioFromLibraraySwitchStatus:(UISwitch*)swit
 {
     /* Store enable status */
     [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:swit.on]
                                              forKey:KEY_USE_AUDIO_SELECTED_FROM_LIBRARY];
-    
+    [sess handleVideoFrameSettingsUpdate];
     [sess deleteCurrentAudioMix];
 }
+-(void)handleUpdateFromSquentialPlaySwitchStatus:(UISwitch *)swt
+{
+    if (swt.on) {
+        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:swt.on]
+                                                 forKey:KEY_USE_SEQUENTIAL_Play_STATUS];
+        isSequentialPlay = TRUE;
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:swt.on]
+                                                 forKey:KEY_USE_SEQUENTIAL_Play_STATUS];
+        isSequentialPlay = FALSE;
+    }
+    
+    [sess handleVideoFrameSettingsUpdate];
+    [sess deleteCurrentAudioMix];
 
+}
 -(void)audioCell:(UIView*)cell setTitle:(NSString*)title
 {
     UILabel *titleLabel = (UILabel*)[cell viewWithTag:TAG_AUDIO_CELL_TITLE];
@@ -3863,10 +4067,14 @@
     /* Add settings title to toolbar */
     [self addToolbarWithTitle:@"Select Music" tag:TAG_TOOLBAR_SETTINGS];
     NSNumber *mediaItemId  = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
-    CGRect    settingsRect = CGRectMake(0, customTabBar.frame.origin.y-130, full_screen.size.width, 130);
-    CGRect  musicTrackRect = CGRectMake(0, 0, settingsRect.size.width, settingsRect.size.height/2.0-1.25);
-    CGRect selectTrackRect = CGRectMake(0, settingsRect.size.height/2.0+1.25,
-                                        settingsRect.size.width, settingsRect.size.height/2.0-1.25);
+    
+    CGRect    settingsRect = CGRectMake(0, customTabBar.frame.origin.y-180, full_screen.size.width, 180);
+    CGRect selectSqlRect = CGRectMake(0, 0,
+                                      settingsRect.size.width, 60);
+    CGRect  musicTrackRect = CGRectMake(0, 60+1.25, settingsRect.size.width, 60);
+    CGRect selectTrackRect = CGRectMake(0, 120+2.50,
+                                        settingsRect.size.width, 60.0-1.25);
+    
     
     /* Add touch sheild */
     CGRect full = [[UIScreen mainScreen]bounds];
@@ -3875,6 +4083,8 @@
     touchSheiled.userInteractionEnabled = YES;
     [self.view addSubview:touchSheiled];
     [touchSheiled release];
+    
+    
     
     UIImageView       *settings = nil;
     BOOL      enableStatus = [[[NSUserDefaults standardUserDefaults]objectForKey:KEY_USE_AUDIO_SELECTED_FROM_LIBRARY]boolValue];
@@ -3902,9 +4112,9 @@
     {
         NSLog(@"Media Item id is nil");
         
-        settingsRect = CGRectMake(settingsRect.origin.x, settingsRect.origin.y+settingsRect.size.height/2.0,
-                                  settingsRect.size.width, settingsRect.size.height/2.0);
-        selectTrackRect = CGRectMake(0, 0,settingsRect.size.width, settingsRect.size.height);
+        settingsRect = CGRectMake(settingsRect.origin.x, customTabBar.frame.origin.y-120,
+                                  settingsRect.size.width, 120.0);
+        selectTrackRect = CGRectMake(0, 60+1.25,settingsRect.size.width, 60.0);
     }
     
     /* Allocate select video button cell */
@@ -3923,6 +4133,8 @@
     /* Lets add popup with music items */
     selectMusic.userInteractionEnabled = YES;
     
+    UIView *selectSquentialPlayView = [self allocateSquentialPlayButtonCellWithRect:selectSqlRect enable:isSequentialPlay];
+    
     
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         
@@ -3934,9 +4146,10 @@
              [settings addSubview:musicTrackCell];
              [musicTrackCell release];
          }
-         
+         [settings addSubview:selectSquentialPlayView];
          [settings addSubview:selectMusic];
          [selectMusic addSubview:selectMusicButton];
+         [selectSquentialPlayView release];
          [selectMusic release];
      }];
     

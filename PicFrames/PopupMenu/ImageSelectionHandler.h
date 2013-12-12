@@ -24,5 +24,5 @@
 -(void)handleFacebookAlbum;
 -(void)handleProfilePhoto;
 -(void)pickVideo;
--(void)pickImage;
+-(void)pickImage:(int)maximumNumberOfImage;
 @end
