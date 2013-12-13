@@ -903,7 +903,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         [self saveVideoInfo:tmr.userInfo atIndex:photoFromFrame.photoNumber];
         NSLog(@"saveAndSetTheResourceToPhoto:Saving Video");
     }
-    
+    NSLog(@" *********   %d ", eType);
 #if IMAGE_SELECTION
     /* First generate the optimized image of the selected image */
     UIImage *optimizedImage = [Utility optimizedImage:self.imageFromApp];
@@ -970,10 +970,11 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     if(nil != timer.userInfo)
     {
-        eType = FRAME_RESOURCE_TYPE_VIDEO;
+        
         pathToVideo = [timer.userInfo objectForKey:@"videoPath"];
         if(nil != pathToVideo)
         {
+            eType = FRAME_RESOURCE_TYPE_VIDEO;
             [self saveVideoInfo:timer.userInfo atIndex:pht.photoNumber];
             NSLog(@"saveAndSetTheResourceToPhoto:Saving Video");
         }

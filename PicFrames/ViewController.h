@@ -64,8 +64,8 @@
 
 -(void)uploadSelected;
 -(void)updateNewsBadgeTo:(NSString*)badge flashState:(BOOL)flash;
-#if ADS_ENABLE
+
 -(void)showBannerAd;
 -(void)hideBannerAd;
-#endif
+
 @end

@@ -23,6 +23,19 @@
 }
 
 @end
+#if defined(VideoCollagePRO)
+/* Define the below macro to 1 to see parallel display of both locked and unlocked frames. i.e first
+ two rows of each page will have unlocked items, next two rows will be locked items. If the below
+ macro is defined as 0 then it will move to serial display, i.e first all unlocked frames will apper
+ then all locked frames will appear
+ */
+#define FRAMES_PARALLEL_DISPLAY_SUPPORT           1
+
+/* Define FRAMES_LOCKED_FRAMES_SUPPORT to 1 to to show the locked frames along with the unlocked frames,
+ if it is defined as zero, then only unlocked frames will appear.
+ */
+#define FRAMES_LOCKED_FRAMES_SUPPORT              1
+#else
 /* Define the below macro to 1 to see parallel display of both locked and unlocked frames. i.e first
    two rows of each page will have unlocked items, next two rows will be locked items. If the below
    macro is defined as 0 then it will move to serial display, i.e first all unlocked frames will apper 
@@ -34,7 +47,7 @@
  if it is defined as zero, then only unlocked frames will appear.
  */
 #define FRAMES_LOCKED_FRAMES_SUPPORT              0
-
+#endif
 #define FRAMES_INSTAGRAM_LOCK_SUPPORT             1
 #define FRAMES_FACEBOOK_LOCK_SUPPORT              1
 #define FRAMES_INSTAGRAM_LOCK_SUPPORT             1
@@ -210,6 +223,9 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         else
         {
             free_frame_mapping[i].lockType = FRAMES_LOCK_FREE;
+        }
+        if (proVersion) {
+             free_frame_mapping[i].lockType = FRAMES_LOCK_FREE;
         }
     }
 }
@@ -422,7 +438,13 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
     }
     
     //NSLog(@"Lock status of group %d filter %d is %d",grp,fil,lockstatus[grp][fil]);
-    return lockstatus[grp][fil];
+    if (freeVersion) {
+        return lockstatus[grp][fil];
+    }else
+    {
+        return NO;
+    }
+    
 }
 
 -(void)dealloc
@@ -668,7 +690,11 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         return FRAMES_TYPE_FREE;
     }
     
+#if freeVersion
     return FRAMES_TYPE_PREMIUM;
+#else
+    return FRAMES_TYPE_FREE;
+#endif
 }
 
 -(int)convertIndexToFrameTypeIndex:(int)index

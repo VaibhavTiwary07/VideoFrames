@@ -10,7 +10,17 @@
 #import "PubTypes.h"
 #ifndef PicFrames_Config_h
 #define PicFrames_Config_h
+
+#if defined(VideoCollagePRO)
+#define proVersion 1
+#define freeVersion 0
+#define BANNERADS_ENABLE 0
+#else
 #define proVersion 0
+#define freeVersion 1
+#define BANNERADS_ENABLE 1
+#endif
+
 #define help_close_Button ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"exit-button_ipad.png":@"exit-button.png")
 
 #define colorBackgroundBarHeightHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?100.0:60.0)
@@ -92,7 +102,7 @@
 #define IMAGE_SELECTION_LEGACY    1
 #define IMAGE_SELECTION_CMPOPVIEW 1
 #define CMTIPPOPVIEW_ENABLE 0
-#define BANNERADS_ENABLE 1
+
 #define FULLSCREENADS_ENABLE 1
 #define SESSIONSUPPORT_ENABLE 0
 #define FIX_FACEBOOK_NEGATIVEFEEDBACK 1
@@ -133,7 +143,11 @@
 
 #define EDITOR_DEFAULT_COLOR ([UIColor colorWithRed:(44.0f/256.0f) green:(44.0f/256.0f) blue:(44.0f/256.0f) alpha:PHOTO_DEFAULT_COLOR_A])
 
+#if defined(VideoCollagePRO)
+#define FRAME_COUNT 52
+#else
 #define FRAME_COUNT 53
+#endif
 #define UNEVEN_FRAME_COUNT 48
 #define UNEVEN_FRAME_INDEX 1001
 
@@ -180,13 +194,24 @@
 #define bought_allpackages   ([[NSUserDefaults standardUserDefaults]boolForKey:kInAppPurchaseProUpgradeProductId])
 #define bought_watermarkpack ([[NSUserDefaults standardUserDefaults]boolForKey:kInAppPurchaseRemoveWaterMarkPack])
 
+
+
 #define flurrykey   @"2283GYBGQX9NYDBCVK5J"
 #define tapjoyAppId @"9e1f8880-1d30-468e-ae6c-6c1c8c5cd91e"
 #define tapjoySec   @"jI91fR0KoGjux2xMQRLa"
+#if defined(VideoCollagePRO)
+
+#define iosAppId         722633887
+#define iosAppIdString @"722633887"
+#define iosProAppIdString  @"722633887"
+#else
+
 #define iosAppId         712175767
 #define iosAppIdString @"712175767"
 //#define iosProAppIdString  @"722633887"
 #define iosProAppIdString  @"722633887"
+
+#endif
 #define admobpublishedid_iphone @"4965f34510b246a4"
 #define admobmediationid_iphone @"fa41477ba08c4abe"
 #define admobmediationid_ipad @"baa65b9955184e72"
@@ -195,6 +220,7 @@
 
 #define admobunitid_iphone @"c4c18ab3c700453e"
 #define admobunitid_ipad @"027203f42678455b"
+
 //#define appname  NSLocalizedString(@"appname", @"Pic Shells")
 #define yozio_sdkkey    @"c773c740-5049-0130-2f2e-12314000ac7c"
 #define yozio_secret    @"33929373ed554b27682a5fbbc9667730"
@@ -220,7 +246,9 @@
 #define ituneslinktoApp       [NSString stringWithFormat:@"http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8",iosAppIdString]
 #define ituneslinktoProVersion       [NSString stringWithFormat:@"http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8",iosProAppIdString]
 #define websiteOfApp @"www.videocollageapp.com"
-#define fbAppId                   @"532541016816841"
+#if defined(VideoCollagePRO)
+
+#define fbAppId                   @"166101283588955"
 
 #define applicationlikebuttonurl @"<iframe src=\"http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FOutthinking-Pvt-Ltd%2F564692443591238&amp;width=292&amp;height=80&amp;colorscheme=light&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;send=false\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; width:292px; height:80px;\" allowTransparency=\"true\"></iframe>"
 
@@ -230,6 +258,17 @@
 
 #define applicationlikebuttonurlFull ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)?applicationlikebuttonipadfull:applicationlikebuttonurliphoneFull)
 
+#else
+#define fbAppId                   @"532541016816841"
+
+#define applicationlikebuttonurl @"<iframe src=\"http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FOutthinking-Pvt-Ltd%2F564692443591238&amp;width=292&amp;height=80&amp;colorscheme=light&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;send=false\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; width:292px; height:80px;\" allowTransparency=\"true\"></iframe>"
+
+#define applicationlikebuttonurliphoneFull @"<iframe src=\"http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpicshells&amp;width=320&amp;height=590&amp;colorscheme=dark&amp;show_faces=true&amp;border_color&amp;stream=true&amp;header=true&amp;appId=282818615134789\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; width:320px; height:590px;\" allowTransparency=\"true\"></iframe>"
+
+#define applicationlikebuttonipadfull @"<iframe src=\"http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpicshells&amp;width=768&amp;height=590&amp;colorscheme=dark&amp;show_faces=true&amp;border_color&amp;stream=true&amp;header=true&amp;appId=282818615134789\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; width:768px; height:590px;\" allowTransparency=\"true\"></iframe>"
+
+#define applicationlikebuttonurlFull ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)?applicationlikebuttonipadfull:applicationlikebuttonurliphoneFull)
+#endif
 /* Tags */
 #define RADIUS_TAG_INDEX 100
 #define TAG_WEBVIEW      110

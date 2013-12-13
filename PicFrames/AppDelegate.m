@@ -179,11 +179,13 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     if(bought_watermarkpack == NO)
     {
+#if freeVersion
         interstitial.delegate = nil;
 
         [interstitial release];
 
         interstitial = nil;
+#endif
     }
 
     [PushWizard endSession];
@@ -206,6 +208,7 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     /* Allocate interstitial */
     if (bought_watermarkpack == NO) {
+#if freeVersion
         interstitial = [[GADInterstitial alloc] init];
 
         interstitial.delegate = self;
@@ -213,27 +216,27 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
         interstitial.adUnitID = fullscreen_admob_id;
 
         [interstitial loadRequest:[GADRequest request]];
+#endif
     }
 
     NSLog(@" APPLICATION DID BECOME ACTIVE ........");
-#if ADS_ENABLE
-#if FULLSCREENADS_ENABLE
-    [[OT_AdControl sharedInstance] cacheInterstitials];
-#endif
-    
-    [[OT_AdControl sharedInstance] enablePeriodicAds];
+
 #if BANNERADS_ENABLE    
     [self.viewController showBannerAd];
 #endif
-#endif    
+   
     [[OT_Facebook SharedInstance]handleApplicationDidBecomeActive];
     
     [PushWizard updateSessionWithValues:nil];
 }
+
+#if freeVersion
 -(void)showAdmobFullscreenAd:(NSTimer*)timer
 
 {
     NSLog(@"FULL SCREEN AD GET CALLED");
+    if (NO == bought_watermarkpack) {
+     
     GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
 
     if(self.navigationController.visibleViewController == self)
@@ -252,8 +255,11 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     {
         [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(showAdmobFullscreenAd:) userInfo:interstitial_ repeats:NO];
     }
+    }
 
 }
+#endif
+#if freeVersion
 -(void)interstitialDidReceiveAd:(GADInterstitial *)ad
 
 {
@@ -264,15 +270,15 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     NSLog(@"Did receive fullscreen ad......");
     
 }
-
+#endif
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-#if ADS_ENABLE
+
 #if BANNERADS_ENABLE
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [self.viewController hideBannerAd];
 #endif
-#endif    
+  
     [[OT_Facebook SharedInstance]handleApplicationWillTerminate];
 }
 

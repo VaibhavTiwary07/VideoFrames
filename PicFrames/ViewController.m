@@ -81,6 +81,9 @@
     
     BOOL isSequentialPlay;
     
+    PopupMenu *menu ;
+    
+    
     
     
     //    GADInterstitial *interstitial_; //fgthfjufghjghjk
@@ -90,8 +93,8 @@
 }
 
 -(void)selectEditTab;
-@property(nonatomic, assign) BOOL isVideoFile;
-@property (nonatomic, assign) BOOL isTouchWillDetect;
+@property(nonatomic   , assign) BOOL isVideoFile;
+@property (nonatomic  , assign) BOOL isTouchWillDetect;
 @property (nonatomic  , assign) int videoTimeRange;
 @property (nonatomic  , assign) int initialPhotoIndex;
 @end
@@ -291,29 +294,41 @@
         }
         case 1:
         {
-            BOOL optOutVideoHelp = [[[NSUserDefaults standardUserDefaults]objectForKey:@"optOutVideoHelp"]boolValue];
-            if(optOutVideoHelp)
-            {
-                [ish pickVideo];
-            }
-            else
-            {
+            if (freeVersion) {
+               
                 [WCAlertView showAlertWithTitle:@"Info"
-                                        message:@"Maximum video length supported is 30 seconds. Videos bigger than 30 seconds will be automatically trimmed to first 30 seconds"
+                                        message:@"Maximum video length supported is 30 seconds. Videos bigger than 30 seconds will be automatically trimmed to first 30 seconds. To add Video more than 30 seconds download VideoCollage Pro app."
                              customizationBlock:nil
                                 completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
                  {
-                     if(buttonIndex == 1)
+                     if(buttonIndex == 0)
                      {
                          [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoHelp"];
+                         [ish pickVideo];
+                     }
+                     if (buttonIndex == 1) {
+                         [self openProApp];
+                     }
+                 }
+                        cancelButtonTitle:@"Cancel"
+                        otherButtonTitles:@"Open Pro",nil];
+            }else
+            {
+                [WCAlertView showAlertWithTitle:@"Info"
+                                        message:@"Maximum video length supported is 120 seconds. Videos bigger than 120 seconds will be automatically trimmed to first 120 seconds"
+                             customizationBlock:nil
+                                completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
+                 {
+                     if(buttonIndex == 0)
+                     {
+                         [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoHelp"];
+                         [ish pickVideo];
                      }
                      
-                     [ish pickVideo];
                  }
-                              cancelButtonTitle:@"Ok"
-                              otherButtonTitles:@"Got it",nil];
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil,nil];
             }
-            
             break;
         }
         case 2:
@@ -330,7 +345,7 @@
             
     }
     
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
+  //  NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
     // [Flurry logEvent:@"Popup Menu Selections" withParameters:dict];
 }
 
@@ -348,7 +363,7 @@
     float y = [[t.userInfo objectForKey:@"y_location"]floatValue];
     UIImageView *v = [t.userInfo objectForKey:@"view"];
     
-    PopupMenu *menu = menu = [[PopupMenu alloc]initWithFrame:CGRectMake(0, 0, 200.0, 300.0) style:UITableViewStylePlain delegate:self];
+     menu = [[PopupMenu alloc]initWithFrame:CGRectMake(0, 0, 200.0, 300.0) style:UITableViewStylePlain delegate:self];
     
     [menu reloadData];
     [menu showPopupIn:v at:CGPointMake(x, y)];
@@ -583,11 +598,15 @@
     int origCount  = 0;
     int duplicateFrequency = 0;
     BOOL requiresDuplication = NO;
+    float timeDurationLimit = 30.0;
+    if (proVersion) {
+        timeDurationLimit = 120.0;
+    }
     videoTimeRange =videoTimeRange+ duration;
     //round the duration to 30 seconds
-    if(duration > 30.0)
+    if(duration > timeDurationLimit)
     {
-        duration = 30.0;
+        duration = timeDurationLimit;
         videoTimeRange =videoTimeRange+ 30;
     }
     NSLog(@"Print video Duration %d",videoTimeRange);
@@ -1576,10 +1595,15 @@
     waterMark.backgroundColor = [UIColor clearColor];
     waterMark.tag = TAG_WATERMARK_LABEL;
     waterMark.font = [UIFont boldSystemFontOfSize:13.0];
+
     if(NO == bought_watermarkpack)
     {
-        waterMark.text = @"www.videocollageapp.com";
+        if (freeVersion)
+        {
+            waterMark.text = @"www.videocollageapp.com";
+        }
     }
+
     waterMark.textColor = [UIColor whiteColor];
     [sess.frame addSubview:waterMark];
     
@@ -1833,10 +1857,10 @@
     {
         /* Below 3 initializtion for serial play not required in ParallelPlay*/
         if (isSequentialPlay) {
-           
+            initialPhotoIndex = 0;
         gCurPreviewFrameIndex = 0;
         gTotalPreviewFrames   = 0;
-        gPreviewFrameCounterVariable = 0;
+        gPreviewFrameCounterVariable = gTotalPreviewFrames;
         }else
         {
            gCurPreviewFrameIndex = gTotalPreviewFrames;
@@ -1864,6 +1888,34 @@
 {
     NSMutableArray *imageArray =  [timer.userInfo objectForKey:@"imageArray"];
     
+    NSMutableArray *arrayOfEmptyIndex = [[NSMutableArray alloc] init];
+    [arrayOfEmptyIndex addObject:[NSNumber numberWithInt:sess.photoNumberOfCurrentSelectedPhoto]];
+    
+    for (int i = 0; i< sess.frame.photoCount; i++)
+    {
+        if (i == sess.photoNumberOfCurrentSelectedPhoto)
+        {
+            continue;
+        }else
+            {
+                Photo *pht = [sess.frame getPhotoAtIndex:i];
+                if (pht.image == nil) {
+                    [arrayOfEmptyIndex addObject:[NSNumber numberWithInt:i]];
+                }
+            }
+    }
+    
+    
+    for (int index = 0; index< [imageArray count]; index++)
+    {
+        int photoNumber = [[arrayOfEmptyIndex objectAtIndex:index] intValue];
+        UIImage *image = [imageArray objectAtIndex:index];
+        [sess imageSelectedForPhoto:image  indexOfPhoto:photoNumber];
+    }
+    
+    [arrayOfEmptyIndex release];
+    arrayOfEmptyIndex = nil;
+    /*
     for (int index = 0; index<[imageArray count]; index++)
     {
         UIImage *image = [imageArray objectAtIndex:index];
@@ -1877,15 +1929,24 @@
             {
                 Photo *pht = [sess.frame getPhotoAtIndex:photoNumber];
                 
-                if (pht.image ==  nil)
+                if (photoNumber == sess.photoNumberOfCurrentSelectedPhoto)
                 {
+                    continue;
+                }
+                
+                if (pht.image ==  Nil)
+                {
+                    NSLog(@" image is nill at photo index : %d", photoNumber);
+                    
                     [sess imageSelectedForPhoto:image indexOfPhoto:photoNumber];
                     image = nil;
                     break;
+                    
                 }
             }
         }
     }
+     */
     [imageArray release];
     imageArray = nil;
     
@@ -2258,7 +2319,10 @@
         removeWaterMark.showsTouchWhenHighlighted = YES;
         removeWaterMark.tag = TAG_WATERMARK_BUTTON;
         [removeWaterMark addTarget:self action:@selector(removeWaterMark:) forControlEvents:UIControlEventTouchUpInside];
+        if (freeVersion)
+        {
         [self.view addSubview:removeWaterMark];
+        }
     }
     
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
@@ -2371,6 +2435,8 @@
     
     
 }
+#if defined(VideoCollagePRO)
+#else
 -(void)showAdmobFullscreenAd:(NSTimer*)timer
 {
     GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
@@ -2402,10 +2468,11 @@
         }
     }
 }
-
+#endif
 #if BANNERADS_ENABLE
 -(void)showBannerAd
 {
+    NSLog( @"Show BannerAd");
     if(CONFIG_ADVERTISEMENTS_DISABLE == [configparser Instance].advertisements)
     {
         NSLog(@"Advertisements are disabled, so not showing ads");
@@ -2447,6 +2514,8 @@
 
 -(void)adViewDidReceiveAd:(GADBannerView *)view
 {
+    
+    UIImageView *shareImageView = (UIImageView *)[self.view viewWithTag:2134];
     CGRect rect;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
@@ -2461,6 +2530,9 @@
                      animations:^{
                          customTabBar.frame = rect;
                          [customTabBar setNeedsDisplay];
+                         if (shareImageView != nil) {
+                             [self.view bringSubviewToFront:shareImageView];
+                         }
                      }
                      completion:nil ];
 }
@@ -2474,6 +2546,7 @@
 
 -(void)hideBannerAd
 {
+    UIImageView *shareImageView = (UIImageView *)[self.view viewWithTag:2134];
     GADBannerView *bannerView = (GADBannerView*)[self.view viewWithTag:TAG_BANNERAD_VIEW];
     if(nil != bannerView)
     {
@@ -2499,6 +2572,9 @@
                      }
                      completion:^(BOOL complete){
                          [self allocateUIForTabbar:rect];
+                         if (shareImageView != nil) {
+                             [self.view bringSubviewToFront:shareImageView];
+                         }
                      }
      ];
     
@@ -2508,6 +2584,8 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    
+    NSLog(@" *******************((((((((((()))))))))))");
     [super viewDidAppear:animated];
     
     
@@ -4128,8 +4206,6 @@
     selectMusicButton.center = CGPointMake(selectMusic.center.x-selectMusic.frame.origin.x, selectMusic.center.y-selectMusic.frame.origin.y);
     selectMusicButton.tag = TAG_AUDIO_CELL_SELECT_AUDIO;
     [selectMusicButton addTarget:self action:@selector(showAudioPicker) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     /* Lets add popup with music items */
     selectMusic.userInteractionEnabled = YES;
     
@@ -4238,17 +4314,18 @@
     [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
     [proButton setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
     proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
-    [toolbar addSubview:proButton];
     proButton.showsTouchWhenHighlighted = YES;
-    
+    if (freeVersion) {
+     [toolbar addSubview:proButton];
     [self addAnimationToProButton:proButton];
-    
+    }
     
     _appoxeeBadge.frame = CGRectMake(fullScreen.size.width-appoxee_button_x, 0, customBarHeight, customBarHeight);
     _appoxeeBadge.showsTouchWhenHighlighted = YES;
-    
+#if defined(VideoCollagePRO)
+#else
     [toolbar addSubview:_appoxeeBadge];
-    
+#endif
     [self.view addSubview:toolbar];
     
     [toolbar release];
@@ -4391,7 +4468,6 @@
     {
         isVideoFile = NO;
         [self showResolutionOptios];
-        // [self allocateShareResources];
     }
 }
 
@@ -4642,14 +4718,10 @@
             
             parentView.frame = CGRectMake(0, customTabBar.frame.origin.y, full_screen.size.width, 00);
             
-        }completion:^(BOOL finished) {
+        }completion:^(BOOL finished)
+        {
             [parentView removeFromSuperview];
-            
             [customTabBar unselectCurrentSelectedTab];
-            // [self releaseResourcesForModeChange];
-            // [self selectEditTab];
-            
-            
         }];
     }
     
@@ -4735,7 +4807,9 @@
             
             [but setBackgroundColor:[GridView getColorAtIndex:i]];
             if ([GridView getLockStatusOfColor:i ]) {
+                if (freeVersion) {
                 [but setImage:[UIImage imageNamed:@"lock1.png"] forState:UIControlStateNormal];
+                }
             }
             [but addTarget:self action:@selector(applyColor:) forControlEvents:UIControlEventTouchUpInside];
             [scrollView addSubview:but];
@@ -4750,8 +4824,10 @@
             but . tag = i;
             but . frame = CGRectMake(xAxis, yAxis, width, height);
             [but setBackgroundColor:[GridView getPatternAtIndex:i]];
-            if ([GridView getLockStatusOfPattern:i ]) {
+            if ([GridView getLockStatusOfPatern:i]) {
+                if (freeVersion) {
                 [but setImage:[UIImage imageNamed:@"lock1.png"] forState:UIControlStateNormal];
+                }
             }
             [but addTarget:self action:@selector(applyPattern:) forControlEvents:UIControlEventTouchUpInside];
             [scrollView addSubview:but];
@@ -4768,8 +4844,13 @@
 -(void)applyColor:(UIButton *)but
 {
     BOOL isLock = [GridView getLockStatusOfColor:but.tag];
-    if (isLock) {
-        [WCAlertView showAlertWithTitle:@"Upgrade To Pro" message:@"This item is locked. Upgrade free version to pro to avail this item." customizationBlock:nil completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView){
+    if (proVersion) {
+        isLock = NO;
+    }
+    if (isLock)
+    {
+        [WCAlertView showAlertWithTitle:@"Upgrade To Pro" message:@"This item is locked. Upgrade free version to pro to avail this item." customizationBlock:nil completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
+        {
             if (buttonIndex == 0) {
                 return ;
             }
@@ -4777,8 +4858,6 @@
             {
                 [self openProVersion];
             }
-            
-            
         } cancelButtonTitle:@"Cancel" otherButtonTitles:@"Upgrade", nil];
     }else
     {
@@ -4788,7 +4867,10 @@
 
 -(void)applyPattern:(UIButton *)but
 {
-    BOOL isLock = [GridView getLockStatusOfPattern:but.tag];
+    BOOL isLock = [GridView getLockStatusOfPatern:but.tag];
+    if (proVersion) {
+        isLock = NO;
+    }
     if (isLock) {
         [WCAlertView showAlertWithTitle:@"Upgrade To Pro" message:@"This item is locked. Upgrade free version to pro to avail this item." customizationBlock:nil completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView){
             if (buttonIndex == 0) {
@@ -5098,6 +5180,12 @@
 
 -(void)uploadImage
 {
+
+    if (NO == bought_watermarkpack)
+    {
+        [self addWaterMarkToFrame];
+    }
+
     if(nvm.uploadCommand == UPLOAD_EMAIL)
     {
         [self uploadToEmail];
@@ -5385,9 +5473,6 @@
 
 -(void)closeShareView
 {
-    
-    
-    
     UIImageView *shareView = (UIImageView *)[self.view viewWithTag:2134];
     NSArray *viewToRemove = [shareView subviews];
     for (UIView *v in viewToRemove) {
@@ -5407,6 +5492,9 @@
              [self addToolbarWithTitle:@"Select Image" tag:TAG_TOOLBAR_SHARE];
          }
      }];
+    if (shareView != nil) {
+        shareView = nil;
+    }
     
 }
 -(void)showResolutionOptios

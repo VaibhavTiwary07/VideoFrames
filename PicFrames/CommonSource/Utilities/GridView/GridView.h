@@ -32,6 +32,9 @@
 - (id)initWithFrame:(CGRect)frame option:(int)colorOrPattern;
 +(UIColor *)getColorAtIndex:(int)index;
 +(UIColor *)getPatternAtIndex:(int)index;
++(BOOL)getLockStatusOfColor:(int)index;
++(BOOL)getLockStatusOfPatern:(int)index;
+
 @end
 
 @protocol GridViewDelegate 

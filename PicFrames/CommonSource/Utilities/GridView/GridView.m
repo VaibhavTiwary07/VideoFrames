@@ -411,6 +411,27 @@ eRGBValues rgbValues[52]={
     return pattern;
 
 }
+
++(BOOL)getLockStatusOfColor:(int)index
+{
+    BOOL locked ;
+    if (index>15) {
+        locked = YES;
+    }else{
+        locked = NO;
+    }
+    return locked;
+}
++(BOOL)getLockStatusOfPatern:(int)index
+{
+    BOOL locked ;
+    if (index>15) {
+        locked = YES;
+    }else{
+        locked = NO;
+    }
+    return locked;
+}
 -(void)loadPage:(int)pageNum
 {
     if((pageNum < 0) || (pageNum >= _pageCount))

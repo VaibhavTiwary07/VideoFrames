@@ -147,7 +147,11 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         /* store the values in lockstatus and upload to defaults */
         for(int i = 0; i < FRAMES_MAX_PERGROUP; i++)
         {
+#if freeVersion
             lockstatus[FRAMES_GROUP_UNEVEN][i] = frame_mapping[i].lock;
+#else
+            lockstatus[FRAMES_GROUP_UNEVEN][i] = NO;
+#endif
             
             /* By default all even frames are unlocked */
             lockstatus[FRAMES_GROUP_EVEN][i] = NO;
@@ -746,9 +750,11 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
     [proButton setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
     proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
+#if freeVersion
     [toolbar addSubview:proButton];
     proButton.showsTouchWhenHighlighted = YES;
     [self addAnimationToProButton:proButton];
+    #endif
 
     _appoxeeBadge.frame = CGRectMake(fullScreen.size.width-appoxee_button_x, 12.5, 25, 25);
     _appoxeeBadge.showsTouchWhenHighlighted = YES;

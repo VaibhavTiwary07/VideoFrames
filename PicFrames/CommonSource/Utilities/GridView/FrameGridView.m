@@ -439,24 +439,24 @@
                 NSLog(@"File Prefix is not yet set");
                 continue;
             }
-#if 0
-            if((selectedItemIndex > 0) && (selectedItemIndex == itemIndex))
+
+#if defined(VideoCollagePRO)
+            if(([self selectedItemIndex] > 0) && ([self selectedItemIndex] == itemIndex))
             {
-                [btn setImage:[self coloredImageForItem:btn.tag] forState:UIControlStateNormal];
+                [btn setBackgroundImage:[self.delegate frameScrollView:self coloredImageForItemAtIndex:btn.tag] forState:UIControlStateNormal];
             }
             else
             {
-                [btn setImage:[self imageForItem:btn.tag] forState:UIControlStateNormal];
-            }
-#endif
-#if defined(APP_INSTAPICFRAMES)
-            if((selectedItemIndex > 0) && (selectedItemIndex == itemIndex))
-            {
-                [btn setBackgroundImage:[self coloredImageForItem:btn.tag] forState:UIControlStateNormal];
-            }
-            else
-            {
-                [btn setBackgroundImage:[self imageForItem:btn.tag] forState:UIControlStateNormal];
+                [btn setBackgroundImage:[self.delegate frameScrollView:self imageForItemAtIndex:btn.tag] forState:UIControlStateNormal];
+                if (proVersion == 0)
+                {
+                    if (itemIndex == 52)
+                    {
+                        
+                        [btn setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
+                    }
+                }
+                
             }
 #else
             [btn setBackgroundImage:[self imageForItem:btn.tag] forState:UIControlStateNormal];

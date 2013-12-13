@@ -41,10 +41,8 @@
     return self;
 }
 
-- (void)initialization {
-
-
-
+- (void)initialization
+{
     [self setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.8]];
 
     backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 300, 300)];
@@ -94,7 +92,7 @@
     UIButton *cancle = [UIButton buttonWithType:UIButtonTypeCustom];
     cancle . tag = 20;
     cancle.frame = CGRectMake(0, 200, 40, 40);
-    cancle . center = CGPointMake(backgroundImage.frame.size.width-10, 0);
+    cancle . center = CGPointMake(backgroundImage.frame.size.width-10, backgroundImage.center.y-(backgroundImage.frame.size.height/2));
     [cancle setImage:[UIImage imageNamed:@"cross.png"] forState:UIControlStateNormal];
     [cancle addTarget:self action:@selector(canclePressed) forControlEvents:UIControlEventTouchUpInside];
     [backgroundImage addSubview:cancle];
