@@ -82,6 +82,7 @@
     BOOL isSequentialPlay;
     
     PopupMenu *menu ;
+    HelpScreenViewController  *helpScreen;
     
     
     
@@ -485,7 +486,7 @@
     nvm = [Settings Instance];
     if(nvm.videoTutorialWatched == NO)
     {
-        [self performHelp];
+        [self perform_Help];
         nvm.videoTutorialWatched = YES;
     }
 #if FULLSCREENADS_ENABLE
@@ -1342,14 +1343,14 @@
     }
     NSLog(@"importVideo:%@",videoURL);
     [sess saveVideoToDocDirectory:videoURL completion:^(NSString *localVideoPath) {
-        
+        [self performSelectorOnMainThread:@selector(addprogressBarWithMsg:) withObject:@"Prepairing to import" waitUntilDone:YES];
         // NSString *localPath = [localVideoPath retain];
         /* Initialize AVImage Generator */
         AVURLAsset *inputAsset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
         [self clearCurImage];
         
         [inputAsset loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^{
-            
+            [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
             [self performSelectorOnMainThread:@selector(addprogressBarWithMsg:) withObject:@"Importing Video" waitUntilDone:YES];
             
             [self saveVideoFramesToHDD:inputAsset onCompletion:^(BOOL status, NSMutableDictionary *videoInfo) {
@@ -2188,6 +2189,7 @@
     }else if ([[notification name]isEqualToString:@"didEnterToTouchDetectedMode"])
     {
         isTouchWillDetect = YES;
+        helpScreen = nil;
     }
     return;
 }
@@ -2281,6 +2283,8 @@
 {
     [super viewDidLoad];
     
+    NSLog(@"View did load");
+    
     BOOL      enableStatus = [[[NSUserDefaults standardUserDefaults]objectForKey:KEY_USE_SEQUENTIAL_Play_STATUS]boolValue];
     isSequentialPlay = enableStatus;
     isTouchWillDetect = YES;
@@ -2339,8 +2343,6 @@
         [self allocateUIForTabbar:CGRectMake(0,full_screen.size.height-customBarHeight,full_screen.size.width,customBarHeight)];
     }
     
-    
-    
 #if FULLSCREENADS_ENABLE
     bShowRevModAd = YES;
 #endif
@@ -2358,9 +2360,12 @@
     }
     
     CGPoint point = CGPointMake(full_screen.size.width-adviewdistancefromwall-adviewsize, adjustDistanceFromWall+50);
+    if (freeVersion) {
     [[configparser Instance] showAdInView:self.view atPoint:point];
     [[configparser Instance] bringAdToTheTop];
+    }
 #if BANNERADS_ENABLE
+    
     [self showBannerAd];
     
 #endif
@@ -2494,7 +2499,8 @@
     NSString *banner_ID  = admobpublishedid_iphone;
     CGRect     aRect     = CGRectMake(0, full_screen.size.height-topBarHeight , full_screen.size . width, 50);
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
         banner_ID = admobpublishedid_ipad;
         aRect = CGRectMake(0, full_screen.size.height-70, full_screen.size.width, 70);
     }
@@ -2506,6 +2512,7 @@
     // the user wherever the ad goes and add it to the view hierarchy.
     bannerView.rootViewController = self;
     [self.view addSubview:bannerView];
+    [self.view bringSubviewToFront:customTabBar];
     
     // Initiate a generic request to load it with an ad.
     [bannerView loadRequest:[GADRequest request]];
@@ -2514,8 +2521,9 @@
 
 -(void)adViewDidReceiveAd:(GADBannerView *)view
 {
-    
+    NSLog(@" Ad received.........");
     UIImageView *shareImageView = (UIImageView *)[self.view viewWithTag:2134];
+    UIView  *proView = (UIView *)[self.view viewWithTag:5000];
     CGRect rect;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
@@ -2530,8 +2538,13 @@
                      animations:^{
                          customTabBar.frame = rect;
                          [customTabBar setNeedsDisplay];
-                         if (shareImageView != nil) {
+                         [self.view bringSubviewToFront:view];
+                         if (shareImageView != nil)
+                         {
                              [self.view bringSubviewToFront:shareImageView];
+                         }
+                         if (proView != nil) {
+                             [self.view bringSubviewToFront:proView];
                          }
                      }
                      completion:nil ];
@@ -2541,12 +2554,12 @@
 {
     //Never gets called, should be called when both iAd and AdMob fails.
     [self hideBannerAd];
-    NSLog(@" HIDE BANNER AD000000000");
 }
 
 -(void)hideBannerAd
 {
     UIImageView *shareImageView = (UIImageView *)[self.view viewWithTag:2134];
+    UIView   *proView = (UIView *)[self.view  viewWithTag:5000];
     GADBannerView *bannerView = (GADBannerView*)[self.view viewWithTag:TAG_BANNERAD_VIEW];
     if(nil != bannerView)
     {
@@ -2563,7 +2576,6 @@
         rect = CGRectMake(0, full_screen.size.height-50, full_screen.size.width, 50);
     }
     
-    
     [UIView animateWithDuration:0.05 delay:0.05
                         options:UIViewAnimationOptionTransitionFlipFromTop
                      animations:^{
@@ -2572,8 +2584,16 @@
                      }
                      completion:^(BOOL complete){
                          [self allocateUIForTabbar:rect];
-                         if (shareImageView != nil) {
+                         if (shareImageView != nil)
+                         {
                              [self.view bringSubviewToFront:shareImageView];
+                         }
+                         if (proView != nil) {
+                             [self.view bringSubviewToFront:proView];
+                         }
+                         if (helpScreen != nil) {
+                             NSLog(@"JHJHJDKDLHJKLHJKFGFJKGKJKFGKFJGFG");
+                             [self.view bringSubviewToFront:helpScreen.view];
                          }
                      }
      ];
@@ -2584,11 +2604,11 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    
-    NSLog(@" *******************((((((((((()))))))))))");
     [super viewDidAppear:animated];
-    
-    
+    if (NO == nvm.connectedToInternet)
+    {
+        [self hideBannerAd];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -3349,9 +3369,10 @@
 }
 
 #pragma mark help implementation
--(void)performHelp
+-(void)perform_Help
 {
-    HelpScreenViewController  *helpScreen = [[HelpScreenViewController alloc] init];
+    helpScreen = [[HelpScreenViewController alloc] init];
+    
     [UIView transitionWithView:self.view
                       duration:1.0
                        options:UIViewAnimationOptionTransitionCurlDown
@@ -4143,7 +4164,7 @@
     [self releaseToolBarIfAny];
     
     /* Add settings title to toolbar */
-    [self addToolbarWithTitle:@"Select Music" tag:TAG_TOOLBAR_SETTINGS];
+    [self addToolbarWithTitle:@"Video Settings" tag:TAG_TOOLBAR_SETTINGS];
     NSNumber *mediaItemId  = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
     
     CGRect    settingsRect = CGRectMake(0, customTabBar.frame.origin.y-180, full_screen.size.width, 180);
@@ -4304,14 +4325,14 @@
     
     UIButton *help = [UIButton buttonWithType:UIButtonTypeInfoLight];
     help. tintColor = [UIColor whiteColor];
-    [help addTarget:self action:@selector(performHelp) forControlEvents:UIControlEventTouchUpInside];
+    [help addTarget:self action:@selector(perform_Help) forControlEvents:UIControlEventTouchUpInside];
     help.frame = CGRectMake(hepl_button_x, 0, customBarHeight, customBarHeight);
     [toolbar addSubview:help];
     help.showsTouchWhenHighlighted = YES;
     
     UIButton *proButton = [UIButton buttonWithType:UIButtonTypeCustom];
     proButton . tag = 8000;
-    [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
+    [proButton addTarget:self action:@selector(open_ProVersion) forControlEvents:UIControlEventTouchUpInside];
     [proButton setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
     proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
     proButton.showsTouchWhenHighlighted = YES;
@@ -4336,10 +4357,10 @@
     {
         adjustDistanceFromWall =30;
     }
-    
+    if (freeVersion) {
     [[configparser Instance] showAdInView:self.view atPoint:CGPointMake(fullScreen.size.width-adviewdistancefromwall-adviewsize, 50+adjustDistanceFromWall)];
     [[configparser Instance] bringAdToTheTop];
-    
+    }
     return toolbar;
 }
 
@@ -4357,7 +4378,7 @@
     [aButton.layer addAnimation:pulseAnimation forKey:nil];
     
 }
--(void)openProVersion
+-(void)open_ProVersion
 {
     CGRect fullScreen = [[UIScreen mainScreen]bounds];
     UIView *backgroundView = [[UIView alloc] initWithFrame:fullScreen];
@@ -4420,9 +4441,10 @@
                        options:UIViewAnimationOptionTransitionCurlUp
                     animations:^{
                         [viewToClose removeFromSuperview];
+                        
                     }
                     completion:Nil];
-    
+    viewToClose = nil;
     
 }
 
@@ -4807,7 +4829,8 @@
             
             [but setBackgroundColor:[GridView getColorAtIndex:i]];
             if ([GridView getLockStatusOfColor:i ]) {
-                if (freeVersion) {
+                if (freeVersion)
+                {
                 [but setImage:[UIImage imageNamed:@"lock1.png"] forState:UIControlStateNormal];
                 }
             }
@@ -4819,7 +4842,8 @@
     }
     else
     {
-        for ( int i = 0; i<30; i++) {
+        for ( int i = 0; i<33; i++)
+        {
             UIButton *but  = [UIButton buttonWithType:UIButtonTypeCustom];
             but . tag = i;
             but . frame = CGRectMake(xAxis, yAxis, width, height);
@@ -4856,7 +4880,7 @@
             }
             else
             {
-                [self openProVersion];
+                [self openProApp];
             }
         } cancelButtonTitle:@"Cancel" otherButtonTitles:@"Upgrade", nil];
     }else
@@ -5144,6 +5168,7 @@
     NSURL *instagramUrl = [NSURL URLWithString:@"instagram://app"];
     if([[UIApplication sharedApplication]canOpenURL:instagramUrl])
     {
+        NSLog(@" ^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         [[NSNotificationCenter defaultCenter]postNotificationName:uploaddone object:nil];
         documentInteractionController = [[UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:pathToSave]]retain];
         NSString *caption = [NSString stringWithFormat:@"#VideoCollage, Created using @VideoCollage free iphone app"];
@@ -5188,7 +5213,14 @@
 
     if(nvm.uploadCommand == UPLOAD_EMAIL)
     {
+        if (NO == nvm.connectedToInternet) {
+            [WCAlertView showAlertWithTitle:@"Failed!!" message:@"Currently your device is not connected to internet. To share image by email , first you need to connect to intenet" customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            return;
+        }
+        else
+        {
         [self uploadToEmail];
+        }
     }
 #ifdef POSTCARD_SINCERLY
     else if(nvm.uploadCommand == SEND_POSTCARD)
@@ -5198,9 +5230,10 @@
 #endif
     else if(nvm.uploadCommand == SEND_TO_INSTAGRAM)
     {
-        //[self orderPersanalItem];
+       
         [self saveImageToInstagram:[sess.frame renderToImageOfSize:nvm.uploadSize]];
         [Appirater userDidSignificantEvent:YES];
+       
     }
     else
     {
@@ -5417,7 +5450,12 @@
         }
         case 2:
         {
+            if (isVideoFile) {
             nvm.uploadCommand = UPLOAD_INSTAGRAM;
+            }else
+            {
+            nvm.uploadCommand = SEND_TO_INSTAGRAM;
+            }
             break;
         }
         case 3:
@@ -5461,6 +5499,7 @@
         default:
             break;
     }
+    
     if (isVideoFile)
     {
         [self uploadVideo];

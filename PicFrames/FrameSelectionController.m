@@ -522,13 +522,25 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         }
         case 2:
         {
+            if (NO == nvm.connectedToInternet) {
+                [WCAlertView showAlertWithTitle:@"No Internet" message:@"Currently your device is not connected to internet. To refer your friends, please connect to internet ." customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                return;
+            }else
+            {
             [self referToYourFacebookFriends:nil];
-
+            }
             break;
         }
         case 3:
         {
+            if (NO == nvm.connectedToInternet) {
+                [WCAlertView showAlertWithTitle:@"No Internet" message:@"Currently your device is not connected to internet. To refer your friends, please connect to internet ." customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                return;
+            }
+            else
+            {
             [self referToYourFriendByEmail:nil];
+            }
             break;
         }
         case 4:
@@ -696,17 +708,14 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 
 -(void)performHelp
 {
-
-
     HelpScreenViewController  *helpScreen = [[HelpScreenViewController alloc] init];
+    
     [UIView transitionWithView:self.view
                       duration:1.0
                        options:UIViewAnimationOptionTransitionCurlDown
                     animations:^{
                         [self.view addSubview:helpScreen.view];
                          [self.view bringSubviewToFront:helpScreen.view];
-                        
-                        
                     }
                     completion:NULL];
 
@@ -1030,40 +1039,6 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
                                                object:nil];
 }
 
-#if 0
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    nvm = [Settings Instance];
-    
-    UIImageView *imgView = [[UIImageView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    //imgView.image        = [UIImage imageWithContentsOfFile:[Utility documentDirectoryPathForFile:@"mainbackground.jpg"]];
-    imgView.image        = [UIImage imageNamed:@"custombgnd"];
-    imgView.tag = TAG_FRAMEGRID_CONTROLLER;
-    [self.view addSubview:imgView];
-    [imgView release];
-    
-    self.view.userInteractionEnabled = YES;
-    
-    /* Add toolbar */
-    [self addToolbarWithTitle:@"Frames" tag:tag_frameselection_toolbar];
-
-    CGRect rect = [[UIScreen mainScreen]bounds];
-    CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
-    FrameScrollView *fsv = [[FrameScrollView alloc]initWithFrame:fsvRect indextag:TAG_EVENFRAME_GRIDVIEW];
-    fsv.delegate = self;
-    self.view.userInteractionEnabled = YES;
-    [self.view addSubview:fsv];
-    [fsv loadPages];
-    [fsv release];
-    
-    self.navigationController.navigationBarHidden = NO;
-    self.title = NSLocalizedString(@"FRAMES",@"Frames");
-    
-    [self addTabbar];
-}
-#else
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -1113,24 +1088,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 
 - (void)frameSelectionView:(FrameSelectionView *)gView showInAppForItemIndex:(int)index button:(UIButton*)btn
 {
-#if 0
-    InAppPurchasePreview *preview = [[InAppPurchasePreview alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    CGRect _fullscreen = [[UIScreen mainScreen]bounds];
-    CGRect tabbarFrame = CGRectMake(0, _fullscreen.size.height-50, _fullscreen.size.width, 50);
-    _customTabBar.frame = tabbarFrame;
-    self.navigationController.navigationBarHidden = YES;
-    
-    [self.view addSubview:preview];
-    preview.delegate = self;
-    
-    NSArray *framesPackObjs = [NSArray arrayWithObjects:[UIImage imageNamed:@"framesinapp.jpg"],@"1.99",@"Frames Pack", @"Purchasing this pack will get you access to all the frames and also all future frames upgrades for FREE,Also ads will be removed forever",nil];
-    NSArray *framesPackKeys = [NSArray arrayWithObjects:key_inapppreview_package_image,key_inapppreview_package_price,key_inapppreview_package_msgheading, key_inapppreview_package_msgbody,nil];
-    NSDictionary *framesPack = [NSDictionary dictionaryWithObjects:framesPackObjs forKeys:framesPackKeys];
-    NSArray *packages = [NSArray arrayWithObjects:framesPack, nil];
-    
-    NSLog(@"Calling showInAppPurchaseWithPackages");
-    [preview showInAppPurchaseWithPackages:packages];
-#else
+
     InAppPurchasePreview *preview = [[InAppPurchasePreview alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.navigationController.navigationBarHidden = YES;
     
@@ -1152,8 +1110,6 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         watermarkPackDescription = DEFAULT_WATERMARK_PACK_DESCRIPTION;
     }
     
-
-    
     NSArray *watermarkPackObjs = [NSArray arrayWithObjects:watermarkPackPrice,watermarkPackTitle, watermarkPackDescription,nil];
     NSArray *watermarkPackKeys = [NSArray arrayWithObjects:key_inapppreview_package_price,key_inapppreview_package_msgheading, key_inapppreview_package_msgbody,nil];
     NSDictionary *watermarkPack = [NSDictionary dictionaryWithObjects:watermarkPackObjs forKeys:watermarkPackKeys];
@@ -1161,7 +1117,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     NSArray *packages = [NSArray arrayWithObjects:watermarkPack, nil];
     
     [preview showInAppPurchaseWithPackages:packages];
-#endif
+
     return;
 }
 
@@ -1334,7 +1290,6 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     } cancelButtonTitle:@"No Thanks" otherButtonTitles:@"Follow Us!",nil];
 }
 
-#endif
 -(int)convertIndexToPageNumber:(int)index
 {
     /* find the page number of the index */

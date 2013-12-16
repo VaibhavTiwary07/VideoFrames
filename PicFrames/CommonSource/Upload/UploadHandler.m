@@ -499,7 +499,12 @@
 #else
 -(void)uploadToFacebook
 {
-    
+    if (NO == nvm.connectedToInternet) {
+        [WCAlertView showAlertWithTitle:@"Failed!!" message:@"Currently your device is not connected to internet. To upload image to Facebook , first you need to connect to intenet" customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        return;
+    }
+    else
+    {
     /* Not sure whether this step is required or not */
     [Utility addActivityIndicatotTo:view withMessage:NSLocalizedString(@"UPLOADING",@"Uploading")];
     
@@ -508,6 +513,7 @@
     }];
     
     return;
+    }
 }
 #endif
 #pragma mark text message upload

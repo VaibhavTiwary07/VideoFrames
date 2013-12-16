@@ -385,6 +385,11 @@
 -(void)uploadVideoToEmail:(NSString*)videoPath
 {
     NSAssert(nil != self.viewController, @"uploadVideoToEmail: viewController property is not initialized");
+    if (NO == nvm.connectedToInternet) {
+        [WCAlertView showAlertWithTitle:@"Failed" message:@"Currently your device is not connected to internet. To send video by email , first you need to connect to internet." customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        return;
+    }else
+    {
     if ([MFMailComposeViewController canSendMail])
     {
         /* Allocate mail composer */
@@ -417,6 +422,7 @@
     }
 
     return;
+    }
 }
 
 #pragma mark photo album upload
@@ -444,6 +450,11 @@
 
 -(void)uploadVideoToFacebook:(NSString *)videoPath
 {
+    if (NO == nvm.connectedToInternet) {
+        [WCAlertView showAlertWithTitle:@"No Internet" message:@"Currently your device is not connected to internet. To upload video to Facebook , first you need to connect to internet." customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        return;
+    }else
+    {
     [[OT_Facebook SharedInstance]uploadVideo:videoPath withMessage:@"Uploaded from VideoCollage Free iphone app. get it from http://www.videocollageapp.com" onCompletion:^(BOOL uploadStatus){
         if (uploadStatus) {
             [self updateCommand:UPLOAD_FACEBOOK_ALBUM status:YES msg:nil];
@@ -453,6 +464,7 @@
         }
 
     }];
+    }
 }
 
 #pragma uploadVideoToTwitter
@@ -463,9 +475,15 @@
 #pragma mark youtube upload
 -(void)uploadVideoToYoutube:(NSString*)videoPath
 {
+    if (NO == nvm.connectedToInternet) {
+        [WCAlertView showAlertWithTitle:@"Failed" message:@"Currently your device is not connected to internet. To upload video to Youtube , first you need to connect to internet." customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        return;
+    }else
+    {
     youtube = [[YouTubeView alloc] initWithFrame:CGRectMake(0, 0, fullscreen.size.width , fullscreen.size.height)];
     youtube . filePath = videoPath;
     [self._view addSubview:youtube];
+    }
 
 }
 
@@ -473,6 +491,7 @@
 #pragma mark viddy upload
 -(void)uploadVideoToViddy:(NSString*)videoPath
 {
+
     NSURL *viddyUrl = [NSURL URLWithString:@"viddy://user/profile/VideoCollage"];
     if([[UIApplication sharedApplication]canOpenURL:viddyUrl])
     {
@@ -495,13 +514,13 @@
                       cancelButtonTitle:@"Ok"
                       otherButtonTitles:nil, nil];
     }
+    
 
 }
 #pragma mark instagram upload
 
 -(void)uploadVideoToInstagram:(NSString*)videoPath
 {
-
     [self uploadVideoToPhotoAlbum:videoPath];
     [WCAlertView showAlertWithTitle:@"Video Saved To PhotoAlbum"
                             message:@"Your Video has been successfully saved to PhotoAlbum. You can upload it to Instagram!!!"

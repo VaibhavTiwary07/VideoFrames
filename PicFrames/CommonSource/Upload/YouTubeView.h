@@ -24,6 +24,7 @@
 
     GDataServiceTicket *mUploadTicket;
     UIImageView *backgroundImage;
+    UIView  *baseView ;
 }
 
 @property (nonatomic, retain)  UITextField *mUsernameField;

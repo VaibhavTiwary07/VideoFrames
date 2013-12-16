@@ -73,17 +73,17 @@
     if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && (fullScreen . size. height>480))
     {
 
-    [slideshow addImagesFromResources:@[@"help-01_1136.png",@"help-02_1136.png",@"help-03_1136.png",@"help-04_1136.png",@"help-05_1136.png",@"help-06_1136.png",@"help-07_1136.png",@"help-08_1136.png"]];
+    [slideshow addImagesFromResources:@[@"help-01_1136.png",@"help-02_1136.png",@"help-03_1136.png",@"help-04_1136.png",@"help-05_1136.png",@"help-06_1136.png",@"help-07_1136.png",@"help-08_1136.png",@"help-09_1136.png"]];
 
     }else if((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) && (fullScreen.size.height== 480))
     {
-    [slideshow addImagesFromResources:@[@"help-01.png",@"help-02.png",@"help-03.png",@"help-04.png",@"help-05.png",@"help-06.png",@"help-07.png",@"help-08.png"]];
+    [slideshow addImagesFromResources:@[@"help-01.png",@"help-02.png",@"help-03.png",@"help-04.png",@"help-05.png",@"help-06.png",@"help-07.png",@"help-08.png",@"help-09.png"]];
     }
 
 
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        [slideshow addImagesFromResources:@[@"help-01_1024.png",@"help-02_1024.png",@"help-03_1024.png",@"help-04_1024.png",@"help-05_1024.png",@"help-06_1024.png",@"help-07_1024.png",@"help-08_1024.png"]];
+        [slideshow addImagesFromResources:@[@"help-01_1024.png",@"help-02_1024.png",@"help-03_1024.png",@"help-04_1024.png",@"help-05_1024.png",@"help-06_1024.png",@"help-07_1024.png",@"help-08_1024.png",@"help-09_1024.png"]];
 
     }
 

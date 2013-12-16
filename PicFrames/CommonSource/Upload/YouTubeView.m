@@ -44,14 +44,20 @@
 - (void)initialization
 {
     [self setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.8]];
-
-    backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 300, 300)];
-    backgroundImage.center = CGPointMake(fullscreen.size.width/2, fullscreen.size.height/2);
+    baseView = [[UIView alloc] init];
+    baseView . frame = CGRectMake(0, 0, 340, 340);
+    baseView . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/2);
+    baseView . userInteractionEnabled = YES;
+    baseView . backgroundColor = [UIColor clearColor];
+    [self addSubview:baseView];
+    
+    backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 300, 300)];
+    //backgroundImage.center = CGPointMake(fullscreen.size.width/2, fullscreen.size.height/2);
     backgroundImage . image = [UIImage imageNamed:@"youtube_background.png"];
    // backgroundImage . layer. borderColor = [[UIColor grayColor] CGColor];
     //backgroundImage . layer .borderWidth = 5.0;
     backgroundImage . userInteractionEnabled = YES;
-    [self addSubview:backgroundImage];
+    [baseView addSubview:backgroundImage];
 
     // Too lazy to create different IBOutlets, they are UITextFields for the future...
     mDeveloperKeyField = [[UITextField alloc] init];
@@ -91,19 +97,16 @@
 
     UIButton *cancle = [UIButton buttonWithType:UIButtonTypeCustom];
     cancle . tag = 20;
-    cancle.frame = CGRectMake(0, 200, 40, 40);
-    cancle . center = CGPointMake(backgroundImage.frame.size.width-10, backgroundImage.center.y-(backgroundImage.frame.size.height/2));
+    cancle.frame = CGRectMake(baseView.frame.size.width-40 , 0 , 40, 40);
+    //cancle . center = CGPointMake(backgroundImage.frame.size.width-10, 0);
     [cancle setImage:[UIImage imageNamed:@"cross.png"] forState:UIControlStateNormal];
     [cancle addTarget:self action:@selector(canclePressed) forControlEvents:UIControlEventTouchUpInside];
-    [backgroundImage addSubview:cancle];
-
-
+    [baseView addSubview:cancle];
+    [baseView bringSubviewToFront:cancle];
 
     mKeywordsField = [[UITextField alloc] init];
     mKeywordsField . frame = CGRectMake(100, 250, 100, 50);
     // [self.view addSubview:mKeywordsField];
-
-
 
     mCategoryField = [[UITextField alloc] init];
 
@@ -138,6 +141,7 @@
     [mProgressView release];
 
     [mUploadTicket release];
+    [baseView release];
 
     [super dealloc];
 }
