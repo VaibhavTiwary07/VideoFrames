@@ -147,7 +147,9 @@
 }
 -(void)actionForButton:(UIButton *)aButton
 {
+    
     NSURL *url = [[NSURL alloc] init];
+    
     switch (aButton.tag)
     {
         case 1:
@@ -170,6 +172,8 @@
         default:
             break;
     }
+    
+    NSLog(@" Print URL : %@", url);
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
         [[UIApplication sharedApplication] openURL:url];
 

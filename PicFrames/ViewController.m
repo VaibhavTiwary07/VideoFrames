@@ -1395,7 +1395,6 @@
              {
                  [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoGenerationHelp"];
              }
-             
              dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                  [self continueGenerateVideo:^(BOOL status, NSString *videoPath) {
                      NSLog(@"Completed generating video with Status %d path %@",status,videoPath);
@@ -2546,13 +2545,15 @@
                          if (proView != nil) {
                              [self.view bringSubviewToFront:proView];
                          }
+                         if (helpScreen != nil) {
+                             [self.view bringSubviewToFront:helpScreen.view];
+                         }
                      }
                      completion:nil ];
 }
 
 -(void)adView:(GADBannerView*)banner didFailToReceiveAdWithError:(GADRequestError*)error
 {
-    //Never gets called, should be called when both iAd and AdMob fails.
     [self hideBannerAd];
 }
 
@@ -2592,7 +2593,6 @@
                              [self.view bringSubviewToFront:proView];
                          }
                          if (helpScreen != nil) {
-                             NSLog(@"JHJHJDKDLHJKLHJKFGFJKGKJKFGKFJGFG");
                              [self.view bringSubviewToFront:helpScreen.view];
                          }
                      }
@@ -2607,7 +2607,13 @@
     [super viewDidAppear:animated];
     if (NO == nvm.connectedToInternet)
     {
-        [self hideBannerAd];
+        if (freeVersion)
+        {
+        if (bought_watermarkpack == NO)
+            {
+                [self hideBannerAd];
+            }
+        }
     }
 }
 
@@ -4902,7 +4908,7 @@
             }
             else
             {
-                [self openProVersion];
+                [self openProApp];
             }
             
             
