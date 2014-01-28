@@ -42,7 +42,7 @@ int intcmp(const void *aa, const void *bb)
 }
 
 
--(CGPoint)getRowAndColomCountForPhoto:(int)index
+- (CGPoint)getRowAndColomCountForPhoto:(int)index
 {
     CGPoint point = CGPointZero;
     int     photoCount = [photos count];
@@ -232,7 +232,7 @@ int intcmp(const void *aa, const void *bb)
     return point;
 }
 
--(CGPoint)getRowAndColomCountForAdjustor:(int)index
+- (CGPoint)getRowAndColomCountForAdjustor:(int)index
 {
     CGPoint point = CGPointZero;
     int     photoCount = [adjustors count];
@@ -422,7 +422,7 @@ int intcmp(const void *aa, const void *bb)
     return point;
 }
 
--(void)generateCountsAndIndexsForAllPhotos
+- (void)generateCountsAndIndexsForAllPhotos
 {
     int idx = 0;
     for(idx = 0; idx < [photos count]; idx++)
@@ -433,7 +433,7 @@ int intcmp(const void *aa, const void *bb)
     return;
 }
 
--(void)generateCountsAndIndexsForAllAdjustors
+- (void)generateCountsAndIndexsForAllAdjustors
 {
     int idx = 0;
     for(idx = 0; idx < [adjustors count]; idx++)
@@ -444,7 +444,7 @@ int intcmp(const void *aa, const void *bb)
     return;
 }
 
--(int)adjustorCount
+- (int)adjustorCount
 {
     if(nil == adjustors)
     {
@@ -454,7 +454,7 @@ int intcmp(const void *aa, const void *bb)
     return [adjustors count];
 }
 
--(int)photoCount
+- (int)photoCount
 {
     if(nil == photos)
     {
@@ -464,7 +464,7 @@ int intcmp(const void *aa, const void *bb)
     return [photos count];
 }
 
--(Photo*)getPhotoAtIndex:(int)index
+- (Photo*)getPhotoAtIndex:(int)index
 {
     return [photos objectAtIndex:index];
 }
@@ -505,7 +505,7 @@ int intcmp(const void *aa, const void *bb)
     }
 }*/
 
-+(CGRect)getTheFrameSize
++ (CGRect)getTheFrameSize
 {
     //CGRect defaultFrameSize = CGRectMake(10.0, 90.0, 300.0, 300.0);
     Settings *nvm = [Settings Instance];
@@ -535,7 +535,7 @@ int intcmp(const void *aa, const void *bb)
     return rect;
 }
 
--(void)addPhotosAndAdjustorsToFrame:(int)frameNumber withBgColor:(UIColor*)clr
+- (void)addPhotosAndAdjustorsToFrame:(int)frameNumber withBgColor:(UIColor*)clr
 {
     int iRowCount = 0;
     int iIndex    = 0;
@@ -632,7 +632,7 @@ int intcmp(const void *aa, const void *bb)
     //self.image = [Utility createPatternImageOfSize:self.bounds withImage:[UIImage imageNamed:@"texturemate-pixelart35.png"]];
 }
 
--(void)initClassVariables
+- (void)initClassVariables
 {
     bSwapMode = NO;
     photos    = nil;
@@ -641,7 +641,7 @@ int intcmp(const void *aa, const void *bb)
     swapTo = nil;
 }
 
--(id)initWithFrameNumber:(int)frameNumber
+- (id)initWithFrameNumber:(int)frameNumber
 {
     self = [super initWithFrame:[Frame getTheFrameSize]];
     if(self)
@@ -652,7 +652,7 @@ int intcmp(const void *aa, const void *bb)
     return self;
 }
 
--(id)initWithFrameNumber:(int)frameNumber withBgColor:(UIColor *)clr
+- (id)initWithFrameNumber:(int)frameNumber withBgColor:(UIColor *)clr
 {
     self = [super initWithFrame:[Frame getTheFrameSize]];
     if(self)
@@ -663,7 +663,7 @@ int intcmp(const void *aa, const void *bb)
     return self;
 }
 
--(id)initWithFrameNumber:(int)frameNumber andFrame:(CGRect)frame
+- (id)initWithFrameNumber:(int)frameNumber andFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if(self)
@@ -674,7 +674,7 @@ int intcmp(const void *aa, const void *bb)
     return self;
 }
 
--(void)enterSwapMode
+- (void)enterSwapMode
 {
     int index = 0;
     
@@ -694,7 +694,7 @@ int intcmp(const void *aa, const void *bb)
     self.userInteractionEnabled = YES;
 }
 
--(void)exitSwapMode
+- (void)exitSwapMode
 {
     int index = 0;
     
@@ -712,7 +712,7 @@ int intcmp(const void *aa, const void *bb)
     bSwapMode = NO;
 }
 
--(Photo*)touchToPhoto:(UITouch*)touch
+- (Photo*)touchToPhoto:(UITouch*)touch
 {
     CGPoint pnt = [touch locationInView:self];
     int index = 0;
@@ -738,7 +738,7 @@ int intcmp(const void *aa, const void *bb)
 }
 
 #ifdef ENABLE_SWAP_ANIMATION
--(void)swapDoneAnimationStoped:(NSString *)animationID finished:(BOOL)finished context:(void *)context
+- (void)swapDoneAnimationStoped:(NSString *)animationID finished:(BOOL)finished context:(void *)context
 {
     if(nil != fromSwapView)
     {
@@ -760,7 +760,7 @@ int intcmp(const void *aa, const void *bb)
     bSwapMode = YES;
 }
 
--(void)swapCancelAnimationStoped:(NSString *)animationID finished:(BOOL)finished context:(void *)context
+- (void)swapCancelAnimationStoped:(NSString *)animationID finished:(BOOL)finished context:(void *)context
 {
     if(nil != fromSwapView)
     {
@@ -779,14 +779,14 @@ int intcmp(const void *aa, const void *bb)
 
 #endif
 
--(void)handleSwapTimer:(id)sender
+- (void)handleSwapTimer:(id)sender
 {
     swapTimer = nil;
     NSLog(@"Swap timer expired");
     [self enterSwapMode];
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"Redirect View: touchesBegan");
     if(NO == bSwapMode)
@@ -835,7 +835,7 @@ int intcmp(const void *aa, const void *bb)
     NSLog(@"Touches began in frame");
 }
 
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(NO == bSwapMode)
     {
@@ -898,7 +898,7 @@ int intcmp(const void *aa, const void *bb)
     swapTo.view.layer.borderWidth = 5.0;
 }
 
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(NO == bSwapMode)
     {
@@ -947,7 +947,7 @@ int intcmp(const void *aa, const void *bb)
     NSLog(@"Touches canceled in frame");
 }
 
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(NO == bSwapMode)
     {
@@ -1066,7 +1066,7 @@ int intcmp(const void *aa, const void *bb)
 }
 #else
 
--(UIImage*)quickRenderToImageOfScale:(float)scale
+- (UIImage*)quickRenderToImageOfScale:(float)scale
 {
     int index = 0;
     static int i = 0;;
@@ -1224,7 +1224,6 @@ int intcmp(const void *aa, const void *bb)
     
     return;
 }
-
 -(void)setPhotoWidth:(int)width
 {
     int iIndex = 0;

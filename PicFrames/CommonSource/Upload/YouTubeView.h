@@ -25,6 +25,7 @@
     GDataServiceTicket *mUploadTicket;
     UIImageView *backgroundImage;
     UIView  *baseView ;
+    bool isUploadInProgress;
 }
 
 @property (nonatomic, retain)  UITextField *mUsernameField;

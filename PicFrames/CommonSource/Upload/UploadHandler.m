@@ -11,7 +11,7 @@
 #import "WCAlertView.h"
 
 @implementation UploadHandler
-
+@synthesize viewController;
 @synthesize view;
 @synthesize cursess;
 
@@ -883,7 +883,122 @@
     
     return;
 }
+-(void)uploadToInstagram
+{
+    UIImage *pImage = [self getTheSnapshot];
+    if(nil == pImage)
+    {
+        NSLog(@"Image is nil");
+    }
+    /* First Save the Image to documents directory
+     1. Generate the path to save the file*/
+    NSString *pathToSave = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/captions1.ig"];
+    
+    /* 2. Save the file */
+    [UIImageJPEGRepresentation(pImage, 1.0) writeToFile:pathToSave atomically:YES];
+    
+    /* Verify if the instagram app is installed */
+    NSURL *instagramUrl = [NSURL URLWithString:@"instagram://app"];
+    if([[UIApplication sharedApplication]canOpenURL:instagramUrl])
+    {
+        [[NSNotificationCenter defaultCenter]postNotificationName:uploaddone object:nil];
+        documentInteractionController = [[UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:pathToSave]]retain];
+        NSString *caption = [NSString stringWithFormat:@"#VideoCollage, Created using @VideoCollage free iphone app"];
+        documentInteractionController.UTI = @"com.instagram.photo";
+        documentInteractionController.delegate = self;
+        documentInteractionController.annotation = [NSDictionary dictionaryWithObject:caption forKey:@"InstagramCaption"];
+        [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
+    }
+    else
+    {
+        [[NSNotificationCenter defaultCenter]postNotificationName:uploaddone object:nil];
+        
+        [WCAlertView showAlertWithTitle:@"Failed"
+                                message:@"Instagram is not installed in your device. You need to install Instagram application to share your image with Instagram. Would you like to download it now?"
+                     customizationBlock:nil
+                        completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
+         {
+             if(buttonIndex == 1)
+             {
+                 [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/instagram/id389801252?mt=8"]];
+             }
+         }
+                      cancelButtonTitle:@"Cancel"
+                      otherButtonTitles:@"Download", nil];
+        
+    }
 
+}
+- (void) documentInteractionController: (UIDocumentInteractionController *) controller didEndSendingToApplication: (NSString *) application
+{
+    [documentInteractionController release];
+    documentInteractionController = nil;
+}
+-(void)uploadToEmail
+{
+    NSAutoreleasePool *localPool     = [[NSAutoreleasePool alloc] init];
+    
+    Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+    if (mailClass != nil)
+    {
+        /* We must always check whether the current device is configured for sending emails */
+        if ([mailClass canSendMail])
+        {
+            if (viewController) {
+                 NSLog(@"((((((((((()))))))))))");
+            }
+           
+            NSString *appUrl = ituneslinktoApp;
+            NSString *yoziohyperlink = [NSString stringWithFormat:
+                                        @"<a href=\"%@\" target=\"itunes_store\">%@</a>",appUrl,appname];
+            NSString *websiteLink    = [NSString stringWithFormat:
+                                        @"<a href=\"%@\" target=\"www.videocollageapp.com \">%@</a>",appUrl,@"www.videocollageapp.com "];
+            NSString *emailBody = [NSString stringWithFormat:@"Made with iphone application - %@. Download it from %@ \n",yoziohyperlink,websiteLink];
+            
+            NSString *emailSubject = [NSString stringWithFormat:@"From %@ iphone application",appname];
+            
+            /* Compose the email */
+            MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+            picker.mailComposeDelegate          = self;
+            [picker setSubject:emailSubject];
+            
+            /* Set the model transition style */
+            picker.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            
+            /* Attach an image to the email */
+            //[picker addAttachmentData:UIImagePNGRepresentation([sess.frame renderToImageOfSize:nvm.uploadSize])
+            //                 mimeType:@"image/png" fileName:@"PicShells"];
+            [picker addAttachmentData:UIImageJPEGRepresentation([self getTheSnapshot],1.0)
+                             mimeType:@"image/jpeg" fileName:@"PicShells"];
+            
+            /* Fill out the email body text */
+            [picker setMessageBody:emailBody isHTML:YES];
+            
+            /* Present the email compose view to the user */
+            [viewController presentModalViewController:picker animated:YES];
+            
+            /* Free the resources */
+            [picker release];
+        }
+        else
+        {
+            [WCAlertView showAlertWithTitle:NSLocalizedString(@"EMAIL",@"Email")
+                                    message:NSLocalizedString(@"NOEMAIL",@"Email is not configured for this device!!!")
+                         customizationBlock:nil
+                            completionBlock:nil
+                          cancelButtonTitle:nil
+                          otherButtonTitles:@"OK", nil];
+        }
+        
+        /* Free the mailclass object */
+        [mailClass release];
+    }
+    
+    [localPool release];
+    
+    return;
+
+}
 -(void)upload
 {
     nvm = [Settings Instance];
@@ -905,8 +1020,19 @@
         }
         case UPLOAD_EMAIL:
         {
-
+            if (NO == nvm.connectedToInternet) {
+                [WCAlertView showAlertWithTitle:@"Failed!!" message:@"Currently your device is not connected to internet. To share image by email , first you need to connect to intenet" customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                return;
+            }
+            else
+            {
+            [self uploadToEmail];
+            }
             break;
+        }
+        case UPLOAD_INSTAGRAM:
+        {
+            [self uploadToInstagram];
         }
 #if TWITTER_SUPPORT_ENABLED
         case UPLOAD_TWITTER:

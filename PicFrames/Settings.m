@@ -17,6 +17,7 @@
 @synthesize uploadCommand;
 @synthesize uploadSize;
 @synthesize uploadResolution;
+@synthesize noAdMode;
 
 static Settings *SettingsSingleton = nil;
 
@@ -32,7 +33,14 @@ static Settings *SettingsSingleton = nil;
 	/* Return the path to the puzzle status information */
 	return [docDirectory stringByAppendingPathComponent:pFileName];
 }
-
+-(void)setNoAdMode:(BOOL)yesOrNo
+{
+    noAdMode =yesOrNo;
+}
+-(BOOL)getNoAdMode
+{
+    return noAdMode;
+}
 -(CGSize)getTheSizeForResolution:(eResolutionType)eResType
 {
     CGSize calcSize = CGSizeZero;

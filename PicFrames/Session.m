@@ -36,7 +36,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 @synthesize players;
 @synthesize playerItems;
 
-+(UIImage *)iconImageFromSession:(int)sessionId
++ (UIImage *)iconImageFromSession:(int)sessionId
 {
     NSArray  *paths        = nil;
     NSString *docDirectory = nil;
@@ -72,7 +72,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return img;
 }
 
-+(NSDate*)createdDateForSession:(int)sessionId
++ (NSDate*)createdDateForSession:(int)sessionId
 {
     NSArray  *paths        = nil;
     NSString *docDirectory = nil;
@@ -110,7 +110,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return creationDate;
 }
 
-+(void)deleteSessionImagesFromHddOfId:(int)sessId
++ (void)deleteSessionImagesFromHddOfId:(int)sessId
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [paths objectAtIndex:0];
@@ -133,7 +133,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
-+(void)deleteSessionImageFromHdOfId:(int)sessId atIndex:(int)index
++ (void)deleteSessionImageFromHdOfId:(int)sessId atIndex:(int)index
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [paths objectAtIndex:0];
@@ -150,7 +150,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
-+(void)deleteSessionWithId:(int)sessId
++ (void)deleteSessionWithId:(int)sessId
 {
     [Session deleteSessionImagesFromHddOfId:sessId];
     [SessionDB deleteSessionDimensionsOfId:sessId];
@@ -159,7 +159,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(eShape)getShapeOfthePhotoInSession:(int)sessionId photonum:(int)index
+- (eShape)getShapeOfthePhotoInSession:(int)sessionId photonum:(int)index
 {
     // SELECT name FROM sqlite_master WHERE type='table' AND name='table_name'
     
@@ -219,7 +219,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return shp;
 }
 
--(void)updateDbWithShape:(eShape)shape forSession:(int)session andPhoto:(int)photo
+- (void)updateDbWithShape:(eShape)shape forSession:(int)session andPhoto:(int)photo
 {
     NSString *databaseName = PICFARME_DATABASE;
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -246,12 +246,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [db close];
 }
 
--(Frame*)frame
+- (Frame*)frame
 {
     return _frame;
 }
 
--(void)dealloc
+- (void)dealloc
 {
     if(nil != _frame)
     {
@@ -265,12 +265,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 #pragma mark session dimensions table operations
--(BOOL)deletePhotosAndAdjustors
+- (BOOL)deletePhotosAndAdjustors
 {
     return [SessionDB deleteSessionDimensionsOfId:iSessionId];
 }
 
--(BOOL)addPhotosAndAdjustorsFromFrame:(Frame*)frm
+- (BOOL)addPhotosAndAdjustorsFromFrame:(Frame*)frm
 {
     NSLog(@"addPhotosAndAdjustorsFromFrame");
     int index = 0;
@@ -344,7 +344,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return TRUE;
 }
 
--(BOOL)updatePhotosAndAdjustorsFromFrame:(Frame*)frm
+- (BOOL)updatePhotosAndAdjustorsFromFrame:(Frame*)frm
 {
     NSLog(@"updatePhotosAndAdjustorsFromFrame");
     int index = 0;
@@ -423,7 +423,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return TRUE;
 }
 
--(UIImage*)getImageAtIndex:(int)index
+- (UIImage*)getImageAtIndex:(int)index
 {
     NSArray  *paths        = nil;
     NSString *docDirectory = nil;
@@ -447,7 +447,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return img;
 }
 
--(void)saveImage:(UIImage*)img atIndex:(int)index
+- (void)saveImage:(UIImage*)img atIndex:(int)index
 {
     if(nil == img)
     {
@@ -473,7 +473,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(void)enterNoTouchMode
+- (void)enterNoTouchMode
 {
     int index = 0;
     
@@ -487,7 +487,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(void)exitNoTouchMode
+- (void)exitNoTouchMode
 {
     int index = 0;
     
@@ -501,8 +501,39 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         }
     }
 }
-
--(void)restoreFrameImages
+- (void)enterTouchModeForSlectingImage:(int)photoIndex
+{
+    
+    for(int index = 0; index < self.frame.photoCount; index++)
+    {
+        Photo *pht = [self.frame getPhotoAtIndex:index];
+        if(nil != pht)
+        {
+            pht.view.imageView.image = [self getImageAtIndex:index];
+            if (index ==photoIndex) {
+               pht.view .scrollView. layer . borderColor = [UIColor redColor].CGColor;
+                pht.view.scrollView.layer.borderWidth = 5.0;
+            }
+            
+            pht.effectTouchMode =YES;
+            
+        }
+    }
+}
+- (void)exitTouchModeForSlectingImage
+{
+    for( int index = 0; index < self.frame.photoCount; index++)
+    {
+        Photo *pht = [self.frame getPhotoAtIndex:index];
+        if(nil != pht)
+        {
+            pht.view.imageView.image = [self getImageAtIndex:index];
+            pht.view.scrollView.layer.borderWidth = 0.0;
+            pht.effectTouchMode = NO;
+        }
+    }
+}
+- (void)restoreFrameImages
 {
     int index = 0;
     
@@ -516,7 +547,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(NSString*)pathToIntermediateVideo
+- (NSString*)pathToIntermediateVideo
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
@@ -527,7 +558,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return videoPath;
 }
 
--(NSString*)pathToCurrentVideo
+- (NSString*)pathToCurrentVideo
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
@@ -538,7 +569,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return videoPath;
 }
 
--(NSString*)pathToCurrentAudioMix
+- (NSString*)pathToCurrentAudioMix
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
@@ -549,7 +580,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return videoPath;
 }
--(NSString *)pathToAudioOfRespectedVideo:(int)videoIndex
+- (NSString *)pathToAudioOfRespectedVideo:(int)videoIndex
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
@@ -560,7 +591,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return videoPath;
 }
--(NSString*)pathToMusciSelectedFromLibrary
+- (NSString*)pathToMusciSelectedFromLibrary
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
@@ -571,7 +602,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return audioPath;
 }
 
--(void)deleteCurrentAudioMix
+- (void)deleteCurrentAudioMix
 {
     NSString *currentMix = [self pathToCurrentAudioMix];
     
@@ -582,7 +613,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(void)deleteVideoFramesForPhotoAtIndex:(int)photoIndex
+- (void)deleteVideoFramesForPhotoAtIndex:(int)photoIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
@@ -598,7 +629,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return;
 }
--(void)deleteVideoAtPhototIndex:(int)photoIndex
+- (void)deleteVideoAtPhototIndex:(int)photoIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
@@ -618,7 +649,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return;
 }
--(void)deleteImageOfFrame:(int)photoIndex frame:(int)frameIndex
+- (void)deleteImageOfFrame:(int)photoIndex frame:(int)frameIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
@@ -636,7 +667,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
   
 }
--(NSString*)pathForImageAtIndex:(int)index inPhoto:(int)photoIndex
+- (NSString*)pathForImageAtIndex:(int)index inPhoto:(int)photoIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
@@ -655,7 +686,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return imgPath;
 }
 
--(UIImage*)getVideoFrameAtIndex:(int)frameIndex forPhoto:(int)photoIndex
+- (UIImage*)getVideoFrameAtIndex:(int)frameIndex forPhoto:(int)photoIndex
 {
     NSString *imgPath = [self pathForImageAtIndex:frameIndex inPhoto:photoIndex];
     if(NO == [[NSFileManager defaultManager]fileExistsAtPath:[self pathForImageAtIndex:frameIndex inPhoto:photoIndex]])
@@ -665,13 +696,28 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return [UIImage imageWithContentsOfFile:imgPath];
 }
-
--(NSString*)getVideoInfoKeyForPhotoAtIndex:(int)index
+- (void)saveImageAfterApplyingEffect:(UIImage *)image atPhotoIndex:(int)photoIndex atFrameIndex:(int)frameIndex
+{
+    
+    NSString *imgPath = [self pathForImageAtIndex:frameIndex inPhoto:photoIndex];
+    
+   
+    if([[NSFileManager defaultManager]fileExistsAtPath:imgPath])
+    {
+        NSError *error;
+        BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:imgPath error:&error];
+        NSAssert(YES == folderDeleted, @"deleteVideoFramesForPhotoAtIndex: Failed to delete %@, error %@",imgPath,error.localizedDescription);
+    }
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    [imageData writeToFile:imgPath atomically:YES];
+   
+}
+- (NSString*)getVideoInfoKeyForPhotoAtIndex:(int)index
 {
     return [NSString stringWithFormat:@"video%d_%d.png",iSessionId,index];
 }
 
--(int)getFrameCountForPhotoAtIndex:(int)index
+- (int)getFrameCountForPhotoAtIndex:(int)index
 {
     NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
     NSData *myData    = [[NSUserDefaults standardUserDefaults]objectForKey:key];
@@ -688,7 +734,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return [[videoInfo objectForKey:@"FrameCount"]integerValue];
 }
 
--(int)getFrameCountOfFrame:(Frame*)frame
+- (int)getFrameCountOfFrame:(Frame*)frame
 {
     int photoIndex = 0;
     int maxFrameCount = 0;
@@ -708,7 +754,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return maxFrameCount;
 }
 
--(NSURL*)getVideoUrlForPhotoAtIndex:(int)index
+- (NSURL*)getVideoUrlForPhotoAtIndex:(int)index
 {
     NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
     NSData *myData    = [[NSUserDefaults standardUserDefaults]objectForKey:key];
@@ -729,7 +775,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return url;
 }
 
--(double)getMaxVideoDuration:(BOOL)isSequentialPlay
+- (double)getMaxVideoDuration:(BOOL)isSequentialPlay
 {
     double duration = 0.0f;
     
@@ -752,7 +798,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return duration;
 }
 
--(double)getVideoDurationForPhotoAtIndex:(int)index
+- (double)getVideoDurationForPhotoAtIndex:(int)index
 {
     NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
     NSData *myData    = [[NSUserDefaults standardUserDefaults]objectForKey:key];
@@ -779,7 +825,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
  [[NSUserDefaults standardUserDefaults]setObject:path forKey:key];
  }
  */
--(void)saveVideoInfo:(NSMutableDictionary*)videoInfo atIndex:(int)index
+- (void)saveVideoInfo:(NSMutableDictionary*)videoInfo atIndex:(int)index
 {
     /* generate key for storing video info */
     NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
@@ -797,20 +843,20 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(eFrameResourceType)getFrameResourceTypeAtIndex:(int)index
+- (eFrameResourceType)getFrameResourceTypeAtIndex:(int)index
 {
     NSString *key     = [NSString stringWithFormat:@"frt%d_%d.png",iSessionId,index];
     
     return (eFrameResourceType)[[[NSUserDefaults standardUserDefaults]objectForKey:key]intValue];
 }
 
--(void)saveFrameResourceType:(eFrameResourceType)eType atIndex:(int)index
+- (void)saveFrameResourceType:(eFrameResourceType)eType atIndex:(int)index
 {
     NSString *key     = [NSString stringWithFormat:@"frt%d_%d.png",iSessionId,index];
     [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithInt:eType] forKey:key];
 }
 
--(void)swapImageAtIndex:(int)from with:(int)to
+- (void)swapImageAtIndex:(int)from with:(int)to
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [paths objectAtIndex:0];
@@ -856,7 +902,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(void)updateTheSessionIcon
+- (void)updateTheSessionIcon
 {
     NSArray  *paths        = nil;
     NSString *docDirectory = nil;
@@ -890,7 +936,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 #pragma mark methods for view controller
 
--(void)saveAndSetTheResourceToPhoto:(NSTimer*)tmr
+- (void)saveAndSetTheResourceToPhoto:(NSTimer*)tmr
 {
     NSURL *pathToVideo = nil;
     eFrameResourceType eType = FRAME_RESOURCE_TYPE_PHOTO;
@@ -942,7 +988,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 #if 1
--(void)imageSelectedForPhoto:(UIImage*)img
+- (void)imageSelectedForPhoto:(UIImage*)img
 {
     // photoFromFrame.photoNumber = photoNumer;
     [self handleVideoFrameSettingsUpdate];
@@ -960,7 +1006,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheResourceToPhoto:) userInfo:nil repeats:NO];
 }
 #endif
--(void)saveAndSetTheResourceForPhoto:(NSTimer*)timer
+- (void)saveAndSetTheResourceForPhoto:(NSTimer*)timer
 {
     Photo *pht = [timer.userInfo objectForKey:@"Photo"];
     UIImage *selectedImage = [timer.userInfo objectForKey:@"selectedImage"];
@@ -1018,7 +1064,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(void)imageSelectedForPhoto:(UIImage*)img indexOfPhoto:(int)photoNumer
+- (void)imageSelectedForPhoto:(UIImage*)img indexOfPhoto:(int)photoNumer
 {
     Photo *pht = [self.frame getPhotoAtIndex:photoNumer];
     UIImage *selectedImage = nil;
@@ -1040,7 +1086,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheResourceForPhoto:) userInfo:input repeats:NO];
 }
 
--(BOOL)anyVideoFrameSelected
+- (BOOL)anyVideoFrameSelected
 {
     BOOL isVideoFrame = NO;
     /* Check if any video is selected */
@@ -1056,7 +1102,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return isVideoFrame;
 }
 
--(int)totalVideoPhotos
+- (int)totalVideoPhotos
 {
     int videoFrame = 0;
     /* Check if any video is selected */
@@ -1071,7 +1117,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return videoFrame;
 }
 
--(void)previewVideo
+- (void)previewVideo
 {
     if(NO == [self anyVideoFrameSelected])
     {
@@ -1124,7 +1170,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(void)previewAudio
+- (void)previewAudio
 {
     if(NO == [self anyVideoFrameSelected])
     {
@@ -1177,7 +1223,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(void)playerFinishedPlaying:(NSNotification*)notification
+- (void)playerFinishedPlaying:(NSNotification*)notification
 {
     NSLog(@"playerFinishedPlaying");
     for(int index = 0;  index < self.frame.photoCount; index++)
@@ -1252,7 +1298,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 //-(void)videoSelectedForPhoto:(UIImage *)img atPath:(NSURL*)path
--(void)videoSelectedForCurrentPhotoWithInfo:(NSDictionary*)videoInfo image:(UIImage*)img
+- (void)videoSelectedForCurrentPhotoWithInfo:(NSDictionary*)videoInfo image:(UIImage*)img
 {
     [self handleVideoFrameSettingsUpdate];
     [self deleteCurrentAudioMix];
@@ -1272,12 +1318,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 #pragma mark end saving video frames to HDD
--(int)photoNumberOfCurrentSelectedPhoto
+- (int)photoNumberOfCurrentSelectedPhoto
 {
     return photoFromFrame.photoNumber;
 }
 
--(void)saveVideoToDocDirectory:(NSURL*)url completion:(void (^)(NSString *localVideoPath))complete
+- (void)saveVideoToDocDirectory:(NSURL*)url completion:(void (^)(NSString *localVideoPath))complete
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
@@ -1313,7 +1359,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return ;
 }
 
--(void)saveAndSetTheEditedImageToPhoto
+- (void)saveAndSetTheEditedImageToPhoto
 {
     
     /* save the image to HDD */
@@ -1340,7 +1386,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(void)imageEditedForPhoto:(UIImage*)img
+- (void)imageEditedForPhoto:(UIImage*)img
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -1355,7 +1401,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 #pragma mark helper function to create session entry in DB
--(BOOL)createAndAddSessionToDbWithId:(int)sessionId
+- (BOOL)createAndAddSessionToDbWithId:(int)sessionId
 {
     if(nil == nvm)
     {
@@ -1536,7 +1582,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
  handleVideoFrameSettingsUpdate: This function needs to be called everytime frame settings is changed,
  it will delete if any existing videos generated out of the frame.
  */
--(void)handleVideoFrameSettingsUpdate
+- (void)handleVideoFrameSettingsUpdate
 {
     NSString *currentVideoPath = [self pathToCurrentVideo];
     
@@ -1546,14 +1592,14 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(void)unregisterForNotifications
+- (void)unregisterForNotifications
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:nil
                                                   object:nil];
 }
 
--(void)registerForNotifications
+- (void)registerForNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
@@ -1562,7 +1608,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 #pragma mark erasing the images from session
--(NSMutableArray*)eraseCurImageAndReturnImageForAnimation
+- (NSMutableArray*)eraseCurImageAndReturnImageForAnimation
 {
     if(nil == photoFromFrame)
     {
@@ -1595,7 +1641,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return viewsForAnimation;
 }
 
--(NSMutableArray*)eraseAndReturnImagesForAnimation
+- (NSMutableArray*)eraseAndReturnImagesForAnimation
 {
     NSMutableArray *viewsForAnimation = nil;
     int             index             = 0;
@@ -1641,13 +1687,13 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 #pragma mark deallocation methods
--(void)deleteAllSessionResources
+- (void)deleteAllSessionResources
 {
     
 }
 
 #pragma mark session display methods
--(void)showSessionOn:(UIView*)view
+- (void)showSessionOn:(UIView*)view
 {
     if(nil == view)
     {
@@ -1681,7 +1727,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
 }
 
--(void)hideSession
+- (void)hideSession
 {
     /* First remove if any shadow view is already attached */
     UIView *shView = [_frame.superview viewWithTag:TAG_SHADOW_VIEW];
@@ -1697,7 +1743,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 #pragma mark session initialization methods
--(void)initiClassVariables
+- (void)initiClassVariables
 {
     photoFromFrame = nil;
     //photoBeingSelected = nil;
@@ -1709,7 +1755,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     swapTo            = nil;
 }
 
--(void)applyScaleAndOffsetForTheFrame
+- (void)applyScaleAndOffsetForTheFrame
 {
     int count = 0;
     int index = 0;
@@ -1745,7 +1791,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(id)initWithSessionId:(int)sessionId
+- (id)initWithSessionId:(int)sessionId
 {
     self  = [super init];
     if(nil != self)
@@ -1934,7 +1980,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return nil;
 }
 
--(int)shapeOfCurrentlySelectedPhoto
+- (int)shapeOfCurrentlySelectedPhoto
 {
     if(nil == photoFromFrame)
     {
@@ -1944,7 +1990,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return photoFromFrame.view.curShape;
 }
 
--(void)shapePreviewSelectedForPhoto:(eShape)shape
+- (void)shapePreviewSelectedForPhoto:(eShape)shape
 {
     if(nil == photoFromFrame)
     {
@@ -1958,7 +2004,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     //photoFromFrame.view.curShape = temp;
 }
 
--(void)shapePreviewCancelled
+- (void)shapePreviewCancelled
 {
     eShape shape = photoFromFrame.view.curShape;
     
@@ -1969,7 +2015,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [self updateTheSessionIcon];
 }
 
--(void)shapeSelectedForPhoto:(eShape)shape
+- (void)shapeSelectedForPhoto:(eShape)shape
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -1990,7 +2036,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 
 #if 0
--(id)initWithFrameNumber:(int)iFrmNumber
+- (id)initWithFrameNumber:(int)iFrmNumber
 {
     self  = [super init];
     if(nil != self)
@@ -2042,7 +2088,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 #else
 
--(id)initWithFrameNumber:(int)iFrmNumber
+- (id)initWithFrameNumber:(int)iFrmNumber
 {
     self  = [super init];
     if(nil != self)
@@ -2080,7 +2126,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 #endif
 
 #pragma mark other session related functions
--(void)updateSessionInDB
+- (void)updateSessionInDB
 {
 #if 0
     /* open the database */
@@ -2140,7 +2186,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(void)addPhotosToTheFrame:(Frame*)frm
+- (void)addPhotosToTheFrame:(Frame*)frm
 {
     int index = 0;
     
@@ -2165,12 +2211,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
--(int)frameNumber
+- (int)frameNumber
 {
     return iFrameNumber;
 }
 
--(void)setFrameNumber:(int)FrameNumber
+- (void)setFrameNumber:(int)FrameNumber
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -2209,12 +2255,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(int)sessionId
+- (int)sessionId
 {
     return iSessionId;
 }
 
--(void)setSessionId:(int)sessionId
+- (void)setSessionId:(int)sessionId
 {
     iSessionId = sessionId;
     
@@ -2223,19 +2269,19 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(BOOL)patternSelected
+- (BOOL)patternSelected
 {
     return bPatternSelected;
 }
 
--(UIColor*)color
+- (UIColor*)color
 {
     UIColor *clr = [UIColor colorWithRed:sColor.fRed green:sColor.fGreen blue:sColor.fBlue alpha:sColor.fAlpha];
     
     return clr;
 }
 
--(void)setColor:(UIColor *)color
+- (void)setColor:(UIColor *)color
 {
     const float *components = NULL;
     
@@ -2261,13 +2307,18 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     return;
 }
-
--(int)pattern
+- (void)setImage:(UIImage *)image
+{
+    bPatternSelected = NO;
+    
+    [_frame setImage:image];
+}
+- (int)pattern
 {
     return iPattern;
 }
 
--(void)setPattern:(int)pattern
+- (void)setPattern:(int)pattern
 {
     iPattern = pattern;
     
@@ -2283,12 +2334,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(float)innerRadius
+- (float)innerRadius
 {
     return fInnerRadius;
 }
 
--(void)setInnerRadius:(float)innerRadius
+- (void)setInnerRadius:(float)innerRadius
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -2302,12 +2353,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(float)outerRadius
+- (float)outerRadius
 {
     return fOuterRadius;
 }
 
--(void)setOuterRadius:(float)outerRadius
+- (void)setOuterRadius:(float)outerRadius
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -2328,12 +2379,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(float)frameWidth
+- (float)frameWidth
 {
     return fFrameWidth;
 }
 
--(void)setPhotoWidth:(float)photoWidth
+- (void)setPhotoWidth:(float)photoWidth
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -2347,7 +2398,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(void)setFrameWidth:(float)frameWidth
+- (void)setFrameWidth:(float)frameWidth
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -2361,12 +2412,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
--(int)aspectRatio
+- (int)aspectRatio
 {
     return iAspectRatio;
 }
 
--(void)setAspectRatio:(int)aspectRatio
+- (void)setAspectRatio:(int)aspectRatio
 {
     [self handleVideoFrameSettingsUpdate];
     

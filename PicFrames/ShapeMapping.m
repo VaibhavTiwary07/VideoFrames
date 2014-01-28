@@ -39,7 +39,7 @@ static tShapeMap shape_mapping[FRAME_SHAPE_LAST] = {
     {FRAME_SHAPE_16,@"Cloud",YES}
 };
 
-+(void)setLockStatusOfShape:(int)fil group:(int)grp to:(BOOL)newstatus
++ (void)setLockStatusOfShape:(int)fil group:(int)grp to:(BOOL)newstatus
 {
     if(shapelockstatus[grp][fil] == newstatus)
     {
@@ -53,7 +53,7 @@ static tShapeMap shape_mapping[FRAME_SHAPE_LAST] = {
     return;
 }
 
-+(int)getLockStatusOfShape:(int)fil group:(int)grp
++ (int)getLockStatusOfShape:(int)fil group:(int)grp
 {
     if(bought_allpackages)
     {
@@ -86,17 +86,17 @@ static tShapeMap shape_mapping[FRAME_SHAPE_LAST] = {
     return shapelockstatus[grp][fil];
 }
 
-+(BOOL)isShapeLockedAtIndex:(int)shape
++ (BOOL)isShapeLockedAtIndex:(int)shape
 {
     return shape_mapping[shape].bLocked;
 }
 
-+(NSString*)nameOfTheShapeAtIndex:(int)shape
++ (NSString*)nameOfTheShapeAtIndex:(int)shape
 {
     return shape_mapping[shape].name;
 }
 
-+(int)shapeCount
++ (int)shapeCount
 {
     return FRAME_SHAPE_LAST;
 }

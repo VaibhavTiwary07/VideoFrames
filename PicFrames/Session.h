@@ -59,6 +59,7 @@ typedef struct
 @property(nonatomic,readonly)BOOL patternSelected;
 @property(nonatomic,readwrite)BOOL videoSelected;
 @property(nonatomic,assign)UIColor *color;
+@property(nonatomic,retain)UIImage *image;
 @property(nonatomic,assign)Frame *frame;
 @property(nonatomic,assign)UIImage *imageFromApp;
 @property(nonatomic,retain)NSMutableArray *playerItems;
@@ -113,4 +114,9 @@ typedef struct
 -(NSString*)pathToMusciSelectedFromLibrary;
 -(void)enterNoTouchMode;
 -(void)exitNoTouchMode;
+-(void)enterTouchModeForSlectingImage:(int)photoIndex;
+-(void)exitTouchModeForSlectingImage;
+-(UIImage*)getImageAtIndex:(int)index;
+-(void)saveImageAfterApplyingEffect:(UIImage *)image atPhotoIndex:(int)photoIndex atFrameIndex:(int)frameIndex;
+-(void)saveImage:(UIImage*)img atIndex:(int)index;
 @end

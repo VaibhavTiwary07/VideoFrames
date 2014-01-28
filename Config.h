@@ -21,8 +21,41 @@
 #define BANNERADS_ENABLE 1
 #endif
 
-#define help_close_Button ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"exit-button_ipad.png":@"exit-button.png")
+//VideoGrid
+#define gridCornerSticker_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?50.0:40.0)
+#define gridCornerSticker_font ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?18.0:15.0)
+#define gridCornerSticker_label_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?30.0:30.0)
+//end here
 
+//effect screen
+#define effect_done_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"done_ipad.png":@"done_effect.png")
+#define effect_cancel_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"close_ipad.png":@"close_effect.png")
+
+//end
+//shareView
+#define frame_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?600.0:300.0)
+#define share_background_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"background_ipad.png":@"background.png")
+#define share_back_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"back_ipad.png":@"share_back.png")
+#define share_album_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_album_ipad.png":@"share_album.png")
+#define share_mail_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_mail_ipad.png":@"share_mail.png")
+#define share_facebook_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_facebook_ipad.png":@"share_facebook.png")
+#define share_instagram_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_instagram_ipad.png":@"share_instagram.png")
+#define share_clipboard_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_clipboard_ipad.png":@"share_clipboard.png")
+#define share_viddy_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_viddy_ipad":@"share_viddy.png")
+#define share_youtube_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_youtube_ipad":@"share_youtube.png")
+
+#define share_album_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_album_active_ipad.png":@"share_album_active.png")
+#define share_mail_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_mail_active_ipad.png":@"share_mail_active.png")
+#define share_facebook_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_facebook_active_ipad.png":@"share_facebook_active.png")
+#define share_instagram_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_instagram_active_ipad.png":@"share_instagram_active.png")
+#define share_clipboard_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_clipboard_active_ipad.png":@"share_clipboard_active.png")
+#define share_viddy_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_viddy_active_ipad":@"share_viddy_active.png")
+#define share_youtube_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_youtube_active_ipad":@"share_youtube_active.png")
+
+
+//end here
+#define help_close_Button ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"exit-button_ipad.png":@"exit-button.png")
+#define videoGridViewHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?300.0:200.0)
 #define colorBackgroundBarHeightHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?100.0:60.0)
 #define colorBurttonHeight ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?80.0:50.0)
 #define bottombarImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"bottom bar_ipad.png":@"bottom bar.png")
@@ -51,6 +84,8 @@
 
 #define select_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"color~ipad":@"color_vpf")
 
+#define effects_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"effects_button_ipad":@"effects_button")
+
 #define setting_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"settings~ipad":@"settings_vpf")
 
 #define play_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"preview~ipad":@"preview_vpf")
@@ -64,17 +99,19 @@
 #define rateus_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"like~ipad":@"like_vpf")
 
 #define share_facebook_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"facebook~ipad":@"facebook_vpf")
+
 #define share_email_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"email~ipad":@"email_vpf")
+
 #define share_message_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"message~ipad":@"message_vpf")
 
 #define more_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"upgrade~ipad":@"upgrade_vpf")
 
 
-
-
 #define frame_active_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"frame_active~ipad":@"frames_vpf_active")
 
 #define select_active_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"color_active~ipad":@"color_vpf_active")
+
+#define effects_active_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"effects_active_button_ipad":@"effects_active_button")
 
 #define setting_active_imageName ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"settings_active~ipad":@"settings_vpf_active")
 
@@ -155,6 +192,7 @@
 #define selectImageForPhoto     @"selectImageForPhoto"
 #define selectImageForSession   @"selectImageForSession"
 #define editImageForPhoto       @"editImageForPhoto"
+#define selectImageForApplyingEffect @"selectImageForEffect"
 #define editImageForSession     @"editImageForSession"
 #define swapmodeentered         @"swapmodeentered"
 #define swapFromSelected        @"selectedSwapFrom"
@@ -283,7 +321,7 @@
 #define TAG_ADJUST_TOUCHSHEILD  126
 #define TAG_PREVIEW_BGPAD        127
 #define TAG_VIDEOSETTINGS_BGPAD        128
-
+#define TAG_VIDEOGRIDVIEW       129
 #define TAG_SLIDERS_TIPVIEW     130
 
 #define TAG_BASEFRAME_GRIDVIEW      140
@@ -309,6 +347,7 @@
 #define TAG_TOOLBAR_ADJUST       205
 #define TAG_TOOLBAR_PREVIEW      206
 #define TAG_TOOLBAR_SETTINGS     207
+#define TAG_TOOLBAR_EFFECT       208
 
 /* tags for views */
 #define TAG_FREEAPPS_VIEW        300

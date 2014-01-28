@@ -34,6 +34,7 @@
 -(id)initWithFrameNumber:(int)frameNumber withBgColor:(UIColor *)clr;
 -(void)setPattern:(int)patternNumber;
 -(void)setColor:(UIColor*)color;
+-(void)setImage:(UIImage *)image;
 -(void)setWidth:(int)width;
 -(void)setOuterRadius:(int)radius;
 -(void)setInnerRadius:(int)radius;

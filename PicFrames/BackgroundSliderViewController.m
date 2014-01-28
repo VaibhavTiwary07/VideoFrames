@@ -30,7 +30,7 @@
 @end
 
 @implementation BackgroundSliderViewController
--(void)applicationWillEnterForeground
+- (void)applicationWillEnterForeground
 {
     [self moveAnimation];
     [backgroundImageView.layer addAnimation:move forKey:@"move"];
@@ -113,7 +113,7 @@
 
 }
 
--(void)addAnimationToButton:(UIButton *)aButton
+- (void)addAnimationToButton:(UIButton *)aButton
 {
     CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
     fadeAnim.fromValue = [NSNumber numberWithFloat:1.0];
@@ -124,7 +124,7 @@
     [aButton.layer addAnimation:fadeAnim forKey:@"opacity"];
 }
 
--(void)startAction
+- (void)startAction
 {
     if (viewController == nil)
     {
@@ -134,7 +134,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationdidLoadView" object:nil];
     [self.navigationController pushViewController:viewController animated:YES];
 }
--(void)moveAnimation
+- (void)moveAnimation
 {
     move = [CABasicAnimation animationWithKeyPath:@"transform.translation.x" ];
 
@@ -145,7 +145,7 @@
 
     [move setDuration:animationTime];
 }
--(void)actionForButton:(UIButton *)aButton
+- (void)actionForButton:(UIButton *)aButton
 {
     
     NSURL *url = [[NSURL alloc] init];

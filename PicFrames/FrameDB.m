@@ -215,7 +215,7 @@
 #endif
     /* First get the count of photos */
     adjustorCount = [db executeQuery:@"select COUNT(iFrameNumber) as photocount from frames where iFrameNumber = ? and type = ?",[NSNumber numberWithInt:FrameNumber],[NSNumber numberWithInt:1]];
-    NSLog(@"Adjuster count = %@", adjustorCount);
+   
     
     if(nil == adjustorCount)
     {

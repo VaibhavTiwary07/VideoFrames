@@ -43,6 +43,7 @@
 
 - (void)initialization
 {
+    isUploadInProgress = NO;
     [self setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.8]];
     baseView = [[UIView alloc] init];
     baseView . frame = CGRectMake(0, 0, 340, 340);
@@ -122,7 +123,12 @@
 
 -(void)canclePressed
 {
+    if (isUploadInProgress) {
+        [WCAlertView showAlertWithTitle:@"Uplaod in Progress" message:@"Your video is now uploading to Youtube. Plaese wait." customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    }else
+    {
     [self removeFromSuperview];
+    }
 }
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -150,6 +156,7 @@
 #pragma mark IBAction
 
 - (IBAction)uploadPressed:(UIButton *)aButton {
+    isUploadInProgress = YES;
 
     aButton.hidden = YES;
     UIButton *cancleBtton = (UIButton *)[backgroundImage viewWithTag:20];
@@ -276,7 +283,7 @@ ofTotalByteCount:(unsigned long long)dataLength {
 - (void)uploadTicket:(GDataServiceTicket *)ticket
    finishedWithEntry:(GDataEntryYouTubeVideo *)videoEntry
                error:(NSError *)error {
-
+    
     UIButton *uploadButton = (UIButton *)[backgroundImage viewWithTag:10];
     UIButton   *cancleButton = (UIButton *)[backgroundImage viewWithTag:20];
     if (error == nil) {
@@ -305,7 +312,7 @@ ofTotalByteCount:(unsigned long long)dataLength {
 
 
     }
-
+    isUploadInProgress = NO;
     mProgressView . hidden = YES;
     uploadButton . hidden = NO;
     cancleButton . enabled = YES;

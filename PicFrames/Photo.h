@@ -44,6 +44,7 @@
 @property(nonatomic,readwrite)float rowIndex;
 @property(nonatomic,readwrite)float colIndex;
 @property(nonatomic,readwrite)BOOL noTouchMode;
+@property(nonatomic,readwrite)BOOL effectTouchMode;
 
 //Methods
 - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;

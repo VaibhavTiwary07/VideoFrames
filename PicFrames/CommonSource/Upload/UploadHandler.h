@@ -29,7 +29,7 @@ typedef struct
 }t_TwitterCredentials;
 
 
-@interface UploadHandler : NSObject <UIAlertViewDelegate,UITextFieldDelegate,MFMailComposeViewControllerDelegate,UIWebViewDelegate,UIAlertViewDelegate>
+@interface UploadHandler : NSObject <UIAlertViewDelegate,UITextFieldDelegate,MFMailComposeViewControllerDelegate,UIWebViewDelegate,UIAlertViewDelegate,UIDocumentInteractionControllerDelegate>
 {
     /* Facebook like */
     BOOL bAlreadyLiked;
@@ -45,12 +45,15 @@ typedef struct
     
     UITextField *textField;
     NSString *msg;
+    UIDocumentInteractionController *documentInteractionController;
+    UIViewController *viewController;
 }
 
 -(void)upload;
 #if TWITTER_SUPPORT_ENABLED
 -(void)setTwitterUser:(NSString*)user password:(NSString*)pass;
 #endif
+@property (nonatomic,retain)UIViewController *viewController;
 @property(nonatomic,assign)UIView *view;
 @property(nonatomic,assign)Session *cursess;
 @end

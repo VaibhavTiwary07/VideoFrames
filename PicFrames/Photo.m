@@ -28,6 +28,7 @@
 @synthesize rowIndex;
 @synthesize colIndex;
 @synthesize noTouchMode;
+@synthesize effectTouchMode;
 @synthesize _internalImage;
 
 -(float)scale
@@ -110,14 +111,27 @@
 
 - (void)handleSingleTap:(NSTimer*)t
 {
+    
     tapTimer = nil;
     // handling code
     self.view.imageView.alpha = 1.0;
-    
+    if (self.effectTouchMode) {
+        NSLog(@" effect selected mode");
+        if (nil!= self.view.imageView.image) {
+            self.view.scrollView.layer.borderWidth = 5.0;
+            self.view.scrollView.layer.borderColor = [UIColor redColor].CGColor;
+        }else
+        {
+            self.view.scrollView.layer.borderWidth = 0.0;
+            
+        }
+        return;
+    }
     if(self.noTouchMode)
     {
         return;
     }
+    
     
     if(nil == self.view.imageView.image)
     {
@@ -139,11 +153,15 @@
 {     
     if (sender.state == UIGestureRecognizerStateEnded)     
     {
+        if (effectTouchMode) {
+            NSLog(@" effect touch mode");
+            return;
+        }
         CGPoint p = [sender locationInView:self.view.imageView];
         NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view.imageView, self.view, nil];
         NSArray *keys = [NSArray arrayWithObjects:@"x_location",@"y_location",@"view",@"scrollview", nil];
         NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
-        
+        NSLog(@" single tap");
         if(nil == self.view.imageView.image)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForPhoto
@@ -319,11 +337,27 @@
 
 -(void)singleTapDetected:(UITouch *)loc
 {
+    if (self.effectTouchMode) {
+        NSLog(@" effect selected mode");
+        if (nil!= self.view.imageView.image) {
+            
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:iPhotoNumber],@"photoNumber", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForApplyingEffect
+                                                                object:self
+                                                              userInfo:dict];
+        }else
+        {
+            self.view.scrollView.layer.borderWidth = 0.0;
+            
+        }
+        return;
+    }
+
     if(self.noTouchMode)
     {
         return;
     }
-    
+   
     CGPoint p = [loc locationInView:self.view.imageView];
     NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view.imageView, self.view, nil];
     NSArray *keys = [NSArray arrayWithObjects:@"x_location",@"y_location",@"view",@"scrollview", nil];

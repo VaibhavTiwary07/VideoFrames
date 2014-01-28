@@ -58,6 +58,7 @@ typedef enum
 @property(nonatomic,readonly)float wRatio;
 @property(nonatomic,readonly)float hRatio;
 @property(nonatomic,readonly)float maxRatio;
+@property(nonatomic,assign)BOOL noAdMode;
 
 
 +(Settings*)Instance ;
@@ -65,4 +66,6 @@ typedef enum
 -(UIImage*)generateTheImage;
 -(CGSize)getTheSizeForResolution:(eResolutionType)eResType;
 +(CGSize)aspectRatioToValues:(eAspectRatio)ratio;
+-(void)setNoAdMode:(BOOL)yesOrNo;
+-(BOOL)getNoAdMode;
 @end
