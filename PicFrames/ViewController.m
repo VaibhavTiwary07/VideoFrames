@@ -841,7 +841,7 @@
     pv.frame = CGRectMake(10, msg.frame.origin.y+msg.frame.size.height, displayArea.frame.size.width-20, displayArea.frame.size.height/2.0);
     pv.center = CGPointMake(touchBlock.center.x, pv.center.y+pv.frame.size.height/2.0);
     [touchBlock addSubview:pv];
-    [pv release];
+    //[pv release];
 }
 
 #pragma mark end saving video frames to HDD
@@ -4091,8 +4091,9 @@
                                                  forKey:KEY_USE_SEQUENTIAL_Play_STATUS];
         isSequentialPlay = TRUE;
     
-        
-        [self addVideoGrid];
+        UIImageView *settingImageView = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
+        CGRect rect = CGRectMake(0,settingImageView.frame.origin.y , full_screen.size.width, 0);
+        [self addVideoGrid:rect];
     }
     else
     {
@@ -4109,9 +4110,9 @@
 
 }
 
--(void)addVideoGrid
+-(void)addVideoGrid:(CGRect) aRect
 {
-    [videoImageInfo removeAllObjects];
+        [videoImageInfo removeAllObjects];
     [sess deleteCurrentAudioMix];
     
     if ( dictionary != nil) {
@@ -4134,22 +4135,19 @@
             
         }
     }
-    NSLog(@" print value : %d", [videoImageInfo count]);
-    UIImageView *settingImageView = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
-    
-    CGRect rect = CGRectMake(0,settingImageView.frame.origin.y- videoGridViewHeight , full_screen.size.width, videoGridViewHeight);
-  /*  NSNumber *mediaItemId  = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
-    if (nil!= mediaItemId)
-    {
-        rect = CGRectMake(0, full_screen.size.height- settingImageView.frame.origin.y- 220, full_screen.size.width, 150);
-    }*/
+    if (photoIndex == 0) {
+        return;
+    }
+    [WCAlertView showAlertWithTitle:@"Help" message:@"To select video longpress on video item and move using your finger to alter order of videos" customizationBlock:nil completionBlock:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     
     UIImageView *gridBackGroundView = [[UIImageView alloc] init];
     gridBackGroundView . userInteractionEnabled = YES;
     gridBackGroundView . backgroundColor = [UIColor greenColor];
     gridBackGroundView . tag   =  TAG_VIDEOGRIDVIEW;
-    gridBackGroundView . frame = CGRectMake(0,rect.origin.y+videoGridViewHeight, rect.size.width, 0);
+    gridBackGroundView . frame = CGRectMake(0,aRect.origin.y, aRect.size.width, 0);
     gridBackGroundView . image = [UIImage imageNamed:@"gridPopupBg.png"];
+    gridBackGroundView . layer . borderColor = [UIColor cyanColor].CGColor;
+    gridBackGroundView . layer . borderWidth = 2.0;
     [self.view addSubview:gridBackGroundView];
     
     [videoImageInfo retain];
@@ -4168,9 +4166,10 @@
     {
         [orderArrayForVideoItems removeAllObjects];
     }
-    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+    [UIView animateWithDuration:0.1f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         
-        gridBackGroundView . frame =   rect;
+        gridBackGroundView . frame =   CGRectMake(0, aRect.origin.y-videoGridViewHeight, full_screen.size.width, videoGridViewHeight);
         
     }completion:^(BOOL finished)
      {
@@ -4488,6 +4487,8 @@
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         
         settings.frame = settingsRect;
+        NSLog(@"setting y axis : %f", settings.frame.origin.y);
+        
         
     }completion:^(BOOL finished)
      {
@@ -4503,7 +4504,7 @@
          [selectMusic release];
          if (isSequentialPlay)
          {
-             [self addVideoGrid];
+             [self addVideoGrid:CGRectMake(0, settings.frame.origin.y, full_screen.size.width, videoGridViewHeight)];
          }
      }];
     
@@ -4990,7 +4991,6 @@
         
     }completion:^(BOOL finished)
      {
-         
          /* add radius sliders */
          CGRect       rect              = CGRectMake(RADIUS_SETTINGS_X, RADIUS_SETTINGS_Y, RADIUS_SETTINGS_WIDTH-40,         RADIUS_SETTINGS_HEIGHT);
          UISlider    *outerRadius       = nil;
@@ -5153,7 +5153,7 @@
     [backGround release];
     backGround.userInteractionEnabled = YES;
     
-    [UIView animateWithDuration:1.0
+    [UIView animateWithDuration:0.5
                           delay:0.0
                         options:UIViewAnimationOptionTransitionFlipFromTop
                      animations:^{
@@ -5184,7 +5184,7 @@
                                  UIButton *effectItem  = [UIButton buttonWithType:UIButtonTypeCustom];
                                  effectItem . tag = index;
                                  effectItem . frame = CGRectMake(xAxis, yAxis, width, height);
-                                 [effectItem setImage:[effect getImageForItem:index] forState:UIControlStateNormal];
+                                 [effectItem setBackgroundImage:[effect getImageForItem:index] forState:UIControlStateNormal];
                                  effectItem . layer. borderColor = [UIColor whiteColor].CGColor;
                                  effectItem . layer. borderWidth = 3.0;
                                  if ([effect getItemLockStatus:index ])
@@ -5195,6 +5195,7 @@
                                          lockImageView.frame = CGRectMake(0, 0, colorBurttonHeight, colorBurttonHeight);
                                          lockImageView.image = [UIImage imageNamed:@"lock.png"];
                                          [effectItem addSubview:lockImageView];
+                                         [lockImageView release];
 
                                      }
                                  }

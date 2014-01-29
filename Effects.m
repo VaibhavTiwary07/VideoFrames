@@ -16,9 +16,9 @@
     eGroupStaticFilter groupId=  [self getGroupIdForItem:effectNo];
     int itemNumber =0;
     itemNumber = effectNo;
-    if (effectNo>5)
+    if (effectNo>10)
     {
-        itemNumber = effectNo-6;
+        itemNumber = effectNo-11;
     }
     UIImage   *resultImage  =   [image applyGPUFilter:itemNumber onImage:image ofGroup:groupId withAlpha:1.0];
     return resultImage;
@@ -38,11 +38,11 @@
 - (eGroupStaticFilter)getGroupIdForItem:(int)itemNo
 {
     eGroupStaticFilter groupId=  0;
-    if (itemNo<=5)
+    if (itemNo<=10)
     {
         groupId = GROUP_STATIC_GPU_FILTER_COLOR;
         
-    }else if(itemNo>5)
+    }else if(itemNo>11)
     {
         groupId = GROUP_STATIC_GPU_FILTER_TONE;
         
@@ -55,9 +55,9 @@
     eGroupStaticFilter groupId=  [self getGroupIdForItem:itemNo];
     int itemNumber =0;
     itemNumber = itemNo;
-    if (itemNo>5)
+    if (itemNo>10)
     {
-        itemNumber = itemNo-6;
+        itemNumber = itemNo-11;
     }
     NSString *titlename =[StaticFilterMapping nameOfFilterInGroup:groupId atIndex:itemNumber];
     return titlename;
@@ -68,11 +68,13 @@
     int itemNumber =0;
     BOOL isLocked = NO;
     itemNumber = itemNo;
-    if (itemNo>5)
+    if (itemNo>4)
     {
         isLocked = YES;
     }
-    
+    if (!freeVersion) {
+        isLocked = NO;
+    }
     return isLocked;
 }
 

@@ -170,6 +170,7 @@ OT_TabBar *customTabBar;
 - (void)moviePlayerDidExitFromFullScreen
 {
   //  NSLog(@"exit from full screen");
+    [_playerViewController.moviePlayer setControlStyle:MPMovieControlStyleNone];
     UIButton *playButton = (UIButton *)[self.view viewWithTag:9876];
     [playButton setHidden:NO];
     [self.view bringSubviewToFront:playButton];
