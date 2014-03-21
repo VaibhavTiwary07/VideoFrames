@@ -1,0 +1,34 @@
+PODS:
+  - CMPopTipView (2.0.0)
+  - CTAssetsPickerController (1.2.1)
+  - FTWButton (1.0):
+    - SKInnerShadowLayer (~> 1.0)
+  - GPUImage (0.1.2)
+  - MBProgressHUD (0.8)
+  - SBJson (3.2)
+  - SKInnerShadowLayer (1.1)
+  - SWSnapshotStackView (0.0.1)
+  - WCAlertView (1.0.1)
+
+DEPENDENCIES:
+  - CMPopTipView (~> 2.0.0)
+  - CTAssetsPickerController (~> 1.2.1)
+  - FTWButton (~> 1.0)
+  - GPUImage (~> 0.1.2)
+  - MBProgressHUD (~> 0.8)
+  - SBJson (~> 3.2)
+  - SWSnapshotStackView (~> 0.0.1)
+  - WCAlertView (~> 1.0.1)
+
+SPEC CHECKSUMS:
+  CMPopTipView: c510c2a12ca52c870a6d63bad020642e5bf6edde
+  CTAssetsPickerController: 5b2b6d473bdb7f6dff2cdecc1f214a81e7faefa4
+  FTWButton: 5aa95f2dc9f0e1300e6d55a4ed0badb624d29fe2
+  GPUImage: 007145faa0e27f1ddbcab93e07f026c9776e2fa2
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  SBJson: abc2bf2baef456d5dae213f9826fe2b6fdf19861
+  SKInnerShadowLayer: f246f15fd78376c852ef8aeb5a2d5f8385945ea2
+  SWSnapshotStackView: 4f8718e3aba72b0cc49a2d7b4ebfba03386cfb56
+  WCAlertView: 940e47509875d85cc42abedafc41d310007f9174
+
+COCOAPODS: 0.28.0

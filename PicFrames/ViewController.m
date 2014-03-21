@@ -271,7 +271,7 @@
 
 - (void)popupMenuDidDismiss:(PopupMenu*)sender
 {
-    NSLog(@"Popupmenu dismissed");
+   
 }
 
 - (void)popupMenu:(PopupMenu*)sender itemDidSelectAtIndex:(int)index
@@ -291,7 +291,6 @@
     if (currentSelectedPhoto.image != nil ) {
         maximumNumberOfImage++;
     }
-    NSLog(@" mAximum Number of image %d",maximumNumberOfImage);
     
     switch(index)
     {
@@ -355,10 +354,7 @@
             
     }
     
-  //  NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self popupMenu:nil titleForItemAtIndex:index],@"Option", nil];
-    // [Flurry logEvent:@"Popup Menu Selections" withParameters:dict];
 }
-
 
 - (void)showPhotoEffectsEditor
 {
@@ -400,9 +396,9 @@
         NSURL *movieUrl = [[NSURL alloc]initFileURLWithPath:moviePath];
         
         NSDictionary *usrInfo = [NSDictionary dictionaryWithObject:movieUrl forKey:backgroundVideoSelected];
-        NSLog(@"userinfo before sending notification %@",usrInfo);
+    
         [[NSNotificationCenter defaultCenter] postNotificationName:backgroundVideoSelected object:nil userInfo:usrInfo];
-        NSLog(@"userinfo after sending notification %@",usrInfo);
+       
     }
     else
     {
@@ -580,17 +576,11 @@
 
 - (void)writeFrame:(UIImage*)image atFrameIndex:(int)frmIndex videoIndex:(int)vidIndex ofTotalFrame:(int)frames
 {
-    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-     NSString *imgPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",index,frmIndex]];*/
+   
     NSString *imgPath = [sess pathForImageAtIndex:frmIndex inPhoto:vidIndex];
     
     [UIImageJPEGRepresentation(image, 0.8) writeToFile:imgPath atomically:YES];
-    //if(frmIndex == 2)
-    //{
-    //    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-    //    NSLog(@"Saved image %f, %f image path %@",image.size.height,image.size.width,imgPath);
-    //}
+   
     
     float pr = (float)frmIndex/(float)frames;
     
@@ -619,25 +609,24 @@
         duration = timeDurationLimit;
         videoTimeRange =videoTimeRange+ 30;
     }
-    NSLog(@"Print video Duration %d",videoTimeRange);
+ 
     nrFrames = duration * 30;
-    NSLog(@"VIDEO NIMINAL FRAME RATE -------  %f",inputAssetTrack. nominalFrameRate);
+ 
     
     /* Caluclate how often do we need to repeat the frames to achive 30fps, and inject those frames while
      reading and saving those frames */
     if(inputAssetTrack.nominalFrameRate < 30.0f)
     {
-        NSLog(@"Add some Duplicate frames");
+       
         float currentFrameCount          = inputAssetTrack.nominalFrameRate * duration;
         float framesRequiredToReach30fps = (currentFrameCount/inputAssetTrack.nominalFrameRate)*30.0f;
         float framesToDuplicate = framesRequiredToReach30fps - currentFrameCount;
-        
-        NSLog(@" PRINT Values current framecount : %f framesRequiredToReach30fps:%f framesToDuplicate:%f",currentFrameCount,framesRequiredToReach30fps, framesToDuplicate);
+       
         
         /* How often do we need to Duplicate the frames */
         duplicateFrequency = (int)((float)currentFrameCount/framesToDuplicate);
         requiresDuplication = YES;
-        //NSLog(@"FrameDuplication Is Required - Original FPS %f frames %d required Frames %f duplicate frequency %d frames to duplicate %f",inputAssetTrack.nominalFrameRate,frameIndex,framesRequiredToReach30fps,duplicateFrequency,framesToDuplicate);
+        
     }
     
     //print brief details of the track
@@ -679,7 +668,7 @@
     if ([reader startReading] == NO)
     {
         // Handle error
-        NSLog(@"saveVideoFramesToHDD:Error While reading");
+       
         if(nil != completion)
         {
             completion(NO,nil);
@@ -728,8 +717,6 @@
                 
                 if((0 != duplicateFrequency)&&(0 ==(origCount%duplicateFrequency)))
                 {
-                    
-                    //NSLog(@"Duplicating %d with %d original count %d duplicate frequency %d",frameIndex,frameIndex-1,origCount,duplicateFrequency);
                     [self writeFrame:[UIImage imageWithCGImage:newImage scale:1.0 orientation:videoAssetOrientation_] atFrameIndex:frameIndex videoIndex:[sess photoNumberOfCurrentSelectedPhoto] ofTotalFrame:nrFrames];
                     frameIndex++;
                 }
@@ -752,8 +739,7 @@
         }
     }
     
-    //NSLog(@"Total frames(30fps) = %f duration %f fps %f original frames %f corrected frames %d", nrFrames,duration,inputAssetTrack.nominalFrameRate,inputAssetTrack.nominalFrameRate*duration,frameIndex);
-    //  NSLog(@"Exiting thread nrframes - %f frameIndex %d",nrFrames,frameIndex);
+
     [bpool release];
     
     NSMutableDictionary *videoInfo = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -782,10 +768,11 @@
     {
         //[touchBlock removeFromSuperview];
         
-        UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
+        UIProgressView *pv = (UIProgressView*)[touchBlock viewWithTag:3658];
         if(nil != pv)
         {
-            [pv setProgress:[prog floatValue]];
+            float value = [prog floatValue];
+            [pv setProgress:value];
         }
     }
 }
@@ -795,13 +782,15 @@
     UIImageView *touchBlock = (UIImageView*)[self.view viewWithTag:33658];
     if(nil != touchBlock)
     {
+        //UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
+        UIProgressView *pv = (UIProgressView*)[touchBlock viewWithTag:3658];
+        if(nil != pv)
+        {
+            [pv removeFromSuperview];
+            [pv release];
+        }
         [touchBlock removeFromSuperview];
-        /*
-         UIProgressView *pv = (UIProgressView*)[self.view viewWithTag:3658];
-         if(nil != pv)
-         {
-         [pv removeFromSuperview];
-         }*/
+        [touchBlock release];
     }
 }
 
@@ -846,8 +835,6 @@
 
 #pragma mark end saving video frames to HDD
 #pragma mark start generating video from images
-
-
 - (NSDictionary*)getVideoSettings
 {
     NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -948,7 +935,7 @@
         }
         if(nil == tracks)
         {
-            NSLog(@"Audio Tracks doesn't exist");
+            
             if (isSequentialPlay) {
                 CMTime audioAssetDuration = CMTimeMake((int) (audioDuration * kRecordingFPS), kRecordingFPS);
                  audioStartTime = CMTimeAdd(audioStartTime, audioAssetDuration);
@@ -958,14 +945,13 @@
         
         if((nil != tracks)&&(0 == tracks.count))
         {
-            NSLog(@"Audio Tracks Doesn't exist");
+            
             if (isSequentialPlay) {
                 CMTime audioAssetDuration = CMTimeMake((int) (audioDuration * kRecordingFPS), kRecordingFPS);
                 audioStartTime = CMTimeAdd(audioStartTime, audioAssetDuration);
             }
             continue;
         }
-        NSLog(@"Mixing Audion file %@ of duration %f",audioUrl.path,[[audInfo objectForKey:@"audioDuration"] doubleValue]);
         
         
         AVAssetTrack * audioAssetTrack = [[urlAsset tracksWithMediaType:AVMediaTypeAudio]objectAtIndex:0];
@@ -979,17 +965,7 @@
             audioStartTime = CMTimeAdd(audioStartTime, audioAssetDuration);
         }
     }
-#if 0
-    if(0 == audioFileCount)
-    {
-        NSLog(@"No Audio files to mix");
-        if(nil != completion)
-        {
-            completion(NO);
-        }
-        return;
-    }
-#endif
+
     AVAssetExportSession* _assetExport = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
     _assetExport.outputFileType = @"com.apple.quicktime-movie";
     _assetExport.outputURL = outputFileUrl;
@@ -997,10 +973,6 @@
     [pool release];
     [_assetExport exportAsynchronouslyWithCompletionHandler:
      ^(void ) {
-         
-         //NSLog(@"Saving audio and video file to album");
-         //save it to photo album
-         //UISaveVideoAtPathToSavedPhotosAlbum([outputFileUrl path], nil, nil, nil);
          
          if(nil != completion)
          {
@@ -1130,11 +1102,9 @@
     if (isSequentialPlay == TRUE) {
        frameCount = totalNumberOfFrames;
     }
-    
-    
      gTotalPreviewFrames = [sess getFrameCountOfFrame:sess.frame];
-    if (isSequentialPlay) {
-        
+    if (isSequentialPlay)
+    {
     gTotalPreviewFrames = totalNumberOfFrames;
     }
     
@@ -1192,7 +1162,7 @@
                 UIImage *image = [sess getVideoFrameAtIndex:frameIndex forPhoto:photoIndex];
                 if(nil != image)
                 {
-                    //pht.image  = image;
+                    
                     pht.view.imageView.image = image;
                 }
             }
@@ -1208,11 +1178,11 @@
         [pool release];
         
         float prg = (float)frameIndex/(float)frameCount;
-        dispatch_async(dispatch_get_main_queue(), ^{
+        //dispatch_async(dispatch_get_main_queue(), ^{
             // update your UI here
-            [self updateProgress:[NSNumber numberWithFloat:prg]];
-            //[self performSelectorOnMainThread:@selector(updateProgress:) withObject:[NSNumber numberWithFloat:prg] waitUntilDone:YES];
-        });
+            //[self updateProgress:[NSNumber numberWithFloat:prg]];
+            [self performSelectorOnMainThread:@selector(updateProgress:) withObject:[NSNumber numberWithFloat:prg] waitUntilDone:YES];
+        //});
         
         if(self.applicationSuspended)
         {
@@ -1271,7 +1241,7 @@
                 NSDictionary *dict = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
                 [audioFiles addObject:dict];
                 librarayAudioValid = YES;
-                NSLog(@"Libraray Audio is valid");
+                
             }
         }
         
@@ -1283,11 +1253,10 @@
                 NSNumber *videoNumber = [NSNumber numberWithInt:index];
                 if (isSequentialPlay)
                 {
-                    if (tempIndex < [orderArrayForVideoItems count]) {
-                        NSLog(@" index : %d", tempIndex);
-                        
+                    if (tempIndex < [orderArrayForVideoItems count])
+                    {
                         videoNumber = [orderArrayForVideoItems objectAtIndex:tempIndex];
-                        NSLog(@"video number : %d ",videoNumber.intValue);
+                        
                     }else
                     {
                         continue;
@@ -1313,7 +1282,7 @@
                 NSArray *keys = [NSArray arrayWithObjects:@"audioFilePath",@"audioDuration", nil];
                 NSDictionary *dict = [NSDictionary dictionaryWithObjects:objs forKeys:keys];
                 [audioFiles addObject:dict];
-                //tempIndex++;
+                
             }
         }
         
@@ -3384,7 +3353,6 @@
     {
         UIImageView *img = [viewsForAnimation objectAtIndex:index];
         CGRect rect = [sess.frame convertRect:img.frame toView:self.view];
-        NSLog(@"Rectangle (%f,%f,%f,%f)",rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);
         img.frame   = rect;
         img.tag     = TAG_CLEARANIMATION + index;
         [self.view addSubview:img];
@@ -3422,14 +3390,7 @@
     }
     [UIView commitAnimations];
     
-    NSLog(@"Deleting %d images",[viewsForAnimation count]);
-    
     [viewsForAnimation release];
-//    [sess deleteVideoFramesForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-//  //  [sess deleteVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
-//    
-//    [sess handleVideoFrameSettingsUpdate];
-    
 
 }
 
@@ -3444,7 +3405,6 @@
     {
         UIImageView *img = [viewsForAnimation objectAtIndex:index];
         CGRect rect = [sess.frame convertRect:img.frame toView:self.view];
-        NSLog(@"Rectangle (%f,%f,%f,%f)",rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);
         img.frame   = rect;
         img.tag     = TAG_CLEARANIMATION + index;
         [self.view addSubview:img];
@@ -3482,7 +3442,6 @@
     }
     [UIView commitAnimations];
     
-    NSLog(@"Deleting %d images",[viewsForAnimation count]);
     
     [viewsForAnimation release];
 }
@@ -3662,7 +3621,6 @@
     
     if(nil == sess)
     {
-        NSLog(@"load the session");
         [self loadTheSession];
     }
     
@@ -3689,20 +3647,6 @@
 
 -(void)frameSelectedAtIndex:(int)index ofGridView:(FrameGridView *)gView
 {
-    NSLog(@"frame selected at index %d",index);
-    
-    /*   UIImageView *background = (UIImageView *)[self.view viewWithTag:TAG_ADJUST_BGPAD];
-     if (background != nil) {
-     
-     UISlider *innerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+2];
-     UISlider *outerRadius = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+4];
-     UISlider *frameWidth = (UISlider *)[background viewWithTag:RADIUS_TAG_INDEX+6];
-     
-     innerRadius . value = 0.0;
-     outerRadius . value = 0.0;
-     frameWidth . value = 10.0;
-     } */
-    
     sess.frameNumber   = index;
     sess. frameWidth   = 10.0;
     sess . innerRadius = 0.0;
@@ -3829,7 +3773,6 @@
     /* check if it is video frame, if not exit from preview */
     if(NO == [sess anyVideoFrameSelected])
     {
-       // [self generateVideoFromImage];
         [self releaseToolBarIfAny];
         [self selectEditTab];
         eMode = MODE_MAX;
@@ -3848,7 +3791,6 @@
     UIToolbar *toolBar = (UIToolbar*)[self.view viewWithTag:TAG_TOOLBAR_PREVIEW];
     if(nil != toolBar)
     {
-        NSLog(@"Preview screen is already active");
         return;
     }
     
@@ -4027,9 +3969,6 @@
     swit.tag = TAG_AUDIO_CELL_SWITCH;
     [cell addSubview:swit];
     
-    NSLog(@"  X  :  %f  Y : %f", swit.frame.origin.x , swit.frame.origin.y);
-   // swit.center = CGPointMake(swit.center.x, cell.center.y);
-    
     /* Add action to switch */
     [swit addTarget:self
              action:@selector(handleUpadteAudioFromLibraraySwitchStatus:)
@@ -4061,7 +4000,6 @@
     UISwitch *swit = [[UISwitch alloc]initWithFrame:CGRectMake(cell.frame.size.width-switchWidth, 15, switchWidth, switchHeight)];
     swit.on = enableStatus;
     swit.tag = TAG_SQUENTIAL_CELL_SWITCH;
-   //swit.center = CGPointMake((cell.frame.size.width-switchWidth) +(switchWidth/2), cell.center.y);
     
     /* Add action to switch */
     [swit addTarget:self
@@ -4112,7 +4050,8 @@
 
 -(void)addVideoGrid:(CGRect) aRect
 {
-        [videoImageInfo removeAllObjects];
+    [videoImageInfo removeAllObjects];
+    [sess handleVideoFrameSettingsUpdate];
     [sess deleteCurrentAudioMix];
     
     if ( dictionary != nil) {
@@ -4334,16 +4273,6 @@
     
     [customTabBar setSelectedItem:MODE_VIDEO_SETTINGS];
     
-    
-    /*
-     OT_TabBarItem *item = [customTabBar getTabbarItemWithTag:4];
-     if(nil != item)
-     {
-     [self allocateResourcesForVideoSettings:item];
-     }
-     else{
-     NSLog(@"item is nil to show video settings");
-     }*/
 }
 
 - (void)mediaPicker:(MPMediaPickerController *) mediaPicker didPickMediaItems: (MPMediaItemCollection *) mediaItemCollection
@@ -4355,8 +4284,6 @@
     /* Save MPMediaItem persistent ID */
     MPMediaItem *mediaItem = [[mediaItemCollection items]objectAtIndex:0];
     NSNumber *persistentId = [mediaItem valueForProperty:MPMediaItemPropertyPersistentID];
-    
-    NSLog(@"Saving Persistent Id %@",persistentId);
     
     /* if we are seleting music for the first time then we need to reopen the popover */
     if(nil == [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY])
@@ -4412,6 +4339,7 @@
 {
     [self releaseToolBarIfAny];
     
+    
     /* Add settings title to toolbar */
     [self addToolbarWithTitle:@"Video Settings" tag:TAG_TOOLBAR_SETTINGS];
     NSNumber *mediaItemId  = [[NSUserDefaults standardUserDefaults]objectForKey:KEY_AUDIOID_SELECTED_FROM_LIBRARY];
@@ -4460,8 +4388,6 @@
     }
     else
     {
-        NSLog(@"Media Item id is nil");
-        
         settingsRect = CGRectMake(settingsRect.origin.x, customTabBar.frame.origin.y-120,
                                   settingsRect.size.width, 120.0);
         selectTrackRect = CGRectMake(0, 60+1.25,settingsRect.size.width, 60.0);
@@ -4487,8 +4413,6 @@
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         
         settings.frame = settingsRect;
-        NSLog(@"setting y axis : %f", settings.frame.origin.y);
-        
         
     }completion:^(BOOL finished)
      {
@@ -4681,6 +4605,7 @@
 -(void)applySelectedEffectToAllImages
 {
     isTouchWillDetect = NO;
+    
     [self performSelectorOnMainThread:@selector(addprogressBarWithMsg:) withObject:@"Applying effect" waitUntilDone:YES];
     
     NSOperationQueue* operationQueue = [[NSOperationQueue alloc] init];
@@ -4692,7 +4617,7 @@
             {
                 isTouchWillDetect = YES;
                 [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
-                [self performSelectorOnMainThread:@selector(perform_Cancel) withObject:nil waitUntilDone:NO];;
+                [self performSelectorOnMainThread:@selector(perform_Cancel) withObject:nil waitUntilDone:YES];;
             }
         }];
     }];
@@ -4703,7 +4628,11 @@
 
 -(void)applyEffectAndSaveImage:(void (^)(BOOL isCompleted))complete
 {
-    
+    NSString *currentVideoPath = [sess pathToCurrentVideo];
+    if(YES == [[NSFileManager defaultManager]fileExistsAtPath:currentVideoPath])
+    {
+        [[NSFileManager defaultManager]removeItemAtPath:currentVideoPath error:nil];
+    }
     Effects *effect = [Effects alloc];
     int totalNoOfPhoto=0;
     int  currentFrameNumber = 0;
@@ -4768,12 +4697,13 @@
             currentFrameNumber++;
             
             float prg = (float)currentFrameNumber/(float)totalNumberOfFrames;
-            dispatch_async(dispatch_get_main_queue(), ^{
+          //  dispatch_async(dispatch_get_main_queue(), ^{
                 
                 // update your UI here
-                [self updateProgress:[NSNumber numberWithFloat:prg]];
+               // [self updateProgress:[NSNumber numberWithFloat:prg]];
+            [self performSelectorOnMainThread:@selector(updateProgress:) withObject:[NSNumber numberWithFloat:prg] waitUntilDone:YES];
                 
-            });
+           // });
             [pool release];
         }
         
@@ -5092,7 +5022,6 @@
 }
 -(void)releaseResourcesForColorAndPatternSettings_updated
 {
-    
     UIImageView *parentView = (UIImageView *)[self.view viewWithTag:2002];
     UIScrollView *scrollView = (UIScrollView *)[parentView viewWithTag:4000];
     UIButton *colorBut = (UIButton *)[parentView viewWithTag:10098];
@@ -5131,7 +5060,8 @@
 }
 -(void)allocateResourcesForEffects:(OT_TabBarItem *)tItem
 {
-    if (dictionaryOfEffectInfo!= nil) {
+    if (dictionaryOfEffectInfo!= nil)
+    {
         [dictionary release];
         dictionary = nil;
     }
@@ -5267,7 +5197,7 @@
     UIImageView *ta = (UIImageView*)[self.view viewWithTag:TAG_ADJUST_BG];
     if(nil != ta)
     {
-        NSLog(@" ta not nill");
+        
         NSArray *viewsToRemove = [ta subviews];
         for (UIView *v in viewsToRemove) [v removeFromSuperview];
         
@@ -5321,7 +5251,6 @@
 }
 -(void)allocateResourcesForColorAndPatternSettings_updated:(OT_TabBarItem*)tItem
 {
-    NSLog(@" allocate colore n pattern");
     
     [self releaseToolBarIfAny];
     [self addToolbarWithTitle:@"Settings" tag:TAG_TOOLBAR_ADJUST];
@@ -5900,6 +5829,7 @@
     if (NO == bought_watermarkpack)
     {
         [self addWaterMarkToFrame];
+        nvm.noAdMode = YES;
     }
     
     ShareViewController *shareView = [[ShareViewController alloc] init];
@@ -5907,6 +5837,7 @@
     shareView . videoPath = [sess pathToCurrentVideo];
     shareView . sess = sess;
     shareView . isVideo = isVideoFile;
+    
     [self.view addSubview:shareView.view];
     
     /*

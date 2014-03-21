@@ -50,7 +50,7 @@
 #define share_instagram_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_instagram_active_ipad.png":@"share_instagram_active.png")
 #define share_clipboard_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_clipboard_active_ipad.png":@"share_clipboard_active.png")
 #define share_viddy_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_viddy_active_ipad":@"share_viddy_active.png")
-#define share_youtube_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_youtube_active_ipad":@"share_youtube_active.png")
+#define share_youtube_active_Image ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"share_youtube_activeIpad":@"share_youtube_active.png")
 
 
 //end here

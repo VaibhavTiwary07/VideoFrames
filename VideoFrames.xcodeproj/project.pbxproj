@@ -6463,8 +6463,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",
@@ -6505,7 +6505,7 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = PicCells;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9429D3E6-BD5B-4249-98BD-92B8A9732906";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -6516,8 +6516,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",
@@ -6555,7 +6555,7 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = PicCells;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9429D3E6-BD5B-4249-98BD-92B8A9732906";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -6566,8 +6566,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",

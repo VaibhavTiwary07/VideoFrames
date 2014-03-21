@@ -12,6 +12,7 @@
 #import "OT_TabBar.h"
 #import "VideoUploadHandler.h"
 #import "UploadHandler.h"
+#define videoPlayButtonTag 9876
 @interface ShareViewController ()<OT_TabBarDelegate>
 {
 OT_TabBar *customTabBar;
@@ -48,7 +49,7 @@ OT_TabBar *customTabBar;
     [backgroundView release];
     
     if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && full_screen.size.height>480) {
-        backgroundView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_1136" ofType:@"png"]];
+        backgroundView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_1136@2x" ofType:@"png"]];
     }
     
     [self allocateResourcesForTopToolBar];
@@ -61,7 +62,6 @@ OT_TabBar *customTabBar;
     UIImageView *topToolBar = [[UIImageView alloc] init];
     topToolBar . frame = CGRectMake(0, 0, full_screen.size.width, topBarHeight);
     topToolBar . userInteractionEnabled = YES;
-  //  topToolBar . image = [UIImage imageNamed:@"color-gallery-strip.png"];
     [self.view addSubview:topToolBar];
     [topToolBar release];
     
@@ -73,6 +73,7 @@ OT_TabBar *customTabBar;
     label.text = @"Share";
     label.font = [UIFont systemFontOfSize:20.0];
     [topToolBar addSubview:label];
+    [label release];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton . frame = CGRectMake(0, 0, customBarHeight, customBarHeight);
@@ -129,8 +130,14 @@ OT_TabBar *customTabBar;
                                                  selector:@selector(moviePlayerDidExitFromFullScreen)
                                                      name:MPMoviePlayerDidExitFullscreenNotification
                                                    object:nil];
-        UIButton *playVideo = [UIButton buttonWithType:UIButtonTypeCustom];
-        playVideo . tag = 9876;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(moviePlayerPlaybackStateDidChange:)
+                                                     name:MPMoviePlayerPlaybackStateDidChangeNotification
+                                                   object:self.playerViewController.moviePlayer];
+        
+        
+         UIButton *playVideo = [UIButton buttonWithType:UIButtonTypeCustom];
+        playVideo . tag = videoPlayButtonTag;
         playVideo . frame = CGRectMake(0, 0, 100, 100);
         playVideo . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/2);
         [playVideo setImage:[UIImage imageNamed:@"play_03.png"] forState:UIControlStateNormal];
@@ -140,6 +147,27 @@ OT_TabBar *customTabBar;
     else
     {
         playerView.image = [sess.frame renderToImageOfSize:nvm.uploadSize];
+    }
+}
+-(void)moviePlayerPlaybackStateDidChange:(NSNotification *)notification
+{
+    MPMoviePlayerController *moviePlayer = notification.object;
+    MPMoviePlaybackState playbackState = moviePlayer.playbackState;
+    
+    if(playbackState == MPMoviePlaybackStateStopped) {
+        NSLog(@"MPMoviePlaybackStateStopped");
+    } else if(playbackState == MPMoviePlaybackStatePlaying) {
+        NSLog(@"MPMoviePlaybackStatePlaying");
+    } else if(playbackState == MPMoviePlaybackStatePaused) {
+        NSLog(@"MPMoviePlaybackStatePaused");
+    } else if(playbackState == MPMoviePlaybackStateInterrupted) {
+        NSLog(@"MPMoviePlaybackStateInterrupted");
+    } else if (playbackState == MPMoviePlaybackStateSeekingBackward)
+    {
+        NSLog(@"MPMoviePlaybackStateSeekingBackward");
+    }else if (playbackState == MPMoviePlaybackStateSeekingForward)
+    {
+        NSLog(@"MPMoviePlaybackStateSeekingForward");
     }
 }
 - (void)playVideo:(UIButton *)sender
@@ -171,7 +199,10 @@ OT_TabBar *customTabBar;
 {
   //  NSLog(@"exit from full screen");
     [_playerViewController.moviePlayer setControlStyle:MPMovieControlStyleNone];
-    UIButton *playButton = (UIButton *)[self.view viewWithTag:9876];
+    [_playerViewController.moviePlayer stop];
+    [_playerViewController.moviePlayer prepareToPlay];
+    [_playerViewController.moviePlayer.view setNeedsDisplay];
+    UIButton *playButton = (UIButton *)[self.view viewWithTag:videoPlayButtonTag];
     [playButton setHidden:NO];
     [self.view bringSubviewToFront:playButton];
 }
@@ -183,6 +214,7 @@ OT_TabBar *customTabBar;
     }
     CGRect rect = CGRectMake(0, full_screen.size.height-customBarHeight, full_screen.size.width, customBarHeight);
     customTabBar = [[OT_TabBar alloc]initWithFrame:rect];
+    customTabBar .tag = 333;
     OT_TabBarItem *album = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_album_Image]
                                                   selectedImage:[UIImage imageNamed:share_album_active_Image]
                                                             tag:1];

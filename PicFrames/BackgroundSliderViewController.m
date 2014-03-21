@@ -61,7 +61,8 @@
 
     NSString *image_name = foregroundImage;
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && fullscreen.size.height>480) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && fullscreen.size.height>480)
+    {
         image_name = @"FirstScreen_background1136.png";
     }
     backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,2400,fullscreen.size.height)];
@@ -155,7 +156,6 @@
         case 1:
         {
            url = [NSURL URLWithString:[NSString stringWithFormat:@"fb://profile/%@",@"564692443591238"]];
-
             break;
         }
         case 2:

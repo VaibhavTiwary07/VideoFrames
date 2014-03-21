@@ -10,6 +10,7 @@
 #import "GPUImage.h"
 #import "UIImage+GPU.h"
 #import "StaticFilterMapping.h"
+
 @implementation Effects
 - (UIImage *)applyCurrentSelectedEffcect:(UIImage *)image withEffect:(int)effectNo
 {
@@ -55,6 +56,7 @@
     eGroupStaticFilter groupId=  [self getGroupIdForItem:itemNo];
     int itemNumber =0;
     itemNumber = itemNo;
+    
     if (itemNo>10)
     {
         itemNumber = itemNo-11;

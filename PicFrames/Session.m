@@ -667,6 +667,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
   
 }
+
 - (NSString*)pathForImageAtIndex:(int)index inPhoto:(int)photoIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -701,13 +702,13 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     NSString *imgPath = [self pathForImageAtIndex:frameIndex inPhoto:photoIndex];
     
-   
     if([[NSFileManager defaultManager]fileExistsAtPath:imgPath])
     {
         NSError *error;
         BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:imgPath error:&error];
         NSAssert(YES == folderDeleted, @"deleteVideoFramesForPhotoAtIndex: Failed to delete %@, error %@",imgPath,error.localizedDescription);
     }
+    
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     [imageData writeToFile:imgPath atomically:YES];
    
