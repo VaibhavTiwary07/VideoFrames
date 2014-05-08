@@ -382,7 +382,17 @@
                         {
                             [btn setImage:[UIImage imageNamed:@"t_lock_corner_new.png"] forState:UIControlStateNormal];
                         }
-                    }
+                    }else if(FRAMES_LOCK_RATEUS == [self.delegate frameScrollView:self contentLockTypeAtIndex:btn.tag])
+                        {
+                        if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
+                            {
+                            [btn setImage:[UIImage imageNamed:@"r_lock_corner_new_ipad.png"] forState:UIControlStateNormal];
+                            }
+                        else
+                            {
+                            [btn setImage:[UIImage imageNamed:@"r_lock_corner_new.png"] forState:UIControlStateNormal];
+                            }
+                        }
                 }
                 else{
                     NSLog(@"Button %d background image is nil ",itemIndex);

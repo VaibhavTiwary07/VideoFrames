@@ -31,7 +31,9 @@
 @synthesize urlToOpenOnClickingAd;
 
 static configparser *SettingsSingleton = nil;
-
+#define itoapp_ios6 @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8"
+#define itoapp_ios7 @"itms-apps://itunes.apple.com/app/id%@"
+#define ilinktoApp ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)?itoapp_ios7:itoapp_ios6
 
 -(id)init
 {
@@ -52,7 +54,7 @@ static configparser *SettingsSingleton = nil;
 	{
         if (SettingsSingleton == nil)
 		{
-            SettingsSingleton = [[self alloc] init]; // assignment not done here
+            [[self alloc] init]; // assignment not done here
         }
     }
 	
@@ -74,29 +76,54 @@ static configparser *SettingsSingleton = nil;
 }
 
 
+-(void)dealloc
+{
+    [super dealloc];
+}
 
 -(id)copyWithZone:(NSZone *)zone
 {
     return self;
 }
 
+
+-(id)retain
+{
+    return self;
+}
+
+
+-(unsigned)retainCount
+{
+    return UINT_MAX;  //denotes an object that cannot be release
+}
+
+
+-(oneway void)release
+{
+    //do nothing
+}
+
+-(id)autorelease
+{
+    return self;
+}
+
 -(void)startSessionWithId:(NSString*)appid
 {
-    /*
-    if(bought_allpackages)
-    {
-        return;
-    }*/
+    
 
     self._appid = appid;
+    
+        // [Flurry logEvent:@"Top Corner Ad requests"];
     
     /* launch a thread to get the data from server */
     [NSThread detachNewThreadSelector:@selector(getConfigurationFromServer)
                              toTarget:self
                            withObject:nil];
 
-    _shakeTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(shakeTheAdView:) userInfo:nil repeats:YES];
-    NSLog(@"Scheduled timer !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    _shakeTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(shakeTheAdView:) userInfo:nil repeats:YES];
+   
 }
 
 -(id)initWithData:(NSData*)data
@@ -128,8 +155,9 @@ static configparser *SettingsSingleton = nil;
 
 -(void)getConfigurationFromServer
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc]init];
     
-    NSString *urlString = [NSString stringWithFormat:@"http://www.photoandvideoapps.com/phpformgen/use/Configuration/getconfiguration.php?id=%@",self._appid];
+    NSString *urlString = [NSString stringWithFormat:@"http://www.applycs.com/BadgeAd/Android/getconfiguration.php?id=%@",self._appid];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [req setHTTPMethod:@"GET"];
     NSHTTPURLResponse *response = nil;
@@ -137,11 +165,17 @@ static configparser *SettingsSingleton = nil;
     NSData *responsedata = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&err];
     if(nil == responsedata)
     {
+        //  [Flurry logEvent:@"Top Corner Ad request Failures"];
+        NSLog(@"Response is Null: error : %@",err);
+        [pool release];
         return;
     }
     
     if([response statusCode] != 200)
     {
+        // [Flurry logEvent:@"Top Corner Ad request Failures"];
+        //NSLog(@"status code is not 200: it is %d error : %@",[response statusCode],err);
+        [pool release];
         return;
     }
     
@@ -156,11 +190,15 @@ static configparser *SettingsSingleton = nil;
     [xmlParser parse];
     
     NSLog(@"Exiting getConfigurationFromServer");
+    [pool release];
 }
 
 -(void)handleAdClicked:(id)sender
 {
+        // [Flurry logEvent:@"Top Corner Ad clicks"];
+    
     [[UIApplication sharedApplication]openURL:self.urlToOpenOnClickingAd];
+    
 }
 
 - (void)earthquake:(UIView*)itemView
@@ -172,7 +210,7 @@ static configparser *SettingsSingleton = nil;
     
     itemView.transform = leftQuake;  // starting point
     
-    [UIView beginAnimations:@"earthquake" context:(__bridge void *)(itemView)];
+    [UIView beginAnimations:@"earthquake" context:itemView];
     [UIView setAnimationRepeatAutoreverses:YES]; // important
     [UIView setAnimationRepeatCount:10];
     [UIView setAnimationDuration:0.05];
@@ -188,7 +226,7 @@ static configparser *SettingsSingleton = nil;
 {
     if ([finished boolValue])
     {
-        UIView* item = (__bridge UIView *)context;
+        UIView* item = (UIView *)context;
         item.transform = CGAffineTransformIdentity;
     }
 }
@@ -197,28 +235,29 @@ static configparser *SettingsSingleton = nil;
 {
     if(nil != adView)
     {
-        [self earthquake:adView];
+        if(nil != adView.superview)
+        {
+            [adView.superview bringSubviewToFront:adView];
+            [self earthquake:adView];
+        }
     }
 }
 
--(void)showAdInView:(UIView*)v atPoint:(CGPoint)point
+-(void)showAdInView:(UIView*)v atLocation:(CGPoint)point
 {
     /* first make sure that ad view not yet added, if added delete it */
     UIButton *b = (UIButton*)[v viewWithTag:tag_adview];
     if(nil != b)
     {
-
-        //[_shakeTimer invalidate];
-        //_shakeTimer = nil;
         [b removeFromSuperview];
     }
+    
+        // [Flurry logEvent:@"Top Corner Ad Impressions"];
     
     viewShowingAdView = v;
     adView = [UIButton buttonWithType:UIButtonTypeCustom];
     adView.tag = tag_adview;
-    adView.frame = CGRectMake(point.x, point.y, adviewsize, adviewsize);
-    //_shakeTimer = [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(shakeTheAdView:) userInfo:nil repeats:YES];
-    
+    adView.frame = CGRectMake(point.x,point.y, adviewsize, adviewsize);
     
     /* set the image */
     [adView setBackgroundImage:self.imageForAd forState:UIControlStateNormal];
@@ -228,20 +267,21 @@ static configparser *SettingsSingleton = nil;
     
     [viewShowingAdView addSubview:adView];
     
-
+    return;
 }
 
 -(void)showAdInView:(UIView*)v
 {
+    [self showAdInView:v atLocation:CGPointMake(v.frame.size.width-adviewsize-adviewdistancefromwall, adviewdistancefromwall)];
+#if 0
     /* first make sure that ad view not yet added, if added delete it */
     UIButton *b = (UIButton*)[v viewWithTag:tag_adview];
     if(nil != b)
     {
-
-        //[_shakeTimer invalidate];
-        //_shakeTimer = nil;
         [b removeFromSuperview];
     }
+    
+    [Flurry logEvent:@"Top Corner Ad Impressions"];
     
     viewShowingAdView = v;
     adView = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -258,7 +298,8 @@ static configparser *SettingsSingleton = nil;
     
     [viewShowingAdView addSubview:adView];
     
-    
+    NSLog(@"Added the adview");
+#endif
 }
 
 -(void)removeAd
@@ -269,18 +310,21 @@ static configparser *SettingsSingleton = nil;
     }
     
     UIButton *b = (UIButton*)[viewShowingAdView viewWithTag:tag_adview];
-    if(nil == b)
+    if(nil != b)
     {
-        return;
+        [b removeFromSuperview];
     }
     
     if(nil != _shakeTimer)
     {
-
+        //NSLog(@"unscheduled timer !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         [_shakeTimer invalidate];
+        _shakeTimer = nil;
     }
     
-    [b removeFromSuperview];
+    
+    viewShowingAdView = nil;
+    adView = nil;
 }
 
 -(void)bringAdToTheTop
@@ -371,7 +415,7 @@ static configparser *SettingsSingleton = nil;
     return CONFIG_FULLSCREENAD_CHARTBOOST;
 }
 
--(CONFIG_BANNERAD_E)strToBannerAd:(NSString*)str
+-(CONFIG_FULLSCREENAD_E)strToBannerAd:(NSString*)str
 {
     if([str isEqualToString:@"Mobclix"])
     {
@@ -389,12 +433,10 @@ static configparser *SettingsSingleton = nil;
 {
     if([str isEqualToString:@"Enable"])
     {
-        NSLog(@"Advertisements enabled");
         return CONFIG_ADVERTISEMENTS_ENABLE;
     }
     else if([str isEqualToString:@"Disable"])
     {
-        NSLog(@"Advertisements disabled");
         return CONFIG_ADVERTISEMENTS_DISABLE;
     }
     
@@ -450,7 +492,7 @@ static configparser *SettingsSingleton = nil;
             if(nil != imgData)
             {
                 NSLog(@"successfully downloaded the image");
-                self.imageForAd = [UIImage imageWithData:imgData];
+                self.imageForAd = [UIImage imageWithData:imgData]; 
                 //[imgData release];
             }
             else
@@ -465,8 +507,9 @@ static configparser *SettingsSingleton = nil;
     {
         if(nil != string)
 		{
-            #define linktoApp @"http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8"
-            NSString *str = [NSString stringWithFormat:linktoApp,string];
+            //#define linktoApp @"itms-apps://itunes.apple.com/app/id%@"
+            //NSString *format = ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)?itoapp_ios7:itoapp_ios6;
+            NSString *str = [NSString stringWithFormat:ilinktoApp,string];
             self.urlToOpenOnClickingAd = [NSURL URLWithString:str];
             NSLog(@"CONFIG_ELEMENT_LINKTOOPEN: %@",string);
         }

@@ -264,10 +264,7 @@
 		08ED364518349D6A00D6660C /* circle_slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ED364418349D6A00D6660C /* circle_slider@2x.png */; };
 		08ED364C1834AB9800D6660C /* pause_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ED364A1834AB9800D6660C /* pause_active@2x.png */; };
 		08ED364D1834AB9800D6660C /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ED364B1834AB9800D6660C /* pause@2x.png */; };
-		08EDB625182CB5C40066F4C5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EDB624182CB5C40066F4C5 /* FacebookSDK.framework */; };
 		08EDB628182CBB070066F4C5 /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB627182CBB070066F4C5 /* TouchView.m */; };
-		08EDB62D182CBBCC0066F4C5 /* TapjoyResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08EDB62B182CBBCC0066F4C5 /* TapjoyResources.bundle */; };
-		08EDB62E182CBBCC0066F4C5 /* Tapjoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EDB62C182CBBCC0066F4C5 /* Tapjoy.framework */; };
 		08EDB631182CBDDF0066F4C5 /* VideoSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB630182CBDDF0066F4C5 /* VideoSettingsController.m */; };
 		08EE733D183C818400836232 /* exit-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EE733C183C818400836232 /* exit-button@2x.png */; };
 		08EE7357183CB55A00836232 /* exit-button_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EE7356183CB55A00836232 /* exit-button_ipad.png */; };
@@ -600,6 +597,12 @@
 		3C316683187E6A9E009E01E8 /* VideoGridViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C316673187E6A9E009E01E8 /* VideoGridViewViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3C316687187E78DE009E01E8 /* gridBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C316686187E78DE009E01E8 /* gridBackground.png */; };
 		3C316688187E78DE009E01E8 /* gridBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C316686187E78DE009E01E8 /* gridBackground.png */; };
+		3C5D3DA0191141ED005434B0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5D3D9F191141ED005434B0 /* FacebookSDK.framework */; };
+		3C5D3DA1191141ED005434B0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5D3D9F191141ED005434B0 /* FacebookSDK.framework */; };
+		3C5D3DA61911425A005434B0 /* TapjoyResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3C5D3DA41911425A005434B0 /* TapjoyResources.bundle */; };
+		3C5D3DA71911425A005434B0 /* TapjoyResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3C5D3DA41911425A005434B0 /* TapjoyResources.bundle */; };
+		3C5D3DA81911425A005434B0 /* Tapjoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5D3DA51911425A005434B0 /* Tapjoy.framework */; };
+		3C5D3DA91911425A005434B0 /* Tapjoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5D3DA51911425A005434B0 /* Tapjoy.framework */; };
 		3C9CA457185AF56900DCC5B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F250A5214FC6DDE00E14565 /* main.m */; };
 		3C9CA458185AF56900DCC5B1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F250A5614FC6DDE00E14565 /* AppDelegate.m */; };
 		3C9CA459185AF56900DCC5B1 /* Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F250A7C14FC6E1100E14565 /* Frame.m */; };
@@ -836,7 +839,6 @@
 		3C9CA540185AF56900DCC5B1 /* GDataOAuthWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 082F594C17E04E1C00AD5EE1 /* GDataOAuthWindowController.m */; };
 		3C9CA541185AF56900DCC5B1 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 082F595C17E04E1C00AD5EE1 /* GDataXMLNode.m */; };
 		3C9CA542185AF56900DCC5B1 /* YouTubeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 082F596017E04E1C00AD5EE1 /* YouTubeView.m */; };
-		3C9CA543185AF56900DCC5B1 /* configparser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF495F617E13CDE007DAC6D /* configparser.m */; };
 		3C9CA544185AF56900DCC5B1 /* VideoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF49FB517E2A7E6007DAC6D /* VideoSettings.m */; };
 		3C9CA545185AF56900DCC5B1 /* InAppPurchasePreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F70313617E958DF0029BE9F /* InAppPurchasePreview.m */; };
 		3C9CA546185AF56900DCC5B1 /* FBLikeUsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F70314A17E96AD30029BE9F /* FBLikeUsView.m */; };
@@ -845,7 +847,6 @@
 		3C9CA54A185AF56900DCC5B1 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3383DA1589A9140054F7BA /* iAd.framework */; };
 		3C9CA54B185AF56900DCC5B1 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082F59EB17E04F0200AD5EE1 /* AssetsLibrary.framework */; };
 		3C9CA54C185AF56900DCC5B1 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2897D33816666DBB008B8CAD /* CoreVideo.framework */; };
-		3C9CA54D185AF56900DCC5B1 /* Tapjoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EDB62C182CBBCC0066F4C5 /* Tapjoy.framework */; };
 		3C9CA54E185AF56900DCC5B1 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F523A3D17CD9B6C00DF8A08 /* MobileCoreServices.framework */; };
 		3C9CA54F185AF56900DCC5B1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7781AB158C31490046868C /* AVFoundation.framework */; };
 		3C9CA550185AF56900DCC5B1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD10E18177607AA00F29CA9 /* MapKit.framework */; };
@@ -881,7 +882,6 @@
 		3C9CA56E185AF56900DCC5B1 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FFE7A0817EB4E4B00CD8780 /* libGoogleAdMobAds.a */; };
 		3C9CA56F185AF56900DCC5B1 /* libAdapterIAd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FFE7A0B17EB4E4B00CD8780 /* libAdapterIAd.a */; };
 		3C9CA570185AF56900DCC5B1 /* libPushWizard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FFE7A2317ED5F3800CD8780 /* libPushWizard.a */; };
-		3C9CA571185AF56900DCC5B1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EDB624182CB5C40066F4C5 /* FacebookSDK.framework */; };
 		3C9CA572185AF56900DCC5B1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C219B09129F44C79ACDD360D /* libPods.a */; };
 		3C9CA575185AF56900DCC5B1 /* facebookF_vpf.png in Resources */ = {isa = PBXBuildFile; fileRef = 08A44FCB17FEC1190025E53F /* facebookF_vpf.png */; };
 		3C9CA577185AF56900DCC5B1 /* color-gallery-strip.png in Resources */ = {isa = PBXBuildFile; fileRef = 08D2C6F518334B48002D0D6B /* color-gallery-strip.png */; };
@@ -1000,7 +1000,6 @@
 		3C9CA60E185AF56900DCC5B1 /* Pan.png in Resources */ = {isa = PBXBuildFile; fileRef = 28891B1B155B6B590096E949 /* Pan.png */; };
 		3C9CA60F185AF56900DCC5B1 /* like_vpf_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 080DE43218321DC700C6FAFE /* like_vpf_active@2x.png */; };
 		3C9CA610185AF56900DCC5B1 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 0897C33718051CD5005A6575 /* trash.png */; };
-		3C9CA613185AF56900DCC5B1 /* TapjoyResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 08EDB62B182CBBCC0066F4C5 /* TapjoyResources.bundle */; };
 		3C9CA615185AF56900DCC5B1 /* share_active~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0897545B183624A700EC0E07 /* share_active~ipad.png */; };
 		3C9CA616185AF56900DCC5B1 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08ED364B1834AB9800D6660C /* pause@2x.png */; };
 		3C9CA617185AF56900DCC5B1 /* bottom-bar~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08978DB717FD7D8B0075D8C4 /* bottom-bar~ipad.png */; };
@@ -1339,6 +1338,10 @@
 		3C9DFD3B1897A8CF004B7DD1 /* done_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9DFD371897A8CF004B7DD1 /* done_ipad.png */; };
 		3C9DFD3D1897A8E8004B7DD1 /* lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9DFD3C1897A8E8004B7DD1 /* lock@2x.png */; };
 		3C9DFD3E1897A8E8004B7DD1 /* lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9DFD3C1897A8E8004B7DD1 /* lock@2x.png */; };
+		3C9E0B981907A3740032D85E /* r_lock_corner_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9E0B941907A3740032D85E /* r_lock_corner_new.png */; };
+		3C9E0B991907A3740032D85E /* r_lock_corner_new_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9E0B951907A3740032D85E /* r_lock_corner_new_ipad.png */; };
+		3C9E0B9A1907A3740032D85E /* r_lock_corner_new_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9E0B961907A3740032D85E /* r_lock_corner_new_ipad@2x.png */; };
+		3C9E0B9B1907A3740032D85E /* r_lock_corner_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9E0B971907A3740032D85E /* r_lock_corner_new@2x.png */; };
 		3C9E2B1F18922A5800A21E5F /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2B1E18922A5800A21E5F /* ShareViewController.m */; };
 		3C9E2B2018922A5800A21E5F /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2B1E18922A5800A21E5F /* ShareViewController.m */; };
 		3C9E2B23189233AC00A21E5F /* playVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9E2B22189233AC00A21E5F /* playVideo.png */; };
@@ -1351,6 +1354,8 @@
 		3CA1D4ED1889155200D2C316 /* gridPopupBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1D4EB1889155200D2C316 /* gridPopupBg@2x.png */; };
 		3CA1D4F01889576100D2C316 /* cornerSticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1D4EE1889576100D2C316 /* cornerSticker@2x.png */; };
 		3CA1D4F11889576100D2C316 /* cornerSticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1D4EE1889576100D2C316 /* cornerSticker@2x.png */; };
+		3CB5F95F1907B6B70042B75E /* configparser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB5F95E1907B6B70042B75E /* configparser.m */; };
+		3CB5F9601907B6B70042B75E /* configparser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB5F95E1907B6B70042B75E /* configparser.m */; };
 		3CB8A942188FEA6200D2EB36 /* grunge22_0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3CB8A923188FEA6200D2EB36 /* grunge22_0.jpg */; };
 		3CB8A943188FEA6200D2EB36 /* grunge22_0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3CB8A923188FEA6200D2EB36 /* grunge22_0.jpg */; };
 		3CB8A944188FEA6200D2EB36 /* Jeans_0.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 3CB8A924188FEA6200D2EB36 /* Jeans_0.jpeg */; };
@@ -1518,7 +1523,6 @@
 		9FF495E717DCF728007DAC6D /* 498-twitter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FF495E517DCF728007DAC6D /* 498-twitter@2x.png */; };
 		9FF495EA17DD1574007DAC6D /* youtube.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FF495E817DD1574007DAC6D /* youtube.png */; };
 		9FF495EB17DD1574007DAC6D /* youtube@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FF495E917DD1574007DAC6D /* youtube@2x.png */; };
-		9FF495F717E13CDE007DAC6D /* configparser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF495F617E13CDE007DAC6D /* configparser.m */; };
 		9FF495FC17E1548D007DAC6D /* pause2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FF495F817E1548D007DAC6D /* pause2.png */; };
 		9FF495FD17E1548D007DAC6D /* pause2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FF495F917E1548D007DAC6D /* pause2@2x.png */; };
 		9FF495FE17E1548D007DAC6D /* play2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FF495FA17E1548D007DAC6D /* play2.png */; };
@@ -1935,11 +1939,8 @@
 		08ED364418349D6A00D6660C /* circle_slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle_slider@2x.png"; sourceTree = "<group>"; };
 		08ED364A1834AB9800D6660C /* pause_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause_active@2x.png"; sourceTree = "<group>"; };
 		08ED364B1834AB9800D6660C /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
-		08EDB624182CB5C40066F4C5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		08EDB626182CBB070066F4C5 /* TouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchView.h; sourceTree = "<group>"; };
 		08EDB627182CBB070066F4C5 /* TouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchView.m; sourceTree = "<group>"; };
-		08EDB62B182CBBCC0066F4C5 /* TapjoyResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TapjoyResources.bundle; sourceTree = "<group>"; };
-		08EDB62C182CBBCC0066F4C5 /* Tapjoy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Tapjoy.framework; sourceTree = "<group>"; };
 		08EDB62F182CBDDF0066F4C5 /* VideoSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSettingsController.h; sourceTree = "<group>"; };
 		08EDB630182CBDDF0066F4C5 /* VideoSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoSettingsController.m; sourceTree = "<group>"; };
 		08EE733C183C818400836232 /* exit-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "exit-button@2x.png"; sourceTree = "<group>"; };
@@ -2321,6 +2322,9 @@
 		3C316672187E6A9E009E01E8 /* VideoGridViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoGridViewViewController.h; path = "VideoGridView Files/VideoGridViewViewController.h"; sourceTree = "<group>"; };
 		3C316673187E6A9E009E01E8 /* VideoGridViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoGridViewViewController.m; path = "VideoGridView Files/VideoGridViewViewController.m"; sourceTree = "<group>"; };
 		3C316686187E78DE009E01E8 /* gridBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gridBackground.png; sourceTree = "<group>"; };
+		3C5D3D9F191141ED005434B0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		3C5D3DA41911425A005434B0 /* TapjoyResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TapjoyResources.bundle; sourceTree = "<group>"; };
+		3C5D3DA51911425A005434B0 /* Tapjoy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Tapjoy.framework; sourceTree = "<group>"; };
 		3C9CA57B188CF50F00E36B99 /* StaticFilterMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticFilterMapping.h; sourceTree = "<group>"; };
 		3C9CA57C188CF50F00E36B99 /* StaticFilterMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticFilterMapping.m; sourceTree = "<group>"; };
 		3C9CA57D188CF50F00E36B99 /* StaticFilterMappingPriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticFilterMappingPriv.h; sourceTree = "<group>"; };
@@ -2397,6 +2401,10 @@
 		3C9DFD361897A8CF004B7DD1 /* close_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close_ipad.png; sourceTree = "<group>"; };
 		3C9DFD371897A8CF004B7DD1 /* done_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done_ipad.png; sourceTree = "<group>"; };
 		3C9DFD3C1897A8E8004B7DD1 /* lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock@2x.png"; sourceTree = "<group>"; };
+		3C9E0B941907A3740032D85E /* r_lock_corner_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = r_lock_corner_new.png; sourceTree = "<group>"; };
+		3C9E0B951907A3740032D85E /* r_lock_corner_new_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = r_lock_corner_new_ipad.png; sourceTree = "<group>"; };
+		3C9E0B961907A3740032D85E /* r_lock_corner_new_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "r_lock_corner_new_ipad@2x.png"; sourceTree = "<group>"; };
+		3C9E0B971907A3740032D85E /* r_lock_corner_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "r_lock_corner_new@2x.png"; sourceTree = "<group>"; };
 		3C9E2B1D18922A5800A21E5F /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = ../ShareViewController.h; sourceTree = "<group>"; };
 		3C9E2B1E18922A5800A21E5F /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareViewController.m; path = ../ShareViewController.m; sourceTree = "<group>"; };
 		3C9E2B22189233AC00A21E5F /* playVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playVideo.png; sourceTree = "<group>"; };
@@ -2404,6 +2412,8 @@
 		3C9E2B261892704A00A21E5F /* done_effect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "done_effect@2x.png"; sourceTree = "<group>"; };
 		3CA1D4EB1889155200D2C316 /* gridPopupBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gridPopupBg@2x.png"; sourceTree = "<group>"; };
 		3CA1D4EE1889576100D2C316 /* cornerSticker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cornerSticker@2x.png"; sourceTree = "<group>"; };
+		3CB5F95D1907B6B70042B75E /* configparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = configparser.h; sourceTree = "<group>"; };
+		3CB5F95E1907B6B70042B75E /* configparser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = configparser.m; sourceTree = "<group>"; };
 		3CB8A923188FEA6200D2EB36 /* grunge22_0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grunge22_0.jpg; sourceTree = "<group>"; };
 		3CB8A924188FEA6200D2EB36 /* Jeans_0.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Jeans_0.jpeg; sourceTree = "<group>"; };
 		3CB8A925188FEA6200D2EB36 /* Pencil_0.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Pencil_0.jpeg; sourceTree = "<group>"; };
@@ -2620,8 +2630,6 @@
 		9FF495E517DCF728007DAC6D /* 498-twitter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "498-twitter@2x.png"; sourceTree = "<group>"; };
 		9FF495E817DD1574007DAC6D /* youtube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = youtube.png; sourceTree = "<group>"; };
 		9FF495E917DD1574007DAC6D /* youtube@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "youtube@2x.png"; sourceTree = "<group>"; };
-		9FF495F517E13CDE007DAC6D /* configparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = configparser.h; sourceTree = "<group>"; };
-		9FF495F617E13CDE007DAC6D /* configparser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = configparser.m; sourceTree = "<group>"; };
 		9FF495F817E1548D007DAC6D /* pause2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause2.png; sourceTree = "<group>"; };
 		9FF495F917E1548D007DAC6D /* pause2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause2@2x.png"; sourceTree = "<group>"; };
 		9FF495FA17E1548D007DAC6D /* play2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play2.png; sourceTree = "<group>"; };
@@ -2664,7 +2672,6 @@
 				28F19F9916BEC015000E6456 /* iAd.framework in Frameworks */,
 				082F59EC17E04F0200AD5EE1 /* AssetsLibrary.framework in Frameworks */,
 				28F19F8D16BEC015000E6456 /* CoreVideo.framework in Frameworks */,
-				08EDB62E182CBBCC0066F4C5 /* Tapjoy.framework in Frameworks */,
 				9F523A3E17CD9B6C00DF8A08 /* MobileCoreServices.framework in Frameworks */,
 				28F19F8B16BEC015000E6456 /* AVFoundation.framework in Frameworks */,
 				9FD10E19177607AA00F29CA9 /* MapKit.framework in Frameworks */,
@@ -2672,6 +2679,7 @@
 				9FD10E151775E20500F29CA9 /* Social.framework in Frameworks */,
 				28F19F8A16BEC015000E6456 /* Security.framework in Frameworks */,
 				9FD10E131775E1EE00F29CA9 /* Accounts.framework in Frameworks */,
+				3C5D3DA81911425A005434B0 /* Tapjoy.framework in Frameworks */,
 				28F19F9216BEC015000E6456 /* AdSupport.framework in Frameworks */,
 				285254651736903700C53267 /* CFNetwork.framework in Frameworks */,
 				28F19F8916BEC015000E6456 /* PassKit.framework in Frameworks */,
@@ -2700,8 +2708,8 @@
 				9FFE7A0D17EB4E4B00CD8780 /* libGoogleAdMobAds.a in Frameworks */,
 				9FFE7A0F17EB4E4B00CD8780 /* libAdapterIAd.a in Frameworks */,
 				9FFE7A2617ED5F3800CD8780 /* libPushWizard.a in Frameworks */,
-				08EDB625182CB5C40066F4C5 /* FacebookSDK.framework in Frameworks */,
 				E23257DD613E41AB908A9FEA /* libPods.a in Frameworks */,
+				3C5D3DA0191141ED005434B0 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2713,7 +2721,6 @@
 				3C9CA54A185AF56900DCC5B1 /* iAd.framework in Frameworks */,
 				3C9CA54B185AF56900DCC5B1 /* AssetsLibrary.framework in Frameworks */,
 				3C9CA54C185AF56900DCC5B1 /* CoreVideo.framework in Frameworks */,
-				3C9CA54D185AF56900DCC5B1 /* Tapjoy.framework in Frameworks */,
 				3C9CA54E185AF56900DCC5B1 /* MobileCoreServices.framework in Frameworks */,
 				3C9CA54F185AF56900DCC5B1 /* AVFoundation.framework in Frameworks */,
 				3C9CA550185AF56900DCC5B1 /* MapKit.framework in Frameworks */,
@@ -2721,6 +2728,7 @@
 				3C9CA552185AF56900DCC5B1 /* Social.framework in Frameworks */,
 				3C9CA553185AF56900DCC5B1 /* Security.framework in Frameworks */,
 				3C9CA554185AF56900DCC5B1 /* Accounts.framework in Frameworks */,
+				3C5D3DA91911425A005434B0 /* Tapjoy.framework in Frameworks */,
 				3C9CA555185AF56900DCC5B1 /* AdSupport.framework in Frameworks */,
 				3C9CA556185AF56900DCC5B1 /* CFNetwork.framework in Frameworks */,
 				3C9CA557185AF56900DCC5B1 /* PassKit.framework in Frameworks */,
@@ -2749,8 +2757,8 @@
 				3C9CA56E185AF56900DCC5B1 /* libGoogleAdMobAds.a in Frameworks */,
 				3C9CA56F185AF56900DCC5B1 /* libAdapterIAd.a in Frameworks */,
 				3C9CA570185AF56900DCC5B1 /* libPushWizard.a in Frameworks */,
-				3C9CA571185AF56900DCC5B1 /* FacebookSDK.framework in Frameworks */,
 				3C9CA572185AF56900DCC5B1 /* libPods.a in Frameworks */,
+				3C5D3DA1191141ED005434B0 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3363,6 +3371,10 @@
 		08EDB620182CB3EA0066F4C5 /* UI_IMAGES */ = {
 			isa = PBXGroup;
 			children = (
+				3C9E0B941907A3740032D85E /* r_lock_corner_new.png */,
+				3C9E0B951907A3740032D85E /* r_lock_corner_new_ipad.png */,
+				3C9E0B961907A3740032D85E /* r_lock_corner_new_ipad@2x.png */,
+				3C9E0B971907A3740032D85E /* r_lock_corner_new@2x.png */,
 				3C1F9D921898F5C900732EE1 /* help screen ui */,
 				3C9DFD3C1897A8E8004B7DD1 /* lock@2x.png */,
 				3C9DFD361897A8CF004B7DD1 /* close_ipad.png */,
@@ -3410,23 +3422,6 @@
 				083C6FF917FD426100597E8A /* close_active@2x.png */,
 			);
 			name = UI_IMAGES;
-			sourceTree = "<group>";
-		};
-		08EDB629182CBBCC0066F4C5 /* Tapjoy.embeddedframework */ = {
-			isa = PBXGroup;
-			children = (
-				08EDB62A182CBBCC0066F4C5 /* Resources */,
-				08EDB62C182CBBCC0066F4C5 /* Tapjoy.framework */,
-			);
-			path = Tapjoy.embeddedframework;
-			sourceTree = "<group>";
-		};
-		08EDB62A182CBBCC0066F4C5 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				08EDB62B182CBBCC0066F4C5 /* TapjoyResources.bundle */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		2801D7CA16597C8D007D7D89 /* PopupMenu */ = {
@@ -3641,7 +3636,7 @@
 		2842FA6A150BCDEC00FD91F6 /* ThirdpartySDK */ = {
 			isa = PBXGroup;
 			children = (
-				08EDB629182CBBCC0066F4C5 /* Tapjoy.embeddedframework */,
+				3C5D3DA21911425A005434B0 /* Tapjoy.embeddedframework */,
 				9FFE7A2217ED5F3800CD8780 /* libPushWizard */,
 				9FFE79FD17EB4E4B00CD8780 /* admob */,
 				28FBF7FA16E38558000BC3DA /* OT_SDK */,
@@ -4186,8 +4181,8 @@
 		28FBF7FA16E38558000BC3DA /* OT_SDK */ = {
 			isa = PBXGroup;
 			children = (
-				9FF495F517E13CDE007DAC6D /* configparser.h */,
-				9FF495F617E13CDE007DAC6D /* configparser.m */,
+				3CB5F95D1907B6B70042B75E /* configparser.h */,
+				3CB5F95E1907B6B70042B75E /* configparser.m */,
 				28C436A116F9BB9B005E4FDE /* OT_Utils.h */,
 				28C436A216F9BB9B005E4FDE /* OT_Utils.m */,
 				28C4369416F9BB62005E4FDE /* OT_App.h */,
@@ -4306,6 +4301,23 @@
 				3C316673187E6A9E009E01E8 /* VideoGridViewViewController.m */,
 			);
 			name = "VideoGrid Files";
+			sourceTree = "<group>";
+		};
+		3C5D3DA21911425A005434B0 /* Tapjoy.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				3C5D3DA31911425A005434B0 /* Resources */,
+				3C5D3DA51911425A005434B0 /* Tapjoy.framework */,
+			);
+			path = Tapjoy.embeddedframework;
+			sourceTree = "<group>";
+		};
+		3C5D3DA31911425A005434B0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3C5D3DA41911425A005434B0 /* TapjoyResources.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		3C9CA57A188CF46900E36B99 /* EffectsFiles */ = {
@@ -4431,7 +4443,7 @@
 		9F250A4514FC6DDE00E14565 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				08EDB624182CB5C40066F4C5 /* FacebookSDK.framework */,
+				3C5D3D9F191141ED005434B0 /* FacebookSDK.framework */,
 				082F59EB17E04F0200AD5EE1 /* AssetsLibrary.framework */,
 				082F59E917E04EF300AD5EE1 /* RevMobAds.framework */,
 				082F57AF17E04C4600AD5EE1 /* FacebookSDKResources.bundle */,
@@ -4965,6 +4977,7 @@
 				3C1F9DE11898F88D00732EE1 /* help-05@2x.png in Resources */,
 				3CBC3E50189677CB0080B30E /* share_youtube@2x.png in Resources */,
 				08EE733D183C818400836232 /* exit-button@2x.png in Resources */,
+				3C9E0B9B1907A3740032D85E /* r_lock_corner_new@2x.png in Resources */,
 				28F19FE316BEC015000E6456 /* twitpic_button.png in Resources */,
 				28F19FE416BEC015000E6456 /* twitter_birds.png in Resources */,
 				0829025417F6B5D80022B664 /* top-bar_vpf@2x.png in Resources */,
@@ -4972,6 +4985,7 @@
 				3C9D8C2F185F067D004E8816 /* patt12.png in Resources */,
 				089754571836248900EC0E07 /* upgrade_active~ipad.png in Resources */,
 				28F19FE616BEC015000E6456 /* twitterloginbgnd.png in Resources */,
+				3C5D3DA61911425A005434B0 /* TapjoyResources.bundle in Resources */,
 				28F19FE716BEC015000E6456 /* ipad-slider-fill.png in Resources */,
 				3C9DFD1E189790EF004B7DD1 /* share_viddy_ipad.png in Resources */,
 				3C9D8C4F185F067D004E8816 /* patt28.png in Resources */,
@@ -5034,13 +5048,13 @@
 				3C9D8C1F185F067D004E8816 /* patt4.png in Resources */,
 				080DE43A18321DC700C6FAFE /* frames_vpf@2x.png in Resources */,
 				28F1A02116BEC015000E6456 /* ZoomIn.png in Resources */,
+				3C9E0B991907A3740032D85E /* r_lock_corner_new_ipad.png in Resources */,
 				28F1A02216BEC015000E6456 /* ZoomOut.png in Resources */,
 				3CB8A952188FEA6200D2EB36 /* lookup_amatorka.png in Resources */,
 				3C1F9DE31898F88D00732EE1 /* help-06@2x.png in Resources */,
 				28F1A02316BEC015000E6456 /* Pan.png in Resources */,
 				080DE43F18321DC700C6FAFE /* like_vpf_active@2x.png in Resources */,
 				0897C33918051CD5005A6575 /* trash.png in Resources */,
-				08EDB62D182CBBCC0066F4C5 /* TapjoyResources.bundle in Resources */,
 				08975465183624A700EC0E07 /* share_active~ipad.png in Resources */,
 				08ED364D1834AB9800D6660C /* pause@2x.png in Resources */,
 				08978DC617FD7D8B0075D8C4 /* bottom-bar~ipad.png in Resources */,
@@ -5181,6 +5195,7 @@
 				0811971C18002D980049BBFC /* t_lock_corner_new.png in Resources */,
 				3C9DFD0E189790EF004B7DD1 /* share_clipboard_ipad.png in Resources */,
 				28F1A12016BEC015000E6456 /* mfacebookalbum.png in Resources */,
+				3C9E0B9A1907A3740032D85E /* r_lock_corner_new_ipad@2x.png in Resources */,
 				0897547F18362B8100EC0E07 /* color_button_ipad.png in Resources */,
 				28F1A12116BEC015000E6456 /* mfacebookprofile.png in Resources */,
 				08975467183624A700EC0E07 /* settings_active~ipad.png in Resources */,
@@ -5303,6 +5318,7 @@
 				9FF495FD17E1548D007DAC6D /* pause2@2x.png in Resources */,
 				08D2C7021833A7D3002D0D6B /* settingsBackground@2x.png in Resources */,
 				0897547C18362B8100EC0E07 /* pattern_button_ipad.png in Resources */,
+				3C9E0B981907A3740032D85E /* r_lock_corner_new.png in Resources */,
 				9FF495FE17E1548D007DAC6D /* play2.png in Resources */,
 				9FF495FF17E1548D007DAC6D /* play2@2x.png in Resources */,
 				0881878217E4401200C63FF7 /* cross_02.png in Resources */,
@@ -5442,6 +5458,7 @@
 				3C1F9DEA1898F88D00732EE1 /* help-09@2x.png in Resources */,
 				3C9D8C22185F067D004E8816 /* patt5.png in Resources */,
 				3C9CA5CD185AF56900DCC5B1 /* twitter_birds.png in Resources */,
+				3C5D3DA71911425A005434B0 /* TapjoyResources.bundle in Resources */,
 				3C9CA5CE185AF56900DCC5B1 /* top-bar_vpf@2x.png in Resources */,
 				3C9CA5CF185AF56900DCC5B1 /* twitterclosebutton.png in Resources */,
 				3C9CA5D1185AF56900DCC5B1 /* upgrade_active~ipad.png in Resources */,
@@ -5508,7 +5525,6 @@
 				3C9CA60F185AF56900DCC5B1 /* like_vpf_active@2x.png in Resources */,
 				3CB8A943188FEA6200D2EB36 /* grunge22_0.jpg in Resources */,
 				3C9CA610185AF56900DCC5B1 /* trash.png in Resources */,
-				3C9CA613185AF56900DCC5B1 /* TapjoyResources.bundle in Resources */,
 				3C9CA615185AF56900DCC5B1 /* share_active~ipad.png in Resources */,
 				3C9CA616185AF56900DCC5B1 /* pause@2x.png in Resources */,
 				3C9CA617185AF56900DCC5B1 /* bottom-bar~ipad.png in Resources */,
@@ -6047,6 +6063,7 @@
 				082F597917E04E1C00AD5EE1 /* GDataEmail.m in Sources */,
 				082F597A17E04E1C00AD5EE1 /* GDataEntryContent.m in Sources */,
 				082F597B17E04E1C00AD5EE1 /* GDataEntryLink.m in Sources */,
+				3CB5F95F1907B6B70042B75E /* configparser.m in Sources */,
 				082F597C17E04E1C00AD5EE1 /* GDataExtendedProperty.m in Sources */,
 				082F597D17E04E1C00AD5EE1 /* GDataFeedLink.m in Sources */,
 				3C316674187E6A9E009E01E8 /* GMGridView.m in Sources */,
@@ -6144,7 +6161,6 @@
 				082F59D417E04E1C00AD5EE1 /* GDataOAuthWindowController.m in Sources */,
 				082F59E117E04E1C00AD5EE1 /* GDataXMLNode.m in Sources */,
 				082F59E317E04E1C00AD5EE1 /* YouTubeView.m in Sources */,
-				9FF495F717E13CDE007DAC6D /* configparser.m in Sources */,
 				9FF49FB617E2A7E6007DAC6D /* VideoSettings.m in Sources */,
 				9F70313817E958DF0029BE9F /* InAppPurchasePreview.m in Sources */,
 				9F70314C17E96AD30029BE9F /* FBLikeUsView.m in Sources */,
@@ -6309,6 +6325,7 @@
 				3C9CA4E4185AF56900DCC5B1 /* GDataEmail.m in Sources */,
 				3C9CA4E5185AF56900DCC5B1 /* GDataEntryContent.m in Sources */,
 				3C9CA4E6185AF56900DCC5B1 /* GDataEntryLink.m in Sources */,
+				3CB5F9601907B6B70042B75E /* configparser.m in Sources */,
 				3C9CA4E7185AF56900DCC5B1 /* GDataExtendedProperty.m in Sources */,
 				3C9CA4E8185AF56900DCC5B1 /* GDataFeedLink.m in Sources */,
 				3C316675187E6A9E009E01E8 /* GMGridView.m in Sources */,
@@ -6406,7 +6423,6 @@
 				3C9CA540185AF56900DCC5B1 /* GDataOAuthWindowController.m in Sources */,
 				3C9CA541185AF56900DCC5B1 /* GDataXMLNode.m in Sources */,
 				3C9CA542185AF56900DCC5B1 /* YouTubeView.m in Sources */,
-				3C9CA543185AF56900DCC5B1 /* configparser.m in Sources */,
 				3C9CA544185AF56900DCC5B1 /* VideoSettings.m in Sources */,
 				3C9CA545185AF56900DCC5B1 /* InAppPurchasePreview.m in Sources */,
 				3C9CA546185AF56900DCC5B1 /* FBLikeUsView.m in Sources */,
@@ -6463,17 +6479,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ARCHS = (
+					armv7,
+					armv7s,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Distribution: out thinking private limited (9Q363NUAF6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: out thinking private limited (9Q363NUAF6)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",
-					"\"$(SRCROOT)/../../FacebookSDK\"",
-					"\"$(SRCROOT)/../../../FacebookSDK\"",
-					"$(SRCROOT)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework\"",
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage,
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework,
+					"\"$(SRCROOT)/FacebookSDK\"",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PicFrames/VideoFrames-Prefix.pch";
@@ -6485,6 +6503,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/include/libxml2/**",
+					"$(SRCROOT)/FacebookSDK/**",
+					"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/PicCells/PicCells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -6505,8 +6525,8 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = PicCells;
-				PROVISIONING_PROFILE = "9429D3E6-BD5B-4249-98BD-92B8A9732906";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "B6975E01-047E-4A93-9C65-161F469DAB53";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B6975E01-047E-4A93-9C65-161F469DAB53";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -6516,17 +6536,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ARCHS = (
+					armv7,
+					armv7s,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Distribution: out thinking private limited (9Q363NUAF6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: out thinking private limited (9Q363NUAF6)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",
-					"\"$(SRCROOT)/../../FacebookSDK\"",
-					"\"$(SRCROOT)/../../../FacebookSDK\"",
-					"$(SRCROOT)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework\"",
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage,
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework,
+					"\"$(SRCROOT)/FacebookSDK\"",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PicFrames/VideoFrames-Prefix.pch";
@@ -6535,6 +6557,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/include/libxml2/**",
+					"$(SRCROOT)/FacebookSDK/**",
+					"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/PicCells/PicCells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -6555,8 +6579,8 @@
 					"-lxml2",
 				);
 				PRODUCT_NAME = PicCells;
-				PROVISIONING_PROFILE = "9429D3E6-BD5B-4249-98BD-92B8A9732906";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "B6975E01-047E-4A93-9C65-161F469DAB53";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B6975E01-047E-4A93-9C65-161F469DAB53";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -6566,17 +6590,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ARCHS = (
+					armv7,
+					armv7s,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Distribution: out thinking private limited (9Q363NUAF6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: out thinking private limited (9Q363NUAF6)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",
-					"\"$(SRCROOT)/../../FacebookSDK\"",
-					"\"$(SRCROOT)/../../../FacebookSDK\"",
-					"$(SRCROOT)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework\"",
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage,
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework,
+					"\"$(SRCROOT)/FacebookSDK\"",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PicFrames/VideoFrames-Prefix.pch";
@@ -6585,6 +6611,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/include/libxml2/**",
+					"$(SRCROOT)/FacebookSDK/**",
+					"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/PicCells/PicCells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -6604,8 +6632,8 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = PicCells;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "B6975E01-047E-4A93-9C65-161F469DAB53";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B6975E01-047E-4A93-9C65-161F469DAB53";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -6615,6 +6643,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6624,8 +6657,8 @@
 					"\"$(SRCROOT)/../../../FacebookSDK\"",
 					"$(SRCROOT)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework\"",
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage,
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework,
+					"$(PROJECT_DIR)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PicFrames/VideoFrames-Prefix.pch";
@@ -6638,6 +6671,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/include/libxml2/**",
+					"\"$(SRCROOT)/FacebookSDK\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollagePRO/VideoFramesPRO-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -6669,8 +6703,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",
@@ -6678,8 +6717,8 @@
 					"\"$(SRCROOT)/../../../FacebookSDK\"",
 					"$(SRCROOT)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework\"",
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage,
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework,
+					"$(PROJECT_DIR)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PicFrames/VideoFrames-Prefix.pch";
@@ -6688,6 +6727,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/include/libxml2/**",
+					"\"$(SRCROOT)/FacebookSDK\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollagePRO/VideoFramesPRO-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -6719,8 +6759,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8EED7B6CA3D543A987D3E7F0 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK\"",
@@ -6728,8 +6773,8 @@
 					"\"$(SRCROOT)/../../../FacebookSDK\"",
 					"$(SRCROOT)",
 					"\"$(SRCROOT)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework\"",
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage,
-					/Users/outthinkingindiapvtltd/Desktop/VideoCollage/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework,
+					"$(PROJECT_DIR)/PicFrames/ThirdpartySDK/Tapjoy.embeddedframework",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PicFrames/VideoFrames-Prefix.pch";
@@ -6738,6 +6783,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/include/libxml2/**",
+					"\"$(SRCROOT)/FacebookSDK\"/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollagePRO/VideoFramesPRO-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

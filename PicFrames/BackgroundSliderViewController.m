@@ -59,6 +59,7 @@
 
     [super viewDidLoad];
 
+    viewController = nil;
     NSString *image_name = foregroundImage;
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && fullscreen.size.height>480)

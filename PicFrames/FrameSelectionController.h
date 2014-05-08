@@ -31,6 +31,8 @@
 #define FRAMES_MAX_PERGROUP                       FRAME_COUNT
 #define notification_instagram_follow_done        @"notification_instagram_follow_done"
 #define notification_twitter_follow_done          @"notification_twitter_follow_done"
+#define notification_rate_app_done                 @"notification_rate_app_done"
+#define key_rate_app_inprogress                     @"key_rate_app_inprogress"
 #define key_twitter_follow_inprogress             @"key_twitter_follow_inprogress"
 #define key_instagram_follow_inprogress           @"key_instagram_follow_inprogress"
 #define key_frame_index_of_follow_inprogress      @"key_frame_index_of_follow_inprogress"

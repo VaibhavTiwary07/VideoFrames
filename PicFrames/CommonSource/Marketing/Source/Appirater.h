@@ -139,7 +139,6 @@ extern NSString *const kAppiraterDeclinedToRate;
  Calls [Appirater appLaunched:YES]. See appLaunched: for details of functionality.
  */
 + (void)appLaunched;
-
 /*
  Tells Appirater that the app has launched, and on devices that do NOT
  support multitasking, the 'uses' count will be incremented. You should
@@ -154,7 +153,6 @@ extern NSString *const kAppiraterDeclinedToRate;
  (as long as you pass YES for canPromptForRating in those methods).
  */
 + (void)appLaunched:(BOOL)canPromptForRating;
-
 /*
  Tells Appirater that the app was brought to the foreground on multitasking
  devices. You should call this method from the application delegate's

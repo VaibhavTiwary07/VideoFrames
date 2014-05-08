@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>0E405682-41AA-4211-9607-362862B0589D</string>
+	<string>430BE40F-3319-499F-B246-C22094C0508A</string>
 	<key>IDESourceControlProjectName</key>
 	<string>VideoFrames</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>DBEF1700-3CFF-408C-BDFD-486AF2B0A2AE</key>
-		<string>ssh://iPhone-Git-Server.local//users/vijayakumarreddydoddavala/Git/iPhone/VideoCollage.git</string>
+		<key>BC023553-824C-4A86-8FBC-969488B2E498</key>
+		<string>ssh://gitserver.local//home/git/platforms/ios/outthinking/videocollage.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>VideoFrames.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>DBEF1700-3CFF-408C-BDFD-486AF2B0A2AE</key>
+		<key>BC023553-824C-4A86-8FBC-969488B2E498</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://iPhone-Git-Server.local//users/vijayakumarreddydoddavala/Git/iPhone/VideoCollage.git</string>
+	<string>ssh://gitserver.local//home/git/platforms/ios/outthinking/videocollage.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>DBEF1700-3CFF-408C-BDFD-486AF2B0A2AE</string>
+	<string>BC023553-824C-4A86-8FBC-969488B2E498</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>DBEF1700-3CFF-408C-BDFD-486AF2B0A2AE</string>
+			<string>BC023553-824C-4A86-8FBC-969488B2E498</string>
 			<key>IDESourceControlWCCName</key>
-			<string>VideoCollageFreeVersion</string>
+			<string>VideoCollagePROVERSION</string>
 		</dict>
 	</array>
 </dict>

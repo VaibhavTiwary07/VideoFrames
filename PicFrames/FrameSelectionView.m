@@ -50,13 +50,17 @@
 #endif
 #define FRAMES_INSTAGRAM_LOCK_SUPPORT             1
 #define FRAMES_FACEBOOK_LOCK_SUPPORT              1
-#define FRAMES_INSTAGRAM_LOCK_SUPPORT             1
+    //#define FRAMES_INSTAGRAM_LOCK_SUPPORT             1
 #define FRAMES_INSTAGRAM_LOCK_INDEX               23
 #define FRAMES_FACEBOOK_LOCK_INDEX                31
 #define FRAMES_TWITTER_LOCK_INDEX                 40
 #define FRAMES_INSTAGRAM_LOCK_FRAMESCOUNT          9
 #define FRAMES_FACEBOOK_LOCK_FRAMESCOUNT           9
 #define FRAMES_TWITTER_LOCK_FRAMESCOUNT            9
+
+#define FRAMES_RATEUS_LOCK_SUPPORT             1
+#define FRAMES_RATEUS_LOCK_INDEX                 18
+#define FRAMES_RATEUS_LOCK_FRAMESCOUNT          5
 
 #define FRAMES_MAX_PERGROUP                       FRAME_COUNT
 #define FRAMES_ROWS_PERPAGE                       4
@@ -220,6 +224,14 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         {
             free_frame_mapping[i].lockType = FRAMES_LOCK_TWITTER;
         }
+#if FRAMES_RATEUS_LOCK_SUPPORT
+        else if((FRAMES_RATEUS_LOCK_FRAMESCOUNT > 0)&&
+                (i >= FRAMES_RATEUS_LOCK_INDEX)&&
+                (i < FRAMES_RATEUS_LOCK_INDEX+FRAMES_RATEUS_LOCK_FRAMESCOUNT))
+            {
+            free_frame_mapping[i].lockType = FRAMES_LOCK_RATEUS;
+            }
+#endif
         else
         {
             free_frame_mapping[i].lockType = FRAMES_LOCK_FREE;
@@ -229,7 +241,48 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         }
     }
 }
-
++(int)rateUsLockedFrameCount
+{
+    int count = 0;
+    for(int i = 0; i < FRAMES_MAX_PERGROUP; i++)
+        {
+        if(lockstatus[FRAMES_GROUP_UNEVEN][i] == FRAMES_LOCK_RATEUS)
+            {
+                count++;
+            }
+        
+        if(lockstatus[FRAMES_GROUP_EVEN][i] == FRAMES_LOCK_RATEUS)
+            {
+                count++;
+            }
+        }
+    
+    return count;
+}
++(BOOL)getRateUsStatus
+{
+    return [[NSUserDefaults standardUserDefaults]boolForKey:@"ipf_rateUsStatus"];
+}
++(void)setRateUsStatus:(BOOL)lockStatus
+{
+    [[NSUserDefaults standardUserDefaults]setBool:lockStatus forKey:@"ipf_rateUsStatus"];
+    
+    if(lockStatus == YES)
+        {
+        for(int i = 0; i < FRAMES_MAX_PERGROUP; i++)
+            {
+            if(lockstatus[FRAMES_GROUP_UNEVEN][i] == FRAMES_LOCK_RATEUS)
+                {
+                [FrameSelectionView setLockStatusOfFrame:i group:FRAMES_GROUP_UNEVEN to:FRAMES_LOCK_FREE];
+                }
+            
+            if(lockstatus[FRAMES_GROUP_EVEN][i] == FRAMES_LOCK_RATEUS)
+                {
+                [FrameSelectionView setLockStatusOfFrame:i group:FRAMES_GROUP_EVEN to:FRAMES_LOCK_FREE];
+                }
+            }
+        }
+}
 +(int)facebookLockedFrameCount
 {
     int count = 0;
@@ -883,7 +936,22 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         }
     }
 }
-
+-(void)updateRateUsStatus:(BOOL)rated ForItemAtIndex:(int)index
+{
+    if(rated)
+        {
+        NSLog(@"rate status : %d", rated);
+        [FrameSelectionView setRateUsStatus:rated];
+        
+        if([self.delegate respondsToSelector:@selector(frameSelectionView:selectedItemIndex:button:)])
+            {
+            NSLog(@" unlock instagram buttons");
+                // _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index];
+                //   [self.delegate frameSelectionView:self selectedItemIndex:_curSelectedFrameIndex button:nil];
+            [[NSUserDefaults standardUserDefaults]setInteger:index forKey:@"_curSelectedFrameIndex"];
+            }
+        }
+}
 -(void)frameScrollView:(FrameScrollView *)gView selectedItemIndex:(int)index button:(UIButton*)btn
 {
     _curSelectedGroup = [self frameTypeFromIndex:index];
@@ -924,6 +992,15 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         {
             
             [self.delegate frameSelectionView:self showTwitterFollowForItemIndex:index button:btn];
+        }
+    }
+    else if (FRAMES_LOCK_RATEUS == [self getContentLockTypeForFrameAtIndex:index])
+    {
+    NSLog(@"RateUs locked");
+    if([self.delegate respondsToSelector:@selector(frameSelectionView:showRateUsForItemIndex:button:)])
+        {
+        
+        [self.delegate frameSelectionView:self showRateUsForItemIndex:index button:btn];
         }
     }
     else if([self.delegate respondsToSelector:@selector(frameSelectionView:selectedItemIndex:button:)])

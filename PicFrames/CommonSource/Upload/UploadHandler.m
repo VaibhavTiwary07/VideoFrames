@@ -1033,6 +1033,7 @@
         case UPLOAD_INSTAGRAM:
         {
             [self uploadToInstagram];
+            break;
         }
 #if TWITTER_SUPPORT_ENABLED
         case UPLOAD_TWITTER:

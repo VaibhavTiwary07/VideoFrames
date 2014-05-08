@@ -87,11 +87,14 @@
     NSMutableDictionary *dictionary, *dictionaryOfEffectInfo;
     VideoGridViewViewController *gridView;
     
+    bool  isEffectEnabled;
+    
     //    GADInterstitial *interstitial_; //fgthfjufghjghjk
     
 }
 
 -(void)selectEditTab;
+    //@property (nonatomic, assign)bool isVideoOrderChangedByUser;
 @property(nonatomic   , assign) BOOL isVideoFile;
 @property (nonatomic  , assign) BOOL isTouchWillDetect;
 @property (nonatomic  , assign) int videoTimeRange;
@@ -106,7 +109,7 @@
 @end
 
 @implementation ViewController
-
+    //@synthesize isVideoOrderChangedByUser;
 @synthesize videoTimeRange;
 @synthesize isVideoFile;
 @synthesize isTouchWillDetect;
@@ -1106,6 +1109,10 @@
     if (isSequentialPlay)
     {
     gTotalPreviewFrames = totalNumberOfFrames;
+    
+//    if (isVideoOrderChangedByUser== NO) {
+//        [self setTheDefaultOrderArray];
+//    }
     }
     
     /* we couldn't find the existing video, so lets generate one by ourself */
@@ -1134,10 +1141,13 @@
                 }
             }else
             {
-                if ([orderArrayForVideoItems count]==0) {
+                if ([orderArrayForVideoItems count]==0)
+                {
                     /* if video order is not set , set them to default oreder*/
                     [self setTheDefaultOrderArray];
                 }
+            
+            
             NSNumber *number =[orderArrayForVideoItems objectAtIndex:counter_Variable];
             currentPhotoIndex = number.intValue;
             gCurPreviewFrameIndex = frameIndex;
@@ -1334,6 +1344,12 @@
 #pragma mark video import
 - (void)importVideo:(NSTimer *)timer
 {
+    
+        //isVideoOrderChangedByUser = NO;
+    if (orderArrayForVideoItems != nil && [orderArrayForVideoItems count]>0) {
+        [self.orderArrayForVideoItems removeAllObjects];
+    }
+    
     NSURL *videoURL = [timer.userInfo objectForKey:@"videoPath"];
    
     if(nil == videoURL)
@@ -1917,6 +1933,8 @@
     NSDictionary *videoInfo = [info objectForKey:@"videoInfo"];
     
     [sess videoSelectedForCurrentPhotoWithInfo:videoInfo image:img];
+    
+   
 }
 
 - (void)handleImageSelection:(NSTimer*)timer
@@ -2142,6 +2160,7 @@
         NSAssert(nil != videoPath, @"Received nil videoPathUrl in backgroundvideoSelected notification");
         NSDictionary *info = [NSDictionary dictionaryWithObject:videoPath forKey:@"videoPath"];
         [sess deleteCurrentAudioMix];
+    
         [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(importVideo:) userInfo:info repeats:NO];
     }
     else if([[notification name] isEqualToString:OT_FBBackgroundImageSelected])
@@ -2265,6 +2284,7 @@
 
 - (void)dealloc
 {
+    NSLog(@"**********  view controller dealloc called***********");
     [self unregisterForNotifications];
     
     [super dealloc];
@@ -2338,7 +2358,8 @@
     [super viewDidLoad];
     
     NSLog(@"View did load");
-    
+        //isVideoOrderChangedByUser = NO;
+    isEffectEnabled = NO;
     currentSelectedPhotoNumberForEffect =  [sess photoNumberOfCurrentSelectedPhoto];
     
     BOOL      enableStatus = [[[NSUserDefaults standardUserDefaults]objectForKey:KEY_USE_SEQUENTIAL_Play_STATUS]boolValue];
@@ -2360,7 +2381,7 @@
     } else {
         // iOS 6
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    }
+    } 
     
     [[InAppPurchaseManager Instance]loadStore];
     
@@ -2426,7 +2447,7 @@
     
     CGPoint point = CGPointMake(full_screen.size.width-adviewdistancefromwall-adviewsize, adjustDistanceFromWall+50);
     if (freeVersion) {
-    [[configparser Instance] showAdInView:self.view atPoint:point];
+        [[configparser Instance] showAdInView:self.view atLocation:point];
     [[configparser Instance] bringAdToTheTop];
     }
 #if BANNERADS_ENABLE
@@ -2439,6 +2460,7 @@
 }
 - (void)allocateUIForTabbar:(CGRect )rect
 {
+    NSLog(@"custom tabbar of view controller allocated -------");
     if (customTabBar != nil) {
         [customTabBar removeFromSuperview];
         customTabBar = nil;
@@ -2503,7 +2525,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    NSLog(@" viewwill appear---------------------");
     self.navigationController.navigationBarHidden = YES;
     
     
@@ -4028,7 +4050,7 @@
         [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:swt.on]
                                                  forKey:KEY_USE_SEQUENTIAL_Play_STATUS];
         isSequentialPlay = TRUE;
-    
+        [self setTheDefaultOrderArray];
         UIImageView *settingImageView = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
         CGRect rect = CGRectMake(0,settingImageView.frame.origin.y , full_screen.size.width, 0);
         [self addVideoGrid:rect];
@@ -4119,8 +4141,10 @@
 
 -(void)setTheDefaultOrderArray
 {
+    NSLog(@"setTheDefaultOrderArray");
     if ([orderArrayForVideoItems count]>0)
     {
+
         [orderArrayForVideoItems removeAllObjects];
     }
     for (int index = 0; index<sess.frame.photoCount; index++)
@@ -4129,6 +4153,7 @@
         
         if (type == FRAME_RESOURCE_TYPE_VIDEO)
         {
+        NSLog(@"ORDER OF ARRAY :%@", orderArrayForVideoItems);
             [orderArrayForVideoItems addObject:[NSNumber numberWithInt:index]];
         }
     }
@@ -4235,7 +4260,8 @@
     
     /* Query for media items */
     NSArray *mediaItems = [query items];
-    if(nil == mediaItems)
+    NSLog(@" Media item :%@", mediaItems);
+    if(nil == mediaItems || [mediaItems count]==0)
     {
         return nil;
     }
@@ -4339,6 +4365,7 @@
 {
     [self releaseToolBarIfAny];
     
+        // isVideoOrderChangedByUser = YES;
     
     /* Add settings title to toolbar */
     [self addToolbarWithTitle:@"Video Settings" tag:TAG_TOOLBAR_SETTINGS];
@@ -4408,7 +4435,10 @@
     selectMusic.userInteractionEnabled = YES;
     
     UIView *selectSquentialPlayView = [self allocateSquentialPlayButtonCellWithRect:selectSqlRect enable:isSequentialPlay];
-    
+    if (isSequentialPlay) {
+        
+        [self setTheDefaultOrderArray];
+    }
     
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         
@@ -4573,7 +4603,7 @@
     }
     if (freeVersion)
     {
-    [[configparser Instance] showAdInView:self.view atPoint:CGPointMake(fullScreen.size.width-adviewdistancefromwall-adviewsize, 50+adjustDistanceFromWall)];
+    [[configparser Instance] showAdInView:self.view atLocation:CGPointMake(fullScreen.size.width-adviewdistancefromwall-adviewsize, 50+adjustDistanceFromWall)];
     [[configparser Instance] bringAdToTheTop];
     }
     return toolbar;
@@ -5092,6 +5122,7 @@
                      }
                      completion:^(BOOL finished)
                         {
+                        isEffectEnabled = YES;
                             
                          [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
                          backGround.frame =  CGRectMake(0, full_screen.size.height -colorBackgroundBarHeightHeight, full_screen.size.width, colorBackgroundBarHeightHeight);
@@ -5830,6 +5861,7 @@
     {
         [self addWaterMarkToFrame];
         nvm.noAdMode = YES;
+//    [Appirater userDidSignificantEvent:YES];
     }
     
     ShareViewController *shareView = [[ShareViewController alloc] init];
@@ -5838,7 +5870,8 @@
     shareView . sess = sess;
     shareView . isVideo = isVideoFile;
     
-    [self.view addSubview:shareView.view];
+        // [self.view addSubview:shareView.view];
+    [self presentViewController:shareView animated:YES completion:nil];
     
     /*
     UIImageView *backgroundView = [[UIImageView alloc] init];
@@ -5968,6 +6001,7 @@
      
      */
 }
+#if 0
 -(void)handleVideoAndImageSharing:(UIButton *)aBUtton
 {
     switch (aBUtton.tag) {
@@ -6065,6 +6099,8 @@
     }
     
 }
+
+#endif
 -(void)showResolutionOptios
 {
     

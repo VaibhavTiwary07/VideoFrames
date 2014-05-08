@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+    //#import "Flurry.h"
 #import "config.h"
+    //#import "OT_Config.h"
 
 typedef enum
 {
@@ -46,8 +48,9 @@ typedef enum
 
 #define notification_syncedwithconfigserver @"notification_syncedwithconfigserver"
 #define tag_adview 7389
-#define adviewsize  40
+#define adviewsize  ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 72 : 40)
 #define adviewdistancefromwall 10
+#define bought_allpackages upgradedToPro
 
 @interface configparser : NSObject <NSXMLParserDelegate>
 
@@ -62,8 +65,8 @@ typedef enum
 -(id)initWithAppId:(NSString*)appid;
 +(configparser*)Instance;
 -(void)bringAdToTheTop;
--(void)showAdInView:(UIView*)v atPoint:(CGPoint)point;
 -(void)showAdInView:(UIView*)v;
 -(void)startSessionWithId:(NSString*)appid;
 -(void)removeAd;
+-(void)showAdInView:(UIView*)v atLocation:(CGPoint)point;
 @end

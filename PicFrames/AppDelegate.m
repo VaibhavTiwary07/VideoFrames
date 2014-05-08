@@ -198,7 +198,7 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     //[RevMobAds showPopupWithAppID:ot_revmob_appid withDelegate:nil];
     [Harpy checkVersionDaily];
     
-    [Appirater appEnteredForeground:YES];
+        //[Appirater appEnteredForeground:YES];
     [FrameSelectionController handleIfAnySocialFollowInProgress];
 
 }
@@ -240,7 +240,6 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
 
     if(self.navigationController.visibleViewController == self)
-
     {
         if(interstitial_.hasBeenUsed == NO)
 

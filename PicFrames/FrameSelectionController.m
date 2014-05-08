@@ -778,7 +778,6 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 }
 -(void)addAnimationToProButton:(UIButton *)aButton
 {
-
     CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     pulseAnimation.duration = 0.5;
     pulseAnimation.fromValue = [NSNumber numberWithFloat:1.0];
@@ -981,6 +980,36 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
                 frameSelectionView.delegate = self;
                 frameSelectionView.tag = tag_frameselection_view;
                 frameSelectionView.userInteractionEnabled = YES;
+                self.view.userInteractionEnabled = YES;
+                [self.view addSubview:frameSelectionView];
+                [frameSelectionView loadFrames];
+                [frameSelectionView release];
+                
+            } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        }
+    }
+    else if ([[notification name] isEqualToString:notification_rate_app_done])
+        {
+        FrameSelectionView *fsv = (FrameSelectionView*)[self.view viewWithTag:tag_frameselection_view];
+        
+        if(nil != fsv)
+            {
+            int ind = [[[NSUserDefaults standardUserDefaults]objectForKey:key_frame_index_of_follow_inprogress]integerValue];
+            NSLog(@"Frame selected is %d",ind);
+            [fsv updateRateUsStatus:YES ForItemAtIndex:ind];
+            
+            [WCAlertView showAlertWithTitle:@"Thank you!!!" message:[NSString stringWithFormat:@"New frames have been unlocked successfully"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
+                frameSelectionView.delegate = nil;
+                [frameSelectionView removeFromSuperview];
+                
+                /* add them again to make sure user don't see the lock icons on the images */
+                CGRect rect = [[UIScreen mainScreen]bounds];
+                CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
+                frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
+                frameSelectionView.delegate = self;
+                frameSelectionView.tag = tag_frameselection_view;
+                frameSelectionView.userInteractionEnabled = YES;
+                
                 self.view.userInteractionEnabled = YES;
                 [self.view addSubview:frameSelectionView];
                 [frameSelectionView loadFrames];
@@ -1192,7 +1221,33 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     
     return;
 }
+- (void)frameSelectionView:(FrameSelectionView *)gView showRateUsForItemIndex:(int)index button:(UIButton*)btn
+{
+    int rateusFrameCount = [FrameSelectionView rateUsLockedFrameCount];
+     NSString *msgBody = [NSString stringWithFormat:@"Rate %@ app to unlock %d frames.",appname,rateusFrameCount];
+    [WCAlertView showAlertWithTitle:@"Rate" message:msgBody customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
+        
+        if(buttonIndex == 1)
+            {
+            NSString *reviewURL = [__templateReviewURL stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%d", iosAppId]];
+            
+            if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+                reviewURL = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@",iosAppIdString];
+            }
 
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:reviewURL]]) {
+                [[NSUserDefaults standardUserDefaults]setObject:nil
+                                                         forKey:key_frame_index_of_follow_inprogress];
+                [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithInt:index]
+                                                         forKey:key_frame_index_of_follow_inprogress];
+                [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES]
+                                                         forKey:key_rate_app_inprogress];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
+            }
+            }
+        
+    } cancelButtonTitle:@"No Thanks" otherButtonTitles:@"Rate it!",nil];
+}
 - (void)frameSelectionView:(FrameSelectionView *)gView showFacebookLikeForItemIndex:(int)index button:(UIButton*)btn
 {
     int facebookLockedFrameCount = [FrameSelectionView facebookLockedFrameCount];
@@ -1234,6 +1289,16 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 
         return;
     }
+    
+    NSNumber *rate_us  = [[NSUserDefaults standardUserDefaults]objectForKey:key_rate_app_inprogress];
+    if(nil != rate_us)
+        {
+        NSLog(@"------inside RateUsInProgress -----------");
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:key_rate_app_inprogress];
+        [[NSNotificationCenter defaultCenter]postNotificationName:notification_rate_app_done object:nil];
+        
+        return;
+        }
 }
 
 - (void)frameSelectionView:(FrameSelectionView *)gView showInstagramFollowForItemIndex:(int)index button:(UIButton*)btn

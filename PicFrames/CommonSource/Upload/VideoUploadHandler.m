@@ -356,8 +356,9 @@
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
 	/* Dismiss the modelview controller */
-	[controller dismissModalViewControllerAnimated:YES];
-
+    NSLog(@"dissmissed***************");
+	[controller dismissViewControllerAnimated:YES completion:nil];
+    
 	switch(result)
 	{
 		case MFMailComposeResultSent:

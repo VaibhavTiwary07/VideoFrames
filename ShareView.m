@@ -18,6 +18,7 @@
     }
     return self;
 }
+
 -(void)allocateUI
 {
     UIImageView *backgroundView = [[UIImageView alloc] init];
@@ -31,7 +32,8 @@
     float xgap = 140;
     float ygap = 150;
 
-    for (int index = 1; index<=6; index++) {
+    for (int index = 1; index<=6; index++)
+        {
         NSString *shareImage = [NSString stringWithFormat:@"share_option%d.png",index];
         NSString *shareImage_active = [NSString stringWithFormat:@"share_option%d_active.png",index];
         UIButton *shareButton = [UIButton  buttonWithType:UIButtonTypeCustom];
@@ -57,7 +59,7 @@
 }
 -(void)handleShareSlecetion:(UIButton *)aBUtton
 {
-    int indexNUMBER = aBUtton.tag;
+        //int indexNUMBER = aBUtton.tag;
 
 }
 -(void)goBack

@@ -12,12 +12,16 @@
 #import "OT_TabBar.h"
 #import "VideoUploadHandler.h"
 #import "UploadHandler.h"
-#define videoPlayButtonTag 9876
+#import "Appirater.h"
+#define videoPlayButtonTag 987677
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 @interface ShareViewController ()<OT_TabBarDelegate>
 {
-OT_TabBar *customTabBar;
+OT_TabBar *customTabBarForShare;
+    VideoUploadHandler *vHandler ;
 }
-@property (nonatomic, retain) MPMoviePlayerViewController *playerViewController;
+@property (nonatomic, retain) MPMoviePlayerViewController *_playerViewController;
 @end
 
 @implementation ShareViewController
@@ -25,7 +29,7 @@ OT_TabBar *customTabBar;
 @synthesize videoPath;
 @synthesize isVideo;
 @synthesize sess;
-@synthesize playerViewController = _playerViewController;
+@synthesize  _playerViewController;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,9 +39,35 @@ OT_TabBar *customTabBar;
     return self;
 }
 
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+    [self.view bringSubviewToFront:customTabBarForShare];
+    NSLog(@"viewDidAppear");
+
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    
+   
+    NSLog(@"view did disappear");
+
+}
+ 
+
 - (void)viewDidLoad
 {
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            // iOS 7
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    } else {
+            // iOS 6
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    }
     [super viewDidLoad];
+    
     nvm = [Settings Instance];
     nvm.noAdMode = YES;
     UIImageView *backgroundView = [[UIImageView alloc] init];
@@ -57,6 +87,7 @@ OT_TabBar *customTabBar;
     [self allocateToolBarForShareOptions];
 	// Do any additional setup after loading the view.
 }
+
 - (void)allocateResourcesForTopToolBar
 {
     UIImageView *topToolBar = [[UIImageView alloc] init];
@@ -82,14 +113,23 @@ OT_TabBar *customTabBar;
     [topToolBar addSubview:backButton];
 
 }
+
 - (void)goBack
 {
+    [Appirater userDidSignificantEvent:YES];
     nvm.noAdMode = NO;
     [_playerViewController.view removeFromSuperview];
      [_playerViewController release];
     _playerViewController = nil;
-
-    [self.view removeFromSuperview];
+    
+    [self removeNotification];
+    
+    if (vHandler!= nil) {
+        [vHandler release];
+        vHandler = nil;
+    }
+        // [self.view removeFromSuperview];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)allocateResourcesForPreview
@@ -106,183 +146,238 @@ OT_TabBar *customTabBar;
     {
         if (_playerViewController != nil)
         {
+            [self removeNotification];
             [_playerViewController.view removeFromSuperview ];
             [_playerViewController release];
             _playerViewController = nil;
         }
+    
+    UIGraphicsBeginImageContext(CGSizeMake(1, 1));
     _playerViewController = [[MPMoviePlayerViewController alloc] init];
     _playerViewController.moviePlayer.contentURL = [NSURL fileURLWithPath:videoPath];
+    _playerViewController.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     _playerViewController .moviePlayer. shouldAutoplay = NO;
     _playerViewController.view.frame = CGRectMake(0, 0,frameSize, frameSize);
     _playerViewController .moviePlayer. controlStyle = MPMovieControlStyleNone;
     [playerView addSubview:_playerViewController.view];
+    [_playerViewController.moviePlayer prepareToPlay];
     
-        [[NSNotificationCenter defaultCenter] addObserver:self
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayerDidFinish:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:self.playerViewController.moviePlayer];
+                                               object:self._playerViewController.moviePlayer];
     
-        [[NSNotificationCenter defaultCenter] addObserver:self
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                                   selector:@selector(moviePlayerDidEnterFullScreen)
                                                       name:MPMoviePlayerDidEnterFullscreenNotification
                                                     object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(moviePlayerDidExitFromFullScreen)
                                                      name:MPMoviePlayerDidExitFullscreenNotification
                                                    object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(moviePlayerPlaybackStateDidChange:)
                                                      name:MPMoviePlayerPlaybackStateDidChangeNotification
-                                                   object:self.playerViewController.moviePlayer];
+                                                   object:self._playerViewController.moviePlayer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecameActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:self._playerViewController.moviePlayer];
+
         
-        
-         UIButton *playVideo = [UIButton buttonWithType:UIButtonTypeCustom];
-        playVideo . tag = videoPlayButtonTag;
-        playVideo . frame = CGRectMake(0, 0, 100, 100);
-        playVideo . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/2);
-        [playVideo setImage:[UIImage imageNamed:@"play_03.png"] forState:UIControlStateNormal];
-        [playVideo addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:playVideo];
+    UIButton *playVideo = [UIButton buttonWithType:UIButtonTypeCustom];
+    playVideo . tag = videoPlayButtonTag;
+    playVideo . frame = CGRectMake(0, 0, 100, 100);
+    playVideo . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/2);
+    [playVideo setImage:[UIImage imageNamed:@"play_03.png"] forState:UIControlStateNormal];
+    [playVideo addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:playVideo];
+    
+    UIGraphicsEndImageContext();
     }
     else
     {
         playerView.image = [sess.frame renderToImageOfSize:nvm.uploadSize];
     }
 }
+-(void)removeNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:MPMoviePlayerDidExitFullscreenNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+}
+-(void)appBecameActive
+{
+    [_playerViewController.moviePlayer prepareToPlay];
+}
 -(void)moviePlayerPlaybackStateDidChange:(NSNotification *)notification
 {
-    MPMoviePlayerController *moviePlayer = notification.object;
+   MPMoviePlayerController *moviePlayer = notification.object;
     MPMoviePlaybackState playbackState = moviePlayer.playbackState;
     
     if(playbackState == MPMoviePlaybackStateStopped) {
-        NSLog(@"MPMoviePlaybackStateStopped");
+       
     } else if(playbackState == MPMoviePlaybackStatePlaying) {
-        NSLog(@"MPMoviePlaybackStatePlaying");
+       
     } else if(playbackState == MPMoviePlaybackStatePaused) {
-        NSLog(@"MPMoviePlaybackStatePaused");
+        
     } else if(playbackState == MPMoviePlaybackStateInterrupted) {
-        NSLog(@"MPMoviePlaybackStateInterrupted");
+       
     } else if (playbackState == MPMoviePlaybackStateSeekingBackward)
     {
-        NSLog(@"MPMoviePlaybackStateSeekingBackward");
     }else if (playbackState == MPMoviePlaybackStateSeekingForward)
     {
-        NSLog(@"MPMoviePlaybackStateSeekingForward");
+    
     }
 }
 - (void)playVideo:(UIButton *)sender
 {
-   [customTabBar unselectCurrentSelectedTab];
+   [customTabBarForShare unselectCurrentSelectedTab];
     sender.hidden = YES;
     [_playerViewController.moviePlayer setControlStyle:MPMovieControlStyleDefault];
-    [_playerViewController.moviePlayer setFullscreen:YES animated:YES];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+       [_playerViewController.moviePlayer setFullscreen:YES animated:YES];
+    }else
+        {
+        [_playerViewController.moviePlayer setFullscreen:NO animated:YES];
+        
+        }
+   
     [_playerViewController.moviePlayer play];
     
     
 }
 - (void)moviePlayerDidFinish:(NSNotification *)notification
 {
-    
     [_playerViewController.moviePlayer setControlStyle:MPMovieControlStyleNone];
-    [_playerViewController.moviePlayer setFullscreen:NO animated:YES];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+        {
+            [_playerViewController.moviePlayer setFullscreen:NO animated:YES];
+        }else
+            {
+                UIButton *playButton = (UIButton *)[self.view viewWithTag:videoPlayButtonTag];
+                [playButton setHidden:NO];
+                [self.view bringSubviewToFront:playButton];
+            }
+    
     [_playerViewController.moviePlayer.view setNeedsDisplay];
    
     
 }
 - (void)moviePlayerDidEnterFullScreen
 {
-  //  NSLog(@" enter to full screen");
+    NSLog(@" enter to full screen");
 
 }
 
 - (void)moviePlayerDidExitFromFullScreen
 {
-  //  NSLog(@"exit from full screen");
+    NSLog(@"exit from full screen");
     [_playerViewController.moviePlayer setControlStyle:MPMovieControlStyleNone];
     [_playerViewController.moviePlayer stop];
     [_playerViewController.moviePlayer prepareToPlay];
     [_playerViewController.moviePlayer.view setNeedsDisplay];
     UIButton *playButton = (UIButton *)[self.view viewWithTag:videoPlayButtonTag];
     [playButton setHidden:NO];
+    
     [self.view bringSubviewToFront:playButton];
 }
+
 - (void)allocateToolBarForShareOptions
 {
-    if (customTabBar != nil) {
-        [customTabBar removeFromSuperview];
-        customTabBar = nil;
-    }
+    if (customTabBarForShare != nil)
+        {
+            [customTabBarForShare removeFromSuperview];
+            customTabBarForShare = nil;
+        }
+    
     CGRect rect = CGRectMake(0, full_screen.size.height-customBarHeight, full_screen.size.width, customBarHeight);
-    customTabBar = [[OT_TabBar alloc]initWithFrame:rect];
-    customTabBar .tag = 333;
+    customTabBarForShare = [[OT_TabBar alloc]initWithFrame:rect];
+    customTabBarForShare .tag = 333;
     OT_TabBarItem *album = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_album_Image]
                                                   selectedImage:[UIImage imageNamed:share_album_active_Image]
-                                                            tag:1];
+                                                            tag:11];
     
     OT_TabBarItem *email = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_mail_Image]
                                                            selectedImage:[UIImage imageNamed:share_mail_active_Image]
-                                                                     tag:2];
+                                                                     tag:12];
     
     OT_TabBarItem *facebook = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_facebook_Image]
                                                           selectedImage:[UIImage imageNamed:share_facebook_active_Image]
-                                                                    tag:3];
+                                                                    tag:13];
     
     OT_TabBarItem *instagram = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_instagram_Image]
                                                      selectedImage:[UIImage imageNamed:share_instagram_active_Image]
-                                                               tag:4];
+                                                               tag:14];
     
     OT_TabBarItem *viddy = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_viddy_Image]
                                                   selectedImage:[UIImage imageNamed:share_viddy_active_Image]
-                                                            tag:5];
+                                                            tag:15];
     
     OT_TabBarItem *copyToclipboard = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_clipboard_Image]
                                                            selectedImage:[UIImage imageNamed:share_clipboard_active_Image]
-                                                                     tag:5];
+                                                                     tag:15];
     
     OT_TabBarItem *youtube = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_youtube_Image]
                                                          selectedImage:[UIImage imageNamed:share_youtube_active_Image]
-                                                                   tag:6];
+                                                                   tag:16];
     
-    customTabBar.showOverlayOnSelection = NO;
-    customTabBar.backgroundImage = [UIImage imageNamed:bottombarImage];
-    customTabBar.delegate        = self;
+    customTabBarForShare.showOverlayOnSelection = NO;
+    customTabBarForShare.backgroundImage = [UIImage imageNamed:bottombarImage];
+    customTabBarForShare.delegate        = self;
     
     if (isVideo)
     {
-         customTabBar.items = [NSArray arrayWithObjects:album,email,facebook,instagram,viddy,youtube, nil];
+         customTabBarForShare.items = [NSArray arrayWithObjects:album,email,facebook,instagram,viddy,youtube, nil];
     }else
     {
-    customTabBar.items = [NSArray arrayWithObjects:album,email,facebook,instagram,copyToclipboard, nil];
+        customTabBarForShare.items = [NSArray arrayWithObjects:album,email,facebook,instagram,copyToclipboard, nil];
     }
-    [self.view addSubview:customTabBar];
+    [self.view addSubview:customTabBarForShare];
+    
+    [album release];
+    [facebook release];
+    [instagram release];
+    [viddy release];
+    [copyToclipboard release];
+    [youtube release];
+    [customTabBarForShare release];
 }
 
 - (void)otTabBar:(OT_TabBar*)tbar didSelectItem:(OT_TabBarItem*)tItem
 {
     switch (tItem.tag) {
-        case 1:
+        case 11:
         {
             nvm.uploadCommand = UPLOAD_PHOTO_ALBUM;
             break;
         }
-        case 2:
+        case 12:
         {
             nvm.uploadCommand = UPLOAD_EMAIL;
             
             break;
         }
-        case 3:
+        case 13:
         {
             nvm.uploadCommand= UPLOAD_FACEBOOK_ALBUM;
             
             break;
         }
-        case 4:
+        case 14:
         {
             nvm.uploadCommand = UPLOAD_INSTAGRAM;
             break;
         }
-        case 5:
+        case 15:
         {
             if (isVideo)
             {
@@ -294,7 +389,7 @@ OT_TabBar *customTabBar;
 
             break;
         }
-        case 6:
+        case 16:
         {
             nvm.uploadCommand = UPLOAD_YOUTUBE;
             break;
@@ -306,6 +401,7 @@ OT_TabBar *customTabBar;
     if (isVideo)
     {
         [self uploadVideo];
+    
     }else
     {
         [self uploadImage];
@@ -315,13 +411,19 @@ OT_TabBar *customTabBar;
 }
 - (void)uploadVideo
 {
-    VideoUploadHandler *vHandler = [VideoUploadHandler alloc];
+    NSLog(@"Retain count of vHandler : %d",vHandler.retainCount);
+    if (vHandler != nil) {
+        [vHandler release];
+        vHandler = nil;
+    }
+    vHandler = [VideoUploadHandler alloc];
     vHandler.viewController = self;
     vHandler . _view = self.view;
     vHandler.applicationName = appname;
     vHandler.downloadUrl = @"http://www.videocollageapp.com";
     vHandler.website = @"http://www.videocollageapp.com";
     [vHandler uploadVideoAtPath:videoPath to:nvm.uploadCommand];
+        //[vHandler release];
 }
 - (void)uploadImage
 {
@@ -333,8 +435,13 @@ OT_TabBar *customTabBar;
     uploadH.cursess = sess;
     
     [uploadH upload];
+        //[uploadH release];
 }
-
+-(void)dealloc
+{
+    NSLog(@"dealloc of share view called -------------");
+    [super dealloc];
+}
 
 - (void)didReceiveMemoryWarning
 {
