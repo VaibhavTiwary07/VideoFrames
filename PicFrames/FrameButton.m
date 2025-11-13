@@ -34,6 +34,8 @@
     {
         /* Render The image */
         self.image = [UIImage imageWithContentsOfFile:[Utility frameThumbNailPathForFrameNumber:frameNumber]];
+        
+        NSLog(@"misssinfgggggggggg");
     }
     
     return self;

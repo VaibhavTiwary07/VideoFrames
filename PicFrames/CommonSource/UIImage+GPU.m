@@ -27,7 +27,7 @@
     [fil setTerminalFilter:lookupFilter];
 
     //[lookupImageSource release];
-    [lookupFilter release];
+  //  [lookupFilter release];
     
     return fil;
 }
@@ -183,6 +183,10 @@
 }
 #endif
 
+
+
+
+
 -(UIImage*)applyToneFilter:(int)filter onImage:(UIImage*)img
 {
     UIImage *outImage = nil;
@@ -244,7 +248,7 @@
     }
     
     outImage = [_filter imageByFilteringImage:img];
-    [_filter release];
+  //  [_filter release];
     return outImage;
 }
 
@@ -267,7 +271,7 @@
             
             id fil = [[GPUImageAmatorkaFilter alloc]init];
             inImage = [fil imageByFilteringImage:inImage];
-            [fil release];
+          //  [fil release];
             
             inImage = [inImage applyTexture:STATIC_FILTER_TEXTURE_JEANS onImageType:IMAGETYPE_FULLIMAGE withAlpha:1.0f];
             //inImage = [inImage applySpaceTexture:STATIC_FILTER_SPACE_RAYS onImageType:IMAGETYPE_FULLIMAGE withAlpha:0.6];
@@ -281,7 +285,7 @@
         {
             id fil = [[GPUImageAmatorkaFilter alloc]init];
             inImage = [fil imageByFilteringImage:inImage];
-            [fil release];
+        //    [fil release];
             
             inImage = [inImage applyTexture:STATIC_FILTER_TEXTURE_PENCIL onImageType:IMAGETYPE_FULLIMAGE withAlpha:1.0f];
             //inImage = [inImage applySpaceTexture:STATIC_FILTER_SPACE_RAYS onImageType:IMAGETYPE_FULLIMAGE withAlpha:0.6];
@@ -297,12 +301,12 @@
             GPUImageContrastFilter *fil = [[GPUImageContrastFilter alloc]init];
             fil.contrast = 3.5;
             inImage = [fil imageByFilteringImage:inImage];
-            [fil release];
+       //     [fil release];
             
             GPUImageToneCurveFilter *fil2 = [[GPUImageToneCurveFilter alloc] initWithACV:@"1clickblue"];
             
             inImage = [fil2 imageByFilteringImage:inImage];
-            [fil2 release];
+        //    [fil2 release];
             
             GPUImageVignetteFilter *vignetteImageFilter = [[GPUImageVignetteFilter alloc] init];
             //vignetteImageFilter.vignetteEnd = 0.8;
@@ -322,11 +326,11 @@
         {
             id fil = [[GPUImageGrayscaleFilter alloc]init];
             inImage = [fil imageByFilteringImage:inImage];
-            [fil release];
+         //   [fil release];
             
             fil = [[GPUImageAmatorkaFilter alloc] init];
             inImage = [fil imageByFilteringImage:inImage];
-            [fil release];
+         ///   [fil release];
             //_filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"1clickmemory"
                    //    ];
             GPUImageVignetteFilter *vignetteImageFilter = [[GPUImageVignetteFilter alloc] init];
@@ -341,7 +345,7 @@
             _filter = [[GPUImageGaussianBlurFilter alloc]init];
             [_filter setBlurRadiusInPixels:3.0];
             UIImage *opasity = [_filter imageByFilteringImage:inImage];
-            [_filter release];
+          //  [_filter release];
             
             inImage = [opasity blendOn:inImage from:opasity inblendmode:kCGBlendModeNormal withAlpha:0.6];
             //_filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"curves03"];
@@ -360,7 +364,7 @@
         {
             _filter = [[GPUImageSepiaFilter alloc]init];
             inImage = [_filter imageByFilteringImage:inImage];
-            [_filter release];
+        //    [_filter release];
             
             inImage = [inImage applyGrungeTexture:STATIC_FILTER_GRUNGE22 onImageType:IMAGETYPE_FULLIMAGE withAlpha:0.6];
             
@@ -373,7 +377,7 @@
         {
             _filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"aqua"];
             inImage = [_filter imageByFilteringImage:inImage];
-            [_filter release];
+         //   [_filter release];
             
             _filter = [[GPUImageVignetteFilter alloc] init];
             break;
@@ -399,7 +403,7 @@
             _filter = [self filterWithLookupmage:image];
             
             inImage = [_filter imageByFilteringImage:inImage];
-            [_filter release];
+         //   [_filter release];
             
             _filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"1clickmint"];
             break;
@@ -415,10 +419,16 @@
 
     
     [_filter removeAllTargets];
-    [_filter release];
+   // [_filter release];
     
     return outImage;
 }
+
+
+
+
+
+
 
 #if SKETCHGROUP_SUPPORT
 -(UIImage*)applySketchFilter:(int)filter onImage:(UIImage*)img
@@ -601,6 +611,7 @@
 #if COLORGROUP_SUPPORT
         case GROUP_STATIC_GPU_FILTER_COLOR:
         {
+            NSLog(@"GROUP_STATIC_GPU_FILTER_COLOR");
             image = [self applyColorFilter:filter onImage:img];
             break;
         }
@@ -615,6 +626,7 @@
 #if TONEGROUP_SUPPORT
         case GROUP_STATIC_GPU_FILTER_TONE:
         {
+            NSLog(@"GROUP_STATIC_GPU_FILTER_TONE");
             image = [self applyToneFilter:filter onImage:img];
             break;
         }

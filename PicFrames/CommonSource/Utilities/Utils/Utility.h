@@ -25,6 +25,7 @@
 +(UIImage*)createPatternImageOfSize:(CGRect)rect withImage:(UIImage*)ptrn;
 +(NSString*)frameThumbNailPathForFrameNumber:(int)framenum;
 +(void)generateThumnailsForFrames;
++(void)generateThumnailsForFrameSecondTime;
 +(NSString*)coloredFrameThumbNailPathForFrameNumber:(int)framenum;
 +(UIImage *)optimizedImage:(UIImage *)image;
 +(UIImage *)optimizedImage:(UIImage *)image withMaxResolution:(int)maxRes;

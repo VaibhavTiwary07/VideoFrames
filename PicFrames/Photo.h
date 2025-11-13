@@ -16,6 +16,7 @@
 @interface Photo : NSObject <UIScrollViewDelegate,touchDetectProtocol>
 {
     int iPhotoNumber;
+    int viewNumber;
     ssivView *view;
     //AVPlayerDemoPlaybackView *view;
     CGRect _frame;
@@ -28,12 +29,14 @@
     float colCount;
     float rowIndex;
     float colIndex;
+    NSURL *_videoURL;
 }
 
 //properties
 @property(nonatomic,readonly)CGRect contentFrame;
 @property(nonatomic,readwrite)CGRect actualFrame;
 @property(nonatomic,readwrite)int photoNumber;
+@property(nonatomic,readwrite)int viewNumber;
 @property(nonatomic,readwrite)CGRect frame;
 @property(nonatomic,assign) ssivView *view;
 @property(nonatomic,retain)UIImage *image;
@@ -45,7 +48,10 @@
 @property(nonatomic,readwrite)float colIndex;
 @property(nonatomic,readwrite)BOOL noTouchMode;
 @property(nonatomic,readwrite)BOOL effectTouchMode;
-
+@property(nonatomic,readwrite)BOOL isContentTypeVideo;
+@property(nonatomic,readwrite)BOOL muteAudio;
+@property (nonatomic, strong, nullable) NSURL *videoURL; // Remove custom getter/setter if possible
+@property (nonatomic, strong, nullable) NSURL *additionalAudioURL;
 //Methods
 - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
 

@@ -21,11 +21,31 @@
 @property(nonatomic,assign)TouchDetectView  *imageView;
 @property(nonatomic,readwrite)eShape curShape;
 @property (nonatomic, retain) AVPlayer* player;
-
+@property (nonatomic, strong) NSURL *videoURL;
+//@property (nonatomic, assign) NSURL *additionalAudioURL;
+@property (strong, nonatomic) AVPlayerLayer *playerLayer;
+@property (strong, nonatomic) NSArray<AVMutableAudioMixInputParameters *> *audioMixInputParameters;
+@property (strong, nonatomic) AVMutableAudioMix *audioMix;
+@property (strong, nonatomic) id playerObserver;
+@property (nonatomic) BOOL isAudioMuted;
+@property (nonatomic) BOOL isProgrammaticPlaybackChange;
+@property (nonatomic) BOOL isProgrammaticMuteChange;
+@property (nonatomic, assign) BOOL isProgrammaticPause;
+@property(nonatomic,readwrite)BOOL isvideoMute;
 +(UIImage*)imageForShape:(eShape)shp;
 -(void)setShape:(eShape)shape;
 -(void)previewShape:(eShape)shape;
-- (void)setPlayer:(AVPlayer*)player;
--(void)removePlayer;
+//- (void)setPlayer:(AVPlayer*)player;
+- (void)removePlayer;
 -(UIImage*)getCurrentAssignedShapeImage;
+- (void)setupVideoPlayer;
+//- (void)play;
+//- (void)pause;
+//- (void)stop;
+- (void)stopPlayer;
+- (void)playPlayer;
+- (void)pausePlayer;
+- (void)muteAudio;
+-(void)muteAudioPlayer;
+-(void)unmuteAudioPlayer;
 @end

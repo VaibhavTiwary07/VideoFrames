@@ -47,7 +47,7 @@ static Settings *SettingsSingleton = nil;
     float width  = 0;
     float height = 0;
     int times  = 0;
-    switch (eResType) 
+    switch (eResType)
     {
         case RESOLUTION_PIXCOUNT_HIGH0:
         {
@@ -102,7 +102,38 @@ static Settings *SettingsSingleton = nil;
     
     int wConst = 0;
     int hConst = 0;
+    /*
+    if(mstSettings.wRatio > mstSettings.hRatio)
+    {
+        wConst = 400; //newly changed
+        hConst = wConst * (mstSettings.hRatio/mstSettings.wRatio);
+    }
+   
+    else
+    {
+        hConst = 400; //newly changed
+        wConst = hConst * (mstSettings.wRatio/mstSettings.hRatio);
+    }
     
+    width  = wConst * times;
+    height = hConst * times;
+    if ([UIDevice currentDevice].userInterfaceIdiom== UIUserInterfaceIdiomPad)
+    {
+            calcSize = CGSizeMake(width, height);
+    }
+    else if(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) && full_screen.size.height>670)
+        {
+            calcSize = CGSizeMake(width, height);
+            NSLog(@"Iphone X...");
+        }
+    else
+    {
+            calcSize = CGSizeMake(width, height);
+    }
+
+    NSLog(@"getTheSizeForResolution: %d size %f,%f",eResType,calcSize.width,calcSize.height);
+    return calcSize;
+    */
     if(mstSettings.wRatio > mstSettings.hRatio)
     {
         wConst = 300;
@@ -113,13 +144,14 @@ static Settings *SettingsSingleton = nil;
         hConst = 300;
         wConst = hConst * (mstSettings.wRatio/mstSettings.hRatio);
     }
-    
+    NSLog(@"getTheSizeFor hconst %d wconst %d",hConst,wConst);
     width  = wConst * times;
     height = hConst * times;
     calcSize = CGSizeMake(width, height);
     NSLog(@"getTheSizeForResolution: %d size %f,%f",eResType,calcSize.width,calcSize.height);
     return calcSize;
 }
+
 
 -(eResolutionType)uploadResolution
 {
@@ -134,6 +166,7 @@ static Settings *SettingsSingleton = nil;
     
     return;
 }
+
 -(UIImage*)generateTheImage
 {
     return nil;
@@ -156,7 +189,7 @@ static Settings *SettingsSingleton = nil;
 		[fd writeData:data];
 		
 		/* Release the data */
-		[data release];
+	//	[data release];
 		
 		/* Close the file */
 		[fd closeFile];
@@ -179,7 +212,7 @@ static Settings *SettingsSingleton = nil;
 +(CGSize)aspectRatioToValues:(eAspectRatio)ratio
 {
     CGSize sze;
-    
+    NSLog(@"aspect Ratio To Values %d",ratio);
     switch(ratio)
     {
         case ASPECTRATIO_1_1:
@@ -224,6 +257,68 @@ static Settings *SettingsSingleton = nil;
             sze.height = 1.0;
             break;
         }
+        case   ASPECTRATIO_9_16:// Instagram Story
+        {
+            sze.width  = 9.0;
+            sze.height = 16.0;
+            break;
+        }
+        case   ASPECTRATIO_4_5: // Instagram portrait
+        {
+            sze.width  = 4.0;
+            sze.height = 5.0;
+            break;
+        }
+        case    ASPECTRATIO_5_4: // Card
+        {
+            sze.width  = 5.0;
+            sze.height = 4.0;
+            break;
+        }
+        case    ASPECTRATIO_4_6:
+        {
+            sze.width  = 4.0;
+            sze.height = 6.0;
+            break;
+        }
+        case   ASPECTRATIO_5_7:
+        {
+            sze.width  = 5.0;
+            sze.height = 7.0;
+            break;
+        }
+        case   ASPECTRATIO_8_10:
+        {
+            sze.width  = 8.0;
+            sze.height = 10.0;
+            break;
+        }
+        case   ASPECTRATIO_16_9:
+        {
+            sze.width  = 16.0;
+            sze.height = 9.0;
+            break;
+        }
+        case   ASPECTRATIO_WALLPAPER:
+        {
+            // Get the width and height
+            CGFloat width = fullScreen.size.width;
+            CGFloat height = fullScreen.size.height;
+            
+            // Calculate the greatest common divisor (GCD)
+            int gcd = [self gcd:(int)width and:(int)height];
+            
+            // Divide width and height by GCD to get the ratio
+            sze.width  = width / gcd;
+            sze.height = height / gcd;
+            break;
+        }
+        case ASPECTRATIO_CUSTOM:
+        {
+            sze.width  = customWidth;
+            sze.height =  customHeight;
+            break;
+        }
         case ASPECTRATIO_MAX:
         default:
         {
@@ -236,6 +331,19 @@ static Settings *SettingsSingleton = nil;
     return sze;
 }
 
+
+
+// Helper method to calculate the GCD
++ (int)gcd:(int)a and:(int)b {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+
 -(eAspectRatio)aspectRatio
 {
     return mstSettings.aspectRatio;
@@ -243,17 +351,58 @@ static Settings *SettingsSingleton = nil;
 
 -(void)setAspectRatio:(eAspectRatio)aspectRatio
 {
-    //NSLog(@"setAspectRatio %d",aspectRatio);
-    CGSize sze = [Settings aspectRatioToValues:aspectRatio];
+    NSLog(@"set Aspect Ratio %d",aspectRatio);
+    if(aspectRatio == ASPECTRATIO_CUSTOM)
+    {
+        mstSettings.wRatio = customWidth;
+        mstSettings.hRatio = customHeight;
+    }
+    else
+    {
+        CGSize sze = [Settings aspectRatioToValues:aspectRatio];
+        mstSettings.wRatio = sze.width;
+        mstSettings.hRatio = sze.height;
+    }
     mstSettings.aspectRatio = aspectRatio;
-    
-    mstSettings.wRatio = sze.width;
-    mstSettings.hRatio = sze.height;
-    
-    mstSettings.maxRatio = (mstSettings.wRatio > mstSettings.hRatio)?mstSettings.wRatio:mstSettings.hRatio;
 
+    mstSettings.maxRatio = (mstSettings.wRatio > mstSettings.hRatio)?mstSettings.wRatio:mstSettings.hRatio;
+    NSLog(@"set Aspect .maxRatio  Ratio %f", mstSettings.maxRatio );
     [self update];
     
+    return;
+}
+
+// Static variable to hold the width value
+static float customWidth = 1.0;  // Default value
+static float customHeight = 1.0;  // Default value
+
++ (float)customWidth {
+    return customWidth;
+}
+
++ (void)setCustomWidth:(float)width {
+    customWidth = width;
+}
+
++ (float)customHeight {
+    return customHeight;
+}
+
++ (void)setCustomHeight:(float)height {
+    customHeight = height;
+}
+
+
+-(void)setCustomAspectRatioWidth:(float)wRatio height:(float)hRatio
+{
+    mstSettings.aspectRatio = ASPECTRATIO_CUSTOM;
+//    customWidth = wRatio;
+//    customHeight = hRatio;
+    mstSettings.wRatio = wRatio;
+    mstSettings.hRatio = hRatio;
+    mstSettings.maxRatio = (mstSettings.wRatio > mstSettings.hRatio)?mstSettings.wRatio:mstSettings.hRatio;
+    NSLog(@"set Aspect .maxRatio  Ratio %f", mstSettings.maxRatio );
+    [self update];
     return;
 }
 
@@ -372,7 +521,7 @@ static Settings *SettingsSingleton = nil;
         NSData *data;
         NSFileHandle *fd;
         
-        internetReach = [[Reachability reachabilityForInternetConnection] retain];
+        internetReach = [Reachability reachabilityForInternetConnection];// retain];
         [internetReach startNotifier];
         
         /* initiatialize the data with default values */
@@ -390,13 +539,13 @@ static Settings *SettingsSingleton = nil;
         {            
             /* File exist so read the saved status from the file  */
             fd = [NSFileHandle fileHandleForReadingAtPath:[Settings appSettingsFilePath]];
-            
+            NSLog(@"app settings file path %@",[Settings appSettingsFilePath]);
             /* Read the data from the file */
             if([(data = [fd readDataOfLength:sizeof(stSettings)]) length]>0)
             {			
                 memcpy(&mstSettings, [data bytes], sizeof(stSettings));
                 
-                self.aspectRatio = mstSettings.aspectRatio;
+                self.aspectRatio = mstSettings.aspectRatio; //ASPECTRATIO_3_4; //
             }
             
             [fd closeFile];
@@ -420,16 +569,21 @@ static Settings *SettingsSingleton = nil;
 
 +(Settings*)Instance 
 {
-    @synchronized([Settings class]) 
-	{
-        if (SettingsSingleton == nil) 
-		{
-            [[self alloc] init]; // assignment not done here
+    
+   // @autoreleasepool {
+       
+        @synchronized([Settings class])
+        {
+            if (SettingsSingleton == nil)
+            {
+                SettingsSingleton = [[self alloc] init]; // assignment not done here
+            }
         }
+        
+        return SettingsSingleton;
     }
-	
-    return SettingsSingleton;
-}
+   
+//}
 
 
 +(id)allocWithZone:(NSZone *)zone 
@@ -448,7 +602,7 @@ static Settings *SettingsSingleton = nil;
 
 -(void)dealloc 
 {    
-    [super dealloc];
+  //  [super dealloc];
 }
 
 -(id)copyWithZone:(NSZone *)zone 
@@ -457,26 +611,26 @@ static Settings *SettingsSingleton = nil;
 }
 
 
--(id)retain 
-{
-    return self;
-}
+//-(id)retain 
+//{
+//    return self;
+//}
 
 
--(unsigned)retainCount 
-{
-    return UINT_MAX;  //denotes an object that cannot be release
-}
+//-(unsigned)retainCount 
+//{
+//    return UINT_MAX;  //denotes an object that cannot be release
+//}
 
 
--(oneway void)release
-{
-    //do nothing    
-}
-
--(id)autorelease
-{
-    return self;    
-}
+//-(oneway void)release
+//{
+//    //do nothing    
+//}
+//
+//-(id)autorelease
+//{
+//    return self;    
+//}
 
 @end

@@ -25,8 +25,10 @@
     if (self)
     {
         // Initialization code
+        
         self.backgroundColor = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
         self.layer.cornerRadius = 10.0;
+        
         self.delegate   = self;
         self.dataSource = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -51,7 +53,7 @@
 
 - (void)popoverView:(PopoverView *)popoverView didSelectItemAtIndex:(NSInteger)index
 {
-    NSLog(@"popoverView: didSelectItemAtIndex %d",index);
+    NSLog(@"popoverView: didSelectItemAtIndex %d",(int)index);
     
     //- (void)PopupMenuDidDismiss:(PopupMenu*)popupmenu;
 }
@@ -62,13 +64,14 @@
     //[self.menudelegate PopupMenuDidDismiss:self];
     //NSLog(@"popoverViewDidDismiss");
     [self releaseResources];
-    [self release];
+  //  [self release];
 }
 
 -(void)dealloc
 {
     //NSLog(@"Deallocating PopupMenu");
-    [super dealloc];
+    //[menudelegate release];
+  // [super dealloc];
 }
 
 -(void)showPopupIn:(UIView*)v at:(CGPoint)point
@@ -79,7 +82,7 @@
     
     _popover.delegate = self;
     [_popover showAtPoint:point inView:v withContentView:self];
-    [_popover release];
+    //[_popover release];
     
     return;
 }
@@ -95,7 +98,7 @@
     _snpopover = [[SNPopupView alloc]initWithContentView:self contentSize:self.frame.size];
     _snpopover.userInteractionEnabled = YES;
     [_snpopover showAtPoint:point inView:v];
-    [_snpopover release];
+//    [_snpopover release];
 }
 
 -(void)dismissSNPopup
@@ -109,12 +112,12 @@
     _snpopover = nil;
 }
 
--(int)numberOfSectionsInTableView:(UITableView *)tableView
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
--(int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(nil == self.menudelegate)
     {
@@ -127,7 +130,7 @@
 }
 
 
--(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return POPUPMENU_CELL_HEIGHT;
 }
@@ -144,12 +147,13 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:CellIdentifier];// autorelease];
     }
     
     /* Configure the cell */
-    cell. backgroundColor = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
-    cell.textLabel.text = [self.menudelegate popupMenu:self titleForItemAtIndex:indexPath.row];
+    cell. backgroundColor =[UIColor colorWithRed:(28/255.0f) green:(31.0f/255.0f) blue:(38.0f/255.0f) alpha:PHOTO_DEFAULT_COLOR_A];
+//    cell. backgroundColor =[UIColor colorWithRed:(102/255.0f) green:(154.0f/255.0f) blue:(174.0f/255.0f) alpha:PHOTO_DEFAULT_COLOR_A];
+    cell.textLabel.text = [self.menudelegate popupMenu:self titleForItemAtIndex:(int)indexPath.row];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.font = POPUPMENU_FONT;
@@ -164,21 +168,21 @@
     //cell.textLabel.font=[UIFont systemFontOfSize:15];
     if([self.menudelegate respondsToSelector:@selector(popupMenu: isNewBadgeRequiredForItemAtIndex:)])
     {
-        if([self.menudelegate popupMenu:self isNewBadgeRequiredForItemAtIndex:indexPath.row])
+        if([self.menudelegate popupMenu:self isNewBadgeRequiredForItemAtIndex:(int)indexPath.row])
         {
             UIImageView *iv = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"new_badge.png"]];
             iv.tag = 658;
             iv.frame = CGRectMake(150.0, 0, 25.0, 25.0);
             [cell.contentView addSubview:iv];
-            [iv release];
+           // [iv release];
         }
     }
     
-    cell.imageView.image = [self.menudelegate popupMenu:self imageForItemAtIndex:indexPath.row];
+    cell.imageView.image = [self.menudelegate popupMenu:self imageForItemAtIndex:(int)indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     //cell.selectedBackgroundView =
     
-    if(![self.menudelegate popupMenu:self enableStatusForItemAtIndex:indexPath.row])
+    if(![self.menudelegate popupMenu:self enableStatusForItemAtIndex:(int)indexPath.row])
     {
         cell.userInteractionEnabled = NO;
         cell.contentView.alpha = 0.35;
@@ -196,9 +200,12 @@
     NSLog(@"didDeselectRowAtIndexPath");
 #if 1
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    [self.menudelegate popupMenu:self itemDidSelectAtIndex:indexPath.row];
-    //[self.menudelegate PopupMenuDidSelectOptionAtIndex:indexPath.row];
+   // @autoreleasepool {
+        
+    [self.menudelegate popupMenu:self itemDidSelectAtIndex:(int)indexPath.row];
+   // }
+   
+//    [self.menudelegate PopupMenuDidSelectOptionAtIndex:indexPath.row];
     
     if(nil != _popover)
     {
@@ -216,3 +223,4 @@
 */
 
 @end
+

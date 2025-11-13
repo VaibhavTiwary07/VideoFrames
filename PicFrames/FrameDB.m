@@ -107,7 +107,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+        //[db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
@@ -159,7 +159,7 @@
             if(NO == [photos columnIsNull:@"shape"])
             {
                 PInfo[count].eFrameShape = [photos intForColumn:@"shape"];
-                //NSLog(@"Shape is not NULL");
+                NSLog(@"Shape is not NULL");
             }
             else
             {
@@ -204,11 +204,12 @@
     /* First make sure that database is copied to filesystem */
     [DBUtilities checkAndCreateDatabase];
     
+    NSLog(@"Database path %@",dbPath);
     /* open the database */
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
@@ -258,10 +259,10 @@
             AInfo[count].dimension.origin.y    = [adjustors intForColumn:@"y"];
             AInfo[count].dimension.size.width  = [adjustors intForColumn:@"width"];
             AInfo[count].dimension.size.height = [adjustors intForColumn:@"height"];
-            
             count++;
         }
     }
+    
     
     [adjustors close];
     [db close];

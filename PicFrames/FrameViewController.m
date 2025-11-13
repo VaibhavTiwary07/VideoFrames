@@ -44,7 +44,7 @@
         [img removeFromSuperview];
     }
     
-    [super dealloc];
+ //   [super dealloc];
 }
 
 -(void)frameSelectedAtIndex:(int)index ofGridView:(FrameGridView *)gView
@@ -55,7 +55,10 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:createNewSession object:nil];
     
-    [self dismissModalViewControllerAnimated:YES];
+//    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"frame view controller dismissed!");
+    }];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -68,16 +71,13 @@
     imgView.image        = [UIImage imageWithContentsOfFile:[Utility documentDirectoryPathForFile:@"mainbackground.jpg"]];
     imgView.tag = TAG_FRAMEGRID_CONTROLLER;
     [self.view addSubview:imgView];
-    [imgView release];
+  //  [imgView release];
     
     self.view.userInteractionEnabled = YES;
     
     CGRect rect = [[UIScreen mainScreen]bounds];
     float defWidth = rect.size.width - 20.0;
     float defHeight = rect.size.height - 100.0;
-    //float x = (rect.size.width - defWidth * DEV_MULTIPLIER)/2.0;
-    //float y = (rect.size.height - defHeight * DEV_MULTIPLIER)/2.0;
-    //FrameGridView *grd = [[FrameGridView alloc]initWithFrame:CGRectMake(x, y, defWidth*DEV_MULTIPLIER, defHeight*DEV_MULTIPLIER)];
     float x = (rect.size.width - defWidth)/2.0;
     float y = (rect.size.height - defHeight)/2.0;
     FrameGridView *grd = [[FrameGridView alloc]initWithFrame:CGRectMake(x, y, defWidth, defHeight) indextag:TAG_EVENFRAME_GRIDVIEW];
@@ -90,10 +90,10 @@
     grd.delegate = self;
     self.view.userInteractionEnabled = YES;
     [self.view addSubview:grd];
-    [grd release];
+    //[grd release];
     
     self.navigationController.navigationBarHidden = NO;
-    self.title = NSLocalizedString(@"FRAMES",@"Frames");
+    self.title = NSLocalizedString(@"Frames",@"Frames");
 }
 
 

@@ -15,7 +15,6 @@
     AVPlayerDemoPlaybackView *playbackView;
 }
 @end
-
 @implementation TouchDetectView
 @synthesize touchdelegate;
 @synthesize redirectView;
@@ -43,7 +42,7 @@
     [self addSubview:playbackView];
     
     playbackView.center = CGPointMake(self.center.x - self.frame.origin.x, self.center.y-self.frame.origin.y);
-    [playbackView release];
+   // [playbackView release];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -151,5 +150,9 @@
     // Drawing code
 }
 */
-
+//-(void)dealloc
+//{
+//    [_player release];
+//    [super dealloc];
+//}
 @end

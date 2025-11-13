@@ -50,13 +50,15 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 
 typedef enum {
-	NotReachable = 0,
+    NotReachable = 0,
 	ReachableViaWiFi,
 	ReachableViaWWAN
 } NetworkStatus;
+
 #define kReachabilityChangedNotification @"kNetworkReachabilityChangedNotification"
 
 @interface Reachability: NSObject
+
 {
 	BOOL localWiFiRef;
 	SCNetworkReachabilityRef reachabilityRef;

@@ -60,7 +60,7 @@
 
 - (void)popoverView:(PopoverView *)popoverView didSelectItemAtIndex:(NSInteger)index
 {
-    NSLog(@"popoverView: didSelectItemAtIndex %d",index);
+    NSLog(@"popoverView: didSelectItemAtIndex %ld",index);
 }
 
 - (void)popoverViewDidDismiss:(PopoverView *)popoverView
@@ -77,7 +77,7 @@
     
     _popover.delegate = self;
     [_popover showAtPoint:point inView:v withContentView:self];
-    [_popover release];
+   // [_popover release];
 }
 
 -(void)dealloc
@@ -92,7 +92,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kInAppPurchaseManagerTransactionSucceededNotification object:nil];
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kInAppPurchaseManagerTransactionFailedNotification object:nil];
-    [super dealloc];
+    //[super dealloc];
 }
 
 -(void)buyProduct:(id)sender
@@ -158,7 +158,7 @@
         lbl.textColor = [UIColor whiteColor];
         lbl.font = fnt;
         [self addSubview:lbl];
-        [lbl release];
+      //  [lbl release];
         
         /* Show Buy button if the user didn't buy the product yet */
         if(bought_fullversion)
@@ -167,7 +167,7 @@
             UIImageView *tick = [[UIImageView alloc]initWithFrame:CGRectMake(self.frame.size.width-62, y, 32, 32)];
             tick.image = [UIImage imageNamed:@"tick.png"];
             [self addSubview:tick];
-            [tick release];
+          //  [tick release];
             y = y + height;
             continue;
         }
@@ -215,7 +215,7 @@
     [restore.titleLabel setTextColor:[UIColor whiteColor]];
     restore.center = CGPointMake(self.frame.size.width-70+25,restore.center.y);
     [self addSubview:restoreLbl];
-    [restoreLbl release];
+  //  [restoreLbl release];
     [self addSubview:restore];
     
     [restore addTarget:self action:@selector(restorePurchase:) forControlEvents:UIControlEventTouchDown];

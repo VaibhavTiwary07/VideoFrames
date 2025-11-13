@@ -8,13 +8,15 @@
 #import <QuartzCore/QuartzCore.h>
 #import "BackgroundSliderViewController.h"
 #import "ViewController.h"
+#import "MainController.h"
 #import "Config.h"
 #define fullscreen   ([[UIScreen mainScreen]bounds])
-#define animationTime ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?5.0f:15.0f)
-#define foregroundImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"FirstScreen_background1024.png":@"FirstScreen_background.png")
-#define cloudImage ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?@"bluecloud1024.png":@"blueCloud.png")
-#define startButton_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?150:100)
-#define socialButton_size ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?100:75)
+#define animationTime ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?5.0f:15.0f)
+#define foregroundImage ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?@"FirstScreen_background1024.png":@"FirstScreen_background.png")
+#define cloudImage ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?@"bluecloud1024.png":@"blueCloud.png")
+#define startButton_size ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?120:80)
+#define logo_size ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?340:280)
+#define socialButton_size ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?100:75)
 
 @interface BackgroundSliderViewController ()
 {
@@ -22,8 +24,11 @@
     UIImageView *backgroundImageView,*foregroundImageView;
     NSTimer *timer1, *timer2;
     CABasicAnimation *move, *move2;
-    UIWebView *webView;
-     ViewController *viewController;
+   // UIWebView *webView;
+    
+    MainController *viewController;
+    
+    UIView* separatedview;
 
 }
 
@@ -37,8 +42,14 @@
 
 
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
 - (void)viewDidLoad
 {
+    
  [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector(applicationWillEnterForeground)
                                               name:UIApplicationWillEnterForegroundNotification
@@ -47,25 +58,66 @@
                                              selector:@selector(applicationWillEnterForeground)
                                                  name:@"notificationDidEnterToFirstScreen"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appEntersBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
 
-    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-        // iOS 7
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    } else {
-        // iOS 6
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    }
-
+    [self setNeedsStatusBarAppearanceUpdate]; // Refresh the status bar visibility
 
     [super viewDidLoad];
 
     viewController = nil;
     NSString *image_name = foregroundImage;
+//     CGRect fullScreen = [[UIScreen mainScreen] bounds];
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && fullscreen.size.height>480)
+//    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone && fullscreen.size.height>480)
+//    {
+//        image_name = @"bg1136.png";
+//    }
+//    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+//    {
+//      image_name= @"bg960.png";
+//    }
+    if (([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) && (fullScreen.size.height == 2208))
     {
-        image_name = @"FirstScreen_background1136.png";
+        image_name = @"bg1136.png";
+        
     }
+    
+    else if(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone ) && (fullScreen.size.height == 1334))
+    {
+        image_name = @"bg1136.png";
+      
+    }
+    else if(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone ) && (fullScreen.size.height == 1136))
+    {
+        image_name = @"bg1136.png";
+       
+    }
+    
+    
+    
+    else  if(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)&& (fullScreen.size.height== 2048))
+    {
+        
+        image_name = @"bg.png";
+       
+        
+    }
+    else  if(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)&& (fullScreen.size.height== 2048))
+    {
+        
+         image_name = @"bg.png";
+        
+    }
+    else
+    {
+         image_name = @"bg960.png";
+    }
+
+
+
     backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,2400,fullscreen.size.height)];
     backgroundImageView . image = [UIImage imageNamed:cloudImage];
     [self.view addSubview:backgroundImageView];
@@ -76,12 +128,19 @@
     foregroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(00,0,fullscreen.size.width,fullscreen.size.height)];
     foregroundImageView . image = [UIImage imageNamed:image_name];
     [self.view addSubview:foregroundImageView];
+    
+    UIButton *logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logoButton . frame = CGRectMake(100, 100,logo_size+100, logo_size+100);
+    logoButton . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/4);
+    [logoButton setImage:[UIImage imageNamed:@"logo.png"] forState:UIControlStateNormal];
+    [self.view addSubview:logoButton];
+
 
 
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     startButton . frame = CGRectMake(100, 100, startButton_size, startButton_size);
     startButton . center = CGPointMake(full_screen.size.width/2, full_screen.size.height/1.45);
-    [startButton setImage:[UIImage imageNamed:@"start_new.png"] forState:UIControlStateNormal];
+    [startButton setImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
     [startButton addTarget:self action:@selector(startAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:startButton];
 
@@ -91,7 +150,7 @@
     facebookButton . center = CGPointMake(fullscreen.size.width/2-(facebookButton.frame.size.width), fullscreen.size.height-(socialButton_size/2)-10);
     [facebookButton setBackgroundImage:[UIImage imageNamed:@"facebookF_vpf.png"] forState:UIControlStateNormal];
     [facebookButton addTarget:self action:@selector(actionForButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:facebookButton];
+    //[self.view addSubview:facebookButton];
 
     UIButton *twitterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     twitterButton . tag = 2;
@@ -99,7 +158,7 @@
     twitterButton . center = CGPointMake(fullscreen.size.width/2, fullscreen.size.height-(socialButton_size/2)-10);
     [twitterButton setBackgroundImage:[UIImage imageNamed:@"twitterF_vpf.png"] forState:UIControlStateNormal];
     [twitterButton addTarget:self action:@selector(actionForButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:twitterButton];
+    //[self.view addSubview:twitterButton];
 
     UIButton *instagramButton = [UIButton buttonWithType:UIButtonTypeCustom];
     instagramButton . tag = 3;
@@ -107,7 +166,7 @@
     instagramButton . center = CGPointMake(fullscreen.size.width/2+(instagramButton.frame.size.width), fullscreen.size.height-(socialButton_size/2)-10);
     [instagramButton setBackgroundImage:[UIImage imageNamed:@"instagramF_vpf.png"] forState:UIControlStateNormal];
     [instagramButton addTarget:self action:@selector(actionForButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:instagramButton];
+   // [self.view addSubview:instagramButton];
 
     [self addAnimationToButton:facebookButton];
     [self addAnimationToButton:twitterButton];
@@ -115,6 +174,10 @@
 
 }
 
+-(void)appEntersBackground
+{
+    viewController . applicationSuspended = YES;
+}
 - (void)addAnimationToButton:(UIButton *)aButton
 {
     CABasicAnimation* fadeAnim = [CABasicAnimation animationWithKeyPath:@"opacity"];
@@ -125,16 +188,70 @@
     fadeAnim.duration = 0.7;
     [aButton.layer addAnimation:fadeAnim forKey:@"opacity"];
 }
-
-- (void)startAction
+#pragma ActivtyIndicator
+-(void)showLoadingForFrames
 {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    // saving an NSString
+    [prefs setObject:@"FramesSaved" forKey:@"FramesLoadedFirst"];
+    
+    [Utility addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"Getting Frames",@"Getting Frames")];
+    
+    [self performSelector:@selector(startFramesdownloading) withObject:nil afterDelay:3.0 ];
+    
+
+}
+-(void)startFramesdownloading
+{
+    [self performSelector:@selector(hideActivityIndicator) withObject:nil afterDelay:55.0 ];
+    [self loadingFrmesAndHelpScreen];
+}
+-(void)loadingFrmesAndHelpScreen
+{
+    /* Generate help images */
+    [Utility generateImagesForHelp];
+    
+    /* Generate the thumbnail images */
+    [Utility generateThumnailsForFrames];
+    
+}
+
+-(void)hideActivityIndicator
+{
+    [Utility removeActivityIndicatorFrom:self.view];
+    
     if (viewController == nil)
     {
-        viewController = [[ViewController alloc] init];
+        viewController = [[MainController alloc] init];
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationdidLoadView" object:nil];
     [self.navigationController pushViewController:viewController animated:YES];
+    
+}
+- (void)startAction
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    if([prefs objectForKey:@"FramesLoadedFirst"]!=nil )
+    {
+        
+        if (viewController == nil)
+        {
+            viewController = [[MainController alloc] init];
+        }
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationdidLoadView" object:nil];
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
+    else
+    {
+        [self showLoadingForFrames];
+    }
+   
+    
+    
 }
 - (void)moveAnimation
 {
@@ -147,10 +264,11 @@
 
     [move setDuration:animationTime];
 }
+
 - (void)actionForButton:(UIButton *)aButton
 {
     
-    NSURL *url = [[NSURL alloc] init];
+    NSURL *url = [[NSURL alloc] init ];
     
     switch (aButton.tag)
     {
@@ -176,7 +294,7 @@
     
     NSLog(@" Print URL : %@", url);
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
-        [[UIApplication sharedApplication] openURL:url];
+        [[UIApplication sharedApplication] openURL:url options:@{}  completionHandler:nil];
 
     }
 
@@ -186,6 +304,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 @end

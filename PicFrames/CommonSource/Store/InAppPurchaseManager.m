@@ -9,9 +9,11 @@
 // InAppPurchaseManager.m
 #import "InAppPurchaseManager.h"
 #import "WCAlertView.h"
+#import "Config.h"
 @interface InAppPurchaseManager()
 {
     NSMutableDictionary *_products;
+    id _controller;
 }
 @end
 
@@ -50,10 +52,131 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     
     price = [NSString stringWithFormat:@"%@",prd.localizedPrice];
     NSLog(@"Price of product id %@ is %@",productId,price);
-    
     return price;
 }
 
+-(NSString*)getCurrencyCode:(NSString*)productId
+{
+    NSString *currencyCode = @"INR";
+    if(nil == _products)
+    {
+        NSLog(@"getPriceOfProduct: Store is not loaded");
+        return currencyCode;
+    }
+    
+    SKProduct *prd = [_products objectForKey:productId];
+    if(nil == prd)
+    {
+        NSLog(@"getPriceOfProduct: Couldn'g find product %@ in store",productId);
+        return currencyCode;
+    }
+    currencyCode = [prd.priceLocale objectForKey:NSLocaleCurrencyCode];
+    NSString * price = [NSString stringWithFormat:@"%@",prd.localizedPrice];
+    NSLog(@"Price of product id %@ is %@ and currency code is %@",productId,price,currencyCode);
+    return currencyCode;
+}
+
+
+
+-(NSString*)gettrailPeriod:(NSString*)productId
+{
+    NSString *TrailPeriod = nil;
+    NSString *SubPeriod = nil;
+
+    if(nil == _products)
+    {
+        NSLog(@"getPriceOfProduct: Store is not loaded");
+        return TrailPeriod;
+    }
+    //_introductoryPrice =
+    
+    SKProduct *prd = [_products objectForKey:productId];
+    
+//    SKProductSubscriptionPeriod*periodoftime = [_products objectForKey:productId];
+   
+    NSLog(@"Period is****** %@",prd.introductoryPrice.subscriptionPeriod);
+    
+    SubPeriod = [NSString stringWithFormat:@"%lu",(unsigned long)prd.introductoryPrice.paymentMode];
+    
+    NSLog(@"Payment mode is****** %lu",(unsigned long)prd.introductoryPrice.paymentMode);
+    
+   // NSLog(@"Payment mode is****** %lu",prd.introductoryPrice.subscriptionPeriod.);
+    
+  
+    if(nil == prd)
+    {
+        NSLog(@"getPriceOfProduct: Couldn'g find product %@ in store",productId);
+        NSLog(@"Period is******2 %@",prd.introductoryPrice.subscriptionPeriod);
+        NSLog(@"Period is******3 %lu",(unsigned long)prd.subscriptionPeriod.numberOfUnits);
+        NSLog(@"Period is******4 %lu",(unsigned long)prd.subscriptionPeriod);
+        //TrailPeriod = [NSString stringWithFormat:@"%@",prd.introductoryPrice.subscriptionPeriod];
+        TrailPeriod = [NSString stringWithFormat:@"%@",prd.LocalizedTrial];
+        NSLog(@"Trial period %@ is %@",productId,TrailPeriod);
+        //TrailPeriod = [self localizedTrialDuraion];
+        return TrailPeriod;
+    }
+    
+    
+   // TrailPeriod = [NSString stringWithFormat:@"%@",prd.subscriptionPeriod];
+    NSLog(@"Trail of product id %@ is %@",productId,TrailPeriod);
+ 
+
+   // TrailPeriod = [NSString stringWithFormat:@"%@",prd.introductoryPrice.subscriptionPeriod];
+    TrailPeriod = [NSString stringWithFormat:@"%@",prd.introductoryPrice.subscriptionPeriod];
+    NSLog(@"Trial period %@ is %@",productId,TrailPeriod);
+    TrailPeriod = [self localizedTrialDuraion];
+    
+    NSLog(@"Trial *********** %@ is %@",productId,TrailPeriod);
+    
+    return TrailPeriod;
+}
+//-(NSString*_Nullable)localizedTrialDuraion:(NSString*_Nullable)productID{
+-(NSString*_Nullable)localizedTrialDuraion{
+
+if (@available(iOS 11.2, *)) {
+    
+    NSDateComponentsFormatter *formatter = [[NSDateComponentsFormatter alloc] init];
+    [formatter setUnitsStyle:NSDateComponentsFormatterUnitsStyleFull]; //e.g 1 month
+    formatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorDropAll;
+    NSDateComponents * dateComponents = [[NSDateComponents alloc]init];
+    [dateComponents setCalendar:[NSCalendar currentCalendar]];
+    
+    switch (self.introductoryPrice.subscriptionPeriod.unit) {
+        case SKProductPeriodUnitDay:{
+            formatter.allowedUnits = NSCalendarUnitDay;
+            [dateComponents setDay:self.introductoryPrice.subscriptionPeriod.numberOfUnits];
+            break;
+        }
+        case SKProductPeriodUnitWeek:{
+            formatter.allowedUnits = NSCalendarUnitWeekOfMonth;
+            [dateComponents setWeekOfMonth:self.introductoryPrice.subscriptionPeriod.numberOfUnits];
+            break;
+        }
+        case SKProductPeriodUnitMonth:{
+            formatter.allowedUnits = NSCalendarUnitMonth;
+            [dateComponents setMonth:self.introductoryPrice.subscriptionPeriod.numberOfUnits];
+            break;
+        }
+        case SKProductPeriodUnitYear:{
+            formatter.allowedUnits = NSCalendarUnitYear;
+            [dateComponents setYear:self.introductoryPrice.subscriptionPeriod.numberOfUnits];
+            break;
+        }
+        default:{
+            return nil;
+            break;
+        }
+            break;
+    }
+    [dateComponents setValue:self.introductoryPrice.subscriptionPeriod.numberOfUnits forComponent:formatter.allowedUnits];
+    return [formatter stringFromDateComponents:dateComponents];
+    
+} else {
+    // Fallback on earlier versions
+}
+
+return nil;
+}
 -(NSString*)getTitleOfProduct:(NSString*)productId
 {
     NSString *title = nil;
@@ -72,7 +195,7 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     
     //title = [NSString stringWithFormat:@"$%@",prd.localizedTitle];
     NSLog(@"Title of product id %@ is %@",productId,prd.localizedTitle);
-    
+
     return prd.localizedTitle;
 }
 
@@ -103,7 +226,7 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     /* validate the response */
     for (NSString *invalidProductId in response.invalidProductIdentifiers)
     {
-        [request release];
+        //[request release];
         NSLog(@"Invalid product id: %@" , invalidProductId);
         return;
     }
@@ -112,7 +235,7 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     if(nil != _products)
     {
         NSLog(@"Trying to Free products!!!");
-        [_products release];
+    //    [_products release];
         _products = nil;
     }
 
@@ -130,7 +253,7 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     
     NSLog(@"Freeing product request");
     // finally release the reqest we alloc/init’ed in requestProUpgradeProductData
-    [request release];
+    //[request release];
     
     NSDictionary *prds = [NSDictionary dictionaryWithObject:products forKey:key_inappproducts];
     [[NSNotificationCenter defaultCenter] postNotificationName:kInAppPurchaseManagerProductsFetchedNotification object:self userInfo:prds];
@@ -168,24 +291,27 @@ static InAppPurchaseManager *SettingsSingleton = nil;
 
 +(InAppPurchaseManager*)Instance
 {
-    @synchronized([InAppPurchaseManager class])
-	{
-        if (SettingsSingleton == nil)
-		{
-            [[self alloc] init]; // assignment not done here
+    //@autoreleasepool {
+        @synchronized([InAppPurchaseManager class])
+        {
+            if (SettingsSingleton == nil)
+            {
+                SettingsSingleton = [[self alloc] init]; // assignment not done here
+            }
         }
+        
+        return SettingsSingleton;
     }
-	
-    return SettingsSingleton;
-}
+    
+//}
 
 
 +(id)allocWithZone:(NSZone *)zone
 {
     @synchronized([InAppPurchaseManager class])
-	{
+    {
         if (SettingsSingleton == nil)
-		{
+        {
             SettingsSingleton = [super allocWithZone:zone];
             return SettingsSingleton;  // assignment and return on first allocation
         }
@@ -196,36 +322,36 @@ static InAppPurchaseManager *SettingsSingleton = nil;
 
 -(void)dealloc
 {
-    [super dealloc];
+   // [super dealloc];
 }
 
--(id)copyWithZone:(NSZone *)zone
-{
-    return self;
-}
-
-
--(id)retain
-{
-    return self;
-}
-
-
--(unsigned)retainCount
-{
-    return UINT_MAX;  //denotes an object that cannot be release
-}
-
-
--(oneway void)release
-{
-    //do nothing
-}
-
--(id)autorelease
-{
-    return self;
-}
+//-(id)copyWithZone:(NSZone *)zone
+//{
+//    return self;
+//}
+//
+//
+//-(id)retain
+//{
+//    return self;
+//}
+//
+//
+//-(unsigned)retainCount
+//{
+//    return UINT_MAX;  //denotes an object that cannot be release
+//}
+//
+//
+//-(oneway void)release
+//{
+//    //do nothing
+//}
+//
+//-(id)autorelease
+//{
+//    return self;
+//}
 
 //
 // call this before making a purchase
@@ -309,13 +435,14 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     {
         // enable the pro features
         //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isProUpgradePurchased" ];
+        _transactionCount =1;
+      
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:productId];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:key_boughtAnyProduct];
         [[NSUserDefaults standardUserDefaults] synchronize];
         NSLog(@"provideContent: Product id %@ is successfully purchased",productId);
         
     }
-    
     return;
 }
 
@@ -329,6 +456,9 @@ static InAppPurchaseManager *SettingsSingleton = nil;
 //
 - (void)finishTransaction:(SKPaymentTransaction *)transaction wasSuccessful:(BOOL)wasSuccessful
 {
+    
+    _transactionCount =2;
+    //Close WCAlertView Here//
     // remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
     
@@ -338,17 +468,34 @@ static InAppPurchaseManager *SettingsSingleton = nil;
         // send out a notification that we’ve finished the transaction
         [[NSNotificationCenter defaultCenter] postNotificationName:kInAppPurchaseManagerTransactionSucceededNotification object:self userInfo:userInfo];
         
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"removeSubscriptionPage" object: Nil];
+
         
         SKProduct *prd = [_products objectForKey:transaction.payment.productIdentifier];
         if(nil != prd)
         {
             NSString *successMsg = [NSString stringWithFormat:@"You have successfully Purchased/Restored %@",prd.localizedTitle];
+            if(HideTransaction)
+            {
             [WCAlertView showAlertWithTitle:@"Success"
                                     message:successMsg
                          customizationBlock:nil
-                            completionBlock:nil
+                            completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView){
+                if (buttonIndex == 0) {
+                    
+                    HideTransaction = NO;
+                    return ;
+                }
+                else
+                {
+                    //[self openProApp];
+                }
+                
+            }
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil];
+            }
+            
         }
     }
     else
@@ -365,6 +512,7 @@ static InAppPurchaseManager *SettingsSingleton = nil;
 //
 - (void)completeTransaction:(SKPaymentTransaction *)transaction
 {
+   // productPurchased = YES; //newlyadded
     [self recordTransaction:transaction];
     [self provideContent:transaction.payment.productIdentifier];
     [self finishTransaction:transaction wasSuccessful:YES];
@@ -375,6 +523,8 @@ static InAppPurchaseManager *SettingsSingleton = nil;
 
 - (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
+//    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];//newly added
+    //Close WCAlertView Here//
 #if FLURRY_ANALYTICS_SUPPORT
     [FlurryAnalytics logEvent:@"Restore RemoveAds Completed"];
 #endif
@@ -387,9 +537,11 @@ static InAppPurchaseManager *SettingsSingleton = nil;
 
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Restore Failed" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-    [alert show];
-    [alert release];
+//    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self]; //newly added
+//    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Restore Failed" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+//    [alert show];
+ //   [alert release];
+    [self ShowAlert:@"Restore Failed" message:[error localizedDescription]];
 }
 
 //
@@ -401,6 +553,7 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     [self recordTransaction:transaction.originalTransaction];
     [self provideContent:transaction.originalTransaction.payment.productIdentifier];
     [self finishTransaction:transaction wasSuccessful:YES];
+    //[Utility removeActivityIndicatorFrom:_controller];
 }
 
 //
@@ -412,12 +565,15 @@ static InAppPurchaseManager *SettingsSingleton = nil;
     {
         // error!
         [self finishTransaction:transaction wasSuccessful:NO];
+        [self ShowAlert:@"Error" message:transaction.error.description];
     }
     else
     {
         // this is fine, the user just cancelled, so don’t notify
         [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeIndicator" object:nil];
+   // [self ShowAlert:@"Error" message:@"SomeThing went wrong,Try again..."];
 }
 
 #pragma mark -
@@ -441,13 +597,22 @@ static InAppPurchaseManager *SettingsSingleton = nil;
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
+               
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"removeSubscriptionPage" object: Nil];
+
                 [self completeTransaction:transaction];
+                
+                    
                 break;
             case SKPaymentTransactionStateFailed:
+                
                 [self failedTransaction:transaction];
+               
                 break;
             case SKPaymentTransactionStateRestored:
+               
                 [self restoreTransaction:transaction];
+              
                 break;
             default:
                 break;
@@ -457,11 +622,11 @@ static InAppPurchaseManager *SettingsSingleton = nil;
 }
 
 - (void)purchaseVerified:(NSDictionary *)dictionary paymentTransaction:(SKPaymentTransaction *)paymentTransaction {
-	NSLog(@"purchaseVerified: %@", dictionary);
-	
-	//NSString *productId = [dictionary objectForKey:@"product_id"];
-	
-	switch (paymentTransaction.transactionState)
+    NSLog(@"purchaseVerified: %@", dictionary);
+    
+    //NSString *productId = [dictionary objectForKey:@"product_id"];
+    
+    switch (paymentTransaction.transactionState)
     {
         case SKPaymentTransactionStatePurchased:
             [self completeTransaction:paymentTransaction];
@@ -475,8 +640,261 @@ static InAppPurchaseManager *SettingsSingleton = nil;
         default:
             break;
     }
-	
-	[[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
+    
+    //[[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
+    [SKPaymentQueue.defaultQueue finishTransaction:paymentTransaction];
+}
+#pragma mark Trail period
+
+-(int)numberOfDaysForUnit:(SKProductPeriodUnit)unit API_AVAILABLE(ios(11.2)){
+    if (@available(iOS 11.2, *)) {
+        if(SKProductPeriodUnitDay == unit)
+        {
+            return 1;
+        }
+        else if(SKProductPeriodUnitWeek == unit)
+        {
+            return 7;
+        }
+        else if(SKProductPeriodUnitYear == unit)
+        {
+            return 365;
+        }
+        else if(SKProductPeriodUnitMonth == unit)
+        {
+            return 30;
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    return 0;
+}
+-(long)getNumberOfDaysFreeTrailforProduct:(SKProduct*)prd
+{
+    long numberOfDays = 0;
+    long numberOfPeroids = 0;
+    if(nil == prd){
+        return numberOfDays;
+    }
+    if (@available(iOS 11.2, *)) {
+        if(nil == prd.introductoryPrice){
+            return numberOfDays;
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    if (@available(iOS 11.2, *)) {
+        numberOfPeroids = [prd.introductoryPrice numberOfPeriods];
+        numberOfDays = [self numberOfDaysForUnit:[[prd.introductoryPrice subscriptionPeriod]unit]];
+        long numOfUnits = [[prd.introductoryPrice subscriptionPeriod]numberOfUnits];
+        numberOfDays = numberOfPeroids * numOfUnits;
+        return numberOfDays;
+    } else {
+        // Fallback on earlier versions
+    }
+ 
+   
+    return numberOfDays;
 }
 
+//getting here//
+-(long)getTrailPeriodofProductForYear:(NSString*)productId
+{
+
+    if(nil == _products)
+    {
+        NSLog(@"getPriceOfProduct: Store is not loaded");
+       // return *TrailPeriod;
+    }
+   
+    SKProduct *prd = [_products objectForKey:productId];
+  
+
+    NSLog(@"AllProducts---%@",_products);
+    return [self getNumberOfDaysFreeTrailforProductYear:prd];
+}
+//getting here for month//
+-(long)getTrailPeriodofProductForMonth:(NSString *)productId
+{
+    if(nil == _products)
+    {
+        NSLog(@"getPriceOfProduct: Store is not loaded");
+       // return *TrailPeriod;
+    }
+    
+    
+    SKProduct *prd = [_products objectForKey:productId];
+ 
+   
+    return [self getNumberOfDaysFreeTrailforProductMonth:prd];
+}
+//getting here for Week//
+-(long)getTrailPeriodofProductForWeek:(NSString *)productId
+{
+    if(nil == _products)
+    {
+        NSLog(@"getPriceOfProduct: Store is not loaded");
+       // return *TrailPeriod;
+    }
+    
+    
+    SKProduct *prd = [_products objectForKey:productId];
+ 
+   
+    return [self getNumberOfDaysFreeTrailforProductWeek:prd];
+}
+
+-(long)getNumberOfDaysFreeTrailforProductYear:(SKProduct*)prd
+{
+    long numberOfDays = 0;
+    long numberOfPeroids = 0;
+    if(nil == prd){
+        return numberOfDays;
+    }
+    if(nil == prd.introductoryPrice){
+        return numberOfDays;
+    }
+    numberOfPeroids = [prd.introductoryPrice numberOfPeriods];
+    numberOfDays = [self numberOfDaysForUnitForYearSub:[[prd.introductoryPrice subscriptionPeriod]unit]];
+    long numOfUnits = [[prd.introductoryPrice subscriptionPeriod]numberOfUnits];
+    numberOfDays = numberOfDays * numOfUnits;
+    NSLog(@"MMM - year getNumberOfDaysFreeTrailforProduct - number of peroids - %ld, number of units - %ld",numberOfPeroids,numOfUnits);
+    return numberOfDays;
+}
+-(long)getNumberOfDaysFreeTrailforProductMonth:(SKProduct*)prd
+{
+    long numberOfDays = 0;
+    long numberOfPeroids = 0;
+    if(nil == prd){
+        return numberOfDays;
+    }
+    if(nil == prd.introductoryPrice){
+        return numberOfDays;
+    }
+    numberOfPeroids = [prd.introductoryPrice numberOfPeriods];
+    numberOfDays = [self numberOfDaysForUnitForMonthSub:[[prd.introductoryPrice subscriptionPeriod]unit]];
+    long numOfUnits = [[prd.introductoryPrice subscriptionPeriod]numberOfUnits];
+    numberOfDays = numberOfDays * numOfUnits;
+    NSLog(@"MMM - Month getNumberOfDaysFreeTrailforProduct - number of peroids - %ld, number of units - %ld",numberOfPeroids,numOfUnits);
+    return numberOfDays;
+}
+-(long)getNumberOfDaysFreeTrailforProductWeek:(SKProduct*)prd
+{
+    long numberOfDays = 0;
+    long numberOfPeroids = 0;
+    if(nil == prd){
+        return numberOfDays;
+    }
+    if(nil == prd.introductoryPrice){
+        return numberOfDays;
+    }
+    numberOfPeroids = [prd.introductoryPrice numberOfPeriods];
+    numberOfDays = [self numberOfDaysForUnitForWeekSub:[[prd.introductoryPrice subscriptionPeriod]unit]];
+    long numOfUnits = [[prd.introductoryPrice subscriptionPeriod]numberOfUnits];
+    numberOfDays = numberOfDays * numOfUnits;
+    NSLog(@"MMM - Week getNumberOfDaysFreeTrailforProduct - number of peroids - %ld, number of units - %ld",numberOfPeroids,numOfUnits);
+    return numberOfDays;
+}
+-(int)numberOfDaysForUnitForWeekSub:(SKProductPeriodUnit)unit API_AVAILABLE(ios(11.2)){
+    if (@available(iOS 11.2, *)) {
+        if(SKProductPeriodUnitDay == unit)
+        {
+         
+            NSLog(@"Month Day section----");
+            return 1;
+        }
+        else if(SKProductPeriodUnitWeek == unit)
+        {
+            NSLog(@"Month week section----");
+           
+          
+            return 7;
+
+        }
+        else if(SKProductPeriodUnitYear == unit)
+        {
+            return 365;
+            NSLog(@"Month year section----");
+        }
+        else if(SKProductPeriodUnitMonth == unit)
+        {
+            return 30;
+            NSLog(@"Month  section----for month");
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    return 0;
+}
+-(int)numberOfDaysForUnitForMonthSub:(SKProductPeriodUnit)unit API_AVAILABLE(ios(11.2)){
+    if (@available(iOS 11.2, *)) {
+        if(SKProductPeriodUnitDay == unit)
+        {
+         
+            NSLog(@"Month Day section----");
+            return 1;
+        }
+        else if(SKProductPeriodUnitWeek == unit)
+        {
+            NSLog(@"Month week section----");
+           
+          
+            return 7;
+
+        }
+        else if(SKProductPeriodUnitYear == unit)
+        {
+            return 365;
+            NSLog(@"Month year section----");
+        }
+        else if(SKProductPeriodUnitMonth == unit)
+        {
+            return 30;
+            NSLog(@"Month  section----for month");
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    return 0;
+}
+-(int)numberOfDaysForUnitForYearSub:(SKProductPeriodUnit)unit API_AVAILABLE(ios(11.2)){
+    if (@available(iOS 11.2, *)) {
+        if(SKProductPeriodUnitDay == unit)
+        {
+            NSLog(@"Year day section----");
+    
+        
+            return 1;
+        }
+        else if(SKProductPeriodUnitWeek == unit)
+        {
+            NSLog(@"year week section----");
+ 
+         
+            return 7;
+
+        }
+        else if(SKProductPeriodUnitYear == unit)
+        {
+            return 365;
+            NSLog(@"year  section----for year");
+        }
+        else if(SKProductPeriodUnitMonth == unit)
+        {
+            return 30;
+            NSLog(@"Month  section---- for year");
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    return 0;
+}
+
+-(void)ShowAlert:(NSString*)title message:(NSString*)msg
+{
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    [KeyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+}
 @end

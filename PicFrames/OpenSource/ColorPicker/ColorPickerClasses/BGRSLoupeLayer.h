@@ -35,10 +35,10 @@
 
 @interface BGRSLoupeLayer : CALayer{
    CGPoint loupeCenter;
-   RSColorPickerView* colorPicker;
+   __weak RSColorPickerView* colorPicker;
 }
 @property (nonatomic) CGPoint loupeCenter;
-@property (nonatomic,assign) RSColorPickerView* colorPicker;
+@property (nonatomic,weak) RSColorPickerView* colorPicker;
 
 #pragma mark - Drawing
 - (void)drawGridInContext:(CGContextRef)ctx;

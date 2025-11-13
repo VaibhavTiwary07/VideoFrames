@@ -1,7 +1,0 @@
-/* Localized versions of Info.plist keys */
-
-/* Display name */
-"CFBundleDisplayName" = "Photo Cadres";
-
-/* Bundle name */
-"CFBundleName" = "Photo Cadres";

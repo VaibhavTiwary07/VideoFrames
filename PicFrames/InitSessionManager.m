@@ -18,7 +18,7 @@
     if (self) {
         // Custom initialization
         self.navigationController.navigationBarHidden = NO;
-        self.navigationController.navigationBar.hidden = NO;
+//        self.navigationController.navigationBar.hidden = NO;
         self.navigationController.navigationBar.tintColor = [UIColor blackColor];
         self.title = NSLocalizedString(@"PROJECTS",@"Projects");
         nvm = [Settings Instance];
@@ -28,7 +28,7 @@
 
 - (void)dealloc
 {
-    [super dealloc];
+   // [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,7 +97,7 @@
 	FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
 	if (![db open]) 
 	{
-        [db release];
+       // [db release];
 		NSLog(@"dumpAllSessions:Could not open db.");
 		return;
 	}
@@ -139,7 +139,7 @@
 	FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
 	if (![db open]) 
 	{
-        [db release];
+       // [db release];
 		NSLog(@"getSessionCount:Could not open db.");
 		return 0;
 	}
@@ -179,7 +179,7 @@
 	FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
 	if (![db open]) 
 	{
-        [db release];
+       // [db release];
 		NSLog(@"fillTheCell:Could not open db.");
 		return;
 	}
@@ -229,7 +229,7 @@
     }
     else if(iIndex.section == 2)
     {
-        int tableRow = iIndex.row;
+        int tableRow = (int)iIndex.row;
         
         /* browse to the row based on index */
         while([sessions next])
@@ -245,13 +245,13 @@
                 cell.tag            = [sessions intForColumn:@"iSessionId"];
                 
                 UIImageView *icon = (UIImageView*)[cell.contentView viewWithTag:TAG_SESSION_ICON];
-                icon.image = [Session iconImageFromSession:cell.tag];
+                icon.image = [Session iconImageFromSession:(int)cell.tag];
                 
                 UILabel *lbl1 = (UILabel*)[cell.contentView viewWithTag:TAG_SESSION_LBL1];
                 lbl1.text = [NSString stringWithFormat:NSLocalizedString(@"LOADPROJECT", @"Load Project")];
                 
                 UILabel *lbl2 = (UILabel*)[cell.contentView viewWithTag:TAG_SESSION_LBL2];
-                lbl2.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"CREATEDON", @"Created on"),[[Session createdDateForSession:cell.tag]description]];
+                lbl2.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"CREATEDON", @"Created on"),[[Session createdDateForSession:(int)cell.tag]description]];
                 
                 eAspectRatio eRatio = [sessions intForColumn:@"iAspectRatio"]; 
                 CGSize aspectRatio = [Settings aspectRatioToValues:eRatio];
@@ -293,7 +293,7 @@
 	FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
 	if (![db open]) 
 	{
-        [db release];
+       // [db release];
 		NSLog(@"dumpAllSessions:Could not open db.");
 		return sess;
 	}
@@ -344,7 +344,7 @@
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         
         /* Create the session using cell tag */
-        Session *sess = [self sessionWithIndex:cell.tag];
+        Session *sess = [self sessionWithIndex:(int)cell.tag];
         
         /* Delete all session resources */
         [sess deleteAllSessionResources];
@@ -353,7 +353,7 @@
         [tableView deleteRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationFade];
         
         /* Release the session now */
-        [sess release];
+     //   [sess release];
     }
 }
 
@@ -454,37 +454,37 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];// autorelease];
         
         /* Now allocate and add the items to content view */
         UIImageView *icon = [[UIImageView alloc]initWithFrame:CGRectMake(10.0, 10.0, 80.0, 80.0)];
         icon.tag = TAG_SESSION_ICON;
         [cell.contentView addSubview:icon];
-        [icon release];
+       // [icon release];
         
         UILabel *lable1 = [[UILabel alloc]initWithFrame:CGRectMake(100.0, 20.0, 200.0, 20.0)];
         lable1.font = [UIFont boldSystemFontOfSize:15.0];
         lable1.backgroundColor = [UIColor clearColor];
         lable1.tag = TAG_SESSION_LBL1;
         [cell.contentView addSubview:lable1];
-        [lable1 release];
+     //   [lable1 release];
         
         UILabel *lable2 = [[UILabel alloc]initWithFrame:CGRectMake(100.0, 40.0, 200.0, 20.0)];
         lable2.font = [UIFont systemFontOfSize:10.0];
         lable2.backgroundColor = [UIColor clearColor];
         lable2.tag = TAG_SESSION_LBL2;
         [cell.contentView addSubview:lable2];
-        [lable2 release];
+      //  [lable2 release];
         
         UILabel *lable3 = [[UILabel alloc]initWithFrame:CGRectMake(100.0, 60.0, 200.0, 20.0)];
         lable3.font = [UIFont systemFontOfSize:10.0];
         lable3.backgroundColor = [UIColor clearColor];
         lable3.tag = TAG_SESSION_LBL3;
         [cell.contentView addSubview:lable3];
-        [lable3 release];
+    //    [lable3 release];
     }
     
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;//UITextAlignmentCenter;
     cell.textLabel.font          = [UIFont boldSystemFontOfSize:15.0];
     cell.detailTextLabel.font    = [UIFont systemFontOfSize:10.0];
     cell.accessoryType           = UITableViewCellAccessoryDisclosureIndicator;
@@ -511,7 +511,7 @@
             lbl3.text = nil;
             
 
-            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
             {
                 cell.textLabel.text = [NSString stringWithFormat:@"                                                                %@",NSLocalizedString(@"NEWPROJECT",nil)];
             }
@@ -520,7 +520,7 @@
                 cell.textLabel.text = [NSString stringWithFormat:@"                 %@",NSLocalizedString(@"NEWPROJECT",nil)];
             }
             //cell.textLabel.text = @"Start New Project";
-            cell.textLabel.textAlignment = UITextAlignmentRight;
+            cell.textLabel.textAlignment = NSTextAlignmentRight;//UITextAlignmentRight;
             cell.detailTextLabel.text = nil;
             cell.imageView.image = nil;
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -606,24 +606,30 @@
             
             [self.navigationController pushViewController:fvc animated:YES];
             
-            [fvc release];
+           // [fvc release];
             break;
         }
         case 1:
         {
+            NSLog(@"load the session case 1");
             [[NSNotificationCenter defaultCenter] postNotificationName:loadSession
                                                                 object:nil];
-            [self dismissModalViewControllerAnimated:YES];
+//            [self dismissModalViewControllerAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:^{
+                NSLog(@"init session manager dismissed!");
+            }];
             break;
         }
         case 2:
         {
             
-            nvm.currentSessionIndex = cell.tag;
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:loadSession
-                                                                object:nil];
-            [self dismissModalViewControllerAnimated:YES];
+            nvm.currentSessionIndex = (int)cell.tag;
+            NSLog(@"load the session currentSessionIndex %d",nvm.currentSessionIndex);
+            [[NSNotificationCenter defaultCenter] postNotificationName:loadSession object:nil];
+//            [self dismissModalViewControllerAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:^{
+                NSLog(@"init session manager dismissed!");
+            }];
             break;
         }
         default:

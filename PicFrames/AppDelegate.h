@@ -7,34 +7,67 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Tapjoy/Tapjoy.h>
-//#import "Appoxee.h"
-//#import "AppoxeeManager.h"
-#import "Harpy.h"
+//#import "Harpy.h"
 #if ADS_ENABLE
-#import "OT_Config.h"
 #import "OT_PullNotifications.h"
 #import "OT_FlurryAd.h"
 #endif
-#import "OT_Config.h"
 #import "WCAlertView.h"
 #import "BackgroundSliderViewController.h"
-#import "GADInterstitial.h"
-@class ViewController;
+#import "SRSubscriptionModel.h"
+#import "ViewController.h"
+//#import "StartViewController.h"
+//#import "REFrostedViewController.h"
+//#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,GADInterstitialDelegate>
+//#import "StartViewController.h"
+
+#import "REFrostedViewController.h"
+#import "SimpleSubscriptionView.h"
+
+#import <FirebaseDynamicLinks/FirebaseDynamicLinks.h>
+//#import "Firebase.h"
+
+//@import GoogleMobileAds;
+
+//kasaram pro newbuild trying
+//Trail period working
+
+
+
+
+@class ViewController;
+//@class StartViewController;
+
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate,REFrostedViewControllerDelegate,SKProductsRequestDelegate, SKPaymentTransactionObserver,SKPaymentQueueDelegate,GADFullScreenContentDelegate>
+
 {
+  
 #if ADS_ENABLE
     OT_PullNotifications *pull;
 
 #endif
 
-
+    //PaymentTransactionObserver * observer;
 }
-@property(nonatomic, retain) GADInterstitial *interstitial;
+
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) ViewController *viewController;
-@property (strong, nonatomic) BackgroundSliderViewController *firstViewController;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTask;
+@property (strong, nonatomic) SimpleSubscriptionView *universalController;
+@property (strong, nonatomic) DEMOMenuViewController *demomenuController;
 @property (strong, nonatomic) UINavigationController *navigationController;
+
+//DynamicLinks
+
+@property(nonatomic,assign)NSURL*incomingDynamicLink,*urlParamerterIs;
+@property(nonatomic,strong)NSURL *recievingDynamicLink;
+@property(nonatomic,assign) BOOL isDynamicRecieved;
+@property(nonatomic,assign) BOOL sendingOncePush;
+
+//@property (strong, nonatomic) StartViewController *firstView;
+
+//changes - done
 
 @end

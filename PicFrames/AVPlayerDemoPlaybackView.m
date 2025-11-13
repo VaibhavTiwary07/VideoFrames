@@ -84,6 +84,7 @@ Copyright (C) 2010-2011 Apple Inc. All Rights Reserved.
 - (void)setVideoFillMode:(NSString *)fillMode
 {
 	AVPlayerLayer *playerLayer = (AVPlayerLayer*)[self layer];
+   
 	playerLayer.videoGravity = fillMode;
     ((AVPlayerLayer *)[self layer]).bounds = self.bounds;
 }
@@ -91,7 +92,7 @@ Copyright (C) 2010-2011 Apple Inc. All Rights Reserved.
 -(void)dealloc
 {
     NSLog(@"AVPlayDemoView- deallocated");
-    [super dealloc];
+  //  [super dealloc];
 }
 
 @end

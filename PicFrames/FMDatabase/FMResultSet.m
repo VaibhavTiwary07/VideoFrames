@@ -16,25 +16,25 @@
     [rs setStatement:statement];
     [rs setParentDB:aDB];
     
-    return [rs autorelease];
+    return rs; //[rs autorelease];
 }
 
 - (void)dealloc {
     [self close];
     
-    [query release];
+    //[query release];
     query = nil;
     
-    [columnNameToIndexMap release];
+   // [columnNameToIndexMap release];
     columnNameToIndexMap = nil;
     
-    [super dealloc];
+  //  [super dealloc];
 }
 
 - (void)close {
     
     [statement reset];
-    [statement release];
+  //  [statement release];
     statement = nil;
     
     // we don't need this anymore... (i think)
@@ -86,28 +86,28 @@
         NSUInteger i;
         for (i = 0; i < num_cols; i++) {
             
-            const char *col_name = sqlite3_column_name(statement.statement, i);
+            const char *col_name = sqlite3_column_name(statement.statement, (int)i);
             
             if (col_name) {
                 NSString *colName = [NSString stringWithUTF8String:col_name];
                 id value = nil;
                 
                 // fetch according to type
-                switch (sqlite3_column_type(statement.statement, i)) {
+                switch (sqlite3_column_type(statement.statement, (int)i)) {
                     case SQLITE_INTEGER: {
-                        value = [NSNumber numberWithInt:[self intForColumnIndex:i]];
+                        value = [NSNumber numberWithInt:[self intForColumnIndex:(int)i]];
                         break;
                     }
                     case SQLITE_FLOAT: {
-                        value = [NSNumber numberWithDouble:[self doubleForColumnIndex:i]];
+                        value = [NSNumber numberWithDouble:[self doubleForColumnIndex:(int)i]];
                         break;
                     }
                     case SQLITE_TEXT: {
-                        value = [self stringForColumnIndex:i];
+                        value = [self stringForColumnIndex:(int)i];
                         break;
                     }
                     case SQLITE_BLOB: {
-                        value = [self dataForColumnIndex:i];
+                        value = [self dataForColumnIndex:(int)i];
                         break;
                     }
                 }
@@ -119,7 +119,7 @@
             }
         }
         
-        return [[dict copy] autorelease];
+        return [dict copy];// autorelease];
     }
     else {
         NSLog(@"Warning: There seem to be no columns in this set.");
@@ -355,8 +355,8 @@
 }
 
 - (void)setQuery:(NSString *)value {
-    [value retain];
-    [query release];
+    //[value retain];
+   // [query release];
     query = value;
 }
 
@@ -365,8 +365,8 @@
 }
 
 - (void)setColumnNameToIndexMap:(NSMutableDictionary *)value {
-    [value retain];
-    [columnNameToIndexMap release];
+    //[value retain];
+  //  [columnNameToIndexMap release];
     columnNameToIndexMap = value;
 }
 
@@ -376,8 +376,8 @@
 
 - (void)setStatement:(FMStatement *)value {
     if (statement != value) {
-        [statement release];
-        statement = [value retain];
+      //  [statement release];
+        statement = value; //[value retain];
     }
 }
 

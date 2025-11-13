@@ -43,7 +43,7 @@
 
 
 
-#define full_screen ([[UIScreen mainScreen]bounds])
+//#define full_screen ([[UIScreen mainScreen]bounds])
 
 #define tag_singleviewfinder     7001
 #define tag_viewfinder           7002
@@ -61,8 +61,8 @@
 #define tag_erasetoolbar          7014
 #define tag_erasescrollbar          7015
 
-#define toolbar_height    ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?50.0:50.0)
-#define bannerad_height   ((UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())?90.0:50.0)
+#define toolbar_height    ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?50.0:50.0)
+#define bannerad_height   ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)?90.0:50.0)
 #define scrollbar_height  ((full_screen.size.height > 480.0)?100.0:100.0)
 
 #define SHARE_OPTIONS_COLOR ([UIColor colorWithRed:(44.0f/256.0f) green:(44.0f/256.0f) blue:(44.0f/256.0f) alpha:1.0])

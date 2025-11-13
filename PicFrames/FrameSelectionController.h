@@ -12,13 +12,12 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "PopupMenu.h"
-#import "UITabBar+CustomBackground.h"
+//#import "UITabBar+CustomBackground.h"
+
 #import "Settings.h"
 #import "SNPopupView.h"
 #import "Settings.h"
 #import "InAppPurchaseManager.h"
-#import "HelpGridView.h"
-#import "OT_OfferWallView.h"
 #import "FrameScrollView.h"
 
 #define tag_frameselection_rateus                 1000
@@ -36,6 +35,7 @@
 #define key_twitter_follow_inprogress             @"key_twitter_follow_inprogress"
 #define key_instagram_follow_inprogress           @"key_instagram_follow_inprogress"
 #define key_frame_index_of_follow_inprogress      @"key_frame_index_of_follow_inprogress"
+#define MY_PLACEMENT_ID   @"960095180677895_1051847941502618"
 
 typedef enum
 {
@@ -54,8 +54,11 @@ typedef enum
 @interface FrameSelectionController : UIViewController <UITabBarDelegate,UIAlertViewDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UIActionSheetDelegate,FrameScrollViewDelegate>
 {
     Settings *nvm;
+    FrameScrollView *fsv;
+   
 }
-
+@property (nonatomic,readwrite) BOOL isDynamically;
+@property (strong, nonatomic) UIWindow *window;
 +(void)handleIfAnySocialFollowInProgress;
 
 @end

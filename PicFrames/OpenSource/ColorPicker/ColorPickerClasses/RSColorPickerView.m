@@ -257,7 +257,7 @@ BMPixel pixelFromHSV(CGFloat H, CGFloat S, CGFloat V) {
    
    //Lazily load loupeLayer
     if (!loupeLayer){
-        loupeLayer = [[BGRSLoupeLayer layer] retain];
+        loupeLayer = [BGRSLoupeLayer layer];//[[BGRSLoupeLayer layer] retain];
     }
     
 	CGPoint point = [[touches anyObject] locationInView:self];
@@ -315,12 +315,12 @@ BMPixel pixelFromHSV(CGFloat H, CGFloat S, CGFloat V) {
 - (void)dealloc
 {
     NSLog(@"RSColorPickerview release!!!!!!!");
-    [rep release];
-    [selectionView release];
-    [loupeLayer release];
-    loupeLayer = nil;
-    
-    [super dealloc];
+//    [rep release];
+//    [selectionView release];
+//    [loupeLayer release];
+//    loupeLayer = nil;
+//    
+//    [super dealloc];
 }
 
 @end

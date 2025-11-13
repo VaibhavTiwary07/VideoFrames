@@ -1,184 +1,122 @@
 # CTAssetsPickerController
 
-CTAssetsPickerController is an iOS controller that allows picking multiple photos and videos from user's photo library. The usage and look-and-feel just similar to UIImagePickerController. It uses **ARC** and requires **AssetsLibrary** framework.
+## Introduction
 
-![Screenshot](https://raw.github.com/chiunam/CTAssetsPickerController/master/Screenshot.png "Screenshot")
+CTAssetsPickerController is a highly customisable iOS controller that allows picking multiple photos and videos from user's photo library. The usage and look-and-feel are just similar to UIImagePickerController. It uses **ARC** and requires **Photos** framework.
+
+![Screenshot](Screenshot.png "Screenshot")
+![Screenshot 2](Screenshot-2.png "Screenshot 2")
 
 ## Features
-1. Picking multiple photos and videos from user's library.
-2. Filtering assets to pick only photos or videos.
-3. Limiting maximum number of assets to be picked.
-4. Average 5x fps.
-5. Conforming UIAccessibility Protocol.
+1. Picks multiple photos and videos across albums from user's library.
+2. Previews assets by long-press gesture.
+3. Filters assets for picking only photos or videos.
+4. Filters assets or albums by their properties.
+5. Supports assets stored in iCloud. 
+6. Supports many [languages](https://github.com/chiunam/CTAssetsPickerController/wiki/Localisation).
+7. Optionally shows selection order.
+8. Achieves average 5x fps.
+9. Conforms UIAppearance protocol.
+10. Conforms UIAccessibility protocol.
+11. Highly customisable.
+12. Pure Auto Layout. (Thanks for the great work of [PureLayout](https://github.com/smileyborg/PureLayout))
+
+## Release Notes
+* [Release Notes](https://github.com/chiunam/CTAssetsPickerController/releases)
 
 ## Minimum Requirement
-Xcode 5 and iOS 6.
+iOS 9 SDK, Minimum Deployment Target iOS 8.0
 
-## Installation
+## Adding to your project
+    	
+1. [CocoaPods](http://cocoapods.org) Podfile
 
-### via CocoaPods
-Install CocoaPods if you do not have it:-
-````
-$ [sudo] gem install cocoapods
-$ pod setup
-````
-Create Podfile:-
-````
-$ edit Podfile
-platform :ios, '6.0'
-pod 'CTAssetsPickerController',  '~> 1.2.0'
-$ pod install
-````
-Use the Xcode workspace instead of the project from now on.
-
-### via Git Submodules
-
-````
-$ git submodule add http://github.com/chiunam/CTAssetsPickerController
-````
-1. Drag `CTAssetsPickerController` folder in your project and add to your targets.
-2. Add `AssetsLibrary.framework`.
-
-## Usage
-
-See the Demo Xcode project for details.
-
-### Import header
-
-If using CocoaPods:-
-```` objective-c
-#import <CTAssetsPickerController.h>
-````
-If using Submodules:-
-```` objective-c
-#import "CTAssetsPickerController.h"
-````
-
-### Create and present CTAssetsPickerController
-
-```` objective-c
-CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-picker.delegate = self;
-[self presentViewController:picker animated:YES completion:NULL];
-````
-
-### Customization
-You can set max number of selection to limit the assets to be picked.
-
-```` objective-c
-picker.maximumNumberOfSelection = 10;
-````
-
-If you only want to pick photos or videos, create an `ALAssetsFilter` and assign to `assetsFilter`.
-```` objective-c
-picker.assetsFilter = [ALAssetsFilter allPhotos]; // Only pick photos.
-````    
-
-If you only want to pick assets that meet certain criteria, create an `NSPredicate` and assign to `selectionFilter`.
-Assets that does not match the predicate will not be selectable.
-```` objective-c
-// only allow video clips if they are at least 5s
-picker.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(ALAsset* asset, NSDictionary *bindings) {
-    if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
-        NSTimeInterval duration = [[asset valueForProperty:ALAssetPropertyDuration] doubleValue];
-        return duration >= 5;
-    } else {
-        return YES;
-    }
-}];
-````    
-
-Hide the cancel button if you present the picker in `UIPopoverController`.
-```` objective-c
-picker.showsCancelButton = NO;
-````
-
-Show empty photo albums in the picker.
-```` objective-c
-picker.showsEmptyGroups = YES;
-````
+    ````
+    platform :ios, '8.0'
+    pod 'CTAssetsPickerController',  '~> 3.3.0'
+    ````
+    	
+2. [Manual Setup](https://github.com/chiunam/CTAssetsPickerController/wiki/Manual-Setup-(v3))
 
 
-### Implement CTAssetsPickerControllerDelegate
+## Usages
 
-*didFinishPickingAssets*
-```` objective-c
-- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets;
-// assets contains ALAsset objects.
-````
+1. Import header
 
-*didCancel (Optional)*
-```` objective-c
-- (void)assetsPickerControllerDidCancel:(CTAssetsPickerController *)picker;
-````
+    ```` objective-c
+    #import <CTAssetsPickerController/CTAssetsPickerController.h>
+    ````
 
-*didSelectItemAtIndexPath (Optional)*
-```` objective-c
-- (void)assetsPickerController:(CTAssetsPickerController *)picker didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
-// picker.indexPathsForSelectedItems contains indexPaths for selected items
-````
+2. Create and present CTAssetsPickerController
 
-*didDeselectItemAtIndexPath (Optional)*
-```` objective-c
-- (void)assetsPickerController:(CTAssetsPickerController *)picker didDeselectItemAtIndexPath:(NSIndexPath *)indexPath;
-````
-
-## Note
-CTAssetsPickerController does not compress the picked photos and videos. You can process the picked assets via the `defaultRepresentation` property.
-
-For example, you can create `UIImage` from picked assets like this:-
-
-```` objective-c
-    ALAssetRepresentation *representation = alAsset.defaultRepresentation;
-    
-    UIImage *fullResolutionImage =
-    [UIImage imageWithCGImage:representation.fullResolutionImage
-                        scale:1.0f
-                  orientation:(UIImageOrientation)representation.orientation];
-````
-
-and create `NSData` of picked vidoes:-
-
-```` objective-c
-    ALAssetRepresentation *representation = alAsset.defaultRepresentation;
-    
-    NSURL *url          = representation.url;
-    AVAsset *asset      = [AVURLAsset URLAssetWithURL:url options:nil];
-    
-    AVAssetExportSession *session =
-    [AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetLowQuality];
-    
-    session.outputFileType  = AVFileTypeQuickTimeMovie;
-    session.outputURL       = VIDEO_EXPORTING_URL;
-    
-    [session exportAsynchronouslyWithCompletionHandler:^{
+    ```` objective-c
+    // request authorization status
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // init picker
+            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
         
-        if (session.status == AVAssetExportSessionStatusCompleted)
-        {
-            NSData *data    = [NSData dataWithContentsOfURL:session.outputURL];
-        }
-        
+            // set delegate
+            picker.delegate = self;
+            
+            // Optionally present picker as a form sheet on iPad
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                picker.modalPresentationStyle = UIModalPresentationFormSheet;
+            
+            // present picker
+            [self presentViewController:picker animated:YES completion:nil];
+        });
     }];
+    ````
 
-````
-Please refer the documentation of `ALAssetRepresentation` and `AVAssetExportSession`.
+3. Implement didFinishPickingAssets delegate
+
+    If the picker is presented by `presentViewController:animated:completion:` method, the delegate is responsible for dismissing the picker when the operation completes.
+
+    ```` objective-c
+    - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+    {
+    // assets contains PHAsset objects.
+    }
+    ````
+
+## Questions, Issues and Suggestions
+
+Please check with [wiki](https://github.com/chiunam/CTAssetsPickerController/wiki/) and [issues](https://github.com/chiunam/CTAssetsPickerController/issues) for common issues and questions. Please open a [new Issue] (https://github.com/chiunam/CTAssetsPickerController/issues/new) if you run into a problem specific to the picker. Bug reports and pull requests are always welcome.
+
+## Bonus
+
+You may reuse the preview feature of the picker to view any assets. Just init a `CTAssetsPageViewController` with an array of assets and assign `pageIndex` property. Please refer to the [demo app](https://github.com/chiunam/CTAssetsPickerController/wiki/Running-demo-app) for the details.
+
+```` objective-c
+NSArray *assets = @[asset1, asset2, asset3, ...];
+CTAssetsPageViewController *vc = [[CTAssetsPageViewController alloc] initWithAssets:assets];
+vc.pageIndex = assets.count - 1; // display the last asset 
+
+[self.navigationController pushViewController:vc animated:YES];
+````    
+
+## Documentation
+* [Online documentation](http://cocoadocs.org/docsets/CTAssetsPickerController/)
+
 
 ## License
 
  The MIT License (MIT)
- 
- Copyright (c) 2013 Clement CN Tsang
- 
+
+ Copyright (c) 2015 Clement CN Tsang
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE

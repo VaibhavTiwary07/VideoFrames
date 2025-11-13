@@ -29,12 +29,13 @@
     NSMutableArray *_data2;
     __gm_weak NSMutableArray *_currentData;
     NSInteger _lastDeleteItemIndexAsked;
+    UIInterfaceOrientation orientation;
 }
 
-- (void)addMoreItem;
-- (void)removeItem;
-- (void)refreshItem;
-- (void)presentInfo;
+//- (void)addMoreItem;
+//- (void)removeItem;
+//- (void)refreshItem;
+//- (void)presentInfo;
 - (void)presentOptions:(UIBarButtonItem *)barButton;
 - (void)optionsDoneAction;
 - (void)dataSetChange:(UISegmentedControl *)control;
@@ -118,7 +119,7 @@
     
     OptionsViewController *optionsController = [[OptionsViewController alloc] init];
     optionsController.gridView = gmGridView;
-    optionsController.contentSizeForViewInPopover = CGSizeMake(400, 500);
+    optionsController.preferredContentSize = CGSizeMake(400, 500);//contentSizeForViewInPopover
     
     _optionsNav = [[UINavigationController alloc] initWithRootViewController:optionsController];
     
@@ -130,10 +131,12 @@
 }
 
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.anyObject;
+     orientation = windowScene.interfaceOrientation;
      _gmGridView.mainSuperView = self.navigationController.view;
 	// Do any additional setup after loading the view.
 }
@@ -187,9 +190,9 @@
 
 - (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
 {
-    NSLog(@"Creating view indx %d", index);
+    NSLog(@"Creating view indx %ld", index);
     
-    CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:orientation];
     
     GMGridViewCell *cell = [gridView dequeueReusableCell];
     cell.contentView . tag = index;
@@ -229,7 +232,7 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(size.width-gridCornerSticker_label_size, size.width-gridCornerSticker_label_size,gridCornerSticker_label_size, gridCornerSticker_label_size)];
     label . text = str;
-    label.textAlignment = UITextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentCenter;
     label.backgroundColor = [UIColor clearColor];
    // label . layer . cornerRadius = 15.0;
     label.textColor = [UIColor blackColor];
@@ -253,7 +256,7 @@
 
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
 {
-    NSLog(@"Did tap at index %d", position);
+    NSLog(@"Did tap at index %ld", position);
 }
 
 - (void)GMGridViewDidTapOnEmptySpace:(GMGridView *)gridView
@@ -263,21 +266,34 @@
 
 - (void)GMGridView:(GMGridView *)gridView processDeleteActionForItemAtIndex:(NSInteger)index
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Are you sure you want to delete this item?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Are you sure you want to delete this item?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
+//    
+//    [alert show];
     
-    [alert show];
-    
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Confirm" message:@"Are you sure you want to delete this item?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    // Create the second action
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Delete selected");
+        [_currentData removeObjectAtIndex:_lastDeleteItemIndexAsked];
+        [_gmGridView removeObjectAtIndex:_lastDeleteItemIndexAsked withAnimation:GMGridViewItemAnimationFade];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:deleteAction];
+    [KeyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
     _lastDeleteItemIndexAsked = index;
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1)
-    {
-        [_currentData removeObjectAtIndex:_lastDeleteItemIndexAsked];
-        [_gmGridView removeObjectAtIndex:_lastDeleteItemIndexAsked withAnimation:GMGridViewItemAnimationFade];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == 1)
+//    {
+//        [_currentData removeObjectAtIndex:_lastDeleteItemIndexAsked];
+//        [_gmGridView removeObjectAtIndex:_lastDeleteItemIndexAsked withAnimation:GMGridViewItemAnimationFade];
+//    }
+//}
 
 //////////////////////////////////////////////////////////////
 #pragma mark GMGridViewSortingDelegate
@@ -317,13 +333,17 @@
 
 - (void)GMGridView:(GMGridView *)gridView moveItemAtIndex:(NSInteger)oldIndex toIndex:(NSInteger)newIndex
 {
-    NSObject *object = [_currentData objectAtIndex:oldIndex];
-    [_currentData removeObject:object];
-    [_currentData insertObject:object atIndex:newIndex];
+    if (newIndex >= 0 && newIndex <= _currentData.count) {
+        NSObject *object = [_currentData objectAtIndex:oldIndex];
+        [_currentData removeObject:object];
+        [_currentData insertObject:object atIndex:newIndex];    } else {
+        NSLog(@"❌ Invalid index %ld for array with count %lu", (long)index, (unsigned long)_currentData.count);
+    }
 }
 
 - (void)GMGridView:(GMGridView *)gridView exchangeItemAtIndex:(NSInteger)index1 withItemAtIndex:(NSInteger)index2
 {
+    NSLog(@"exchange Item At Index video grid view controller");
     [_currentData exchangeObjectAtIndex:index1 withObjectAtIndex:index2];
 }
 
@@ -365,12 +385,12 @@
     fullView.layer.masksToBounds = NO;
     fullView.layer.cornerRadius = 8;
     
-    CGSize size = [self GMGridView:gridView sizeInFullSizeForCell:cell atIndex:index inInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    CGSize size = [self GMGridView:gridView sizeInFullSizeForCell:cell atIndex:index inInterfaceOrientation:orientation];
     fullView.bounds = CGRectMake(0, 0, size.width, size.height);
     
     UILabel *label = [[UILabel alloc] initWithFrame:fullView.bounds];
-    label.text = [NSString stringWithFormat:@"Fullscreen View for cell at index %d", index];
-    label.textAlignment = UITextAlignmentCenter;
+    label.text = [NSString stringWithFormat:@"Fullscreen View for cell at index %ld", index];
+    label.textAlignment = NSTextAlignmentCenter; //UITextAlignmentCenter;
     label.backgroundColor = [UIColor clearColor];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
@@ -435,7 +455,8 @@
 {
     if (INTERFACE_IS_PHONE)
     {
-        [self presentModalViewController:_optionsNav animated:YES];
+//        [self presentModalViewController:_optionsNav animated:YES];
+        [self presentViewController:_optionsNav animated:YES completion:nil];
     }
     else
     {
@@ -459,7 +480,11 @@
 {
     if (INTERFACE_IS_PHONE)
     {
-        [self dismissModalViewControllerAnimated:YES];
+        //[self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:^{
+            NSLog(@"View controller dismissed!");
+        }];
+
     }
     else
     {

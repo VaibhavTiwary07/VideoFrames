@@ -189,10 +189,10 @@
     CGPoint relativeLocation = CGPointMake(location.x - self.edgeInsets.left,
                                            location.y - self.edgeInsets.top);
     
-    int col = (int) (relativeLocation.x / (self.itemSize.width + self.itemSpacing)); 
+    int col = (int) (relativeLocation.x / (self.itemSize.width + self.itemSpacing));
     int row = (int) (relativeLocation.y / (self.itemSize.height + self.itemSpacing));
     
-    int position = col + row * self.numberOfItemsPerRow;
+    int position = col + row * (int)self.numberOfItemsPerRow;
     
     if (position >= [self itemCount] || position < 0) 
     {
@@ -308,7 +308,7 @@
     int col = (int) (relativeLocation.x / (self.itemSize.width + self.itemSpacing)); 
     int row = (int) (relativeLocation.y / (self.itemSize.height + self.itemSpacing));
     
-    int position = row + col * self.numberOfItemsPerColumn;
+    int position = row + col * (int)self.numberOfItemsPerColumn;
     
     if (position >= [self itemCount] || position < 0) 
     {
@@ -475,7 +475,7 @@
     int col = (int) (relativeLocation.x / (self.itemSize.width + self.itemSpacing)); 
     int row = (int) (relativeLocation.y / (self.itemSize.height + self.itemSpacing));
     
-    int position = [self positionForItemAtColumn:col row:row page:page];
+    int position = (int)[self positionForItemAtColumn:col row:row page:page];
  
     if (position >= [self itemCount] || position < 0) 
     {

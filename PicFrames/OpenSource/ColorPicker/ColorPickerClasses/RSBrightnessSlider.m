@@ -181,7 +181,7 @@ UIImage* RSArrowLoopThumbImage(CGSize size, CGSize loopSize){
 	[self setMinimumTrackImage:[myRep image] forState:UIControlStateNormal];
 	[self setMaximumTrackImage:[myRep image] forState:UIControlStateNormal];
 	
-	[myRep release];
+	//[myRep release];
 }
 
 -(void)setColorPicker:(RSColorPickerView*)cp {
@@ -193,7 +193,7 @@ UIImage* RSArrowLoopThumbImage(CGSize size, CGSize loopSize){
 -(void)dealloc
 {
     NSLog(@"RSBrightnessslider release");
-    [super dealloc];
+   // [super dealloc];
 }
 
 @end

@@ -29,13 +29,13 @@
  */
 
 #import "SNPopupView.h"
-
+#import "Config.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface TouchPeekView : UIView {
-	SNPopupView *delegate;
+	__weak SNPopupView *delegate;
 }
-@property (nonatomic, assign) SNPopupView *delegate;
+@property (nonatomic, weak) SNPopupView *delegate;
 @end
 
 @interface SNPopupView(Private)
@@ -132,7 +132,7 @@
 - (id) initWithImage:(UIImage*)newImage {
 	self = [super init];
 	if (self != nil) {
-		image = [newImage retain];
+        image = newImage;//[newImage retain];
 		
         // Initialization code
 		[self setBackgroundColor:[UIColor clearColor]];
@@ -149,7 +149,7 @@
 - (id) initWithContentView:(UIView*)newContentView contentSize:(CGSize)contentSize {
 	self = [super init];
 	if (self != nil) {
-		contentView = [newContentView retain];
+        contentView = newContentView;//[newContentView retain];
 		
         // Initialization code
 		[self setBackgroundColor:[UIColor clearColor]];
@@ -172,27 +172,27 @@
 #pragma mark - Present modal
 
 - (void)createAndAttachTouchPeekView {
-	UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+	
 
 	[peekView removeFromSuperview];
-	[peekView release];
+	//[peekView release];
 	peekView = nil;
-	peekView = [[TouchPeekView alloc] initWithFrame:window.frame];
+	peekView = [[TouchPeekView alloc] initWithFrame:KeyWindow.frame];
 	[peekView setDelegate:self];
 	
-	[window addSubview:peekView];
+	[KeyWindow addSubview:peekView];
 }
 
 - (void)presentModalAtPoint:(CGPoint)p inView:(UIView*)inView {
 	animatedWhenAppering = YES;
 	[self createAndAttachTouchPeekView];
-	[self showAtPoint:[inView convertPoint:p toView:[[UIApplication sharedApplication] keyWindow]] inView:[[UIApplication sharedApplication] keyWindow]];
+	[self showAtPoint:[inView convertPoint:p toView:KeyWindow] inView:KeyWindow];
 }
 
 - (void)presentModalAtPoint:(CGPoint)p inView:(UIView*)inView animated:(BOOL)animated {
 	animatedWhenAppering = animated;
 	[self createAndAttachTouchPeekView];
-	[self showAtPoint:[inView convertPoint:p toView:[[UIApplication sharedApplication] keyWindow]] inView:[[UIApplication sharedApplication] keyWindow] animated:animated];
+	[self showAtPoint:[inView convertPoint:p toView:KeyWindow] inView:KeyWindow animated:animated];
 }
 
 #pragma mark - Show as normal view
@@ -335,23 +335,30 @@
 	
 	if (isAlreadyShown) {
 		[self setNeedsDisplay];
-		
-		
-		if (animated) {
-			[UIView beginAnimations:@"move" context:nil];
-			[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-		}
-		self.frame = viewRect;
-		if (animated) {
-			[UIView commitAnimations];
-		}
+        
+//		if (animated) {
+//			[UIView beginAnimations:@"move" context:nil];
+//			[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+//		}
+//		self.frame = viewRect;
+//		if (animated) {
+//			[UIView commitAnimations];
+//		}
+        [UIView animateWithDuration:0.5
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            self.frame = viewRect;
+                         }
+                         completion:^(BOOL finished) {
+                             // Optional: Handle completion if needed
+                         }];
+
 	}
 	else {
 		// set frame
 		[inView addSubview:self];
 		self.frame = viewRect;
-		
-		
 		if (contentView) {
 			[self addSubview:contentView];
 			[contentView setFrame:contentRect];
@@ -682,11 +689,11 @@
 	CGGradientRelease(gradient);
 	CGGradientRelease(gradient2);
 	
-	[peekView release];
-	[title release];
-	[image release];
-	[contentView release];
-    [super dealloc];
+//	[peekView release];
+//	[title release];
+//	[image release];
+//	[contentView release];
+//    [super dealloc];
 }
 
 

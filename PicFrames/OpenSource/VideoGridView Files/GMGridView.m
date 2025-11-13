@@ -75,6 +75,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
     
     // Rotation
     BOOL _rotationActive;
+    UIInterfaceOrientation orientation;
 }
 
 @property (nonatomic, readonly) BOOL itemsSubviewsCacheIsValid;
@@ -183,6 +184,10 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
 
 - (void)commonInit
 {
+    
+   
+    UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.anyObject;
+     orientation = windowScene.interfaceOrientation;
     _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureUpdated:)];
     _tapGesture.delegate = self;
     _tapGesture.numberOfTapsRequired = 1;
@@ -263,13 +268,20 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
     _reusableCells = [[NSMutableSet alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMemoryWarningNotification:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedWillRotateNotification:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedWillRotateNotification:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedWillRotateNotification:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+        name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 //////////////////////////////////////////////////////////////
@@ -302,9 +314,8 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
     {
          _rotationActive = NO;
         
-        // Updating all the items size
         
-        CGSize itemSize = [self.dataSource GMGridView:self sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+        CGSize itemSize = [self.dataSource GMGridView:self sizeForItemsInInterfaceOrientation:orientation];
         
         if (!CGSizeEqualToSize(_itemSize, itemSize)) 
         {
@@ -326,7 +337,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
         if (_transformingItem && _inFullSizeMode) 
         {
             NSInteger position = _transformingItem.tag - kTagOffset;
-            CGSize fullSize = [self.transformDelegate GMGridView:self sizeInFullSizeForCell:_transformingItem atIndex:position inInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+            CGSize fullSize = [self.transformDelegate GMGridView:self sizeInFullSizeForCell:_transformingItem atIndex:position inInterfaceOrientation:orientation];
             
             if (!CGSizeEqualToSize(fullSize, _transformingItem.fullSize)) 
             {
@@ -772,7 +783,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
 
 - (void)sortingMoveDidContinueToPoint:(CGPoint)point
 {
-    int position = [self.layoutStrategy itemPositionFromLocation:point];
+    int position = (int)[self.layoutStrategy itemPositionFromLocation:point];
     int tag = position + kTagOffset;
     
     if (position != GMGV_INVALID_POSITION && position != _sortFuturePosition && position < _numberTotalItems) 
@@ -948,6 +959,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
                 }
                 
                 _transformingItem.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:MIN(alpha, 0.9)];
+                
             }
             
             break;
@@ -1027,7 +1039,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
         [self.mainSuperView addSubview:_transformingItem];
         [self.mainSuperView bringSubviewToFront:_transformingItem];
         
-        _transformingItem.fullSize = [self.transformDelegate GMGridView:self sizeInFullSizeForCell:_transformingItem atIndex:positionTouch inInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+        _transformingItem.fullSize = [self.transformDelegate GMGridView:self sizeInFullSizeForCell:_transformingItem atIndex:positionTouch inInterfaceOrientation:orientation];
         _transformingItem.fullSizeView = [self.transformDelegate GMGridView:self fullSizeViewForCell:_transformingItem atIndex:positionTouch];
         
         if ([self.transformDelegate respondsToSelector:@selector(GMGridView:didStartTransformingCell:)]) 
@@ -1512,7 +1524,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
     [self setSubviewsCacheAsInvalid];
     
     NSUInteger numberItems = [self.dataSource numberOfItemsInGMGridView:self];    
-    _itemSize = [self.dataSource GMGridView:self sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    _itemSize = [self.dataSource GMGridView:self sizeForItemsInInterfaceOrientation:orientation];
     _numberTotalItems = numberItems;
     
     [self recomputeSizeAnimated:NO];
@@ -1630,7 +1642,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
     {        
         cell = [self newItemSubViewForPosition:index];
         
-        for (int i = _numberTotalItems - 1; i >= index; i--)
+        for (int i = (int)_numberTotalItems - 1; i >= index; i--)
         {
             UIView *oldView = [self cellForItemAtIndex:i];
             oldView.tag = oldView.tag + 1;
@@ -1638,11 +1650,21 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
         
         if (animation & GMGridViewItemAnimationFade) {
             cell.alpha = 0;
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDelay:kDefaultAnimationDuration];
-            [UIView setAnimationDuration:kDefaultAnimationDuration];
-            cell.alpha = 1.0;
-            [UIView commitAnimations];
+//            [UIView beginAnimations:nil context:NULL];
+//            [UIView setAnimationDelay:kDefaultAnimationDuration];
+//            [UIView setAnimationDuration:kDefaultAnimationDuration];
+//            cell.alpha = 1.0;
+//            [UIView commitAnimations];
+            [UIView animateWithDuration:kDefaultAnimationDuration
+                                  delay:kDefaultAnimationDuration
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                cell.alpha = 1.0;
+                             }
+                             completion:^(BOOL finished) {
+                                 // Optional: Handle completion if needed
+                             }];
+
         }
         [self addSubview:cell];
     }
@@ -1683,7 +1705,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
     
     GMGridViewCell *cell = [self cellForItemAtIndex:index];
     
-    for (int i = index + 1; i < _numberTotalItems; i++)
+    for (int i = (int)index + 1; i < (int)_numberTotalItems; i++)
     {
         GMGridViewCell *oldView = [self cellForItemAtIndex:i];
         oldView.tag = oldView.tag - 1;

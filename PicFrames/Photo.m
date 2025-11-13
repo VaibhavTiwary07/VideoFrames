@@ -17,6 +17,7 @@
     UITapGestureRecognizer *singleTap;
     UITapGestureRecognizer *doubleTap;
     UILongPressGestureRecognizer *longPress;
+    UIView *view1;
 }
 @property(nonatomic,retain)UIImage *_internalImage;
 @end
@@ -30,6 +31,7 @@
 @synthesize noTouchMode;
 @synthesize effectTouchMode;
 @synthesize _internalImage;
+@synthesize isContentTypeVideo;
 
 -(float)scale
 {
@@ -46,25 +48,26 @@
     _scale = scale;
     //NSLog(@"setScale New Scale %d for %f-------------",iPhotoNumber,_scale);
     [self.view.scrollView setZoomScale:scale];
-    
     return;
 }
+
 
 -(void)setOffset:(CGPoint)offset
 {
     //NSLog(@"setOffset %d (%f,%f) to (%f,%f)",iPhotoNumber,_offset.x,_offset.y,offset.x,offset.y);
     _offset = offset;
-    
     [self.view.scrollView setContentOffset:offset];
-    
+    NSLog(@"set offset %@",NSStringFromCGPoint(_offset));
     return;
 }
 
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
 {
     //NSLog(@"scrollViewDidEndZooming %d (%f,%f) to (%f,%f)",iPhotoNumber,_offset.x,_offset.y,scrollView.contentOffset.x,scrollView.contentOffset.y);
     _scale = scale;
     _offset = scrollView.contentOffset;
+    NSLog(@"scrollView Did End Zooming - set offset %@ , scale is %f",NSStringFromCGPoint(_offset),_scale);
     [[NSNotificationCenter defaultCenter] postNotificationName:scaleAndOffsetChanged
                                                         object:self];
 }
@@ -116,7 +119,7 @@
     // handling code
     self.view.imageView.alpha = 1.0;
     if (self.effectTouchMode) {
-        NSLog(@" effect selected mode");
+        NSLog(@" 111111 effect selected mode");
         if (nil!= self.view.imageView.image) {
             self.view.scrollView.layer.borderWidth = 5.0;
             self.view.scrollView.layer.borderColor = [UIColor redColor].CGColor;
@@ -159,6 +162,8 @@
         }
         CGPoint p = [sender locationInView:self.view.imageView];
         NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view.imageView, self.view, nil];
+        /// To maintain same view size for slect photo options menu
+//        NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view, self.view, nil];
         NSArray *keys = [NSArray arrayWithObjects:@"x_location",@"y_location",@"view",@"scrollview", nil];
         NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
         NSLog(@" single tap");
@@ -208,16 +213,28 @@
         
         CGPoint p = [sender locationInView:self.view.imageView];
         NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view.imageView, nil];
+        /// To maintain same view size for slect photo options menu
+//        NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view, nil];
         NSArray *keys = [NSArray arrayWithObjects:@"x_location",@"y_location",@"view", nil];
         NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
         tapTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(handleDoubleTap:) userInfo:location repeats:NO];
         
         self.view.imageView.alpha = 0.5;
-        /* Animate the Touch */
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.1];
-        self.view.imageView.alpha = 1.0;
-        [UIView commitAnimations];
+//        /* Animate the Touch */
+//        [UIView beginAnimations:nil context:NULL];
+//        [UIView setAnimationDuration:0.1];
+//        self.view.imageView.alpha = 1.0;
+//        [UIView commitAnimations];
+        [UIView animateWithDuration:0.5
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            self.view.imageView.alpha = 1.0;
+                         }
+                         completion:^(BOOL finished) {
+                             // Optional: Handle completion if needed
+                         }];
+
     }
 }
 
@@ -228,25 +245,26 @@
                                                         object:self
                                                       userInfo:t.userInfo];
 }
-
-- (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super init];
-    if (self) 
+    if (self)
     {
         Settings *nvm = [Settings Instance];
         self.noTouchMode = NO;
-#if 0        
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#if 0
+        if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         {
             float devMultiPlier = (IPAD_FRAME_SIZE/IPHONE_FRAME_SIZE);
             frame = CGRectMake(frame.origin.x * (nvm.wRatio/nvm.maxRatio) * devMultiPlier, frame.origin.y * (nvm.hRatio/nvm.maxRatio) * devMultiPlier, frame.size.width * (nvm.wRatio/nvm.maxRatio) * devMultiPlier, frame.size.height * (nvm.hRatio/nvm.maxRatio) * devMultiPlier);
+            
         }
         else
         {
             frame = CGRectMake(frame.origin.x * nvm.wRatio/nvm.maxRatio, frame.origin.y * nvm.hRatio/nvm.maxRatio, frame.size.width * nvm.wRatio/nvm.maxRatio, frame.size.height* nvm.hRatio/nvm.maxRatio);
         }
 #else
+        NSLog(@"dev multiplier %f",DEV_MULTIPLIER);
         frame = CGRectMake(frame.origin.x * (nvm.wRatio/nvm.maxRatio) * DEV_MULTIPLIER, frame.origin.y * (nvm.hRatio/nvm.maxRatio) * DEV_MULTIPLIER, frame.size.width * (nvm.wRatio/nvm.maxRatio) * DEV_MULTIPLIER, frame.size.height * (nvm.hRatio/nvm.maxRatio) * DEV_MULTIPLIER);
 #endif
         _frame = frame;
@@ -260,6 +278,46 @@
         // Initialization code
         ssivView *iv = [[ssivView alloc]initWithFrame:frame];
         self.view = iv;
+       
+    }
+     return self;
+}
+
+- (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr
+{
+    self = [super init];
+    if (self) 
+    {
+        Settings *nvm = [Settings Instance];
+        self.noTouchMode = NO;
+#if 0        
+        if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        {
+            float devMultiPlier = (IPAD_FRAME_SIZE/IPHONE_FRAME_SIZE);
+            frame = CGRectMake(frame.origin.x * (nvm.wRatio/nvm.maxRatio) * devMultiPlier, frame.origin.y * (nvm.hRatio/nvm.maxRatio) * devMultiPlier, frame.size.width * (nvm.wRatio/nvm.maxRatio) * devMultiPlier, frame.size.height * (nvm.hRatio/nvm.maxRatio) * devMultiPlier);
+            
+        }
+        else
+        {
+            frame = CGRectMake(frame.origin.x * nvm.wRatio/nvm.maxRatio, frame.origin.y * nvm.hRatio/nvm.maxRatio, frame.size.width * nvm.wRatio/nvm.maxRatio, frame.size.height* nvm.hRatio/nvm.maxRatio);
+        }
+#else
+        
+        frame = CGRectMake(frame.origin.x * (nvm.wRatio/nvm.maxRatio) * DEV_MULTIPLIER, frame.origin.y * (nvm.hRatio/nvm.maxRatio) * DEV_MULTIPLIER, frame.size.width * (nvm.wRatio/nvm.maxRatio) * DEV_MULTIPLIER, frame.size.height * (nvm.hRatio/nvm.maxRatio) * DEV_MULTIPLIER);
+#endif
+        NSLog(@"FRAME x %f y %f  w %f  h %f",frame.origin.x,frame.origin.y,frame.size.width, frame.size.height);
+        _frame = frame;
+        _actualFrame = frame;
+        //_image = nil;
+        self._internalImage = nil;
+        tapTimer = nil;
+        
+        /* Allocate  */
+        
+        // Initialization code
+        ssivView *iv = [[ssivView alloc]initWithFrame:frame];
+        self.view = iv;
+       
         //[iv release];
         
         //self.view.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
@@ -268,11 +326,13 @@
         self.view.scrollView.showsVerticalScrollIndicator = NO;
         self.view.scrollView.showsHorizontalScrollIndicator = NO;
         self.view.scrollView.backgroundColor = [UIColor blackColor];
+        self.view.scrollView.layer.masksToBounds=YES;
         
         // Allocate image view 
         //imgView   = [[UIImageView alloc]initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
         self.view.imageView.contentMode = UIViewContentModeScaleToFill;
         self.view.imageView.backgroundColor = clr;
+        //checking for frames color
         [self.view.imageView setUserInteractionEnabled:YES];
         
         self.view.imageView.touchdelegate = self;
@@ -304,14 +364,18 @@
         [self.view.scrollView setContentSize:CGSizeMake(frame.size.width, frame.size.height)];
         //[self.view addSubview:imgView];
         [self.view.scrollView setCanCancelContentTouches:YES];
-        
+        CGFloat initialZoom = self.view.frame.size.width / self.view.imageView.frame.size.width;
         self.view.scrollView.minimumZoomScale = self.view.frame.size.width / self.view.imageView.frame.size.width;
-        //self.view.maximumZoomScale = 2.0;
         //NSLog(@"initWithFrame %d content size %f,%f-------------",iPhotoNumber,frame.size.width,frame.size.height);
-        [self.view.scrollView setZoomScale:self.view.scrollView.minimumZoomScale];
+        [self.view.scrollView setZoomScale:initialZoom];
         self.view.scrollView.delegate = self;
         
         //[imgView release];
+        
+        self.view.multipleTouchEnabled = NO;
+        self.view.exclusiveTouch = YES;
+        self.view.imageView.multipleTouchEnabled = NO;
+        self.view.imageView.exclusiveTouch = YES;
     }
     return self;
 }
@@ -320,6 +384,28 @@
 {
     return self.view.imageView;
 }
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    [self centerContent];
+}
+
+- (void)centerContent {
+    CGSize boundsSize = self.view.scrollView.bounds.size;
+    CGSize contentSize = self.view.scrollView.contentSize;
+    
+    // Calculate offsets to center
+    CGFloat offsetX = (boundsSize.width > contentSize.width) ?
+        (boundsSize.width - contentSize.width) * 0.5 : 0;
+    CGFloat offsetY = (boundsSize.height > contentSize.height) ?
+        (boundsSize.height - contentSize.height) * 0.5 : 0;
+    
+    // Apply centering
+    self.view.imageView.center = CGPointMake(
+        contentSize.width * 0.5 + offsetX,
+        contentSize.height * 0.5 + offsetY
+    );
+}
+
 
 -(void)setTheImageToBlank
 {
@@ -338,7 +424,7 @@
 -(void)singleTapDetected:(UITouch *)loc
 {
     if (self.effectTouchMode) {
-        NSLog(@" effect selected mode");
+        NSLog(@" 2222  effect selected mode");
         if (nil!= self.view.imageView.image) {
             
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:iPhotoNumber],@"photoNumber", nil];
@@ -360,29 +446,31 @@
    
     CGPoint p = [loc locationInView:self.view.imageView];
     NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view.imageView, self.view, nil];
+    /// To maintain same view size for slect photo options menu
+//    NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view, self.view, nil];
     NSArray *keys = [NSArray arrayWithObjects:@"x_location",@"y_location",@"view",@"scrollview", nil];
     NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
     
     if(nil == self.view.imageView.image)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForPhoto
-                                                            object:self
-                                                          userInfo:location];
+                         object:self userInfo:location];
     }
     else
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:editImageForPhoto
-                                                            object:self
-                                                          userInfo:location];
+                object:self  userInfo:location];
     }
 }
 
 -(void)setImage:(UIImage *)image
 {
+    NSLog(@"set image is called ");
     if(nil == image)
     {
         [self setTheImageToBlank];
-        
+        //checking frames color
+
         return;
     }
     
@@ -391,10 +479,11 @@
     //_image = image;
     self._internalImage = image;
     imgSize = image.size;
-    
+    NSLog(@"photo img size is %@",NSStringFromCGSize(imgSize));
     self.view.imageView.image = image;
     
     self.view.imageView.frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
+   
     //imgView.center = self.view.center;
     
     
@@ -402,6 +491,7 @@
     [self.view.scrollView setContentSize:image.size];
     
     CGPoint offset = CGPointMake(-(self.view.frame.size.width - image.size.width)/2.0, -(self.frame.size.height-image.size.height)/2.0);
+    
     //[self.view setContentOffset:offset];
     self.offset = offset;
     
@@ -410,14 +500,41 @@
     //CGSize maxSize = self.actualFrame.size;
     CGFloat widthRatio = maxSize.width / image.size.width;
     CGFloat heightRatio = maxSize.height / image.size.height;
+    NSLog(@"width ratio %f height ratio %f",widthRatio,heightRatio);
+    NSLog(@"photo frame size %@",NSStringFromCGSize(self.view.frame.size));
+    NSLog(@"image size %@",NSStringFromCGSize(image.size));
     CGFloat initialZoom = (widthRatio > heightRatio) ? widthRatio : heightRatio;
-    
+    NSLog(@"Set init zoom scale initialZoom 111111 %f",initialZoom);
     [self.view.scrollView setMinimumZoomScale:initialZoom];
-    self.view.scrollView.maximumZoomScale = 2.0;
-    //[self.view setZoomScale:initialZoom];
+    self.view.scrollView.maximumZoomScale = initialZoom+1;
+    [self.view.scrollView setZoomScale:initialZoom];
+    self.view.scrollView.scrollEnabled = YES;              // Enable scrolling
+    self.view.scrollView.bounces = YES;                   // Allow bouncing at edges
+    self.view.scrollView.bouncesZoom = YES;               // Allow bouncing while zooming
+    self.view.scrollView.alwaysBounceHorizontal = YES;    // Enable horizontal panning
+    self.view.scrollView.alwaysBounceVertical = YES;      // Enable vertical panning
+    self.view.scrollView.clipsToBounds = YES;             // Prevent content overflow
     self.scale = initialZoom;
-    //
+    // Center the image
+    [self centerContent];
+   // NSLog(@"isContentTypeVideo %@  video url is %@",isContentTypeVideo?@"Yes":@"NO",_videoURL);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"videoURL = %@", self.videoURL);
+        NSLog(@"videoURL class = %@", NSStringFromClass([self.videoURL class]));
     
+    if(isContentTypeVideo)
+    {
+        self.view.isvideoMute = self.muteAudio;
+        self.view.videoURL = self.videoURL;
+    }
+    else
+    {
+        //[self.view stop];
+    }
+        self.view.isProgrammaticPlaybackChange = NO;
+    });
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ExitNOTouchMode"
+                                                       object:self];
     //[[NSNotificationCenter defaultCenter] postNotificationName:scaleAndOffsetChanged
     //                                                    object:self];
     return;
@@ -428,6 +545,7 @@
     if(nil == image)
     {
         [self setTheImageToBlank];
+        //checking frames color
         
         return;
     }
@@ -436,13 +554,16 @@
     self.view.imageView.image = image;
     //_image = image;
     self._internalImage = image;
-    
     return;
 }
 
 -(int)photoNumber
 {
     return iPhotoNumber;
+}
+-(int)viewNumber
+{
+    return viewNumber;
 }
 
 -(void)setPhotoNumber:(int)photoNumber
@@ -481,6 +602,7 @@
     //NSLog(@"Adjusting Photo Frame %f, %f, %f, %f",frame.origin.x,frame.origin.y,frame.size.width,frame.size.height);
     self.view.frame = frame;
     self.view.scrollView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    NSLog(@"photo frame width %f, height %f",frame.size.width,frame.size.height);
     /* This change is commented because it was unzooming on changing the width */
 
 #if 0    
@@ -495,9 +617,9 @@
     CGFloat widthRatio = maxSize.width / imgSize.width;
     CGFloat heightRatio = maxSize.height / imgSize.height;
     CGFloat initialZoom = (widthRatio > heightRatio) ? widthRatio : heightRatio;
-    
+    NSLog(@"Set init zoom scale 222222");
     [self.view setMinimumZoomScale:initialZoom];
-    self.view.maximumZoomScale = 2.0; 
+    self.view.maximumZoomScale = initialZoom+1;
     [self.view setZoomScale:_scale];
     [self.view setContentOffset:_offset];
 
@@ -511,10 +633,12 @@
     CGFloat widthRatio = maxSize.width / imgSize.width;
     CGFloat heightRatio = maxSize.height / imgSize.height;
     CGFloat initialZoom = (widthRatio > heightRatio) ? widthRatio : heightRatio;
-    
-    [self.view.scrollView setMinimumZoomScale:initialZoom];
-    self.view.scrollView.maximumZoomScale = 2.0;
+    NSLog(@"Set init zoom scale 333333");
+    [self.view.scrollView setMinimumZoomScale:initialZoom]; // to allow zooming out - to make content visible full imside the frame
+    self.view.scrollView.maximumZoomScale = initialZoom+1;
+    self.view.scrollView.backgroundColor = [UIColor whiteColor];
     [self.view.scrollView setZoomScale:_scale];
+    
 #endif
     return;
 }
@@ -534,13 +658,29 @@
     [self.view.imageView removeGestureRecognizer:singleTap];
     [self.view.imageView removeGestureRecognizer:doubleTap];
     [self.view.imageView removeGestureRecognizer:longPress];
+    
 #endif
     //[self.view.imageView removeFromSuperview];
-    [self.view removeFromSuperview];
+    //[self.view removeFromSuperview];
 }
 
 -(void)dealloc
 {
+   // [_internalImage release];
+    NSLog(@"[Photo dealloc] is being deallocated (no debugID)");
+    [view removePlayer];  // Only if the property is 'retain' or 'strong'
+    [view release];
+//    // Remove gesture recognizers
+//    [self.view.imageView removeGestureRecognizer:singleTap];
+//    [self.view.imageView removeGestureRecognizer:doubleTap];
+//    [self.view.imageView removeGestureRecognizer:longPress];
+        
+    // Release other ivars
+    [tapTimer release];
+    [singleTap release];
+    [doubleTap release];
+    [longPress release];
+    
     [super dealloc];
 }
 

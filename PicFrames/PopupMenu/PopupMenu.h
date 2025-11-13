@@ -25,10 +25,10 @@
 @end
 
 //#define POPUPMENU_CELL_HEIGHT 25.0
-#define POPUPMENU_CELL_HEIGHT 27.0
+#define POPUPMENU_CELL_HEIGHT 35.0
 #define POPUPMENU_CELL_WIDTH  195.0
 //#define POPUPMENU_CELL_WIDTH  240.0
-#define POPUPMENU_FONT ([UIFont boldSystemFontOfSize:11.0])
+#define POPUPMENU_FONT ([UIFont boldSystemFontOfSize:13.0])
 
 @interface PopupMenu : UITableView <UITableViewDataSource,UITableViewDelegate,PopoverViewDelegate>
 

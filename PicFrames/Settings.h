@@ -34,7 +34,6 @@ typedef enum
     RESOLUTION_PIXCOUNT_LOW0,
     RESOLUTION_PIXCOUNT_LOW1,
     RESOLUTION_PIXCOUNT_LOW2,
-    
     RESOLUTION_PIXCOUNT_MAX
 }eResolutionType;
 
@@ -43,6 +42,8 @@ typedef enum
     stSettings mstSettings;
     Reachability* internetReach;
     eResolutionType _uploadResolution;
+//    float customWidth;
+//    float customHeight;
 }
 
 @property(nonatomic,readwrite)eAspectRatio aspectRatio;
@@ -68,4 +69,7 @@ typedef enum
 +(CGSize)aspectRatioToValues:(eAspectRatio)ratio;
 -(void)setNoAdMode:(BOOL)yesOrNo;
 -(BOOL)getNoAdMode;
+-(void)setCustomAspectRatioWidth:(float)wRatio height:(float)hRatio;
++ (void)setCustomWidth:(float)width;
++ (void)setCustomHeight:(float)height;
 @end

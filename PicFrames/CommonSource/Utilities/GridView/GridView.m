@@ -399,14 +399,16 @@ eRGBValues rgbValues[52]={
 +(UIColor *)getColorAtIndex:(int)index
 {
     UIColor *color = [UIColor colorWithRed:(rgbValues[index].redValue/255) green:(rgbValues[index].greenValue/255) blue:(rgbValues[index].bluevalue/255) alpha:1.0];
+    
     return  color;
 }
 +(UIColor *)getPatternAtIndex:(int)index
 {
     NSString *pFileName = nil;
     pFileName = [NSString stringWithFormat:@"patt%d",index];
-
-    UIImage *patternImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:pFileName ofType:@"png"]];
+    NSLog(@"patter file name %@",pFileName);
+    [pFileName stringByAppendingString:@".png"];
+    UIImage *patternImage = [UIImage imageNamed:pFileName];
     UIColor *pattern = [UIColor colorWithPatternImage:patternImage];
     return pattern;
 
@@ -415,7 +417,7 @@ eRGBValues rgbValues[52]={
 +(BOOL)getLockStatusOfColor:(int)index
 {
     BOOL locked ;
-    if (index>15) {
+    if (index>2) {
         locked = YES;
     }else{
         locked = NO;
@@ -425,7 +427,7 @@ eRGBValues rgbValues[52]={
 +(BOOL)getLockStatusOfPatern:(int)index
 {
     BOOL locked ;
-    if (index>10) {
+    if (index>2) {
         locked = YES;
     }else{
         locked = NO;

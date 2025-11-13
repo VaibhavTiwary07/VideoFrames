@@ -13,7 +13,7 @@
 #import <QuartzCore/CALayer.h>
 #import "OT_TabBar.h"
 #import "VideoUploadHandler.h"
-#import "GADBannerView.h"
+#import <GoogleMobileAds/GADBannerView.h>
 #import "configparser.h"
 #import "VideoSettings.h"
 #import <MediaPlayer/MediaPlayer.h>
@@ -765,7 +765,7 @@
      {
      [pv setProgress:[prog floatValue]];
      }*/
-    
+    NSLog(@"Print app suspend --- %d",self.applicationSuspended);
     UIImageView *touchBlock = (UIImageView*)[self.view viewWithTag:33658];
     if(nil != touchBlock)
     {
@@ -986,7 +986,15 @@
 
 - (float)getRenderSize
 {
-    float renderSize = 639.0;
+    float renderSize;
+    
+    /* checking frame size to fit proper video resolution */
+    if (sess.frame.frame.size.width >= 700.0) {
+        renderSize = 656.0;
+    }else{
+        renderSize = 639.0; //Original code
+    }
+    
     float videoSettingSize = 640.0;
     int maxTries = 10;
     for(int photoIndex = 0; photoIndex < sess.frame.photoCount; photoIndex++)
@@ -1038,6 +1046,7 @@
 
 - (void)continueGenerateVideo:(void (^)(BOOL status, NSString *videoPath))completion
 {
+    NSLog(@"applicationSuspended************");
     NSString *interVideoPath = [sess pathToIntermediateVideo];
     NSString *currentVideoPath = [sess pathToCurrentVideo];
     AVAssetWriterInputPixelBufferAdaptor *adaptor = nil;
@@ -1207,17 +1216,19 @@
             
             /* restore frame images */
             [sess exitNoTouchMode];
+            [self performSelectorOnMainThread:@selector(shoeErrorMessage) withObject:self waitUntilDone:YES];
+
             
-            [WCAlertView showAlertWithTitle:@"Failed"
-                                    message:@"Failed to generate video. Application is interrupted while generating video, please do not close/interrupt the application while generating video"
-                         customizationBlock:nil
-                            completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
-             {
-                 [customTabBar unselectCurrentSelectedTab];
-             }
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil];
-            
+//            [WCAlertView showAlertWithTitle:@"Failed"
+//                                    message:@"Failed to generate video. Application is interrupted while generating video, please do not close/interrupt the application while generating video"
+//                         customizationBlock:nil
+//                            completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
+//             {
+//                 [customTabBar unselectCurrentSelectedTab];
+//             }
+//                          cancelButtonTitle:@"OK"
+//                          otherButtonTitles:nil];
+
             return;
         }
     }
@@ -1300,6 +1311,7 @@
         
         if(self.applicationSuspended)
         {
+            NSLog(@"application suspended.....");
             if(nil != completion)
             {
                 completion(NO,nil);
@@ -1311,8 +1323,9 @@
             
             /* restore frame images */
             [sess exitNoTouchMode];
-            
-            [WCAlertView showAlertWithTitle:@"Failed"
+
+
+           [WCAlertView showAlertWithTitle:@"Failed"
                                     message:@"Failed to generate video. Application is interrupted while generating video, please do not close/interrupt the application while generating video"
                          customizationBlock:nil
                             completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
@@ -1339,7 +1352,18 @@
     
     return;
 }
-
+-(void)shoeErrorMessage
+{
+    [WCAlertView showAlertWithTitle:@"Failed"
+                            message:@"Failed to generate video. Application is interrupted while generating video, please do not close/interrupt the application while generating video"
+                 customizationBlock:nil
+                    completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
+     {
+         [customTabBar unselectCurrentSelectedTab];
+     }
+                  cancelButtonTitle:@"OK"
+                  otherButtonTitles:nil];
+}
 #pragma mark end saving video frames to HDD
 #pragma mark video import
 - (void)importVideo:(NSTimer *)timer
@@ -1391,6 +1415,8 @@
 
 - (void)generateVideo:(void (^)(BOOL status,NSString *videoPath))complete
 {
+    [[configparser Instance] badgeAdUserInteractionDisable];
+
     BOOL optOutVideoHelp = [[[NSUserDefaults standardUserDefaults]objectForKey:@"optOutVideoGenerationHelp"]boolValue];
     
     self.applicationSuspended = NO;
@@ -1414,6 +1440,7 @@
                      NSLog(@"Completed generating video with Status %d path %@",status,videoPath);
                      [self performSelectorOnMainThread:@selector(removeProgressBar) withObject:nil waitUntilDone:YES];
                      [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+                     [[configparser Instance] badgeAdUserInteractionEnable];
                      if(nil != complete)
                      {
                          complete(status,videoPath);
@@ -2163,26 +2190,7 @@
     
         [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(importVideo:) userInfo:info repeats:NO];
     }
-    else if([[notification name] isEqualToString:OT_FBBackgroundImageSelected])
-    {
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        {
-            /* First Dismiss the popover */
-            [backgroundPopover dismissPopoverAnimated:YES];
-        }
-        
-        UIImage *img = [[notification userInfo] objectForKey:OT_FBBackgroundImageKey];
-        if(nil == img)
-        {
-            return;
-        }
-        
-        _editWhileImageSelection = YES;
-        self.imageForEdit = img;
-        [Utility addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"LOADING",@"Loading")];
-        
-        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoEffectsEditor) userInfo:nil repeats:NO];
-    }
+   
     else if([[notification name] isEqualToString:openIpadPhotoAlbum])
     {
         if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -2988,6 +2996,7 @@
             if ((location.y >adjustImageView.frame.origin.y+adjustImageView.frame.size.height) || (location.y < adjustImageView.frame.origin.y))
             {
                 [self releaseResourcesForAdjustSettings];
+                
             }
             
         }else if(eMode == MODE_COLOR_AND_PATTERN)
@@ -3567,6 +3576,13 @@
 -(void)inAppPurchasePreviewWillExit:(InAppPurchasePreview *)gView
 {
     self.navigationController.navigationBarHidden = YES;
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        [[configparser Instance] showAdInView:self.view atLocation:CGPointMake(self.view.frame.size.width-adviewsize-adviewdistancefromwall, adviewdistancefromwall+80)];
+    }else
+    {
+        [[configparser Instance] showAdInView:self.view atLocation:CGPointMake(self.view.frame.size.width-adviewsize-adviewdistancefromwall, adviewdistancefromwall+50)];
+    }
+
 }
 
 -(void)restoreDidSelectForInAppPurchasePreview:(InAppPurchasePreview *)gView
@@ -3610,6 +3626,15 @@
     NSArray *packages = [NSArray arrayWithObjects:watermarkPack, nil];
     
     [preview showInAppPurchaseWithPackages:packages];
+
+
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+        [[configparser Instance] showAdInView:self.view atLocation:CGPointMake(self.view.frame.size.width-adviewsize-adviewdistancefromwall, adviewdistancefromwall+120)];
+    }else
+    {
+        [[configparser Instance] showAdInView:self.view atLocation:CGPointMake(self.view.frame.size.width-adviewsize-adviewdistancefromwall, adviewdistancefromwall+100)];
+    }
+
 }
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -4904,6 +4929,8 @@
     if(nil != a)
     {
         [a removeFromSuperview];
+        [customTabBar unselectCurrentSelectedTab];
+        eMode = MODE_MAX;
     }
 }
 
@@ -5794,6 +5821,7 @@
 
 -(void)uploadVideo
 {
+    //bShowRevModAd = NO;/* Rajesh Kumar*/
     VideoUploadHandler *vHandler = [VideoUploadHandler alloc];
     vHandler.viewController = self;
     vHandler . _view = self.view;
@@ -5802,8 +5830,8 @@
     vHandler.website = @"http://www.videocollageapp.com";
     
     [vHandler uploadVideoAtPath:[sess pathToCurrentVideo] to:nvm.uploadCommand];
+    //bShowRevModAd=YES;
 }
-
 -(void)uploadSelected
 {
     //TBD - not required can be deleted in next version

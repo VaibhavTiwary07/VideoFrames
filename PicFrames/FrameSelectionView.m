@@ -7,10 +7,18 @@
 //
 
 #import "FrameSelectionView.h"
+
 #import "FrameScrollView.h"
+
 #import "WCAlertView.h"
+
 #import "Settings.h"
+
 #import "Utility.h"
+
+//#import "SubscriptionPage.h"
+//#import "SubscriptionPage.h"
+//#import "MainController.h"
 
 @interface FrameSelectionView () <FrameScrollViewDelegate>
 {
@@ -20,10 +28,15 @@
     int _curSelectedFrameIndex;
     Settings *nvm;
     FrameScrollView *fsv;
+    //ExpiryStatus//
+    NSUserDefaults *prefsTime;
+    NSUserDefaults *prefsDate;
+   // SubscriptionPage *SubscriptionView;
 }
 
 @end
-#if defined(VideoCollagePRO)
+
+//#if defined(VideoCollagePRO)
 /* Define the below macro to 1 to see parallel display of both locked and unlocked frames. i.e first
  two rows of each page will have unlocked items, next two rows will be locked items. If the below
  macro is defined as 0 then it will move to serial display, i.e first all unlocked frames will apper
@@ -35,19 +48,21 @@
  if it is defined as zero, then only unlocked frames will appear.
  */
 #define FRAMES_LOCKED_FRAMES_SUPPORT              1
-#else
+//#else
 /* Define the below macro to 1 to see parallel display of both locked and unlocked frames. i.e first
    two rows of each page will have unlocked items, next two rows will be locked items. If the below
-   macro is defined as 0 then it will move to serial display, i.e first all unlocked frames will apper 
+   macro is defined as 0 then it will move to serial display, i.e first all unlocked frames will apper
    then all locked frames will appear
  */
-#define FRAMES_PARALLEL_DISPLAY_SUPPORT           0
+//#define FRAMES_PARALLEL_DISPLAY_SUPPORT           0
 
 /* Define FRAMES_LOCKED_FRAMES_SUPPORT to 1 to to show the locked frames along with the unlocked frames,
  if it is defined as zero, then only unlocked frames will appear.
  */
-#define FRAMES_LOCKED_FRAMES_SUPPORT              0
-#endif
+//#define FRAMES_LOCKED_FRAMES_SUPPORT              0
+//#endif
+
+
 #define FRAMES_INSTAGRAM_LOCK_SUPPORT             1
 #define FRAMES_FACEBOOK_LOCK_SUPPORT              1
     //#define FRAMES_INSTAGRAM_LOCK_SUPPORT             1
@@ -58,36 +73,39 @@
 #define FRAMES_FACEBOOK_LOCK_FRAMESCOUNT           9
 #define FRAMES_TWITTER_LOCK_FRAMESCOUNT            9
 
-#define FRAMES_RATEUS_LOCK_SUPPORT             1
+#define FRAMES_RATEUS_LOCK_SUPPORT             0
 #define FRAMES_RATEUS_LOCK_INDEX                 18
 #define FRAMES_RATEUS_LOCK_FRAMESCOUNT          5
 
 #define FRAMES_MAX_PERGROUP                       FRAME_COUNT
 #define FRAMES_ROWS_PERPAGE                       4
 #define FRAMES_COLS_PERPAGE                       3
+/*
 typedef enum
 {
     FRAMES_GROUP_EVEN,
     FRAMES_GROUP_UNEVEN,
     FRAMES_GROUP_LAST
-}eFramesGroup;
+}
+eFramesGroup;
 
 typedef enum
 {
     FRAMES_TYPE_FREE,
     FRAMES_TYPE_PREMIUM,
     FRAMES_TYPE_MAX
-}eFrameType;
-
+}
+eFrameType;
+*/
 typedef struct
 {
     int       frameNumber;
     eLockType lockType;
 }tFrameMap;
 
-static BOOL lockstatus[FRAMES_GROUP_LAST][FRAMES_MAX_PERGROUP];
+ int lockstatus[FRAMES_GROUP_LAST][FRAMES_MAX_PERGROUP];
 
-static tFrameMap premium_frame_mapping[FRAMES_MAX_PERGROUP] = {
+ tFrameMap premium_frame_mapping[FRAMES_MAX_PERGROUP] = {
     {1000, FRAMES_LOCK_INAPP}, //dummy entry
     {1001, FRAMES_LOCK_INAPP},
     {1002, FRAMES_LOCK_INAPP},
@@ -141,7 +159,7 @@ static tFrameMap premium_frame_mapping[FRAMES_MAX_PERGROUP] = {
     {10050, FRAMES_LOCK_INAPP},
 };
 
-static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
+ tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
 #if 0
 = {
     {0, FRAMES_LOCK_FREE}, //dummy entry
@@ -199,8 +217,10 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
     {52, FRAMES_LOCK_FACEBOOK},
 };
 #endif
+//#import "MainController.h"
 @implementation FrameSelectionView
 @synthesize delegate;
+
 
 +(void)prefillLockStatusForFreeFrames
 {
@@ -236,11 +256,23 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         {
             free_frame_mapping[i].lockType = FRAMES_LOCK_FREE;
         }
-        if (proVersion) {
+       
+        NSUserDefaults *SuccessStatus = nil;
+        SuccessStatus = [NSUserDefaults standardUserDefaults];
+        if([[SRSubscriptionModel shareKit]IsAppSubscribed])
+        {
              free_frame_mapping[i].lockType = FRAMES_LOCK_FREE;
+        }
+        else
+        {
+            if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1) {
+                
+                free_frame_mapping[i].lockType = FRAMES_LOCK_FREE;
+            }
         }
     }
 }
+
 +(int)rateUsLockedFrameCount
 {
     int count = 0;
@@ -291,6 +323,7 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         if(lockstatus[FRAMES_GROUP_UNEVEN][i] == FRAMES_LOCK_FACEBOOK)
         {
             count++;
+            NSLog(@":::::::::::::::::::::::::::::::::::::");
         }
         
         if(lockstatus[FRAMES_GROUP_EVEN][i] == FRAMES_LOCK_FACEBOOK)
@@ -311,6 +344,7 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
 {
     [[NSUserDefaults standardUserDefaults]setBool:lockStatus forKey:@"ipf_facebookLikeStatus"];
     
+    NSLog(@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"ipf_facebookLikeStatus"]);
     if(lockStatus == YES)
     {
         for(int i = 0; i < FRAMES_MAX_PERGROUP; i++)
@@ -430,15 +464,25 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
     lockstatus[grp][fil] = newstatus;
     NSData *data = [NSData dataWithBytes:&lockstatus[0] length:(sizeof(BOOL) * FRAMES_GROUP_LAST * FRAMES_MAX_PERGROUP)];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"framelockstatus"];
+    NSLog(@"%@",data);
     
     return;
 }
 
 +(eLockType)getLockStatusOfFrame:(int)fil group:(int)grp
 {
-    if(bought_allpackages)
+    NSUserDefaults *SuccessStatus = nil;
+    SuccessStatus = [NSUserDefaults standardUserDefaults];
+    if(![[SRSubscriptionModel shareKit]IsAppSubscribed])
     {
+        NSLog(@"Locked-----2");
         return NO;
+    }
+    else
+    {
+        if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1) {
+            return NO;
+        }
     }
    
     
@@ -505,7 +549,7 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
 #if LOCKED_FRAME_SUPPORT
     [self unregisterForNotifications];
 #endif
-    [super dealloc];
+   // [super dealloc];
 }
 
 #if LOCKED_FRAMES_SUPPORT
@@ -742,12 +786,23 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
     {
         return FRAMES_TYPE_FREE;
     }
-    
-#if freeVersion
-    return FRAMES_TYPE_PREMIUM;
-#else
-    return FRAMES_TYPE_FREE;
-#endif
+
+    NSUserDefaults *SuccessStatus = nil;
+    SuccessStatus = [NSUserDefaults standardUserDefaults];
+    if([[SRSubscriptionModel shareKit]IsAppSubscribed])
+    {
+        return FRAMES_TYPE_PREMIUM;
+    }
+    else if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
+        
+    {
+        return FRAMES_TYPE_PREMIUM;
+    }
+    else
+    {
+       
+        return FRAMES_TYPE_FREE;
+    }
 }
 
 -(int)convertIndexToFrameTypeIndex:(int)index
@@ -800,8 +855,9 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
 -(eLockType)getContentLockTypeForFrameAtIndex:(int)index
 
 {
+    //changed frame selection
     eFrameType frmType = FRAMES_TYPE_FREE;
-    
+   // eFrameType frmType = FRAMES_LOCK_INAPP;
     //if(FRAMES_TYPE_FREE == [self frameTypeFromIndex:index])
     //{
     //    return FRAMES_LOCK_FREE;
@@ -810,9 +866,28 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
     int frameTypeIndex = [self convertIndexToFrameTypeIndex:index];
     
     if(frameTypeIndex > 1000)
-    {
+    {   //changed frame selection
+       
+//        if ([prefs integerForKey:@"Productpurchased"] == 1)
+        NSUserDefaults *SuccessStatus = nil;
+        prefsTime = [NSUserDefaults standardUserDefaults];
+          prefsDate= [NSUserDefaults standardUserDefaults];
+       
+        SuccessStatus = [NSUserDefaults standardUserDefaults];
+//        {
+        if(![[SRSubscriptionModel shareKit]IsAppSubscribed])
+        {
         frmType = FRAMES_TYPE_PREMIUM;
         frameTypeIndex = frameTypeIndex - 1000;
+        }
+        else
+        {
+            if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
+            {
+                frmType = FRAMES_TYPE_PREMIUM;
+                frameTypeIndex = frameTypeIndex - 1000;
+            }
+        }
     }
     
     return [FrameSelectionView getLockStatusOfFrame:frameTypeIndex group:frmType];
@@ -848,7 +923,7 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
 
 - (int)selectedItemIndexOfFrameScrollView:(FrameScrollView*)gView
 {
-    _curSelectedFrameIndex = [[NSUserDefaults standardUserDefaults]integerForKey:@"_curSelectedFrameIndex"];
+    _curSelectedFrameIndex = (int)[[NSUserDefaults standardUserDefaults]integerForKey:@"curSelectedFrameIndex"];
     return _curSelectedFrameIndex;
 }
 
@@ -954,10 +1029,11 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
 }
 -(void)frameScrollView:(FrameScrollView *)gView selectedItemIndex:(int)index button:(UIButton*)btn
 {
+    NSLog(@"index is %d",index);
     _curSelectedGroup = [self frameTypeFromIndex:index];
     _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index];
-
-    NSLog(@"selected %d  %d",index,_curSelectedFrameIndex);
+    NSLog(@"selected framenumber is----***  %d",_curSelectedGroup);
+    NSLog(@"selected framenumber is----*** %d %d",index,_curSelectedFrameIndex);
     if(FRAMES_LOCK_FACEBOOK == [self getContentLockTypeForFrameAtIndex:index])
     {
         if([self.delegate respondsToSelector:@selector(frameSelectionView:showFacebookLikeForItemIndex:button:)])
@@ -1005,13 +1081,39 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
     }
     else if([self.delegate respondsToSelector:@selector(frameSelectionView:selectedItemIndex:button:)])
     {
-        NSLog(@"FRAMES_LOCK_FREE not locked");
-        [self.delegate frameSelectionView:self selectedItemIndex:_curSelectedFrameIndex button:btn];
+        NSLog(@"FRAMES_LOCK_FREE not locked _cur Selected Frame Index %d",_curSelectedFrameIndex);
+       //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        
+       // if(_curSelectedFrameIndex <3 ||[prefs integerForKey:@"Productpurchased"] == 1)
+        //{
+            [self.delegate frameSelectionView:self selectedItemIndex:_curSelectedFrameIndex button:btn];
+       // }
+       // else{
+           
+          //[self lockingFrameSelectionView];
+            
+        //}
+    }
+  
+    NSUserDefaults *SuccessStatus = nil;
+    prefsTime = [NSUserDefaults standardUserDefaults];
+      prefsDate= [NSUserDefaults standardUserDefaults];
+   
+    SuccessStatus = [NSUserDefaults standardUserDefaults];
+    //change here code//
+    if(_curSelectedFrameIndex <3 ||[[SRSubscriptionModel shareKit]IsAppSubscribed])
+    {
+        [[NSUserDefaults standardUserDefaults]setInteger:index forKey:@"_curSelectedFrameIndex"];
     }
     
-    [[NSUserDefaults standardUserDefaults]setInteger:index forKey:@"_curSelectedFrameIndex"];
-     
-    
+    else if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
+    {
+        [[NSUserDefaults standardUserDefaults]setInteger:index forKey:@"_curSelectedFrameIndex"];
+    }
+    else
+    {
+        NSLog(@"index is not necessary---");
+    }
     return;
 }
 
@@ -1022,7 +1124,7 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
     int convertedIndex = [self convertIndexToFrameTypeIndex:index];
 
     NSString *pPath = [Utility frameThumbNailPathForFrameNumber:convertedIndex];
-    
+   // NSLog(@"image shape file path %@",pPath);
     return [UIImage imageWithContentsOfFile:pPath];
 }
 
@@ -1051,12 +1153,13 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
         // Initialization code
         nvm = [Settings Instance];
         self.userInteractionEnabled = YES;
-        
+        NSLog(@"before FrameScrollView");
         fsv = [[FrameScrollView alloc]initWithFrame:fsvRect indextag:TAG_EVENFRAME_GRIDVIEW];
+        NSLog(@"after FrameScrollView");
         fsv.delegate = self;
         [self addSubview:fsv];
         
-        [fsv release];
+    //    [fsv release];
         
 #if LOCKED_FRAME_SUPPORT
         [self registerForNotifications];
@@ -1068,19 +1171,66 @@ static tFrameMap free_frame_mapping[FRAMES_MAX_PERGROUP];
 
 -(void)loadFrames
 {
-    //FrameScrollView *fsv = (FrameScrollView*)[self viewWithTag:TAG_EVENFRAME_GRIDVIEW];
-    if(nil != fsv)
-    {
-        [fsv loadPages];
-    }
+    fsv = (FrameScrollView*)[self viewWithTag:TAG_EVENFRAME_GRIDVIEW];
+    [fsv loadPages];
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+
+-(void)lockingFrameSelectionView
 {
-    // Drawing code
+    [WCAlertView showAlertWithTitle:@"Upgrade To Pro" message:@"This item is locked. Upgrade free version to pro to avail this item." customizationBlock:nil completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView)
+    {
+        if (buttonIndex == 0)
+        {
+            _curSelectedFrameIndex = 2;
+            return ;
+        }
+        else
+        {
+            //[self openProApp];
+            
+           //[self ShowSubscriptionViews];
+           // [self removeFromSuperview];
+            
+            
+            
+        }
+    } cancelButtonTitle:@"Cancel" otherButtonTitles:@"Upgrade", nil];
+   
+    
 }
-*/
+
+-(void)ShowSubscriptionViews
+{
+    /*//uncomment again
+    if (@available(iOS 11.2, *)) {
+        SubscriptionPage *subscriptionView = [[SubscriptionPage alloc] init];
+        subscriptionView .frameSize = frame_size;
+        
+        [self addSubview:subscriptionView.view];
+    } else {
+        // Fallback on earlier versions
+        SubscriptionPage *subscriptionView = [[SubscriptionPage alloc] init];
+        subscriptionView .frameSize = frame_size;
+        
+        [self addSubview:subscriptionView.view];
+    }
+    */
+    
+    if (@available(iOS 11.2, *)) {
+        SimpleSubscriptionView *subscriptionView2 = [[SimpleSubscriptionView alloc] init];
+      //  subscriptionView2 .frameSize = frame_size;
+        
+        [self addSubview:subscriptionView2.view];
+    } else {
+        // Fallback on earlier versions
+        SimpleSubscriptionView *subscriptionView2 = [[SimpleSubscriptionView alloc] init];
+        //subscriptionView2 .frameSize = frame_size;
+        
+        [self addSubview:subscriptionView2.view];
+    }
+  //  [self presentViewController:subscriptionView animated:NO completion:nil];
+   // [subscriptionView presentViewController:subscriptionView animated :NO completion:nil];
+}
 
 @end
+

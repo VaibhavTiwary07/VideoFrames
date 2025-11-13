@@ -1,0 +1,6 @@
+framework module WCAlertView {
+  umbrella header "WCAlertView-umbrella.h"
+
+  export *
+  module * { export * }
+}

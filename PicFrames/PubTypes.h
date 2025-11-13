@@ -21,7 +21,16 @@ typedef enum
     ASPECTRATIO_3_2,
     ASPECTRATIO_1_2,
     ASPECTRATIO_2_1,
-    ASPECTRATIO_MAX
+    ASPECTRATIO_MAX, // wall paper
+    ASPECTRATIO_9_16,// Instagram Story
+    ASPECTRATIO_4_5, // Instagram portrait
+    ASPECTRATIO_5_4, // Card
+    ASPECTRATIO_4_6,
+    ASPECTRATIO_5_7,
+    ASPECTRATIO_8_10,
+    ASPECTRATIO_16_9,
+    ASPECTRATIO_WALLPAPER,
+    ASPECTRATIO_CUSTOM
 }eAspectRatio;
 
 typedef enum
@@ -95,6 +104,9 @@ typedef enum
     MODE_PREVIEW,
     MODE_SHARE,
     //MODE_SWAP,
+    MODE_SIZES,
+    MODE_STICKERS,
+    MODE_TEXT,
     MODE_MAX
 }eAppMode;
 #endif

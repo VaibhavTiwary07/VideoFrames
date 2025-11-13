@@ -14,6 +14,7 @@
 #import "FrameDB.h"
 #import "Utility.h"
 #import "Settings.h"
+#import "ssivView.h"
 //#import "Session.h"
 
 #define MAX_PHOTOS_SUPPORTED 5
@@ -23,31 +24,37 @@
 {
     NSMutableArray *photos;
     NSMutableArray *adjustors;
+      NSMutableArray *uiViews;
+    ssivView *ssivView;
+
 }
 
 //Properties
 @property(nonatomic,readonly)int photoCount;
 @property(nonatomic,readonly)int adjustorCount;
+@property(nonatomic,readonly)int viewcount;
 
 //Methods
 -(id)initWithFrameNumber:(int)frameNumber;
 -(id)initWithFrameNumber:(int)frameNumber withBgColor:(UIColor *)clr;
 -(void)setPattern:(int)patternNumber;
 -(void)setColor:(UIColor*)color;
--(void)setImage:(UIImage *)image;
+//-(void)setImage:(UIImage *)image;
 -(void)setWidth:(int)width;
 -(void)setOuterRadius:(int)radius;
 -(void)setInnerRadius:(int)radius;
 -(void)setAspectRatio:(eAspectRatio)ratio;
 //-(void)loadPhotosFromSession:(Session*)sess;
 -(Photo*)getPhotoAtIndex:(int)index;
+//-(UIView *)getViewAtIndex:(int)index;
 -(Adjustor*)getAdjustorAtIndex:(int)index;
 -(UIImage*)renderToImageOfScale:(float)scale;
 -(UIImage*)renderToImageOfSize:(CGSize)sze;
 -(void)setPhotoWidth:(int)width;
 - (UIImage*)quickRenderToImageOfSize:(CGSize)sze;
-
+-(void)setShadowEffect:(float)opacity cornerRadious:(float)rValue;
 -(void)enterSwapMode;
 -(void)exitSwapMode;
+-(void)hideInfoTextView;
 
 @end

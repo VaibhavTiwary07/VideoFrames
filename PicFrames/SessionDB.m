@@ -38,7 +38,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
@@ -106,7 +106,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
@@ -197,7 +197,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
@@ -288,7 +288,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
@@ -383,7 +383,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+     //   [db release];
         NSLog(@"openDataBase:Could not open db.");
         return NO;
     }
@@ -435,7 +435,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return NO;
     }
@@ -481,7 +481,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return NO;
     }
@@ -529,7 +529,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return NO;
     }

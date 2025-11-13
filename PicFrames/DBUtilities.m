@@ -28,7 +28,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return NO;
     }
@@ -90,7 +90,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return NO;
     }
@@ -125,7 +125,6 @@
 	
 	// Get the path to the documents directory and append the databaseName
 	databasePath = [documentsDir stringByAppendingPathComponent:databaseName];
-	
 	// Check if the database has already been created in the users filesystem
 	if(YES == [fileManager fileExistsAtPath:databasePath])
 	{
@@ -169,7 +168,7 @@
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) 
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return nil;
     }

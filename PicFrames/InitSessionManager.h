@@ -13,7 +13,6 @@
 #import "UIImage+RoundedCorner.h"
 #import "FMDatabase.h"
 #import "Session.h"
-#import "OT_Facebook.h"
 #import "Settings.h"
 #import "FrameViewController.h"
 

@@ -14,6 +14,8 @@
 #import "SessionDB.h"
 #import "Utility.h"
 #import "ssivPub.h"
+#import <Photos/Photos.h>
+#import "LoadingClass.h"
 
 #define DEFAULT_ASPECTRATIO 1
 #define DEFAULT_FRAMEWIDTH  DEFAULT_FRAME_WIDTH
@@ -40,6 +42,7 @@ typedef struct
     int iPattern;
     int iAspectRatio;
     float fInnerRadius;
+    float shadowEffectValue;
     float fOuterRadius;
     float fFrameWidth;
     BOOL bPatternSelected;
@@ -55,19 +58,24 @@ typedef struct
 @property(nonatomic,readwrite)int aspectRatio;
 @property(nonatomic,readwrite)float innerRadius;
 @property(nonatomic,readwrite)float outerRadius;
+@property(nonatomic,readwrite)float shadowEffectValue;
 @property(nonatomic,readwrite)float frameWidth;
 @property(nonatomic,readonly)BOOL patternSelected;
 @property(nonatomic,readwrite)BOOL videoSelected;
 @property(nonatomic,assign)UIColor *color;
 @property(nonatomic,retain)UIImage *image;
 @property(nonatomic,assign)Frame *frame;
-@property(nonatomic,assign)UIImage *imageFromApp;
+@property(nonatomic,strong)UIImage *imageFromApp; //changed to strong from assign
 @property(nonatomic,retain)NSMutableArray *playerItems;
-@property(nonatomic,retain)NSMutableArray *players
-;
+@property(nonatomic,retain)NSMutableArray *players;
+@property (strong, nonatomic) AVPlayer *masterAudioPlayer;
+@property (nonatomic, assign) NSURL *additionalAudioURL;
+@property (strong, nonatomic) id audioLoopObserver;
+@property (nonatomic) BOOL isMasterAudioMuted;
+@property (nonatomic) BOOL initialization;
 -(id)initWithSessionId:(int)sessionId;
 -(id)initWithFrameNumber:(int)iFrmNumber;
-
+- (void)initAspectRatio:(int)aspectRatio;
 -(void)showSessionOn:(UIView*)view;
 -(void)hideSession;
 -(void)imageSelectedForPhoto:(UIImage*)img;
@@ -89,7 +97,9 @@ typedef struct
 //-(void)videoSelectedForCurrentPhotoWithInfo:(NSDictionary*)videoInfo;
 -(void)videoSelectedForCurrentPhotoWithInfo:(NSDictionary*)videoInfo image:(UIImage*)img;
 -(void)previewVideo;
+//changed NSURL to NSString
 -(void)saveVideoToDocDirectory:(NSURL*)url completion:(void (^)(NSString *localVideoPath))complete;
+//-(void)saveVideoToDocDirectory:(NSString*)url completion:(void (^)(NSString *localVideoPath))complete;
 -(int)photoNumberOfCurrentSelectedPhoto;
 -(NSString*)pathForImageAtIndex:(int)index inPhoto:(int)photoIndex;
 -(NSString*)getVideoInfoKeyForPhotoAtIndex:(int)index;
@@ -119,4 +129,24 @@ typedef struct
 -(UIImage*)getImageAtIndex:(int)index;
 -(void)saveImageAfterApplyingEffect:(UIImage *)image atPhotoIndex:(int)photoIndex atFrameIndex:(int)frameIndex;
 -(void)saveImage:(UIImage*)img atIndex:(int)index;
+-(void)setShadowValue:(float)val cornerRad:(int)initialValue;
+-(float)getShadowValue;
+- (float)getOuterRadius;
+- (float)getInnerRadius;
+-(float)getFrameWidth;
+- (void)saveOriginalImage:(UIImage*)img atIndex:(int)index;
+-(UIImage*)getOriginalImageAtIndex:(int)index;
+- (NSString*)pathForOriginalImageAtIndex:(int)index inPhoto:(int)photoIndex;
+- (UIImage*)getEffectVideoFrameAtIndex:(int)frameIndex forPhoto:(int)photoIndex;
+- (int)getFPSForPhotoAtIndex;
+- (void)deleteVideoEffectFramesForPhotoAtIndex:(int)photoIndex;
+- (NSString*)pathToEffectVideoAtIndex:(int)photoindex;
+- (void)deleteEffectVideoAtPhototIndex:(int)photoIndex;
+- (void)muteMasterAudio;
+- (void)unmuteMasterAudio;
+- (void)removeAudioPlayer;
+- (BOOL)getAudioMuteValueForPhotoAtIndex:(int)index;
+- (void)saveVideoToDocDirectory:(NSURL*)urlforVideo
+                     completion:(void (^)(NSString *localVideoPath))complete
+                       progress:(void (^)(float progress))progressBlock;
 @end

@@ -15,10 +15,10 @@
 
 @interface FrameButton : UIImageView
 {
-    id<FrameButtonDelegate>	delegate;
+    __weak id<FrameButtonDelegate>	delegate;
 }
 
-@property(nonatomic,assign)id<FrameButtonDelegate>	delegate;
+@property(nonatomic,weak)id<FrameButtonDelegate>	delegate;
 
 -(id)initWithFrameNumber:(int)frameNumber andFrame:(CGRect)frame;
 @end

@@ -13,6 +13,11 @@
     int _pageCount;
     NSMutableArray *_pages;
     BOOL pageControlUsed;
+    
+    //ExpiryStatus//
+    NSUserDefaults *prefsTime;
+    NSUserDefaults *prefsDate;
+   // UIButton *btn;
 }
 
 @end
@@ -22,6 +27,9 @@
 
 - (id)initWithFrame:(CGRect)frame indextag:(int)tag
 {
+    //For Subscription Expiry Status
+      prefsTime = [NSUserDefaults standardUserDefaults];
+        prefsDate= [NSUserDefaults standardUserDefaults];
     self = [super initWithFrame:frame];
     if (self)
     {
@@ -100,14 +108,12 @@
     
     return sView;
 }
-
 -(UIPageControl*)pageControlView
 {
     UIPageControl *pView = (UIPageControl*)[self viewWithTag:FSV_TAG_PAGECONTROLVIEW];
-    
+    //NSLog(@"pagecount %d",_pageCount);
     return pView;
 }
-
 -(int)selectedItemIndex
 {
     int iSelectedItemIndex = 0;
@@ -116,7 +122,7 @@
     {
         iSelectedItemIndex = [self.delegate selectedItemIndexOfFrameScrollView:self];
     }
-
+    
     return iSelectedItemIndex;
 }
 
@@ -127,7 +133,6 @@
     UIScrollView *scrollView = [self scrollView];
     UIPageControl *pageControl = [self pageControlView];
     _pageCount       = 0;
-    
     /* get page count */
     _pageCount = totalItems/itemsPerPage;
     
@@ -151,7 +156,6 @@
     {
         return;
     }
-    
     pageControl.numberOfPages = _pageCount;
     
     if(nil != _pages)
@@ -169,8 +173,8 @@
     {
         [_pages addObject:[NSNull null]];
     }
-    
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * _pageCount, scrollView.frame.size.height);
+   // NSLog(@"Page number is %d",_pageCount);
 }
 
 -(int)pageNumberOfItemIndex:(int)index
@@ -198,10 +202,8 @@
     {
         [self.delegate frameScrollView:self selectedItemIndex:btn.tag button:btn];
     }
-    
     return;
 }
-
 // Scale up on button press
 - (void) buttonPress:(UIButton*)button
 {
@@ -272,8 +274,6 @@
     
     return gap;
 }
-
-
 -(UIView*)allocPageForPageNume:(int)pageNum
 {
     UIScrollView *scrlView = [self scrollView];
@@ -307,12 +307,101 @@
             float width = FSV_ITEM_WIDTH;
             float height = FSV_ITEM_HEIGHT;
             
-            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(x,y,width,height)];
+            //for premium feature
+            
+            float x1 = ([self horizantalGap] * (j+1)) + (j * FSV_ITEM_WIDTH);
+            float y1 = ([self verticleGap] * (i+1)) + (i * FSV_ITEM_HEIGHT);
+            float width2 = FSV_ITEM_WIDTH;
+            float height2 = FSV_ITEM_HEIGHT;
+            
+            //-------grid Button-----//
+//            NSMutableArray *imageArray = [NSMutableArray  array];
+//imageArray = [NSMutableArray arrayWithObjects:@"thumble_01.jpg","thumble_02.jpg","thumble_03.jpg","thumble_04.jpg","thumble_05.jpg","thumble_06.jpg","thumble_07.jpg", "thumble_08.jpg","thumble_09.jpg","thumble_10.jpg","thumble_11.jpg","thumble_12.jpg","thumble_13.jpg","thumble_14.jpg","thumble_15.jpg","thumble_16.jpg","thumble_17.jpg","thumble_18.jpg","thumble_19.jpg","thumble_20.jpg","thumble_21.jpg","thumble_22.jpg","thumble_23.jpg","thumble_24.jpg","thumble_25.jpg","thumble_26.jpg","thumble_27.jpg","thumble_28.jpg","thumble_29.jpg","thumble_30.jpg","thumble_31.jpg","thumble_32.jpg","thumble_33.jpg","thumble_34.jpg","thumble_35.jpg","thumble_36.jpg","thumble_37.jpg","thumble_38.jpg","thumble_39.jpg","thumble_40.jpg","thumble_41.jpg","thumble_42.jpg","thumble_43.jpg","thumble_44.jpg","thumble_45.jpg","thumble_46.jpg","thumble_47.jpg","thumble_48.jpg","thumble_49.jpg","thumble_50.jpg","thumble_51.jpg","thumble_52.jpg","thumble_53.jpg","thumble_54.jpg","thumble_55.jpg","thumble_56.jpg","thumble_57.jpg","thumble_58.jpg","thumble_59.jpg","thumble_60.jpg","thumble_61.jpg","thumble_62.jpg","thumble_63.jpg","thumble_64.jpg","thumble_65.jpg","thumble_66.jpg","thumble_67.jpg","thumble_68.jpg","thumble_69.jpg","thumble_70.jpg","thumble_71.jpg","thumble_72.jpg","thumble_73.jpg","thumble_74.jpg","thumble_75.jpg","thumble_76.jpg","thumble_77.jpg","thumble_78.jpg","thumble_79.jpg","thumble_80.jpg","thumble_81.jpg","thumble_82.jpg","thumble_83.jpg","thumble_84.jpg","thumble_85.jpg","thumble_86.jpg","thumble_87.jpg","thumble_88.jpg","thumble_89.jpg","thumble_90.jpg","thumble_91.jpg","thumble_92.jpg","thumble_93.jpg","thumble_94.jpg","thumble_95.jpg","thumble_96.jpg","thumble_97.jpg","thumble_98.jpg","thumble_99.jpg",nil];
+//            NSLog(@"array count is---- %lu",(unsigned long)imageArray.count);
+            
+            UIButton*gridbtn = [[UIButton alloc]initWithFrame:CGRectMake(x,y,width,height)];
+            gridbtn.layer.shadowColor = [[UIColor blackColor] CGColor];
+            gridbtn.layer.shadowOpacity = 0.5;
+            gridbtn.layer.shadowRadius = 4;
+            gridbtn.layer.shadowOffset = CGSizeMake(-2, 2);
+            [v addSubview:gridbtn];
+           //  [v sendSubviewToBack:gridbtn];
+            [gridbtn release];
+
+            /* set the tag for the button */
+            gridbtn.tag =((self.tag - TAG_BASEFRAME_GRIDVIEW)*1000)+itemIndex;
+//            NSString *imageName = [NSString stringWithFormat:@"thumble_%ld.jpg",(long)gridbtn.tag];
+          
+#if 1
+            if(([self selectedItemIndex] > 0) && ([self selectedItemIndex] == itemIndex))
+            {
+                [gridbtn setBackgroundImage:[self.delegate frameScrollView:self coloredImageForItemAtIndex:gridbtn.tag] forState:UIControlStateNormal];
+            }
+            else
+            {
+                [gridbtn setBackgroundImage:[self.delegate frameScrollView:self imageForItemAtIndex:gridbtn.tag] forState:UIControlStateNormal];
+               // NSLog(@"Button Tag is %ld",(long)btn.tag);
+
+                    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+//                    if ([prefs integerForKey:@"Productpurchased"] == 0)
+//                {
+                
+                if(gridbtn.tag<100)
+                {
+
+//                if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
+//                {
+                  NSString *imgName,*imgName_withTag,*imgName_WithPng;
+                
+                    if(gridbtn.tag < 10)
+                     imgName =@"thumbles_0";
+                    else
+                        imgName = @"thumbles_";
+                    imgName_withTag = [imgName stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)gridbtn.tag]];
+                    imgName_WithPng = [imgName_withTag stringByAppendingString:@".png"];
+                  //  NSLog(@"frame image name %@",imgName_WithPng);
+                    [gridbtn setImage:[UIImage imageNamed:imgName_WithPng] forState:UIControlStateNormal];
+
+                }
+                if (proVersion == 0)
+                {
+                    if (itemIndex == 52)
+                    {
+
+                     //  [btn setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
+                        [gridbtn setBackgroundColor:[UIColor clearColor]];
+                    }
+                }
+
+            }
+#else
+            
+            [gridbtn setBackgroundImage:[self.delegate frameScrollView:self imageForItemAtIndex:gridbtn.tag] forState:UIControlStateNormal];
+
+#endif
+            
+            ///-------------------norml button-------------//
+            
+           // UIButton*btn = [[UIButton alloc]initWithFrame:CGRectMake(x,y,width,height)];
+            UIButton*btn;
+            if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
+            {
+                btn = [[UIButton alloc]initWithFrame:CGRectMake(x1+5,y1-15,width,height)];
+            }
+            else
+            {
+                btn = [[UIButton alloc]initWithFrame:CGRectMake(x1+5,y1-5,width,height)];
+            }
+            
+            btn.layer.shadowColor = [[UIColor blackColor] CGColor];
+            btn.layer.shadowOpacity = 0.3;
+            btn.layer.shadowRadius = 1;
+            btn.layer.shadowOffset = CGSizeMake(-1, 1);
             [v addSubview:btn];
             [btn release];
             
             /* set the tag for the button */
-            btn.tag = ((self.tag - TAG_BASEFRAME_GRIDVIEW)*1000)+itemIndex;
+            btn.tag =((self.tag - TAG_BASEFRAME_GRIDVIEW)*1000)+itemIndex;
 
 //#if defined(APP_INSTAPICFRAMES)
 #if 1
@@ -323,18 +412,62 @@
             else
             {
                 [btn setBackgroundImage:[self.delegate frameScrollView:self imageForItemAtIndex:btn.tag] forState:UIControlStateNormal];
+               // NSLog(@"Button Tag is %ld",(long)btn.tag);
+                
+                    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+//                    if ([prefs integerForKey:@"Productpurchased"] == 0)
+//                {
+                if((NO == bought_allfeaturespack && bought_allfeaturespackYearly==NO)||(([prefsTime integerForKey:@"SubscriptionExpiredTime"] == 0)&&([prefsDate integerForKey:@"SubscriptionExpiredDate"] == 0)))
+                {
+                   // NSLog(@"Not Purchased----$$$$");
+                if(btn.tag >2 && btn.tag<100)
+                {
+                
+                if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
+                {
+                    [btn setImage:[UIImage imageNamed:@"n_lock_corner_ipad.png"] forState:UIControlStateNormal];
+                    //NSLog(@"Button tag is %ld",(long)btn.tag);
+                }
+                else
+                {
+                    
+                    [btn setImage:[UIImage imageNamed:@"n_lock_corner.png"] forState:UIControlStateNormal];
+                   // [btn setImage:[UIImage imageNamed:@"test_02.png"] forState:UIControlStateNormal];
+                }
+                }
+//                    else
+//                    {
+//
+//                            [btn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+//                            NSLog(@"Purchased-----$$$$$");
+//
+//                    }
+                }
+                
+                    else
+                        {
+                
+                    [btn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+                        NSLog(@"Purchased-----$$$$$");
+                
+                    }
                 if (proVersion == 0)
                 {
                     if (itemIndex == 52)
                     {
         
-                       [btn setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
+                     //  [btn setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
+                        [btn setBackgroundColor:[UIColor clearColor]];
                     }
                 }
+                
+                
 
             }
+            
 #else
             [btn setBackgroundImage:[self.delegate frameScrollView:self imageForItemAtIndex:btn.tag] forState:UIControlStateNormal];
+           
 #endif
             if([self.delegate respondsToSelector:@selector(frameScrollView:contentLockTypeAtIndex:)])
             {
@@ -348,18 +481,21 @@
                         }
                         else
                         {
-                            [btn setImage:[UIImage imageNamed:@"lock_corner.png"] forState:UIControlStateNormal];
+//                            [btn setImage:[UIImage imageNamed:@"lock_corner.png"] forState:UIControlStateNormal];
+                            [btn setImage:[UIImage imageNamed:@"n_lock_corner.png"] forState:UIControlStateNormal];
+                           // [btn setImage:[UIImage imageNamed:@"test_02.png"] forState:UIControlStateNormal];
                         }
                     }
                     else if(FRAMES_LOCK_FACEBOOK == [self.delegate frameScrollView:self contentLockTypeAtIndex:btn.tag])
                     {
                         if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
                         {
-                            [btn setImage:[UIImage imageNamed:@"f_lock_corner_ipad.png"] forState:UIControlStateNormal];
+                            [btn setImage:[UIImage imageNamed:@"n_lock_corner_ipad.png"] forState:UIControlStateNormal];
                         }
                         else
                         {
-                            [btn setImage:[UIImage imageNamed:@"f_lock_corner.png"] forState:UIControlStateNormal];
+                            [btn setImage:[UIImage imageNamed:@"n_lock_corner.png"] forState:UIControlStateNormal];
+                            //[btn setImage:[UIImage imageNamed:@"test_02.png"] forState:UIControlStateNormal];
                         }
                     }
                     else if(FRAMES_LOCK_INSTAGRAM == [self.delegate frameScrollView:self contentLockTypeAtIndex:btn.tag])
@@ -395,7 +531,7 @@
                         }
                 }
                 else{
-                    NSLog(@"Button %d background image is nil ",itemIndex);
+                  //  NSLog(@"Button %d background image is nil ",itemIndex);
                 }
             }
             else
@@ -407,7 +543,8 @@
                 if (itemIndex == 52)
                 {
 
-                    [btn setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
+                   // [btn setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
+                    [btn setBackgroundColor:[UIColor clearColor]];
                 }
             }
             [btn addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchDown];
@@ -427,7 +564,7 @@
     UIScrollView *scrlView = [self scrollView];
     if((pageNum < 0) || (pageNum >= _pageCount))
     {
-        //NSLog(@"loadPage: invalid pagenumber %d for pagecount %d",pageNum,_pageCount);
+        NSLog(@"loadPage: invalid pagenumber %d for pagecount %d",pageNum,_pageCount);
         return;
     }
     
@@ -436,6 +573,7 @@
     if ((NSNull *)page == [NSNull null])
     {
         page = [self allocPageForPageNume:pageNum];
+        
         [_pages replaceObjectAtIndex:pageNum withObject:page];
         [page release];
     }
@@ -459,6 +597,7 @@
     int pageIndex             = _pageCount-1;
     
     [self updatePageCount];
+   
     
     for(index = 0; index < _pageCount; index++)
     {
@@ -562,5 +701,14 @@
     // Drawing code
 }
 */
-
+//-(void)removeframelockImage
+//{
+//  //  [btn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+//}
+//- (void)dealloc
+//{
+//    [delegate release];
+//    [super dealloc];
+//    
+//}
 @end

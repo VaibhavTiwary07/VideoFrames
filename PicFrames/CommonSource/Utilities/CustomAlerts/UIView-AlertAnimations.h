@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface UIView(AlertAnimations)
 - (void)doPopInAnimation;
 - (void)doPopInAnimationWithDelegate:(id)animationDelegate;

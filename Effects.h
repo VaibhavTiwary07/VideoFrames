@@ -13,4 +13,6 @@
 -(UIImage *)getImageForItem:(int)itemNo;
 -(NSString *)getNameOfEffect:(int )itemNo;
 -(BOOL)getItemLockStatus:(int)itemNo;
+- (NSString *)getEffectNameForItem:(int)itemNo;
+- (UIImage *)applyCurrentSelectedCIFilterEffect:(UIImage *)image withEffect:(int)effectNo;
 @end

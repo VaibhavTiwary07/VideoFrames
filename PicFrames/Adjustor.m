@@ -53,11 +53,11 @@
 -(void)dealloc
 {
     //NSLog(@"Releasing Adj ");
-    [LeftOrUpAdjArray release];
-    [RightOrDownAdjArray release];
-    [LeftOrUpArray release];
-    [RightOrDownArray release];
-    [super dealloc];
+//    [LeftOrUpAdjArray release];
+//    [RightOrDownAdjArray release];
+//    [LeftOrUpArray release];
+//    [RightOrDownArray release];
+//    [super dealloc];
 }
 
 -(void)setAdjustors:(NSMutableArray *)adjustors
@@ -133,7 +133,7 @@
         int iIndex = 0;
         _actualFrame = frame;
 
-        //self.backgroundColor = [UIColor redColor];
+        //self.backgroundColor = [UIColor whiteColor];
         /* First set the mode */
         self.eShape = ADJUSTOR_VERTICLE;
         if(frame.size.width < frame.size.height)
@@ -244,6 +244,7 @@
             Photo *pht = [LeftOrUpArray objectAtIndex:index];
             pht.frame = CGRectMake(pht.frame.origin.x, pht.frame.origin.y, pht.frame.size.width+delta, pht.frame.size.height);
             pht.actualFrame = CGRectMake(pht.actualFrame.origin.x, pht.actualFrame.origin.y, pht.actualFrame.size.width+delta, pht.actualFrame.size.height);
+            
             //NSLog(@"Left(%d) %f, %f, %f, %f",index,pht.frame.origin.x,pht.frame.origin.y,pht.frame.size.width,pht.frame.size.height);
         }
         

@@ -4,25 +4,31 @@
 //
 //  Created by Vijaya kumar reddy Doddavala on 2/3/13.
 //
-//
-
+#define NSLog(...) [[FIRCrashlytics crashlytics] logWithFormat: __VA_ARGS__]
 #import "FrameSelectionController.h"
-#import "OT_Facebook.h"
 #import "WCAlertView.h"
 #import "OT_TabBar.h"
 #import "Config.h"
-#import "InAppPurchasePreview.h"
+//#import "InAppPurchasePreview.h"
 #import "FrameSelectionView.h"
-#import "FBLikeUsView.h"
-#import "InstagramFollowView.h"
-#import "HelpScreenViewController.h"
+//#import "FBLikeUsView.h"
+//#import "InstagramFollowView.h"
+//#import "HelpScreenViewController.h"
+//#import <FBSDKShareKit/FBSDKShareKit.h>
 
-@interface FrameSelectionController ()<OT_TabBarDelegate,InAppPurchasePreviewViewDelegate,FrameSelectionViewDelegate,FBLikeUsViewDelegate,InstagramFollowViewDelegate>
+//#import "SubscriptionPage.h"
+//#import "UniversalLayout.h"
+#import "MainController.h"
+#import "SimpleSubscriptionView.h"
+#import "VideoCollage-Swift.h"
+#import "VideoFrames-Bridging-Header.h"
+
+
+@interface FrameSelectionController ()<OT_TabBarDelegate,FrameSelectionViewDelegate> //FBSDKAppInviteDialogDelegate, InAppPurchasePreviewViewDelegate,FBLikeUsViewDelegate ,InstagramFollowViewDelegate
 {
     //UITabBar *_tabbar;
-    OT_TabBar *_customTabBar;
+    OT_TabBar *_customTabBar,*_customTabBarback;
     SNPopupView *aspectRatioView;
-    
     PopupMenu *_lockedMenu;
     int _curSelectedFrame;
     int _curSelectedGroup;
@@ -31,6 +37,14 @@
     UIButton *_appoxeeBadge;
     
     FrameSelectionView *frameSelectionView;
+ //   SubscriptionPage *SubscriptionView;
+    SimpleSubscriptionView *SubscriptionView2;
+    
+    //ExpiryStatus//
+    NSUserDefaults *prefsTime;
+    NSUserDefaults *prefsDate;
+    NSUserDefaults *SuccessStatus;
+    
 }
 
 @end
@@ -41,9 +55,11 @@ typedef struct
     BOOL lock;
 }tFrameMap;
 
-static BOOL lockstatus[FRAMES_GROUP_LAST][FRAMES_MAX_PERGROUP];
+//static
+BOOL lockstatus[FRAMES_GROUP_LAST][FRAMES_MAX_PERGROUP];
 
-static tFrameMap frame_mapping[FRAMES_MAX_PERGROUP] = {
+//static
+tFrameMap frame_mapping[FRAMES_MAX_PERGROUP] = {
     {1001, YES},
     {1002, YES},
     {1003, YES},
@@ -97,7 +113,8 @@ static tFrameMap frame_mapping[FRAMES_MAX_PERGROUP] = {
 
 @implementation FrameSelectionController
 
-NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID";
+NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID";
+
 
 +(void)setLockStatusOfFrame:(int)fil group:(int)grp to:(BOOL)newstatus
 {
@@ -115,9 +132,27 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 
 +(int)getLockStatusOfFrame:(int)fil group:(int)grp
 {
-    if(bought_allpackages)
+    //ExpiryStatus//
+    NSUserDefaults *prefsTime = nil;
+    NSUserDefaults *prefsDate = nil;
+    NSUserDefaults *SuccessStatus = nil;
+    prefsTime = [NSUserDefaults standardUserDefaults];
+    prefsDate= [NSUserDefaults standardUserDefaults];
+    SuccessStatus = [NSUserDefaults standardUserDefaults];
+    if([[SRSubscriptionModel shareKit]IsAppSubscribed])
     {
+       // bought_allpackages
+        NSLog(@"UnLocked-----");
         return NO;
+    }
+    else
+    {
+        NSLog(@" Locked-----");
+        return YES;
+//        if([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
+//        {
+//            return NO;
+//        }
     }
     
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"framelockstatus"];
@@ -178,22 +213,23 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 //    [[AppoxeeManager sharedManager] show];
 }
 
--(id)init
-{
-    self = [super init];
-    if (self)
-    {
-        _curTabSelection = 0;
++ (instancetype)createInstance {
+    FrameSelectionController *instance = [[self alloc] init];
+    
+    if (instance) {
+        instance->_curTabSelection = 0;
         
-        _appoxeeBadge = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-        [_appoxeeBadge addTarget:self action:@selector(showAppoxee:) forControlEvents:UIControlEventTouchDown];
-        [_appoxeeBadge setImage:[UIImage imageNamed:@"mail box_c.png"] forState:UIControlStateNormal];
+        instance->_appoxeeBadge = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+        [instance->_appoxeeBadge addTarget:instance action:@selector(showAppoxee:) forControlEvents:UIControlEventTouchDown];
+        [instance->_appoxeeBadge setImage:[UIImage imageNamed:@"mail box_c.png"] forState:UIControlStateNormal];
         
-        // Custom initialization
-        [self registerForNotifications];
+        // Custom initialization code
+        // [instance registerForNotifications];
     }
-    return self;
+    
+    return instance;
 }
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -217,88 +253,127 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     {
         [img removeFromSuperview];
     }
-    [self unregisterForNotifications];
-    [super dealloc];
+   // [self unregisterForNotifications];
+  //  [super dealloc];
 }
 
 
--(void)inAppPurchasePreviewWillExit:(InAppPurchasePreview *)gView
-{
-    self.navigationController.navigationBarHidden = NO;
-}
-
--(void)restoreDidSelectForInAppPurchasePreview:(InAppPurchasePreview *)gView
-{
-    [[InAppPurchaseManager Instance]restoreProUpgrade];
-}
-
--(void)inAppPurchasePreview:(InAppPurchasePreview *)gView itemPurchasedAtIndex:(int)index
-{
-
-        [[InAppPurchaseManager Instance]puchaseProductWithId:kInAppPurchaseRemoveWaterMarkPack];
-
-}
+//-(void)inAppPurchasePreviewWillExit:(InAppPurchasePreview *)gView
+//{
+//    self.navigationController.navigationBarHidden = NO;
+//}
+//
+//-(void)restoreDidSelectForInAppPurchasePreview:(InAppPurchasePreview *)gView
+//{
+//    [[InAppPurchaseManager Instance]restoreProUpgrade];
+//}
+//
+//-(void)inAppPurchasePreview:(InAppPurchasePreview *)gView itemPurchasedAtIndex:(int)index
+//{
+//
+//        [[InAppPurchaseManager Instance]puchaseProductWithId:kInAppPurchaseRemoveWaterMarkPack];
+//
+//}
 
 -(void)addTabbar
 {
+    //Bottom1//
     CGRect _fullscreen = [[UIScreen mainScreen]bounds];
-    _customTabBar = [[OT_TabBar alloc]initWithFrame:CGRectMake(0,_fullscreen.size.height-50,_fullscreen.size.width,50)];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    //back view
+    _customTabBarback = [[OT_TabBar alloc]initWithFrame:CGRectMake(0,_fullscreen.size.height-35,_fullscreen.size.width,35)];
+   
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
     {
-        _customTabBar . frame = CGRectMake(0, _fullscreen.size.height-70, _fullscreen.size.width, 70);
+        _customTabBarback . frame = CGRectMake(0, _fullscreen.size.height-24, _fullscreen.size.width, 24);
     }
+    _customTabBarback.delegate = self;
+    _customTabBarback.backgroundColor = PHOTO_DEFAULT_COLOR;
+   // _customTabBar.backgroundColor = PHOTO_DEFAULT_COLOR;
+    _customTabBarback.showOverlayOnSelection = NO;
+    
+    [self.view addSubview:_customTabBarback];
+ //   [_customTabBarback release];
+    
+   // safe area here//
+    if (@available(iOS 11.0, *)) {
+        if (SafeAreaBottomPadding > 0) {
+            _customTabBar = [[OT_TabBar alloc]initWithFrame:CGRectMake(0,_fullscreen.size.height-70-SafeAreaBottomPadding/2,_fullscreen.size.width,70)];
+        }
+        else
+        {
+            _customTabBar = [[OT_TabBar alloc]initWithFrame:CGRectMake(0,_fullscreen.size.height-70,_fullscreen.size.width,70)];
+        }
+    }
+    else
+    {
+        _customTabBar = [[OT_TabBar alloc]initWithFrame:CGRectMake(0,_fullscreen.size.height-70,_fullscreen.size.width,70)];
+    }
+   
+    _customTabBar.layer.cornerRadius = 20;
+//    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+//    {
+//        _customTabBar . frame = CGRectMake(0, _fullscreen.size.height-44, _fullscreen.size.width, 44);
+//    }
     _customTabBar.delegate = self;
-    _customTabBar.backgroundImage = [UIImage imageNamed:@"bottom bar"];
+    _customTabBar.backgroundColor = PHOTO_DEFAULT_COLOR;
+   // _customTabBar.backgroundColor = PHOTO_DEFAULT_COLOR;
     _customTabBar.showOverlayOnSelection = NO;
-
-    OT_TabBarItem *frames = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:frame_frame_imageName]
-                                                  selectedImage:[UIImage imageNamed:frame_frame_active_imageName]
+    OT_TabBarItem *frames = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:@"frames2"]
+                                                  selectedImage:[UIImage imageNamed:@"frames_active2"]
                                                             tag:0];
-    OT_TabBarItem *rateUs = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:rateus_imageName]
-                                                  selectedImage:[UIImage imageNamed:rateus_active_imageName]
+        
+    OT_TabBarItem *rateUs = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:@"rate-us2"]
+                                                  selectedImage:[UIImage imageNamed:@"rate-us_active2"]
                                                             tag:1];
-    OT_TabBarItem *facebook = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_facebook_imageName]
-                                                    selectedImage:[UIImage imageNamed:share_facebook_active_imageName]
-                                                              tag:2];
-    OT_TabBarItem *mail = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_email_imageName]
-                                                selectedImage:[UIImage imageNamed:share_email_active_imageName]
+    
+//    OT_TabBarItem *facebook = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:@"fb2"]
+//                                                    selectedImage:[UIImage imageNamed:@"fb_active2"]
+//                                                              tag:2];
+    OT_TabBarItem *mail = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:@"mail2"]
+                                                selectedImage:[UIImage imageNamed:@"mail_active2"]
                                                           tag:3];
-    OT_TabBarItem *message = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:share_message_imageName]
-                                                   selectedImage:[UIImage imageNamed:share_message_active_imageName]
-                                                             tag:4];
-    OT_TabBarItem *more = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:more_imageName]
-                                                selectedImage:[UIImage imageNamed:more_active_imageName]
-                                                          tag:5];
-
-    _customTabBar.items = [NSArray arrayWithObjects:frames,rateUs,facebook,mail,message,more, nil];
+//    OT_TabBarItem *message = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:@"msg2"]
+//                                                   selectedImage:[UIImage imageNamed:@"msg_active2"]
+//                                                             tag:4];
+   // OT_TabBarItem *more = [[OT_TabBarItem alloc]initWithImage:[UIImage imageNamed:@"more1"]
+                                           //     selectedImage:[UIImage imageNamed:@"more"]
+                                                         // tag:5];
+     _customTabBar.itemTitleArray = [NSArray arrayWithObjects:@"Frames",@"Rate",@"Mail", nil]; //,@"Facebook"
+    _customTabBar.items = [NSArray arrayWithObjects:frames,rateUs,mail, nil]; //,facebook
 
     [self.view addSubview:_customTabBar];
 
     [_customTabBar setSelectedItem:0];
 
     /* release the resources */
-    [_customTabBar release];
-    [frames release];
-    [rateUs release];
-    [more release];
-    [facebook release];
-    [mail release];
-    [message release];
+//    [_customTabBar release];
+//    [frames release];
+//    [rateUs release];
+   // [more release];
+//    [facebook release];
+ //   [mail release];
+   // [message release];
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(alertView.tag == tag_frameselection_rateus)
-    {
-        if(buttonIndex == 1)
-        {
-            NSString *reviewURL = [__templateReviewURL stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%d", iosAppId]];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
-        }
-        
-        [self changeTabbarSelectionBackToDefault];
-    }
-}
+
+
+//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if(alertView.tag == tag_frameselection_rateus)
+//    {
+//        if(buttonIndex == 1)
+//        {
+//            NSString *reviewURL = [__templateReviewURL stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%d", iosAppId]];
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
+//
+//        }
+//      [self changeTabbarSelectionBackToDefault];
+//    }
+//    else if(alertView.tag == 11)
+//    {
+//        [self changeTabbarSelectionBackToDefault];
+//    }
+//}
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
@@ -317,20 +392,24 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
             break;
         }
     }
-    
+    [self changeTabbarSelectionBackToDefault];
     /* Now dismiss the controller */
-    [controller dismissModalViewControllerAnimated:YES];
+ //   [controller dismissModalViewControllerAnimated:YES];
+    [controller dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"frame selection controller dismissed!");
+    }];
 }
 
 -(void)referToYourFriendBySMS:(id) sender
 {
-	MFMessageComposeViewController *controller = [[[MFMessageComposeViewController alloc] init] autorelease];
-	if([MFMessageComposeViewController canSendText])
-	{
-		controller.body = [NSString stringWithFormat:@"%@ is an amazing iPhone App. Download it for FREE from %@",appname,ituneslinktoApp];
-		controller.messageComposeDelegate = self;
-		[self presentModalViewController:controller animated:YES];
-	}
+    MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];// autorelease];
+    if([MFMessageComposeViewController canSendText])
+    {
+        controller.body = [NSString stringWithFormat:@"%@ is an amazing iPhone App. Download it for FREE from %@",appname,ituneslinktoApp];
+        controller.messageComposeDelegate = self;
+//        [self presentModalViewController:controller animated:YES];
+        [self presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -354,38 +433,30 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
             break;
         }
     }
-    
-    [controller dismissModalViewControllerAnimated:YES];
+    [self changeTabbarSelectionBackToDefault];
+//    [controller dismissModalViewControllerAnimated:YES];
+    [controller dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"frame selection controller dismissed!");
+    }];
 }
 
 -(void)referToYourFacebookFriends:(id)sender
 {
-    [[OT_Facebook SharedInstance] postOnWallWithImageUrl:@"http://photoandvideoapps.com/VideoCollage/icons/Icon-72@2x.png"
-                                                 message:@"Check out this App"
-                                                 website:@"http://www.videocollageapp.com"
-                                                    name:@"VideoCollage"
-                                             description:@"VideoCollage allows you to create awesome collage and frames of your photos and videos for FREE. Download it from http://www.videocollageapp.com"
-                                                 caption:@"Free iPhone Application"
-                                            onCompletion:^(BOOL uploadStatus)
-    {
-        if(uploadStatus)
-        {
-            [WCAlertView showAlertWithTitle:@"Thank You" message:[NSString stringWithFormat:@"Thank you very much. You have successfully recommended to your friends"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                
-            } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        }
-        else
-        {
-            [WCAlertView showAlertWithTitle:@"Failed" message:[NSString stringWithFormat:@"Failed to recommend it to your friends"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                
-            } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        }
-    }];
+//    FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init ];
+//
+//    content.contentURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/in/app/videocollage-pro-photo-video/id722633887?mt=8"]];
+//    FBSDKShareDialog* dialog = [[FBSDKShareDialog alloc] init];
+//    dialog.mode = FBSDKShareDialogModeAutomatic;
+//
+//    dialog.shareContent = content;
+//    dialog.fromViewController = self;
+//    [dialog show];
+    
 }
 
 -(void)referToYourFriendByEmail:(id)sender
 {
-    NSAutoreleasePool *localPool     = [[NSAutoreleasePool alloc] init];
+   // NSAutoreleasePool *localPool     = [[NSAutoreleasePool alloc] init];
     
     Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
     if (mailClass != nil)
@@ -394,13 +465,18 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         if ([mailClass canSendMail])
         {
             //NSString *appUrl = applicationUrl;
-            NSString *appUrl = ituneslinktoApp;
+          //  NSString *appUrl = ituneslinktoApp;
             
             //NSString *yozioLink = [Yozio getYozioLink:@"Invite Friend by Email" channel:@"email" destinationUrl:appUrl];
             
+//            NSString *yoziohyperlink = [NSString stringWithFormat:
+//                                        @"<a href=\"https://apps.apple.com/us/app/video-collage-collage-maker/id712175767\">Video Collage!</a>\n"];
+            
+            NSString *appUrl = ituneslinktoApp;
             NSString *yoziohyperlink = [NSString stringWithFormat:
                                         @"<a href=\"%@\" target=\"itunes_store\">%@</a>",appUrl,appname];
-            NSString *emailBody = [NSString stringWithFormat:@"%@ is an amazing iPhone App. Using this app you can combine multiple photos and videos into single layout. Download it for FREE from %@",appname,yoziohyperlink];
+                        
+            NSString *emailBody = [NSString stringWithFormat:@"%@ is an amazing iPhone App. Using this app you can combine multiple photos and videos into single layout. Download it for FREE from %@\n",appname,yoziohyperlink];
             
             NSString *emailSubject = [NSString stringWithFormat:@"Check out this Cool App %@",appname];
             
@@ -416,31 +492,44 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
             [picker setMessageBody:emailBody isHTML:YES];
             
             /* Present the email compose view to the user */
-            [self presentModalViewController:picker animated:YES];
-            
+//            [self presentModalViewController:picker animated:YES];
+            [self presentViewController:picker animated:YES completion:nil];
             /* Free the resources */
-            [picker release];
+          //  [picker release];
         }
         else
         {
-            UIAlertView *emailAlert;
-            
-            emailAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"EMAIL",@"Email") message:NSLocalizedString(@"NOEMAIL",@"Email is not configured for this device!!!") delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
-            
-            emailAlert.tag = 11;
-            
-            /* Show the alert */
-            [emailAlert show];
+//            UIAlertView *emailAlert;
+//
+//            emailAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"EMAIL",@"Email") message:NSLocalizedString(@"NOEMAIL",@"Email is not configured for this device!!!") delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
+//
+//            emailAlert.tag = 11;
+//
+//            /* Show the alert */
+//            [emailAlert show];
             
             /* Release the alert */
-            [emailAlert release];
+       //     [emailAlert release];
+            
+            UIAlertController * alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"EMAIL",@"Email") message:NSLocalizedString(@"NOEMAIL",@"Email is not configured for this device!!!") preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+            // Create the second action
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                NSLog(@"Delete selected");
+                [self changeTabbarSelectionBackToDefault];
+            }];
+//            [alertController addAction:cancelAction];
+            [alertController addAction:okAction];
+            [KeyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
         }
         
         /* Free the mailclass object */
-        [mailClass release];
+     //   [mailClass release];
     }
     
-    [localPool release];
+   // [localPool release];
     
     return;
 }
@@ -457,53 +546,53 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(continueChangeTabbarSelectionBackToDefault:) userInfo:nil repeats:NO];
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0:
-        {
-            
-            break;
-        }
-        case 1:
-        {
-            [self referToYourFriendByEmail:nil];
-            break;
-        }
-        case 2:
-        {
-            [self referToYourFriendBySMS:nil];
-            break;
-        }
-        case 3:
-        {
-            [self referToYourFacebookFriends:nil];
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
-
-}
--(void)showShareOptions
-{
-    UIActionSheet *aSheet = [[UIActionSheet alloc]initWithTitle:@"Share" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Cancel" otherButtonTitles:@"Email",@"Message",@"Facebook", nil];
-    aSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-    //[aSheet showFromTabBar:_tabbar];
-    //[aSheet showFromTabBar:_tabbar];
-    [aSheet showFromRect:_customTabBar.frame inView:self.view animated:YES];
-    [aSheet release];
-}
+//-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    switch (buttonIndex) {
+//        case 0:
+//        {
+//
+//            break;
+//        }
+//        case 1:
+//        {
+//            [self referToYourFriendByEmail:nil];
+//            break;
+//        }
+//        case 2:
+//        {
+//            [self referToYourFriendBySMS:nil];
+//            break;
+//        }
+//        case 3:
+//        {
+//            [self referToYourFacebookFriends:nil];
+//            break;
+//        }
+//        default:
+//        {
+//            break;
+//        }
+//    }
+//
+//}
+//-(void)showShareOptions
+//{
+//    UIActionSheet *aSheet = [[UIActionSheet alloc]initWithTitle:@"Share" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Cancel" otherButtonTitles:@"Email",@"Message",@"Facebook", nil];
+//    aSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+//    //[aSheet showFromTabBar:_tabbar];
+//    //[aSheet showFromTabBar:_tabbar];
+//    [aSheet showFromRect:_customTabBar.frame inView:self.view animated:YES];
+//   // [aSheet release];
+//}
 
 -(void)otTabBar:(OT_TabBar*)tbar didSelectItem:(OT_TabBarItem*)tItem
 {
-    OT_OfferWallView *o = (OT_OfferWallView*)[self.view viewWithTag:tag_frameselection_otofferwall];
-    if(nil != o)
-    {
-        [o removeFromSuperview];
-    }
+//    OT_OfferWallView *o = (OT_OfferWallView*)[self.view viewWithTag:tag_frameselection_otofferwall];
+//    if(nil != o)
+//    {
+//        [o removeFromSuperview];
+//    }
 
     switch (tItem.tag)
     {
@@ -514,10 +603,14 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         }
         case 1:
         {
+            /*
             UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"Rate Us" message:@"Did you like the app?. Are you willing to spend less than a minute time for us?. Your greate review will encourage us to add much more features!!!" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
             av.tag = tag_frameselection_rateus;
             [av show];
             [av release];
+            */
+//            [SKStoreReviewController requestReview];
+            [SKStoreReviewController requestReviewInScene:self.view.window.windowScene];
             break;
         }
         case 2:
@@ -553,11 +646,17 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         {
             //[[AppoxeeManager sharedManager]showMoreAppsViewController];
             CGRect full = [[UIScreen mainScreen]bounds];
-            CGRect r = CGRectMake(0.0, 50.0, full.size.width, full.size.height-100);
-            OT_OfferWallView *otv = [[OT_OfferWallView alloc]initWithFrame:r style:UITableViewStylePlain];
-            otv.tag = tag_frameselection_otofferwall;
-            [self.view addSubview:otv];
-            [otv release];
+            //CGRect r = CGRectMake(0.0, 50.0, full.size.width, full.size.height-100);
+            CGRect r;
+            if ((UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)) {
+                r=CGRectMake(0.0, 64.0, full.size.width, full.size.height-130);
+            }
+            else
+                r=CGRectMake(0.0, 44.0, full.size.width, full.size.height-95);
+//            OT_OfferWallView *otv = [[OT_OfferWallView alloc]initWithFrame:r style:UITableViewStylePlain];
+//            otv.tag = tag_frameselection_otofferwall;
+//            [self.view addSubview:otv];
+//            [otv release];
             //[self changeTabbarSelectionBackToDefault];
             break;
         }
@@ -607,7 +706,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     /* No need to proceed further of the user selects the same aspect ratio */
     if(sess.aspectRatio == eRat)
     {
-        [Utility removeActivityIndicatorFrom:self.view];
+        [LoadingClass removeActivityIndicatorFrom:self.view];
         return;
     }
     
@@ -625,17 +724,17 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         }
     }
     
-    [Utility removeActivityIndicatorFrom:self.view];
+    [LoadingClass removeActivityIndicatorFrom:self.view];
 }
 
 -(void)aspectRatioChanged:(id)sender
 {
     UIButton *btn     = sender;
-    eAspectRatio eRat = btn.tag - TAG_ASPECTRATIO_BUTTON;
+    eAspectRatio eRat = (int)btn.tag - TAG_ASPECTRATIO_BUTTON;
     NSNumber *num     = [NSNumber numberWithInt:eRat];
     
     /* First show the activity indicator */
-    [Utility addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
+  //  [LoadingClass addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
     
     /* Schdule the timer to process the aspect ratio change */
     [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(performAspectRatioChange:) userInfo:num repeats:NO];
@@ -671,6 +770,8 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         if(nvm.aspectRatio == index)
         {
             aspect.backgroundColor = PHOTO_DEFAULT_COLOR;
+            
+            
         }
         else
         {
@@ -682,7 +783,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         aspect.titleLabel.lineBreakMode   = UILineBreakModeTailTruncation;
         aspect.titleLabel.textColor       = [UIColor blackColor];
         [aspectRatioMenu addSubview:aspect];
-        [aspect release];
+     //   [aspect release];
         aspectRatioMenu.contentSize = CGSizeMake(aspectButtonWidth * index + 70.0, 50.0);
     }
 #if CMTIPPOPVIEW_ENABLE
@@ -708,74 +809,264 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 
 -(void)performHelp
 {
-    HelpScreenViewController  *helpScreen = [[HelpScreenViewController alloc] init];
-    
-    [UIView transitionWithView:self.view
-                      duration:1.0
-                       options:UIViewAnimationOptionTransitionCurlDown
-                    animations:^{
-                        [self.view addSubview:helpScreen.view];
-                         [self.view bringSubviewToFront:helpScreen.view];
-                    }
-                    completion:NULL];
+//    HelpScreenViewController  *helpScreen = [[HelpScreenViewController alloc] init];
+//
+//    [UIView transitionWithView:self.view
+//                      duration:1.0
+//                       options:UIViewAnimationOptionTransitionCurlDown
+//                    animations:^{
+//                        [self.view addSubview:helpScreen.view];
+//                         [self.view bringSubviewToFront:helpScreen.view];
+//                    }
+//                    completion:NULL];
 
 }
-
--(UIImageView*)addToolbarWithTitle:(NSString*)title tag:(int)toolbarTag
+-(void)ResoreSubscription
 {
-    CGRect fullScreen = [[UIScreen mainScreen]bounds];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, customBarHeight)];
-    label.textAlignment = UITextAlignmentCenter;
-    label.backgroundColor = [UIColor clearColor];
-    label.shadowOffset = CGSizeMake(0, 1);
-    label.textColor = UIColorFromRGB(0xFFFFFFFF);
-    label.text = title;
-    label.font = [UIFont boldSystemFontOfSize:20.0];
 
-    UIImageView *toolbar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight)];
-    //toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
-    toolbar.userInteractionEnabled = YES;
-    toolbar.tag = TAG_TOOLBAR_EDIT;
-
-    [toolbar addSubview:label];
-    label.center = toolbar.center;
-    [label release];
-
-    UIButton *help = [UIButton buttonWithType:UIButtonTypeInfoLight];
-    help. tintColor = [UIColor whiteColor];
-    [help addTarget:self action:@selector(performHelp) forControlEvents:UIControlEventTouchUpInside];
-    help.frame = CGRectMake(fullScreen.size.width-customBarHeight, 0, customBarHeight, customBarHeight);
-    [toolbar addSubview:help];
-    help.showsTouchWhenHighlighted = YES;
-
-    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
-    [back addTarget:self action:@selector(performBack) forControlEvents:UIControlEventTouchUpInside];
-    [back setImage:[UIImage imageNamed:@"back_vpf.png"] forState:UIControlStateNormal];
-    back.frame = CGRectMake(0, 0,  customBarHeight, customBarHeight);
-    [toolbar addSubview:back];
-    back.showsTouchWhenHighlighted = YES;
-
-    UIButton *proButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
-    [proButton setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
-    proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
-#if freeVersion
-    [toolbar addSubview:proButton];
-    proButton.showsTouchWhenHighlighted = YES;
-    [self addAnimationToProButton:proButton];
-    #endif
-
-    _appoxeeBadge.frame = CGRectMake(fullScreen.size.width-appoxee_button_x, 12.5, 25, 25);
-    _appoxeeBadge.showsTouchWhenHighlighted = YES;
-
-    //[toolbar addSubview:_appoxeeBadge];
-
-    [self.view addSubview:toolbar];
-
-    [toolbar release];
-
-    return toolbar;
+    //if (NO == bought_allfeaturespack)
+    //{
+    [[SRSubscriptionModel shareKit]restoreSubscriptions];
+    [self showLoadingForRestore];
+    //}
+//    else
+//    {
+//
+//        UIAlertController * alert = [UIAlertController alertControllerWithTitle : @"Alert"
+//                                                                            message : @"Already restored "
+//                                                                 preferredStyle : UIAlertControllerStyleAlert];
+//
+//            UIAlertAction * ok = [UIAlertAction
+//                                  actionWithTitle:@"OK"
+//                                  style:UIAlertActionStyleDefault
+//                                  handler:^(UIAlertAction * action)
+//                                  {
+//
+//
+//                NSLog(@"Restore $$$$$$$$$$ ----4");
+//            }];
+//
+//            [alert addAction:ok];
+//            [self presentViewController:alert animated:YES completion:nil];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//
+//                NSLog(@"Restore $$$$$$$$$$ ----2");
+//            });
+//    }
+//
 }
+#pragma mark ActivtyIndicator
+-(void)showLoadingForRestore
+{
+//    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+//
+//    // saving an NSString
+//    [prefs setObject:@"RestoredPurchase" forKey:@"FramesLoadedFirst"];
+    //if (NO == bought_allfeaturespack)
+   // {
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    [LoadingClass addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"Restoring Purchase",@"Restoring Purchase")];
+    
+    [self performSelector:@selector(startFramesdownloading) withObject:nil afterDelay:3.0 ];
+   // }
+    
+
+}
+-(void)startFramesdownloading
+{
+    [self performSelector:@selector(CallRecieptValidation) withObject:nil afterDelay:40.0 ];
+}
+
+-(void)CallRecieptValidation
+{
+    [[SRSubscriptionModel shareKit]ValidateReciept];
+}
+
+-(void)hideActivityIndicator
+{
+    [LoadingClass removeActivityIndicatorFrom:self.view];
+}
+
+
+//-(UIView*)addToolbarWithTitle:(NSString*)title tag:(int)toolbarTag
+//{
+//    //safe area here//
+//    NSLog(@"Dding Title----");
+////    CGRect fullScreen = [[UIScreen mainScreen]bounds];
+//
+//
+//    UIView *bgview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight-20)];
+//    //toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
+//    bgview.backgroundColor=PHOTO_DEFAULT_COLOR;
+//    bgview.userInteractionEnabled = YES;
+//    bgview.tag = TAG_TOOLBAR_EDIT;
+//    [self.view addSubview:bgview];
+//   // [bgview release];
+//    UIView *toolbar;
+//    //safe area here //
+//    if (@available(iOS 11.0, *)) {
+//        if (SafeAreaBottomPadding > 0) {
+//               // iPhone with notch
+//
+//            toolbar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight+customBarHeight/2)];
+//        }
+//        else
+//        {
+//            toolbar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight)];
+//        }
+//    }
+//    else
+//    {
+//        toolbar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, fullScreen.size.width, customBarHeight)];
+//
+//    }
+//
+//    //toolbar.image = [UIImage imageNamed:@"top-bar_vpf"];
+//    toolbar.backgroundColor=PHOTO_DEFAULT_COLOR;
+//    toolbar.userInteractionEnabled = YES;
+//    toolbar.tag = TAG_TOOLBAR_EDIT;
+//    toolbar.layer.cornerRadius = 15;
+//    //safe area here //
+//    UILabel *label;
+//    if (@available(iOS 11.0, *)) {
+//        if (SafeAreaTopPadding> 0) {
+//
+//
+//            label = [[UILabel alloc] initWithFrame:CGRectMake(toolbar.frame.size.width*25, SafeAreaTopPadding/2, 200, customBarHeight)];
+//        }
+//        else
+//        {
+//            label = [[UILabel alloc] initWithFrame:CGRectMake(toolbar.frame.size.width*22, 0, 200, customBarHeight)];
+//            NSLog(@"Here it is >ios11----");
+//        }
+//    }
+//    else
+//    {
+//        if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+//        {
+//
+//        label = [[UILabel alloc] initWithFrame:CGRectMake(toolbar.frame.size.width*45, 0, 200, customBarHeight)];
+//        }
+//        else
+//        {
+//        label = [[UILabel alloc] initWithFrame:CGRectMake(toolbar.frame.size.width*22, 0, 200, customBarHeight)];
+//        }
+//    }
+//
+//    label.textAlignment = NSTextAlignmentCenter;
+//    label.backgroundColor = [UIColor greenColor];
+//    label.shadowOffset = CGSizeMake(0, 1);
+//    label.textColor = UIColorFromRGB(0xFFFFFFFF);
+//    label.text = title;
+//    label.font = [UIFont boldSystemFontOfSize:14.0];
+//    if (UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)
+//    {
+//        label.font = [UIFont boldSystemFontOfSize:17.0];
+//    }
+//    else
+//    {
+//        label.font = [UIFont boldSystemFontOfSize:15.0];
+//
+//    }
+//    [toolbar addSubview:label];
+//
+//    //label.center = toolbar.center;
+//   // [label release];
+//
+//    UIButton *help = [UIButton buttonWithType:UIButtonTypeInfoLight];
+//   // UIButton *help = [UIButton buttonWithType:UIButtonTypeCustom];
+//    help. tintColor = [UIColor whiteColor];
+//    //[help addTarget:self action:@selector(performBack) forControlEvents:UIControlEventTouchUpInside];
+//    [help setImage:[UIImage imageNamed:@"info2"] forState:UIControlStateNormal];
+//    [help addTarget:self action:@selector(performHelp) forControlEvents:UIControlEventTouchUpInside];
+//    help.frame = CGRectMake(fullScreen.size.width-customBarHeight, 0, customBarHeight, customBarHeight);
+//   // [toolbar addSubview:help];
+//    help.showsTouchWhenHighlighted = YES;
+//
+//    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [back addTarget:self action:@selector(performBack) forControlEvents:UIControlEventTouchUpInside];
+//    [back setImage:[UIImage imageNamed:@"back2"] forState:UIControlStateNormal];
+//    if (@available(iOS 11.0, *)) {
+//        if (SafeAreaTopPadding > 0) {
+//            back.frame = CGRectMake(0,SafeAreaTopPadding/2,  customBarHeight, customBarHeight);
+//        }
+//        else
+//        {
+//            back.frame = CGRectMake(0, 0,  customBarHeight, customBarHeight);
+//        }
+//    }
+//    else
+//    {
+//        back.frame = CGRectMake(0, 0,  customBarHeight, customBarHeight);
+//    }
+//
+//    [toolbar addSubview:back];
+//    back.showsTouchWhenHighlighted = YES;
+//
+//    UIButton *proButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [proButton addTarget:self action:@selector(openProVersion) forControlEvents:UIControlEventTouchUpInside];
+//    [proButton setBackgroundImage:[UIImage imageNamed:@"pro 1.png"] forState:UIControlStateNormal];
+//    proButton.frame = CGRectMake(fullScreen.size.width-pro_x, 0, customBarHeight, customBarHeight);
+//#if freeVersion
+//    [toolbar addSubview:proButton];
+//    proButton.showsTouchWhenHighlighted = YES;
+//    [self addAnimationToProButton:proButton];
+//    #endif
+//
+//    _appoxeeBadge.frame = CGRectMake(fullScreen.size.width-appoxee_button_x, 12.5, 25, 25);
+////    _appoxeeBadge.showsTouchWhenHighlighted = YES;
+//
+//    //[toolbar addSubview:_appoxeeBadge];
+//
+//    [self.view addSubview:toolbar];
+//
+//    UIButton *restore = [UIButton buttonWithType:UIButtonTypeCustom];
+//    //[help addTarget:self action:@selector(performBack) forControlEvents:UIControlEventTouchUpInside];
+//  //  [restore setImage:[UIImage imageNamed:@"info1"] forState:UIControlStateNormal];
+//
+//    [restore setTitle:@"Restore" forState:UIControlStateNormal];
+//    restore.titleLabel.font = [UIFont fontWithName:@"Gilroy-Medium" size:17.0f];
+//    [restore addTarget:self action:@selector(ResoreSubscription) forControlEvents:UIControlEventTouchUpInside];
+//    if (UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)
+//    {
+//        restore.frame = CGRectMake(fullScreen.size.width-customBarHeight-customBarHeight-customBarHeight, 0, customBarHeight+customBarHeight, customBarHeight);
+//    }
+//   else if (([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) && (full_screen . size. height==568))
+//      {
+//          restore.frame = CGRectMake(fullScreen.size.width-customBarHeight-customBarHeight-35, 0, customBarHeight+customBarHeight, customBarHeight);
+//      }
+//    else{
+//        if (@available(iOS 11.0, *)) {
+//            if (SafeAreaTopPadding > 0) {
+//                restore.frame = CGRectMake(fullScreen.size.width-customBarHeight-customBarHeight-customBarHeight,SafeAreaTopPadding/2, customBarHeight+customBarHeight, customBarHeight);
+//            }
+//            else
+//            {
+//                restore.frame = CGRectMake(fullScreen.size.width-customBarHeight-customBarHeight-customBarHeight, 0, customBarHeight+customBarHeight, customBarHeight);
+//            }
+//        }
+//        else
+//
+//        {
+//            restore.frame = CGRectMake(fullScreen.size.width-customBarHeight-customBarHeight-customBarHeight, 0, customBarHeight+customBarHeight, customBarHeight);
+//        }
+//
+//
+//
+//
+//    }
+//
+//    [toolbar addSubview:restore];
+//    restore.showsTouchWhenHighlighted = YES;
+//
+//    //[toolbar release];
+//
+//    return toolbar;
+//}
+
+
 -(void)addAnimationToProButton:(UIButton *)aButton
 {
     CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -790,7 +1081,7 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 }
 -(void)openProVersion
 {
-    CGRect fullScreen = [[UIScreen mainScreen]bounds];
+//    CGRect fullScreen = [[UIScreen mainScreen]bounds];
     UIView *backgroundView = [[UIView alloc] initWithFrame:fullScreen];
     backgroundView . tag = 5000;
     [backgroundView setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.8]];
@@ -807,17 +1098,17 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     UIImageView *proImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,fullScreen.size.width , fullScreen.size.height)];
      [proImageView setImage:[UIImage imageNamed:@"ProAd.png"]];
 
-    if (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPhone && fullScreen.size.height>480)
+    if ([UIDevice currentDevice].userInterfaceIdiom== UIUserInterfaceIdiomPhone && fullScreen.size.height>480)
     {
         [proImageView setImage:[UIImage imageNamed:@"ProAd1136.png"] ];
-    }else if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    }else if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
     {
         [proImageView setImage:[UIImage imageNamed:@"ProAd~ipad.png"]];
     }
     [backgroundView addSubview:proImageView];
 
     UIButton *bigInstallButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    bigInstallButton.frame     = proImageView.frame;
+    bigInstallButton.frame  = proImageView.frame;
     //[bigInstallButton setImage:[UIImage imageNamed:@"install.png"] forState:UIControlStateNormal];
     [bigInstallButton addTarget:self action:@selector(openProApp) forControlEvents:UIControlEventTouchUpInside];
     [backgroundView addSubview:bigInstallButton];
@@ -840,7 +1131,8 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     NSURL *proUrl = [NSURL URLWithString:ituneslinktoProVersion];
     if([[UIApplication sharedApplication]canOpenURL:proUrl])
     {
-        [[UIApplication sharedApplication] openURL:proUrl];
+//        [[UIApplication sharedApplication] openURL:proUrl];
+        [[UIApplication sharedApplication] openURL:proUrl options:@{} completionHandler:nil];
     }
 }
 -(void)closeView
@@ -856,18 +1148,56 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
 
 
 }
+
 -(void)performBack
 {
 
-    [self dismissViewControllerAnimated:NO completion:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationdidfinishwithframeview" object:nil];
-    }];
+    //[self.navigationController popViewControllerAnimated:NO]; //changedToPop
+    //[self.navigationController popToRootViewControllerAnimated:NO];----//existing one
+    //changes made
+    
+    NSUserDefaults *user_Defaults = [NSUserDefaults standardUserDefaults];
+    NSLog(@"ClassDynamic value %ld",(long)[user_Defaults integerForKey:@"ClassDynamic"]);
+    if([user_Defaults integerForKey:@"ClassDynamic"] == 1)
+    {
+        NSLog(@"make root class here---");
+        
+        
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+       // UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+   //     StartViewController *startClass = [[StartViewController alloc] init];
+//        UINavigationController *controlador = [[UINavigationController alloc]init];
+//        controlador = [[UINavigationController alloc] init];
+//        self.window.rootViewController =  controlador;
+//        [self.window makeKeyAndVisible];
+//        [controlador pushViewController:startClass animated:YES];
+        
+        
+
+    }
+   
+//    if(self.isDynamically)
+//    {
+//        NSLog(@"make root class here---");
+//    }
+    else
+    {
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES]; //changedToPopPro
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationdidfinishwithframeview" object:nil];//Existing one
+        NSLog(@"going back button-----");
+        
+    }
+  
+//   [self dismissViewControllerAnimated:NO completion:^{
+//       [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationdidfinishwithframeview" object:nil]; //kasaram
+       
+   //}];
 
     
 }
 -(void)customizeTheLookOfTabbar:(UITabBar*)tbar
 {
-    if(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    if([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
     {
         if([tbar respondsToSelector:@selector(setBackgroundImage:)])
         {
@@ -932,197 +1262,208 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     //NSLog(@"gridView contentLockedAtIndex %d",index);
     if(gView.tag == TAG_UNEVENFRAME_GRIDVIEW)
     {
-        return [FrameSelectionController getLockStatusOfFrame:(index-1000) group:[self getGroupIdFromTag:gView.tag]];
+        return [FrameSelectionController getLockStatusOfFrame:(index-1000) group:[self getGroupIdFromTag:(int)gView.tag]];
         //return [self isFrameLockedAtIndex:(index - 1000)];
     }
 
     return NO;
 }
 
-- (void) receiveNotification:(NSNotification *) notification
+//- (void) receiveNotification:(NSNotification *) notification
+//{
+//   // NSLog(@"frame selection view controller received Notification name is %@",notification.name);
+//    if([[notification name]isEqualToString:kInAppPurchaseManagerTransactionSucceededNotification])
+//    {
+//        NSLog(@"Check Date : ------------------ subscribed");
+//        frameSelectionView.delegate = nil;
+//        [frameSelectionView removeFromSuperview];
+//
+//        /* add them again to make sure user don't see the lock icons on the images */
+//        CGRect rect = [[UIScreen mainScreen]bounds];
+//        CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
+//        frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
+//        frameSelectionView.delegate = self;
+//        frameSelectionView.tag = tag_frameselection_view;
+//        frameSelectionView.userInteractionEnabled = YES;
+//        self.view.userInteractionEnabled = YES;
+//        [self.view addSubview:frameSelectionView];
+//        [frameSelectionView loadFrames];
+//        [frameSelectionView release];
+//    }
+//    return;
+//}
+
+//-(void)unregisterForNotifications
+//{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                    name:nil
+//                                                  object:nil];
+//}
+
+//-(void)registerForNotifications
+//{
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(receiveNotification:)
+//                                                 name:nil
+//                                               object:nil];
+//}
+
+
+-(void)viewDidAppear:(BOOL)animated
 {
-    if([[notification name]isEqualToString:kInAppPurchaseManagerTransactionSucceededNotification])
-    {
-        frameSelectionView.delegate = nil;
-        [frameSelectionView removeFromSuperview];
-        
-        /* add them again to make sure user don't see the lock icons on the images */
-        CGRect rect = [[UIScreen mainScreen]bounds];
-        CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
-        frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
-        frameSelectionView.delegate = self;
-        frameSelectionView.tag = tag_frameselection_view;
-        frameSelectionView.userInteractionEnabled = YES;
-        self.view.userInteractionEnabled = YES;
-        [self.view addSubview:frameSelectionView];
-        [frameSelectionView loadFrames];
-        [frameSelectionView release];
-    }
-    else if([[notification name]isEqualToString:notification_instagram_follow_done])
-    {
-        NSLog(@" inside instagram notification");
-        FrameSelectionView *fsv = (FrameSelectionView*)[self.view viewWithTag:tag_frameselection_view];
-
-        if(nil != fsv)
-        {
-            int ind = [[[NSUserDefaults standardUserDefaults]objectForKey:key_frame_index_of_follow_inprogress]integerValue];
-            NSLog(@"Frame selected is %d",ind);
-            [fsv updateInstagramFollowStatus:YES ForItemAtIndex:ind];
-
-            [WCAlertView showAlertWithTitle:@"Thank you!!!" message:[NSString stringWithFormat:@"New frames have been unlocked successfully"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                frameSelectionView.delegate = nil;
-                [frameSelectionView removeFromSuperview];
-
-                /* add them again to make sure user don't see the lock icons on the images */
-                CGRect rect = [[UIScreen mainScreen]bounds];
-                CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
-                frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
-                frameSelectionView.delegate = self;
-                frameSelectionView.tag = tag_frameselection_view;
-                frameSelectionView.userInteractionEnabled = YES;
-                self.view.userInteractionEnabled = YES;
-                [self.view addSubview:frameSelectionView];
-                [frameSelectionView loadFrames];
-                [frameSelectionView release];
-                
-            } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        }
-    }
-    else if ([[notification name] isEqualToString:notification_rate_app_done])
-        {
-        FrameSelectionView *fsv = (FrameSelectionView*)[self.view viewWithTag:tag_frameselection_view];
-        
-        if(nil != fsv)
-            {
-            int ind = [[[NSUserDefaults standardUserDefaults]objectForKey:key_frame_index_of_follow_inprogress]integerValue];
-            NSLog(@"Frame selected is %d",ind);
-            [fsv updateRateUsStatus:YES ForItemAtIndex:ind];
-            
-            [WCAlertView showAlertWithTitle:@"Thank you!!!" message:[NSString stringWithFormat:@"New frames have been unlocked successfully"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                frameSelectionView.delegate = nil;
-                [frameSelectionView removeFromSuperview];
-                
-                /* add them again to make sure user don't see the lock icons on the images */
-                CGRect rect = [[UIScreen mainScreen]bounds];
-                CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
-                frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
-                frameSelectionView.delegate = self;
-                frameSelectionView.tag = tag_frameselection_view;
-                frameSelectionView.userInteractionEnabled = YES;
-                
-                self.view.userInteractionEnabled = YES;
-                [self.view addSubview:frameSelectionView];
-                [frameSelectionView loadFrames];
-                [frameSelectionView release];
-                
-            } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        }
-    }
-    else if([[notification name]isEqualToString:notification_twitter_follow_done])
-    {
-        
-        FrameSelectionView *fsv = (FrameSelectionView*)[self.view viewWithTag:tag_frameselection_view];
-
-        if(nil != fsv)
-        {
-            int ind = [[[NSUserDefaults standardUserDefaults]objectForKey:key_frame_index_of_follow_inprogress]integerValue];
-            NSLog(@"Frame selected is %d",ind);
-            [fsv updateTwitterFollowStatus:YES ForItemAtIndex:ind];
-            
-            [WCAlertView showAlertWithTitle:@"Thank you!!!" message:[NSString stringWithFormat:@"New frames have been unlocked successfully"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                frameSelectionView.delegate = nil;
-                [frameSelectionView removeFromSuperview];
-
-                /* add them again to make sure user don't see the lock icons on the images */
-                CGRect rect = [[UIScreen mainScreen]bounds];
-                CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
-                frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
-                frameSelectionView.delegate = self;
-                frameSelectionView.tag = tag_frameselection_view;
-                frameSelectionView.userInteractionEnabled = YES;
-                
-                self.view.userInteractionEnabled = YES;
-                [self.view addSubview:frameSelectionView];
-                [frameSelectionView loadFrames];
-                [frameSelectionView release];
-                
-            } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        }
-    }
-    
-    return;
+    [super viewDidAppear:animated];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setRootviewcontrollerHere) name:@"DynamicallyCalled" object:nil];
+    NSLog(@"viewdidapper frameselection class");
+    [[SRSubscriptionModel shareKit]loadProducts]; // newly added here
+    [[SRSubscriptionModel shareKit]CheckingExpiryHere];
+    if (@available(iOS 11.0, *)) {
+           [self setNeedsUpdateOfHomeIndicatorAutoHidden];
+       }
 }
 
--(void)unregisterForNotifications
+-(void)restoreSuccess
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:nil
-                                                  object:nil];
+    NSLog(@"-------------------- restoreSuccess -------------------");
+    [self ShowAlert:@"Restore Successful"  message:@"Restored Successfully"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kInAppPurchaseManagerTransactionSucceededNotification object:self];
+}
+         
+-(void)restoreFailed
+{
+    NSLog(@"-------------------- restore Failed -------------------");
+    [self ShowAlert:@"Restore Failed"  message:@"Subscription Expired"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kInAppPurchaseManagerTransactionSucceededNotification object:self];
 }
 
--(void)registerForNotifications
+
+-(void)ShowAlert:(NSString*)title message:(NSString*)msg
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
-                                                 name:nil
-                                               object:nil];
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    [KeyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
 }
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    nvm = [Settings Instance];
+    NSLog(@"111111111  FrameSelectionView");
+    // Hide the default back button
+    self.navigationItem.hidesBackButton = YES;
+
+    // Create a custom back button with your image
+    UIImage *backButtonImage = [UIImage imageNamed:@"back_svg"]; // Ensure this image exists in your assets
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:backButtonImage style:UIBarButtonItemStylePlain
+           target:self action:@selector(performBack)];
+    NSLog(@"222222222  FrameSelectionView");
+    // Set the custom back button as the left bar button item
+    self.navigationItem.leftBarButtonItem = backButton;
+
     
-    UIImageView *imgView = [[UIImageView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    //imgView.image        = [UIImage imageWithContentsOfFile:[Utility documentDirectoryPathForFile:@"mainbackground.jpg"]];
-    if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
-    {
-        imgView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"background_ipad" ofType:@"png"]];
-    }
-    else
-    {
-        imgView.image = [UIImage imageNamed:@"background"];
-       if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && full_screen.size.height>480) {
-        imgView.image = [UIImage imageNamed:@"background_1136.png"] ;
-    }
+    self.isDynamically = NO;
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(FrameSelected:) name:@"SelectedFrame" object:nil];
+    
+//    [[NSNotificationCenter defaultCenter]addObserver:self
+//                                            selector:@selector(reloadViews)
+//                                                name:kInAppPurchaseManagerTransactionSucceededNotification
+//                                              object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self
+//                                            selector:@selector(ShowIndicatorForFetchingLastPurchases)
+//                                                name:@"FetchingLastPurchases" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(restoreFailed) name:@"RestoreFailed"  object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(restoreSuccess) name:@"RestoreSuccessful"  object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideActivityIndicator) name:@"HideActivityIndicator" object:nil];
+    
 
-    }
-
+    prefsTime = [NSUserDefaults standardUserDefaults];
+      prefsDate= [NSUserDefaults standardUserDefaults];
+    SuccessStatus = [NSUserDefaults standardUserDefaults];
+    NSLog(@"333333  FrameSelectionView");
+    nvm = [Settings Instance];
+    NSLog(@"44444  FrameSelectionView");
+    UIView *imgView = [[UIView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    imgView.backgroundColor=[UIColor colorWithRed:48.0/255 green:51.0/255 blue:58.0/255 alpha:1.0];
     imgView.tag = TAG_FRAMEGRID_CONTROLLER;
     [self.view addSubview:imgView];
-    [imgView release];
+ //   [imgView release];
     
     self.view.userInteractionEnabled = YES;
     
     /* Add toolbar */
-    [self addToolbarWithTitle:@"Frames" tag:tag_frameselection_toolbar];
-    
+    self.title = @"Frames";
+   // [self addToolbarWithTitle:@"Frames" tag:tag_frameselection_toolbar];
+    //here it is//
     CGRect rect = [[UIScreen mainScreen]bounds];
     CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100-20);
+    NSLog(@"before  FrameSelectionView");
+    frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
+    NSLog(@"after  FrameSelectionView");
+    frameSelectionView.delegate = self;
+    frameSelectionView.tag = tag_frameselection_view;
+    frameSelectionView.userInteractionEnabled = YES;
+    self.view.userInteractionEnabled = YES;
+    [self.view addSubview:frameSelectionView];
+    NSLog(@"view did load frame selection controller");
+    [frameSelectionView loadFrames];
+   // [frameSelectionView release];
+    self.navigationController.navigationBarHidden = NO;
+    self.title = NSLocalizedString(@"FRAMES",@"Frames");
+    [self addTabbar];
+
+}
+
+
+//-(void)ShowIndicatorForFetchingLastPurchases
+//{
+////    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+////
+////    [Utility addActivityIndicatotTo:self.view withMessage:NSLocalizedString(@"Fetching Purchases",@"Fetching last purchases")];
+//    [self performSelector:@selector(startValidation) withObject:nil afterDelay:1.0 ];
+//}
+//
+//-(void)startValidation
+//{
+//    [self performSelector:@selector(CheckValidation) withObject:nil afterDelay:40.0 ];
+//}
+//
+//-(void)CheckValidation
+//{
+//    [[SRSubscriptionModel shareKit]Check_Validation];
+//}
+
+-(void)reloadViews
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+    NSLog(@"Reload views");
+    frameSelectionView.delegate = nil;
+    [frameSelectionView removeFromSuperview];
+    
+    /* add them again to make sure user don't see the lock icons on the images */
+    CGRect rect = [[UIScreen mainScreen]bounds];
+    CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100);
     frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
     frameSelectionView.delegate = self;
     frameSelectionView.tag = tag_frameselection_view;
     frameSelectionView.userInteractionEnabled = YES;
     self.view.userInteractionEnabled = YES;
     [self.view addSubview:frameSelectionView];
+    NSLog(@"=================== Reloading frames ===================");
     [frameSelectionView loadFrames];
-    [frameSelectionView release];
-    
-    self.navigationController.navigationBarHidden = NO;
-    self.title = NSLocalizedString(@"FRAMES",@"Frames");
-    
-    [self addTabbar];
+   // [frameSelectionView release];
+    });
 }
 
 - (void)frameSelectionView:(FrameSelectionView *)gView showInAppForItemIndex:(int)index button:(UIButton*)btn
 {
 
-    InAppPurchasePreview *preview = [[InAppPurchasePreview alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    self.navigationController.navigationBarHidden = YES;
-    
-    [self.view addSubview:preview];
-    preview.delegate = self;
+//    InAppPurchasePreview *preview = [[InAppPurchasePreview alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+//    self.navigationController.navigationBarHidden = YES;
+//
+//    [self.view addSubview:preview];
+//    preview.delegate = self;
     
 
     NSString *watermarkPackPrice = [[InAppPurchaseManager Instance]getPriceOfProduct:kInAppPurchaseRemoveWaterMarkPack];
@@ -1139,88 +1480,155 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         watermarkPackDescription = DEFAULT_WATERMARK_PACK_DESCRIPTION;
     }
     
-    NSArray *watermarkPackObjs = [NSArray arrayWithObjects:watermarkPackPrice,watermarkPackTitle, watermarkPackDescription,nil];
-    NSArray *watermarkPackKeys = [NSArray arrayWithObjects:key_inapppreview_package_price,key_inapppreview_package_msgheading, key_inapppreview_package_msgbody,nil];
-    NSDictionary *watermarkPack = [NSDictionary dictionaryWithObjects:watermarkPackObjs forKeys:watermarkPackKeys];
-    
-    NSArray *packages = [NSArray arrayWithObjects:watermarkPack, nil];
-    
-    [preview showInAppPurchaseWithPackages:packages];
+//    NSArray *watermarkPackObjs = [NSArray arrayWithObjects:watermarkPackPrice,watermarkPackTitle, watermarkPackDescription,nil];
+//    NSArray *watermarkPackKeys = [NSArray arrayWithObjects:key_inapppreview_package_price,key_inapppreview_package_msgheading, key_inapppreview_package_msgbody,nil];
+//    NSDictionary *watermarkPack = [NSDictionary dictionaryWithObjects:watermarkPackObjs forKeys:watermarkPackKeys];
+//
+//    NSArray *packages = [NSArray arrayWithObjects:watermarkPack, nil];
+//
+//    [preview showInAppPurchaseWithPackages:packages];
 
     return;
 }
 
 -(void)frameSelectionView:(FrameSelectionView *)gView selectedItemIndex:(int)index button:(UIButton *)btn
 {
-    if (proVersion) {
+  // if (proVersion)
+  // {
+    //old code commented
+    //changed frame selection//
+//    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+//    if ([prefs integerForKey:@"Productpurchased"] == 1)
+//    {
+    Settings *set;
+  
+        
         _curSelectedGroup = [self frameTypeFromIndex:index];
-
-        Settings *set = [Settings Instance];
+        
+        set = [Settings Instance];
         set.currentSessionIndex = set.nextFreeSessionIndex;
         set.currentFrameNumber = index;
 
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
         NSLog(@"Sending new frame selected notification with frames index %d",set.currentFrameNumber);
-        [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
-
-        [self dismissModalViewControllerAnimated:NO];
-    }else
-    {
-        if (index == 52) {
-            
-            NSURL *proversionUrl = [NSURL URLWithString:ituneslinktoProVersion];
-            if ([[UIApplication sharedApplication] canOpenURL:proversionUrl]) {
-                [[UIApplication sharedApplication] openURL:proversionUrl];
-
-            }
-        }else
-        {
-            _curSelectedGroup = [self frameTypeFromIndex:index];
-
-            Settings *set = [Settings Instance];
-            set.currentSessionIndex = set.nextFreeSessionIndex;
-            set.currentFrameNumber = index;
-
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
-            NSLog(@"Sending new frame selected notification with frames index %d",set.currentFrameNumber);
-            [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
-            
-            [self dismissModalViewControllerAnimated:NO];
-        }
-    }
-
+   
+    [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
+    NSLog(@"selected Item Index----");
+    [self.navigationController popViewControllerAnimated:NO];
     
-    return;
+//    NSUserDefaults *prefs1 = [NSUserDefaults standardUserDefaults];
+//    if(set.currentFrameNumber<3||[prefs1 integerForKey:@"Productpurchased"] == 1)
+//    {
+//    if((set.currentFrameNumber<3 || set.currentFrameNumber ==1003 || set.currentFrameNumber ==1007 || set.currentFrameNumber ==1013 || set.currentFrameNumber ==1018 || set.currentFrameNumber ==21 || set.currentFrameNumber ==1033   || set.currentFrameNumber == 37 || set.currentFrameNumber ==43)||[[SRSubscriptionModel shareKit]IsAppSubscribed])
+//    {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
+//        NSLog(@"selected Item Index----");
+//    }
+//
+//   if(![[SRSubscriptionModel shareKit]IsAppSubscribed])
+//    {
+//        if(set.currentFrameNumber<3 || set.currentFrameNumber ==1003 || set.currentFrameNumber ==1007 || set.currentFrameNumber ==1013 || set.currentFrameNumber ==1018 || set.currentFrameNumber ==21 || set.currentFrameNumber ==1033  || set.currentFrameNumber == 37 || set.currentFrameNumber ==43)
+//        {
+//            [self.navigationController popViewControllerAnimated:NO]; //Existing one
+//           // [frameSelectionView loadFrames];
+//         //   [self dismissViewControllerAnimated:NO completion:nil]; //kasaram
+//        
+//    }
+//        
+//        else
+//        {
+//        if(set.currentFrameNumber<10050&& set.currentFrameNumber!=52)
+//        {
+//            if((set.currentFrameNumber<3||[[SRSubscriptionModel shareKit]IsAppSubscribed]))
+//            {
+//                [self.navigationController popViewControllerAnimated:NO];
+//            }
+//            else
+//            {
+//                [self lockingFrameSelection];
+//                //[frameSelectionView loadFrames];
+//                NSLog(@"current frame number is greater than 3 so lock here %d",_curSelectedFrame);
+//            }
+//          
+//            
+//        }
+//        }
+//        }
+//       else
+//       {
+//           if([[SRSubscriptionModel shareKit]IsAppSubscribed])
+//           {
+//               [self.navigationController popViewControllerAnimated:NO];
+//           }
+//           else
+//           {
+//               if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1) {
+//                   [self.navigationController popViewControllerAnimated:NO];
+//               }
+//           }
+//       }
 }
 
--(void)fbLikeUsView:(FBLikeUsView *)gView willExitWithLikeStatus:(BOOL)liked
+#pragma LockingFrames
+
+-(void)lockingFrameSelection
 {
-    if(nil == gView)
-    {
-        return;
-    }
-    
-    int index = [[gView.userInfo objectForKey:@"index"]integerValue];
-    FrameSelectionView *selectionView = [gView.userInfo objectForKey:@"frameSelectionView"];
-    
-    [selectionView updateFacebookLikeStatus:liked ForItemAtIndex:index];
-    
-    if(liked)
-    {
-        [WCAlertView showAlertWithTitle:@"Thank you!!!" message:[NSString stringWithFormat:@"New frames have been unlocked successfully"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-            
-        } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    }
-    else
-    {
-        [WCAlertView showAlertWithTitle:@"Failed!!!" message:[NSString stringWithFormat:@"Failed to like the page"] customizationBlock:NULL completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-            
-        } cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    }
-    
-    
-    return;
+    [self ShowSubscriptionView];
+
 }
+-(void)clearingWhiteScreenfirst
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+   // saving an Integer
+   [prefs setInteger:0 forKey:@"whiteScreen"];
+   
+}
+-(void)clearingWhiteScreenSecondTime
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+   // saving an Integer
+   [prefs setInteger:1 forKey:@"whiteScreen"];
+   
+}
+
+//-(void)allocateResourcesForFrames
+//{
+//
+//    FrameSelectionController *sc = [FrameSelectionController alloc];
+//
+//    if(nil == sc)
+//    {
+//        return;
+//    }
+//
+//  //  [self.view addSubview:sc.view];
+//
+//   // [self.navigationController presentViewController:sc animated:NO completion:nil];//kasaram
+//     [self.navigationController pushViewController:sc animated:NO]; //working //changedToPushPro //--Existing one
+//
+//    [sc release];
+//
+//    return;
+//}
+
+
+-(void)reloadingMainController
+{
+    if(![[SRSubscriptionModel shareKit]IsAppSubscribed])
+    {
+       FrameSelectionController * reloadingVc = [[FrameSelectionController alloc]init];
+       [self presentViewController:reloadingVc animated:NO completion:nil];
+   }
+
+    NSLog(@"Maincontroller reloading.....");
+}
+-(void)ShowSubscriptionView
+{
+    SubscriptionView2 = [[SimpleSubscriptionView alloc] init];
+    [self.navigationController pushViewController:SubscriptionView2 animated:YES];
+}
+
 - (void)frameSelectionView:(FrameSelectionView *)gView showRateUsForItemIndex:(int)index button:(UIButton*)btn
 {
     int rateusFrameCount = [FrameSelectionView rateUsLockedFrameCount];
@@ -1242,12 +1650,14 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
                                                          forKey:key_frame_index_of_follow_inprogress];
                 [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES]
                                                          forKey:key_rate_app_inprogress];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL] options:@{} completionHandler:nil];
             }
             }
         
     } cancelButtonTitle:@"No Thanks" otherButtonTitles:@"Rate it!",nil];
 }
+
 - (void)frameSelectionView:(FrameSelectionView *)gView showFacebookLikeForItemIndex:(int)index button:(UIButton*)btn
 {
     int facebookLockedFrameCount = [FrameSelectionView facebookLockedFrameCount];
@@ -1257,12 +1667,12 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         
         if(buttonIndex == 1)
         {
-            NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:index],@"index",gView,@"frameSelectionView", nil];
-            FBLikeUsView *fblv = [[FBLikeUsView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-            fblv.delegate = self;
-            fblv.userInfo = info;
-            [self.view addSubview:fblv];
-            [fblv release];
+//            NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:index],@"index",gView,@"frameSelectionView", nil];
+//            FBLikeUsView *fblv = [[FBLikeUsView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+//            fblv.delegate = self;
+//            fblv.userInfo = info;
+//            [self.view addSubview:fblv];
+//            [fblv release];
         }
         
     } cancelButtonTitle:@"No Thanks" otherButtonTitles:@"Like It!",nil];
@@ -1311,9 +1721,9 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         if(buttonIndex == 1)
         {
             NSString *instagramProfileLink = @"http://www.instagram.com/outthinking";
-            NSURL *instagramUrl = [NSURL URLWithString:instagramProfileLink];
+            NSURL *instagramUrls = [NSURL URLWithString:instagramProfileLink];
             
-            if([[UIApplication sharedApplication]canOpenURL:instagramUrl])
+            if([[UIApplication sharedApplication]canOpenURL:instagramUrls])
             {
                 [[NSUserDefaults standardUserDefaults]setObject:nil
                                                          forKey:key_frame_index_of_follow_inprogress];
@@ -1321,7 +1731,8 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
                                                          forKey:key_frame_index_of_follow_inprogress];
                 [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES]
                                                          forKey:key_instagram_follow_inprogress];
-                [[UIApplication sharedApplication]openURL:instagramUrl];
+                //[[UIApplication sharedApplication]openURL:instagramUrl];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:instagramUrl] options:@{} completionHandler:nil];
             }
         }
         
@@ -1348,7 +1759,8 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
                                                          forKey:key_frame_index_of_follow_inprogress];
                 [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES]
                                                          forKey:key_twitter_follow_inprogress];
-                [[UIApplication sharedApplication]openURL:twitterUrl];
+//                [[UIApplication sharedApplication]openURL:twitterUrl];
+                [[UIApplication sharedApplication] openURL:twitterUrl options:@{} completionHandler:nil];
             }
         }
         
@@ -1454,14 +1866,32 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     return 0;
 }
 
+-(void)FrameSelected:(NSNotification *) notification
+{
+    NSNumber * frameNum = [notification.userInfo objectForKey:@"FrameIndex"];
+    int index = (int)frameNum.integerValue;
+    NSLog(@"frame selected index is %d",index);
+    _curSelectedGroup = [self frameTypeFromIndex:index];
+    _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index];
+    NSLog(@"Selected frame %d to frametype _curSelectedFrame %d   _curSelectedFrameIndex %d",index,_curSelectedFrame,_curSelectedFrameIndex);
+    Settings *set = [Settings Instance];
+    set.currentSessionIndex = set.nextFreeSessionIndex;
+    set.currentFrameNumber = _curSelectedFrameIndex;
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
+}
+
 -(void)frameScrollView:(FrameScrollView *)gView selectedItemIndex:(int)index button:(UIButton*)btn
 {
     _curSelectedGroup = [self frameTypeFromIndex:index];
-    _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index]; 
-    
+    _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index];
     NSLog(@"Selected frame %d to frametype _curSelectedFrame %d   _curSelectedFrameIndex %d",index,_curSelectedFrame,_curSelectedFrameIndex);
     
-    if(NO == [self frameScrollView:gView contentLockedAtIndex:index])
+    if(_curSelectedFrame<3 || [[SRSubscriptionModel shareKit]IsAppSubscribed])
+    {
+        if(NO == [self frameScrollView:gView contentLockedAtIndex:index])
     {
         Settings *set = [Settings Instance];
         set.currentSessionIndex = set.nextFreeSessionIndex;
@@ -1470,38 +1900,40 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
-        
-        [self dismissModalViewControllerAnimated:NO];
+    }
+        if(_curSelectedFrame<3)
+        {
+       [self dismissViewControllerAnimated:NO completion:nil];
+        }
+        else
+        {
+            if([[SRSubscriptionModel shareKit]IsAppSubscribed])
+            {
+                [self.navigationController popViewControllerAnimated:NO];
+            }
+            else
+            {
+                if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
+                {
+                    [self.navigationController popViewControllerAnimated:NO];
+                }
+            }
+        }
     }
     else
     {
-        InAppPurchasePreview *preview = [[InAppPurchasePreview alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
         CGRect _fullscreen = [[UIScreen mainScreen]bounds];
         CGRect tabbarFrame = CGRectMake(0, _fullscreen.size.height-50, _fullscreen.size.width, 50);
         _customTabBar.frame = tabbarFrame;
-        self.navigationController.navigationBarHidden = YES;
-        
-        [self.view addSubview:preview];
-        preview.delegate = self;
-        
-        NSArray *framesPackObjs = [NSArray arrayWithObjects:[UIImage imageNamed:@"framesinapp.jpg"],@"1.99",@"Frames Pack", @"Purchasing this pack will get you access to all the frames and also all future frames upgrades for FREE,Also ads will be removed forever",nil];
-        NSArray *framesPackKeys = [NSArray arrayWithObjects:key_inapppreview_package_image,key_inapppreview_package_price,key_inapppreview_package_msgheading, key_inapppreview_package_msgbody,nil];
-        NSDictionary *framesPack = [NSDictionary dictionaryWithObjects:framesPackObjs forKeys:framesPackKeys];
-        NSArray *packages = [NSArray arrayWithObjects:framesPack, nil];
-        
-        NSLog(@"Calling showInAppPurchaseWithPackages");
-        [preview showInAppPurchaseWithPackages:packages];
     }
 }
 
 - (UIImage*)frameScrollView:(FrameScrollView*)gView imageForItemAtIndex:(int)index
 {
     int convertedIndex = [self convertIndexToFrameTypeIndex:index];
-    //NSLog(@"imageForItem %d converted index %d",index,convertedIndex);
+    NSLog(@"imageForItem %d converted index %d",index,convertedIndex);
     NSString *pPath = [Utility frameThumbNailPathForFrameNumber:convertedIndex];
     return [UIImage imageWithContentsOfFile:pPath];
-
-
 }
 
 - (UIImage*)frameScrollView:(FrameScrollView*)gView coloredImageForItemAtIndex:(int)index
@@ -1531,5 +1963,48 @@ NSString *__templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZS
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+//- (void)appInviteDialog:(FBSDKAppInviteDialog *)appInviteDialog didCompleteWithResults:(NSDictionary *)results{
+//    if (results) {
+//        NSLog(@"sucess");
+//
+//    }
+//    else
+//        NSLog(@"Failed with error");
+//
+//
+//}
+//- (void)appInviteDialog:(FBSDKAppInviteDialog *)appInviteDialog didFailWithError:(NSError *)error{
+//    if (error) {
+//
+//
+//    }
+//}
 
+//FB Full Screen ADS
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+  //  [[self navigationController] setNavigationBarHidden:YES animated:YES];
+}
+
+//Home bar hiding//
+-(BOOL)prefersHomeIndicatorAutoHidden{
+    return YES;
+}
+-(void)setRootviewcontrollerHere
+{
+   // self.isDynamically = YES;
+    NSLog(@"Frame selection controller is selcted");
+   // [self dynamicValueClass];
+ 
+}
+-(void)dynamicValueClass
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+   // saving an Integer
+   [prefs setInteger:1 forKey:@"ClassDynamic"];
+    
+    NSLog(@"ClassDynamic value before %ld",(long)[prefs integerForKey:@"ClassDynamic"]);
+}
 @end
+

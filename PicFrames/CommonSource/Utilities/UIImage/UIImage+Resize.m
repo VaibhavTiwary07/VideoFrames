@@ -106,7 +106,7 @@
             break;
             
         default:
-            [NSException raise:NSInvalidArgumentException format:@"Unsupported content mode: %d", contentMode];
+            [NSException raise:NSInvalidArgumentException format:@"Unsupported content mode: %ld", contentMode];
     }
 #if TARGET_IPHONE_SIMULATOR    
     CGSize newSize = CGSizeMake(320.0 * ratio, 480.0 * ratio);

@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+//#import "SubscriptionPage.h"
+//#import "SubscriptionPage.h"
+
+//#import "UniversalLayout.h"
+#import "SimpleSubscriptionView.h"
+
 @class FrameSelectionView;
+
 
 @protocol FrameSelectionViewDelegate <NSObject>
 @optional
@@ -19,7 +26,7 @@
 - (void)frameSelectionView:(FrameSelectionView *)gView showTwitterFollowForItemIndex:(int)index button:(UIButton*)btn;
 - (void)frameSelectionView:(FrameSelectionView *)gView showRateUsForItemIndex:(int)index button:(UIButton*)btn;
 @end
-
+//#import "MainController.h"
 @interface FrameSelectionView : UIView
 
 +(int)facebookLockedFrameCount;

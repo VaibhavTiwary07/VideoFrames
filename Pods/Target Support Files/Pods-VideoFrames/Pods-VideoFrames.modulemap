@@ -1,0 +1,6 @@
+framework module Pods_VideoFrames {
+  umbrella header "Pods-VideoFrames-umbrella.h"
+
+  export *
+  module * { export * }
+}

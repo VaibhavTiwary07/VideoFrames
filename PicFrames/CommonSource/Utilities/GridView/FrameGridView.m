@@ -241,7 +241,8 @@
                     return;
                 }
                 [btn setBackgroundImage:[self imageForItem:btn.tag] forState:UIControlStateNormal];
-                [btn setImage:nil forState:UIControlStateNormal];
+                //[btn setImage:nil forState:UIControlStateNormal];
+                //check here
             }
         }
     }

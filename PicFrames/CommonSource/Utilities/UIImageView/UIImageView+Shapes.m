@@ -40,13 +40,17 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
     }
     
     NSString *imgName = [NSString stringWithFormat:@"%s",shape_imagenamemaping[shape].imageName];
-    shapeImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:imgName ofType:@"png"]];
+    
+    NSString *img_Name = [imgName stringByAppendingString:@".png"];
+    //NSLog(@"shape img_Name  %@",img_Name);
+    shapeImage = [UIImage imageNamed:img_Name];
+                  //imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:imgName ofType:@"png"]];
     
     CGImageRef imgAlpha = shapeImage.CGImage;
     CALayer *alphaLayer = [CALayer layer];
     alphaLayer.bounds = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     alphaLayer.position = self.center;
-    alphaLayer.contents = (id)imgAlpha;
+    alphaLayer.contents = (__bridge id)imgAlpha;
     self.layer.mask = alphaLayer;
     
     return;

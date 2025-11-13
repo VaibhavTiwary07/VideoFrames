@@ -1,0 +1,6 @@
+framework module SWSnapshotStackView {
+  umbrella header "SWSnapshotStackView-umbrella.h"
+
+  export *
+  module * { export * }
+}

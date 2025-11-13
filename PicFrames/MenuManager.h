@@ -12,7 +12,6 @@
 #import "QuartzCore/CALayer.h"
 #import "FrameViewController.h"
 #import "Settings.h"
-#import "OT_Facebook.h"
 #import "SessionManager.h"
 #import "Appirater.h"
 #import "FrameSelectionController.h"

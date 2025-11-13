@@ -61,7 +61,7 @@ const int NUM_PIXELS = 5, NUM_SKIP = 15;
 - (void)dealloc{
    self.colorPicker = nil;
    
-   [super dealloc];
+//   [super dealloc];
 }
 
 - (void)drawInContext:(CGContextRef)ctx{
@@ -194,7 +194,7 @@ const int NUM_PIXELS = 5, NUM_SKIP = 15;
 							 (id)[UIColor colorWithWhite:1.0 alpha:0.15].CGColor,nil];
    
 	CGGradientRef myGradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, NULL);
-	[colors release];
+//	[colors release];
    
 	CGContextDrawLinearGradient(ctx, myGradient ,CGPointMake(0,-radius), CGPointMake(0,-glintEdgeHeight), 0);
    CGGradientRelease(myGradient);
@@ -215,7 +215,7 @@ const int NUM_PIXELS = 5, NUM_SKIP = 15;
              (id)[UIColor colorWithWhite:1.0 alpha:0.0].CGColor,nil];
    
    myGradient = CGGradientCreateWithColors(space, (CFArrayRef)colors, NULL);
-	[colors release];
+	//[colors release];
    
    CGContextDrawRadialGradient(ctx, myGradient,glintCenter, 0.0, glintCenter, radius, 0.0);
    CGGradientRelease(myGradient);
@@ -269,7 +269,7 @@ const int NUM_PIXELS = 5, NUM_SKIP = 15;
    [self addAnimation:appear forKey:@"appear"];
    
    //Cleanup
-   [appear release];
+ //  [appear release];
    
    //CAAnimationGroup* expand = [CAAnimationGroup new];
 }

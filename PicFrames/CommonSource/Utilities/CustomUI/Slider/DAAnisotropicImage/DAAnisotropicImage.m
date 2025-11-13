@@ -18,9 +18,9 @@ static UIImage *dark = nil;
 static UIImage *left = nil;
 static UIImage *right = nil;
 
-static double darkImageRotation = 0.0;
-static double leftImageRotation = 0.0;
-static double rightImageRotation = 0.0;
+//static double darkImageRotation = 0.0;
+//static double leftImageRotation = 0.0;
+//static double rightImageRotation = 0.0;
 
 + (void)initialize
 {
@@ -62,51 +62,104 @@ static double rightImageRotation = 0.0;
     return motionManager.accelerometerActive;
 }
 
-+ (UIImage *)imageFromAccelerometerData:(CMAccelerometerData *)data
-{
-    base = [UIImage imageNamed:@"circle_slider"];
-    dark = [UIImage imageNamed:@"circle_slider"];
-    left = [UIImage imageNamed:@"circle_slider"];
-    right = [UIImage imageNamed:@"circle_slider"];
++ (UIImage *)imageFromAccelerometerData:(CMAccelerometerData *)data {
+    // Load images
+    UIImage *base = [UIImage imageNamed:@"circle_slider"];
+    UIImage *dark = [UIImage imageNamed:@"circle_slider"];
+    UIImage *left = [UIImage imageNamed:@"circle_slider"];
+    UIImage *right = [UIImage imageNamed:@"circle_slider"];
     
+    // Get accelerometer data
     CMAcceleration acceleration = [data acceleration];
+    
+    // Get image size
     CGSize imageSize = base.size;
-    CGPoint drawPoint = CGPointMake(-imageSize.width/2.0f,
-                                    -imageSize.height/2.0f);
+    CGPoint drawPoint = CGPointMake(-imageSize.width / 2.0f, -imageSize.height / 2.0f);
     
-    if (UIGraphicsBeginImageContextWithOptions != NULL)
-        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0);
-    else
-        UIGraphicsBeginImageContext(imageSize);
+    // Use UIGraphicsImageRenderer instead of UIGraphicsBeginImageContext
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:imageSize];
     
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIImage *resultImage = [renderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
+        CGContextRef context = rendererContext.CGContext;
+        
+        // Draw base image at origin
+        [base drawAtPoint:CGPointZero];
+        
+        // Translate to the center of the image for rotation purposes
+        CGContextTranslateCTM(context, imageSize.width / 2.0f, imageSize.height / 2.0f);
+        
+        // Apply rotation logic based on accelerometer data
+        
+        double accelToRot = M_PI / 2.0f;
+        
+        // Dark image rotation
+        static double darkImageRotation = 0.0;
+        darkImageRotation = (darkImageRotation * 0.6f) + (acceleration.x * accelToRot) * 0.4f;
+        CGContextRotateCTM(context, darkImageRotation);
+        [dark drawAtPoint:drawPoint];
+        
+        // Left image rotation
+        static double leftImageRotation = 0.0;
+        leftImageRotation = (leftImageRotation * 0.6f) + (acceleration.y * accelToRot - darkImageRotation) * 0.4f;
+        CGContextRotateCTM(context, leftImageRotation);
+        [left drawAtPoint:drawPoint];
+        
+        // Right image rotation
+        static double rightImageRotation = 0.0;
+        rightImageRotation = (rightImageRotation * 0.6f) + (acceleration.z * accelToRot - leftImageRotation) * 0.4f;
+        CGContextRotateCTM(context, rightImageRotation);
+        [right drawAtPoint:drawPoint];
+    }];
     
-    [base drawAtPoint:CGPointZero];
-    CGContextTranslateCTM(context,
-                          imageSize.width/2.0f,
-                          imageSize.height/2.0f);
-    
-    // The following numbers are made up
-    // They look OK, but there is definitely improvement to be made
-    
-    double accelToRot = M_PI/2.0f;
-    
-    darkImageRotation = (darkImageRotation * 0.6f) + (acceleration.x * accelToRot) * 0.4f;
-    CGContextRotateCTM(context, darkImageRotation);
-    [dark drawAtPoint:drawPoint];
-    
-    leftImageRotation = (leftImageRotation * 0.6f) + (acceleration.y * accelToRot - darkImageRotation) * 0.4f;
-    CGContextRotateCTM(context, leftImageRotation);
-    [left drawAtPoint:drawPoint];
-    
-    rightImageRotation = (rightImageRotation * 0.6f) + (acceleration.z * accelToRot - leftImageRotation) * 0.4f;
-    CGContextRotateCTM(context, rightImageRotation);
-    [right drawAtPoint:drawPoint];
-    
-    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return result;
+    return resultImage;
 }
+
+
+//+ (UIImage *)imageFromAccelerometerData:(CMAccelerometerData *)data
+//{
+//    base = [UIImage imageNamed:@"circle_slider"];
+//    dark = [UIImage imageNamed:@"circle_slider"];
+//    left = [UIImage imageNamed:@"circle_slider"];
+//    right = [UIImage imageNamed:@"circle_slider"];
+//    
+//    CMAcceleration acceleration = [data acceleration];
+//    CGSize imageSize = base.size;
+//    CGPoint drawPoint = CGPointMake(-imageSize.width/2.0f,
+//                                    -imageSize.height/2.0f);
+//    
+//    if (UIGraphicsBeginImageContextWithOptions != NULL)
+//        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0);
+//    else
+//        UIGraphicsBeginImageContext(imageSize);
+//    
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    
+//    [base drawAtPoint:CGPointZero];
+//    CGContextTranslateCTM(context,
+//                          imageSize.width/2.0f,
+//                          imageSize.height/2.0f);
+//    
+//    // The following numbers are made up
+//    // They look OK, but there is definitely improvement to be made
+//    
+//    double accelToRot = M_PI/2.0f;
+//    
+//    darkImageRotation = (darkImageRotation * 0.6f) + (acceleration.x * accelToRot) * 0.4f;
+//    CGContextRotateCTM(context, darkImageRotation);
+//    [dark drawAtPoint:drawPoint];
+//    
+//    leftImageRotation = (leftImageRotation * 0.6f) + (acceleration.y * accelToRot - darkImageRotation) * 0.4f;
+//    CGContextRotateCTM(context, leftImageRotation);
+//    [left drawAtPoint:drawPoint];
+//    
+//    rightImageRotation = (rightImageRotation * 0.6f) + (acceleration.z * accelToRot - leftImageRotation) * 0.4f;
+//    CGContextRotateCTM(context, rightImageRotation);
+//    [right drawAtPoint:drawPoint];
+//    
+//    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    
+//    return result;
+//}
 
 @end

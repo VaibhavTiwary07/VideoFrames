@@ -7,33 +7,55 @@
 //
 
 #import "AppDelegate.h"
-
 #import "ViewController.h"
-#if ADS_ENABLE
-#import "Mobclix.h"
-#import "OT_Config.h"
-#import "OT_AdContorl.h"
-#endif
-#import <RevMobAds/RevMobAds.h>
-#import "configparser.h"
-#import "PushWizard.h"
+#import "Appirater.h"
+#import "DEMONavigationController.h"
+#import "DEMOMenuViewController.h"
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+#import <AdSupport/AdSupport.h>
+#import <Firebase/Firebase.h>
+#import <FirebaseDynamicLinks/FirebaseDynamicLinks.h>
+#import "VideoCollage-Swift.h"
+#import "VideoFrames-Bridging-Header.h"
+#import <StoreKit/StoreKit.h>
+
+
+@class VideoCollagePro;
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize viewController = _viewController;
-@synthesize firstViewController = _firstViewController;
+//@synthesize viewController = _viewController;
+//@synthesize firstViewController = _firstViewController;
 @synthesize navigationController = _navigationController;
-@synthesize interstitial;
-static NSString *kAppKey = pushwizard_dev_sdkkey;
+
 
 - (void)dealloc
 {
-    [_window release];
-    [_viewController release];
-    [_navigationController release];
-    [super dealloc];
+   // [_window release];
+   // [_viewController release];
+//    [_firstViewController release];
+ //   [_navigationController release];
+//    [_demomenuController release];
+//    [_firstViewController release];
+//    [_universalController release];
+ //   [super dealloc];
 }
+
+- (NSString *)getSKAdNetworkVersion {
+    if (@available(iOS 16.1, *)) {
+        return @"SKAdNetwork v4";
+    } else if (@available(iOS 14.8, *)) {
+        return @"SKAdNetwork v3";
+    } else if (@available(iOS 14.6, *)) {
+        return @"SKAdNetwork v2";
+    } else if (@available(iOS 14.0, *)) {
+        return @"SKAdNetwork v1";
+    } else {
+        return @"Not Supported";
+    }
+}
+
 
 -(void)customizeAlertviewLook
 {
@@ -54,235 +76,195 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     }];
 }
 
+-(void)callingThumbnails
+{
+   
+    [Utility generateThumnailsForFrames];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeAlert |
-      UIRemoteNotificationTypeBadge |
-      UIRemoteNotificationTypeSound)];
-    NSDictionary *payload = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (payload) {
-        [self application:application didReceiveRemoteNotification:payload];
-    }
-
-
-
-    [[configparser Instance]startSessionWithId:[NSString stringWithFormat:@"%d",iosAppId]];
     
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"callingFromEffects"];
+    
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+    NSLog(@"incomingDynamicLink url is----didfinishlaunchwithoptions %@",self.incomingDynamicLink);
+
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    //-----loading InAppManager-----//
+    
+    if (@available(iOS 11.2, *)) {
+        [[InAppPurchaseManager Instance]loadStore];
+    } else {
+        // Fallback on earlier versions
+        [[InAppPurchaseManager Instance]loadStore];
+    }
+    NSLog(@"Load store from appdelegate");
+    [SRSubscriptionModel shareKit];
+    [[SRSubscriptionModel shareKit]loadProducts]; // newly added here
+    [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+    
+    NSString *skADNetwork = [self getSKAdNetworkVersion];
+    NSLog(@"SK AD Network version is %@ ",skADNetwork);
+    
+     //firebase initializing
+    [FIRApp configure];
+//    [FIRCrashlytics initialize];
+//#if DEBUG
+//    [[FIRCrashlytics crashlytics] setCrashlyticsCollectionEnabled:YES];
+//#else
+//    [[FIRCrashlytics crashlytics] setCrashlyticsCollectionEnabled:YES];
+//#endif
+    
+  //  [FIROptions defaultOptions].deepLinkURLScheme = FIRDynamicLinks.description;
+    
+ //   NSLog(@"dynamic link description here---%@",FIRDynamicLinks.description);
+  
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-
-
-#if ADS_ENABLE
-    UILocalNotification *localNotif = [launchOptions
-                                       objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]; 
     
-    if (localNotif) 
-    {
-        pull = [[OT_PullNotifications alloc]init];
-        [pull loadNotifications];
-        if(pull)
-        {
-            [pull showPullNotification];
-        } 
-    }
-#endif
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        
     
-    /* Generate help images */
-    [Utility generateImagesForHelp];
+        // Create an instance of the Swift view controller
     
-    /* Generate the thumbnail images */
-    [Utility generateThumnailsForFrames];
+    StartViewController *homeVC = [[StartViewController alloc] init];
     
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    self.firstViewController = [[[BackgroundSliderViewController alloc] init] autorelease];
-    self.navigationController = [[[UINavigationController alloc]initWithRootViewController:self.firstViewController]autorelease];
-    self.navigationController.navigationBarHidden = YES;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-
-    //self.viewController = [[ViewController alloc]init];
-    self.window.rootViewController = self.navigationController;
-    [self.window makeKeyAndVisible];
-
-#if ADS_ENABLE
-    [FlurryAds initialize:self.window.rootViewController];
+    //[homeVC remoteConfigurationSetUp];
+        // Create a navigation controller with the Swift view controller as its root
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:homeVC];
+        
+        // Set the navigation controller as the window's root view controller
+        self.window.rootViewController = navController;
     
-    OT_FlurryAd *flurryAd = [OT_FlurryAd sharedInstance];
-    [FlurryAds initialize:self.window.rootViewController];
+    // Enforce dark mode
+       if (@available(iOS 13.0, *)) {
+           self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+       }
 
-#if FULLSCREENADS_ENABLE
-    flurryAd.fullscreenAdView = self.viewController.view;
-    [[OT_AdControl sharedInstance]initializeInterstitials];
-#endif
-#endif
+    
+        [self.window makeKeyAndVisible];
+        
+        return YES;
 
-    // Configure the Yozio SDK for Instapicframe - photo collage &amp; photo frames for instagram frames
-    [Harpy checkVersion];
+     //Existing one
     
     /* Set default setting of app booted to YES */
-    [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"applicationbooted"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"applicationbooted"];
     
     [self customizeAlertviewLook];
-    
-    
-    [[OT_Facebook SharedInstance]loginToFacebook:NO onCompletion:nil];
 
-    if(CONFIG_ADVERTISEMENTS_ENABLE == [configparser Instance].advertisements)
-    {
-        if(NO == bought_watermarkpack)
-        {
-           // [[RevMobAds session] showFullscreen];
-        }
-    }
-    else
-    {
-        NSLog(@"Advertisements are disabled, so not showing revmob ad %d",[configparser Instance].advertisements);
-    }
-    
-    //[[InAppPurchaseManager Instance]loadStore];
-    
+    [Appirater setAppId:iosAppIdString];
+    [Appirater setDaysUntilPrompt:1];
+    [Appirater setDebug:NO];
+    [Appirater setTimeBeforeReminding:1];
+    [Appirater setSignificantEventsUntilPrompt:1];
+
+ 
     return YES;
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    [PushWizard handleNotification:userInfo];
-}
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)token
+-(void)loadingFrmesAndHelpScreen
 {
-    [PushWizard startWithToken:token andAppKey:kAppKey andValues:nil];
-}
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-    NSLog(@"Failed to register for notifications %@",error);
-}
+        /* Generate help images */
+        [Utility generateImagesForHelp];
 
+        /* Generate the thumbnail images */
+        [Utility generateThumnailsForFrames];
+
+    });
+ 
+
+    
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-#if ADS_ENABLE
-    [OT_PullNotifications scheduleNotification];
-#if BANNERADS_ENABLE
-    [self.viewController hideBannerAd];
-#endif
-#endif  
-    self.viewController.applicationSuspended = YES;
+    NSLog(@"application Will Resign Active");
+ 
+    //Existing one
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    if(bought_watermarkpack == NO)
-    {
-#if freeVersion
-        interstitial.delegate = nil;
+//- (void)applicationDidEnterBackground:(UIApplication *)application
+//{
+//    NSLog(@"application Did Enter Background");
+//   // [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+////commented
+//   
+//    //self.viewController . app
+//    
+//}
 
-        [interstitial release];
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    NSLog(@"############# application Did Enter Background");
+    // Start a background task to prevent immediate termination
+    self.backgroundTask = [application beginBackgroundTaskWithExpirationHandler:^{
+        // Clean up if we run out of time
+        [application endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    }];
+    
+    // You have about 30 seconds to complete tasks
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Perform your background work here
+        
+        // When done, end the task
+        [application endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    });
+}
 
-        interstitial = nil;
-#endif
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    NSLog(@"############# application Will Enter Foreground");
+    if (self.backgroundTask != UIBackgroundTaskInvalid) {
+        [application endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
     }
-
-    [PushWizard endSession];
-    
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    //[RevMobAds showPopupWithAppID:ot_revmob_appid withDelegate:nil];
-    [Harpy checkVersionDaily];
-    
-        //[Appirater appEnteredForeground:YES];
     [FrameSelectionController handleIfAnySocialFollowInProgress];
-
 }
+
+//- (void)applicationWillEnterForeground:(UIApplication *)application
+//{
+//    NSLog(@"application Will Enter Foreground");
+//    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+//    //[RevMobAds showPopupWithAppID:ot_revmob_appid withDelegate:nil];
+//   // [Harpy checkVersionDaily];
+//        //[Appirater appEnteredForeground:YES];
+//    [FrameSelectionController handleIfAnySocialFollowInProgress];
+//
+//}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    /* Allocate interstitial */
-    if (bought_watermarkpack == NO) {
-#if freeVersion
-        interstitial = [[GADInterstitial alloc] init];
-
-        interstitial.delegate = self;
-
-        interstitial.adUnitID = fullscreen_admob_id;
-
-        [interstitial loadRequest:[GADRequest request]];
-#endif
-    }
-
-    NSLog(@" APPLICATION DID BECOME ACTIVE ........");
-
-#if BANNERADS_ENABLE    
-    [self.viewController showBannerAd];
-#endif
-   
-    [[OT_Facebook SharedInstance]handleApplicationDidBecomeActive];
-    
-    [PushWizard updateSessionWithValues:nil];
+    NSLog(@"application Did Become Active");
+//    StartViewController *homeVC = [[StartViewController alloc] init];
+//    [homeVC remoteConfigurationSetUp];
 }
 
-#if freeVersion
--(void)showAdmobFullscreenAd:(NSTimer*)timer
 
+// Enable state preservation
+//- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
+//    return YES;
+//}
+
+- (BOOL)application:(UIApplication *)application
+shouldSaveSecureApplicationState:(NSCoder *)coder
 {
-    NSLog(@"FULL SCREEN AD GET CALLED");
-    if (NO == bought_watermarkpack) {
-     
-    GADInterstitial *interstitial_ = (GADInterstitial*)timer.userInfo;
-
-    if(self.navigationController.visibleViewController == self)
-    {
-        if(interstitial_.hasBeenUsed == NO)
-
-        {
-            [interstitial_ presentFromRootViewController:self];
-        }
-
-    }
-
-    else
-
-    {
-        [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(showAdmobFullscreenAd:) userInfo:interstitial_ repeats:NO];
-    }
-    }
-
+    return YES; // or your custom logic
 }
-#endif
-#if freeVersion
--(void)interstitialDidReceiveAd:(GADInterstitial *)ad
 
-{
-    if (bought_watermarkpack == NO) {
-        [ad presentFromRootViewController:self.navigationController];
-
-    }
-    NSLog(@"Did receive fullscreen ad......");
-    
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
+    return YES;
 }
-#endif
-- (void)applicationWillTerminate:(UIApplication *)application
-{
 
-#if BANNERADS_ENABLE
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    [self.viewController hideBannerAd];
-#endif
-  
-    [[OT_Facebook SharedInstance]handleApplicationWillTerminate];
-}
 
 -(void)application: (UIApplication *)app didReceiveLocalNotification:(UILocalNotification *) notif
 {
+    NSLog(@"did Receive Local Notification");
 #if ADS_ENABLE
     pull = [[OT_PullNotifications alloc]init];
     [pull loadNotifications];
@@ -294,12 +276,70 @@ static NSString *kAppKey = pushwizard_dev_sdkkey;
     
 }
 
+
+//- (BOOL)application:(UIApplication *)application
+//            openURL:(NSURL *)url
+//  sourceApplication:(NSString *)sourceApplication
+//         annotation:(id)annotation
+//{
+////    return [[FBSDKApplicationDelegate sharedInstance] application:application
+////                                                          openURL:url
+////                                                sourceApplication:sourceApplication
+////                                                       annotation:annotation];
+//    return NULL;
+//}
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation
-{
-    return [[OT_Facebook SharedInstance]handleOpenUrl:url];
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    NSLog(@"File opened from URL: %@", url);
+    // You can handle or forward the file here
+    return YES;
 }
 
+-(void)settingPopUpAlertDelegate
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+   // saving an Integer
+   [prefs setInteger:1 forKey:@"PopUpShowed"];
+   
+}
+-(void)settingPopUpAlertSecondTime
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+   // saving an Integer
+   [prefs setInteger:1 forKey:@"PopUpSecondTime"];
+   
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    NSLog(@"Application Terminate -----");
+    [self settingPopUpAlertDelegate];
+    [self settingPopUpAlertSecondTime];
+//    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(popupSelectionSecondTime) name:UIApplicationWillTerminateNotification
+//  object:nil];
+    //Removing Transaction Details//
+   // [SKPaymentQueue.defaultQueue removeTransactionObserver:self];
+    //commented
+}
+
+- (void)requestIDFA {
+  [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+  }];
+}
+
+
+- (void)productsRequest:(nonnull SKProductsRequest *)request didReceiveResponse:(nonnull SKProductsResponse *)response { 
+    
+}
+
+- (void)paymentQueue:(nonnull SKPaymentQueue *)queue updatedTransactions:(nonnull NSArray<SKPaymentTransaction *> *)transactions { 
+    
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 @end

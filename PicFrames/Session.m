@@ -19,6 +19,7 @@
     Photo *swapFrom;
     Photo *swapTo;
     int readyToPlayPlayerCount;
+   
 }
 
 -(void)applyScaleAndOffsetForTheFrame;
@@ -35,6 +36,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 @synthesize videoSelected;
 @synthesize players;
 @synthesize playerItems;
+@synthesize masterAudioPlayer;
 
 + (UIImage *)iconImageFromSession:(int)sessionId
 {
@@ -179,7 +181,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return SHAPE_NOSHAPE;
     }
@@ -233,7 +235,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return;
     }
@@ -255,13 +257,15 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 {
     if(nil != _frame)
     {
-        [_frame release];
+      //  [_frame release];
         _frame = nil;
     }
     
     [self unregisterForNotifications];
-    
-    [super dealloc];
+//    [_image release];
+//    [playerItems release];
+//    [players release];
+//    [super dealloc];
 }
 
 #pragma mark session dimensions table operations
@@ -272,7 +276,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 - (BOOL)addPhotosAndAdjustorsFromFrame:(Frame*)frm
 {
-    NSLog(@"addPhotosAndAdjustorsFromFrame");
+    NSLog(@"addPhotosAndAdjustorsFromFrame 1");
     int index = 0;
     
 #if 0
@@ -297,15 +301,16 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
 #endif
-    
+    NSLog(@"begin transaction");
     /* begin transaction */
     [db beginTransaction];
 #if DB_TRACE_EXECUTION
+    NSLog(@"trace  execution");
     [db setTraceExecution:YES];
 #endif
     
@@ -371,7 +376,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        [db release];
+       // [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
@@ -438,8 +443,20 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     filemgr      = [NSFileManager defaultManager];
     path         = [docDirectory stringByAppendingPathComponent:filename];
     
+    NSLog(@"image path is %@ ",path);
     /* check if the file really exist */
-    if([filemgr fileExistsAtPath:path])
+   // NSString *effectPath = [self pathToEffectVideoAtIndex:index];
+    NSString *videoPath = [self getVideoUrlForPhotoAtIndex:index].path;
+//    if([filemgr fileExistsAtPath:effectPath])
+//    {
+//        NSLog(@"getImageAtIndex => effect video path ");
+//    }
+//    else
+    if([filemgr fileExistsAtPath:videoPath])
+    {
+        NSLog(@"getImageAtIndex => video path ");
+    }
+    if([filemgr fileExistsAtPath:path] && ([filemgr fileExistsAtPath:videoPath] ||  [self getFrameResourceTypeAtIndex:index] == FRAME_RESOURCE_TYPE_PHOTO)) //|| [filemgr fileExistsAtPath:effectPath] 
     {
         img      = [UIImage imageWithContentsOfFile:path];
     }
@@ -462,6 +479,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSFileManager *filemgr = [NSFileManager defaultManager];
     NSString *filename     = [NSString stringWithFormat:@"%d_%d.png",iSessionId,index];
     NSString *path         = [docDirectory stringByAppendingPathComponent:filename];
+    NSLog(@"saveImage file path %@",path);
     NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:1];
     [attributes setObject:[NSNumber numberWithInt:511] forKey:NSFilePosixPermissions];
     
@@ -471,6 +489,269 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
     
     return;
+}
+
+
+- (void)saveOriginalImage:(UIImage*)img atIndex:(int)index
+{
+    if(nil == img)
+    {
+        NSLog(@"saveOriginalImage:Invalid image------");
+        return;
+    }
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [paths objectAtIndex:0];
+    //NSData *data           = UIImagePNGRepresentation(img);
+    NSData *data           = UIImageJPEGRepresentation(img, 1.0);
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    NSString *filename     = [NSString stringWithFormat:@"original_%d_%d.png",iSessionId,index];
+    NSString *path         = [docDirectory stringByAppendingPathComponent:filename];
+    NSLog(@"saveOriginalImage file path %@",path);
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:1];
+    [attributes setObject:[NSNumber numberWithInt:511] forKey:NSFilePosixPermissions];
+    
+    if(NO == [filemgr createFileAtPath:path contents:data attributes:attributes])
+    {
+        NSLog(@"saveImage:Failed to save the file");
+    }
+    
+    return;
+}
+
+
+-(UIImage*)getOriginalImageAtIndex:(int)index
+{
+    NSArray  *paths        = nil;
+    NSString *docDirectory = nil;
+    NSString *path         = nil;
+    UIImage  *img          = nil;
+    NSFileManager *filemgr = nil;
+    NSString *filename     = [NSString stringWithFormat:@"original_%d_%d.png",iSessionId,index];
+    
+    /* now get the image from the current session */
+    paths        = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    docDirectory = [paths objectAtIndex:0];
+    filemgr      = [NSFileManager defaultManager];
+    path         = [docDirectory stringByAppendingPathComponent:filename];
+    
+    /* check if the file really exist */
+    if([filemgr fileExistsAtPath:path])
+    {
+        img      = [UIImage imageWithContentsOfFile:path];
+    }
+    return img;
+}
+
+
+//- (void)setAdditionalAudioURL:(NSURL *)url {
+//    NSLog(@"set additional audio url %@",url);
+//    if (url) {
+//        // Create master audio player
+//        self.masterAudioPlayer = [AVPlayer playerWithURL:url];
+//
+//        for(int index = 0; index < self.frame.photoCount; index++)
+//        {
+//            Photo *pht = [self.frame getPhotoAtIndex:index];
+//            if(nil != pht)
+//            {
+//                [pht.view muteAudio:YES];
+////              [pht.view.player seekToTime:kCMTimeZero];
+////              [pht.view.player play];
+//            }
+//        }
+//        
+//        // Play master audio
+//        [self.masterAudioPlayer seekToTime:kCMTimeZero];
+//        [self.masterAudioPlayer play];
+//    } else {
+//        // Stop master audio
+//        [self.masterAudioPlayer pause];
+//        self.masterAudioPlayer = nil;
+//        
+//        // Unmute all individual video players
+//        for(int index = 0; index < self.frame.photoCount; index++)
+//        {
+//            Photo *pht = [self.frame getPhotoAtIndex:index];
+//            if(nil != pht)
+//            {
+//                [pht.view muteAudio:NO];
+////                [pht.view.player seekToTime:kCMTimeZero];
+////                [pht.view.player play];
+//            }
+//        }
+//    }
+//}
+
+- (void)setAdditionalAudioURL:(NSURL *)url {
+    NSLog(@"Setting additional audio URL: %@", url);
+    
+    if (url) {
+        
+        // 1. Prepare the audio asset
+        AVAsset *audioAsset = [AVAsset assetWithURL:url];
+        CMTime audioDuration = audioAsset.duration;
+        CMTime targetDuration = CMTimeMakeWithSeconds(30, 1); // 30 seconds
+        
+        // 2. Create audio composition
+        AVMutableComposition *audioComposition = [AVMutableComposition composition];
+        AVMutableCompositionTrack *audioTrack = [audioComposition addMutableTrackWithMediaType:AVMediaTypeAudio
+                                                                            preferredTrackID:kCMPersistentTrackID_Invalid];
+        
+        // 3. Insert audio segments with looping
+        AVAssetTrack *sourceAudioTrack = [[audioAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
+        if (sourceAudioTrack) {
+            CMTime currentInsertTime = kCMTimeZero;
+            CMTime remainingDuration = targetDuration;
+            
+            while (CMTIME_COMPARE_INLINE(remainingDuration, >, kCMTimeZero)) {
+                CMTime segmentDuration = CMTimeMinimum(sourceAudioTrack.timeRange.duration, remainingDuration);
+                [audioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, segmentDuration)
+                                  ofTrack:sourceAudioTrack
+                                   atTime:currentInsertTime
+                                    error:nil];
+                
+                currentInsertTime = CMTimeAdd(currentInsertTime, segmentDuration);
+                remainingDuration = CMTimeSubtract(remainingDuration, segmentDuration);
+            }
+        }
+        
+        // 4. Create master audio player with loop observer
+        AVPlayerItem *audioPlayerItem = [AVPlayerItem playerItemWithAsset:audioComposition];
+        self.masterAudioPlayer = [AVPlayer playerWithPlayerItem:audioPlayerItem];
+        
+        // Add loop observer
+        __weak typeof(self) weakSelf = self;
+        self.audioLoopObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
+                                                                                  object:audioPlayerItem
+                                                                                   queue:[NSOperationQueue mainQueue]
+                                                                              usingBlock:^(NSNotification *note) {
+            // Seek to beginning and play again
+            [weakSelf.masterAudioPlayer seekToTime:kCMTimeZero];
+            [weakSelf.masterAudioPlayer play];
+            
+            // Synchronize all videos
+            for (int index = 0; index < weakSelf.frame.photoCount; index++) {
+                Photo *pht = [weakSelf.frame getPhotoAtIndex:index];
+                if (pht) {
+//                    [pht.view.player seekToTime:kCMTimeZero];
+//                    if (pht.view.player.rate == 0) {
+//                        [pht.view.player play];
+//                    }
+                    
+                }
+            }
+        }];
+        
+        // 5. Configure all video frames
+        for (int index = 0; index < self.frame.photoCount; index++) {
+            Photo *pht = [self.frame getPhotoAtIndex:index];
+            if (pht) {
+                pht.view.isProgrammaticPlaybackChange = YES;
+                [pht.view muteAudioPlayer]; // Mute original audio
+                [pht.view.player seekToTime:kCMTimeZero];
+                [pht.view.player play];
+                pht.view.isProgrammaticPlaybackChange = NO;
+            }
+        }
+        
+        // 6. Play synchronized audio
+        [self.masterAudioPlayer seekToTime:kCMTimeZero];
+        [self.masterAudioPlayer play];
+        [[NSUserDefaults standardUserDefaults]setInteger:1 forKey:@"MasterAudioPlayerSet"];
+        
+    } else {
+        // Clean up additional audio
+        if (self.audioLoopObserver) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self.audioLoopObserver];
+            self.audioLoopObserver = nil;
+        }
+        
+        [self.masterAudioPlayer pause];
+        self.masterAudioPlayer = nil;
+        
+        // Restore original audio
+        for (int index = 0; index < self.frame.photoCount; index++) {
+            Photo *pht = [self.frame getPhotoAtIndex:index];
+            if (pht) {
+                pht.view.isProgrammaticPlaybackChange = YES;
+                [pht.view unmuteAudioPlayer];
+                [pht.view.player seekToTime:kCMTimeZero];
+                [pht.view.player play];
+                pht.view.isProgrammaticPlaybackChange = NO;
+            }
+        }
+    }
+}
+
+- (void)removeAudioPlayer {
+    NSLog(@"Removing only audio player");
+    
+    // 1. Pause and clean up master audio player
+    if (self.masterAudioPlayer) {
+        [self.masterAudioPlayer pause];
+        self.masterAudioPlayer = nil;
+    }
+    
+    // 2. Remove audio loop observer if exists
+    if (self.audioLoopObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.audioLoopObserver];
+        self.audioLoopObserver = nil;
+    }
+    
+    // 3. Unmute all video players' original audio
+    for (int index = 0; index < self.frame.photoCount; index++) {
+        Photo *pht = [self.frame getPhotoAtIndex:index];
+        if (pht) {
+            [pht.view unmuteAudioPlayer]; // Restore original audio
+        }
+    }
+    
+    // 4. Reset mute state
+    self.isMasterAudioMuted = NO;
+    
+    NSLog(@"Audio player removed");
+}
+
+
+
+// Mutes the master audio while keeping videos playing
+- (void)muteMasterAudio {
+    if (self.masterAudioPlayer) {
+        self.masterAudioPlayer.volume = 0.0f;
+        self.isMasterAudioMuted = YES;
+        
+        // Unmute all video audio tracks
+        for (int index = 0; index < self.frame.photoCount; index++) {
+            Photo *pht = [self.frame getPhotoAtIndex:index];
+            if (pht) {
+                if(pht.view.isvideoMute)
+                    [pht.view muteAudioPlayer];
+                else
+                    [pht.view unmuteAudioPlayer];
+            }
+        }
+    }
+}
+
+// Unmutes the master audio and mutes video audio tracks
+- (void)unmuteMasterAudio {
+    if (self.masterAudioPlayer) {
+        BOOL enableStatus = [[[NSUserDefaults standardUserDefaults] objectForKey:KEY_USE_AUDIO_SELECTED_FROM_LIBRARY] boolValue];
+        if(enableStatus)
+        {
+            self.masterAudioPlayer.volume = 1.0f;
+            self.isMasterAudioMuted = NO;
+            
+            // Mute all video audio tracks
+            for (int index = 0; index < self.frame.photoCount; index++) {
+                Photo *pht = [self.frame getPhotoAtIndex:index];
+                if (pht) {
+                    [pht.view muteAudioPlayer];
+                }
+            }
+        }
+    }
 }
 
 - (void)enterNoTouchMode
@@ -483,6 +764,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         if(nil != pht)
         {
             pht.noTouchMode = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                pht.view.scrollView.userInteractionEnabled = NO;
+            });
         }
     }
 }
@@ -496,8 +780,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         Photo *pht = [self.frame getPhotoAtIndex:index];
         if(nil != pht)
         {
-            pht.view.imageView.image = [self getImageAtIndex:index];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                pht.view.imageView.image = [self getImageAtIndex:index];
+                pht.view.scrollView.userInteractionEnabled = YES;
+            });
             pht.noTouchMode = NO;
+            
         }
     }
 }
@@ -511,7 +799,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         {
             pht.view.imageView.image = [self getImageAtIndex:index];
             if (index ==photoIndex) {
-               pht.view .scrollView. layer . borderColor = [UIColor redColor].CGColor;
+                pht.view.scrollView.layer.borderColor = [UIColor redColor].CGColor;
                 pht.view.scrollView.layer.borderWidth = 5.0;
             }
             
@@ -527,8 +815,8 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         Photo *pht = [self.frame getPhotoAtIndex:index];
         if(nil != pht)
         {
-            pht.view.imageView.image = [self getImageAtIndex:index];
-            pht.view.scrollView.layer.borderWidth = 0.0;
+            //pht.view.imageView.image = [self getImageAtIndex:index];
+            //pht.view.scrollView.layer.borderWidth = 0.0;
             pht.effectTouchMode = NO;
         }
     }
@@ -563,11 +851,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
     
-    NSString * videoName = [NSString stringWithFormat:@"current_%d.mp4",iSessionId];
+    NSString * videoName = [NSString stringWithFormat:@"VideoCollage_%d.mov",iSessionId];
     NSString *videoPath  = [documentsDirectory stringByAppendingPathComponent:videoName];
     
     return videoPath;
 }
+
 
 - (NSString*)pathToCurrentAudioMix
 {
@@ -623,17 +912,33 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     {
         NSError *error;
         BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:docPath error:&error];
-        NSAssert(YES == folderDeleted, @"deleteVideoFramesForPhotoAtIndex: Failed to delete %@, error %@",docPath,error.localizedDescription);
+        NSAssert(YES == folderDeleted, @"delete Video Frames ForPhotoAtIndex: Failed to delete %@, error %@",docPath,error.localizedDescription);
     }
-
-    
     return;
 }
+
+- (void)deleteVideoEffectFramesForPhotoAtIndex:(int)photoIndex
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSString *docPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"effect_video%d",photoIndex]];
+    
+    if([[NSFileManager defaultManager]fileExistsAtPath:docPath])
+    {
+        NSError *error;
+        BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:docPath error:&error];
+        NSAssert(YES == folderDeleted, @"delete Video Effect Frames ForPhotoAtIndex: Failed to delete %@, error %@",docPath,error.localizedDescription);
+    }
+    return;
+}
+
+
 - (void)deleteVideoAtPhototIndex:(int)photoIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    NSString * videoName = [NSString stringWithFormat:@"student_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
+    NSString * videoName = [NSString stringWithFormat:@"video_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
+    //changed recently mp4 to mov
     NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
     
     NSLog(@"Trying to delete video at path :%@", videoPath);
@@ -642,21 +947,21 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     {
         NSError *error;
         BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:videoPath error:&error];
-        NSAssert(YES == folderDeleted, @"deleteVideoFramesForPhotoAtIndex: Failed to delete %@, error %@",videoPath,error.localizedDescription);
+        NSAssert(YES == folderDeleted, @"deleteVideoeffectFramesForPhotoAtIndex: Failed to delete %@, error %@",videoPath,error.localizedDescription);
         NSLog(@" FINISHED");
     }
-    
-    
     return;
 }
+
+
 - (void)deleteImageOfFrame:(int)photoIndex frame:(int)frameIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
     NSString *folderPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"video%d",photoIndex]];
-     NSString *imgPath = [folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",photoIndex,frameIndex]];
+    NSString *imgPath = [folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",photoIndex,frameIndex]];
     NSLog(@" frame image path %@", imgPath);
-   
+    
     if ([[NSFileManager defaultManager]fileExistsAtPath:imgPath]) {
         
         NSError *error;
@@ -665,7 +970,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         
     }
     
-  
+    
 }
 
 - (NSString*)pathForImageAtIndex:(int)index inPhoto:(int)photoIndex
@@ -675,17 +980,69 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSString *folderPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"video%d",photoIndex]];
     if(NO == [[NSFileManager defaultManager]fileExistsAtPath:folderPath])
     {
-        BOOL folderCreated = [[NSFileManager defaultManager] createDirectoryAtPath:folderPath
-                                                       withIntermediateDirectories:NO
-                                                                        attributes:nil
-                                                                             error:nil];
+        BOOL folderCreated = [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO
+                attributes:nil error:nil];
+        NSLog(@"folder  %@ created %@",folderPath,folderCreated?@"Yes":@"No");
         NSAssert(YES == folderCreated, @"pathForImageAtIndex: Failed To create folder %@",folderPath);
     }
-   
+    
     NSString *imgPath = [folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",photoIndex,index]];
-   
+    
     return imgPath;
 }
+
+
+- (NSString*)pathForEffectImageAtIndex:(int)index inPhoto:(int)photoIndex
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSString *folderPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"effect_video%d",photoIndex]];
+    if(NO == [[NSFileManager defaultManager]fileExistsAtPath:folderPath])
+    {
+        BOOL folderCreated = [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO
+        attributes:nil error:nil];
+        NSLog(@"effect folder  %@ created %@",folderPath,folderCreated?@"Yes":@"No");
+        NSAssert(YES == folderCreated, @"pathForImageAtIndex: Failed To create folder %@",folderPath);
+    }
+    
+    NSString *imgPath = [folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"image_%d_%d.jpg",photoIndex,index]];
+    
+    return imgPath;
+}
+
+
+- (NSString*)pathToEffectVideoAtIndex:(int)photoindex
+{
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString * videoName = [NSString stringWithFormat:@"EffectVideo_%d.mov",photoindex];
+    NSString *videoPath  = [documentsDirectory stringByAppendingPathComponent:videoName];
+    
+    return videoPath;
+}
+
+- (void)deleteEffectVideoAtPhototIndex:(int)photoIndex
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSString * videoName = [NSString stringWithFormat:@"EffectVideo_%d.mov",photoIndex];
+    //changed recently mp4 to mov
+    NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
+    
+    NSLog(@"Trying to delete video at path :%@", videoPath);
+    
+    if([[NSFileManager defaultManager]fileExistsAtPath:videoPath])
+    {
+        NSError *error;
+        BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:videoPath error:&error];
+        NSAssert(YES == folderDeleted, @"deleteVideoeffectFramesForPhotoAtIndex: Failed to delete %@, error %@",videoPath,error.localizedDescription);
+        NSLog(@" FINISHED");
+    }
+    return;
+}
+
+
 
 - (UIImage*)getVideoFrameAtIndex:(int)frameIndex forPhoto:(int)photoIndex
 {
@@ -694,25 +1051,45 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     {
         return nil;
     }
-    
     return [UIImage imageWithContentsOfFile:imgPath];
 }
+
+- (UIImage*)getEffectVideoFrameAtIndex:(int)frameIndex forPhoto:(int)photoIndex
+{
+    NSString *imgPath = [self pathForEffectImageAtIndex:frameIndex inPhoto:photoIndex];
+    if(NO == [[NSFileManager defaultManager]fileExistsAtPath:[self pathForImageAtIndex:frameIndex inPhoto:photoIndex]])
+    {
+        return nil;
+    }
+    UIImage *image = [UIImage imageWithContentsOfFile:imgPath];
+
+    if (image) {
+        // do nothing
+    } else {
+        // Get the image from original image
+        image = [self getVideoFrameAtIndex:frameIndex forPhoto:photoIndex];
+    }
+    return image; //[UIImage imageWithContentsOfFile:imgPath];
+}
+
+
 - (void)saveImageAfterApplyingEffect:(UIImage *)image atPhotoIndex:(int)photoIndex atFrameIndex:(int)frameIndex
 {
-    
-    NSString *imgPath = [self pathForImageAtIndex:frameIndex inPhoto:photoIndex];
-    
+    NSString *imgPath = [self pathForEffectImageAtIndex:frameIndex inPhoto:photoIndex];
     if([[NSFileManager defaultManager]fileExistsAtPath:imgPath])
     {
         NSError *error;
         BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:imgPath error:&error];
-        NSAssert(YES == folderDeleted, @"deleteVideoFramesForPhotoAtIndex: Failed to delete %@, error %@",imgPath,error.localizedDescription);
+        NSAssert(YES == folderDeleted, @"saveImageAfterApplyingEffect : Failed to delete %@, error %@",imgPath,error.localizedDescription);
     }
-    
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
-    [imageData writeToFile:imgPath atomically:YES];
-   
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [imageData writeToFile:imgPath atomically:YES];
+    });
 }
+
+
+
 - (NSString*)getVideoInfoKeyForPhotoAtIndex:(int)index
 {
     return [NSString stringWithFormat:@"video%d_%d.png",iSessionId,index];
@@ -721,6 +1098,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 - (int)getFrameCountForPhotoAtIndex:(int)index
 {
     NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
+   
     NSData *myData    = [[NSUserDefaults standardUserDefaults]objectForKey:key];
     NSDictionary *videoInfo = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:myData];
     if (key == nil)
@@ -731,8 +1109,68 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     {
         return 0;
     }
-    
-    return [[videoInfo objectForKey:@"FrameCount"]integerValue];
+    //NSLog(@"frames count at index %d is %ld",index,(long)[[videoInfo objectForKey:@"FrameCount"]integerValue]);
+    return (int)[[videoInfo objectForKey:@"FrameCount"]integerValue];
+}
+
+
+- (BOOL)getAudioMuteValueForPhotoAtIndex:(int)index
+{
+    NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
+   
+    NSData *myData    = [[NSUserDefaults standardUserDefaults]objectForKey:key];
+    NSDictionary *videoInfo = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:myData];
+    if (key == nil)
+    {
+        return YES;
+    }
+    if(nil == videoInfo)
+    {
+        return YES;
+    }
+    BOOL mute = [[videoInfo objectForKey:@"MuteAudio"]boolValue];
+    NSLog(@"video mute value %@ at index %d",mute?@"YES":@"NO",index);
+    return mute ;
+}
+
+
+
+
+- (int)getFPSForPhotoAtIndex
+{
+    int maxfps = 0;
+    for(int index = 0; index < self.frame.photoCount; index++)
+    {
+        
+        if(FRAME_RESOURCE_TYPE_VIDEO == [self getFrameResourceTypeAtIndex:index])
+        {
+            NSString *key     = [self getVideoInfoKeyForPhotoAtIndex:index];
+          //  NSLog(@"get FPS For Photo At Index key is %@",key);
+            NSData *myData    = [[NSUserDefaults standardUserDefaults]objectForKey:key];
+            NSDictionary *videoInfo = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:myData];
+            if (key == nil)
+            {
+                return 0;
+            }
+            if(nil == videoInfo)
+            {
+                return 0;
+            }
+            NSLog(@"fps video info is %@",videoInfo);
+            
+            float value = [[videoInfo objectForKey:@"Fps"]floatValue];
+            int roundedInt = (int)roundf(value);
+            
+            if(roundedInt > maxfps)
+            {
+                maxfps = roundedInt;
+            }
+            NSLog(@" FPS at index %d is %d",index,maxfps);
+            
+        }
+    }
+    NSLog(@"max FPS is %d ,maxfps",maxfps);
+    return maxfps;
 }
 
 - (int)getFrameCountOfFrame:(Frame*)frame
@@ -770,8 +1208,11 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     //NSMutableDictionary *videoInfo = [[NSUserDefaults standardUserDefaults]objectForKey:key];
     //NSString *path = [videoInfo objectForKey:@"videoPath"];
     //NSURL *url = [NSURL fileURLWithPath:path];
-    NSURL *url = [videoInfo objectForKey:@"videoPath"];
     
+   
+    NSURL *url = [videoInfo objectForKey:@"videoPath"];
+    NSLog(@"URL = %@", url);
+    NSLog(@"URL class = %@", NSStringFromClass([url class]));
     NSLog(@"getting %@ url as key %@",url.path,key);
     return url;
 }
@@ -783,10 +1224,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     for(int index = 0; index < self.frame.photoCount; index++)
     {
         double temDuration = [self getVideoDurationForPhotoAtIndex:index];
-
+        
         if (isSequentialPlay) {
             
-        duration = duration+temDuration;
+            duration = duration+temDuration;
         }else
         {
             if(temDuration > duration)
@@ -817,15 +1258,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return duration;
 }
 
-/*
- -(void)saveVideo:(NSURL*)videopath atIndex:(int)index
- {
- NSString *key     = [NSString stringWithFormat:@"video%d_%d.png",iSessionId,index];
- NSString *path    = videopath.path;
- NSLog(@"Saving %@ url as key %@",videopath,key);
- [[NSUserDefaults standardUserDefaults]setObject:path forKey:key];
- }
- */
+
 - (void)saveVideoInfo:(NSMutableDictionary*)videoInfo atIndex:(int)index
 {
     /* generate key for storing video info */
@@ -939,16 +1372,21 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 - (void)saveAndSetTheResourceToPhoto:(NSTimer*)tmr
 {
+    NSLog(@"************************************************************ 1");
     NSURL *pathToVideo = nil;
     eFrameResourceType eType = FRAME_RESOURCE_TYPE_PHOTO;
     
     if(nil != tmr.userInfo)
     {
+        
         eType = FRAME_RESOURCE_TYPE_VIDEO;
         pathToVideo = [tmr.userInfo objectForKey:@"videoPath"];
-        NSAssert(nil != pathToVideo, @"saveAndSetTheResourceToPhoto: Userinfo doesn't contain videopath");
+       
+       // self.imageFromApp = [tmr.userInfo objectForKey:@"image"];
+        NSLog(@"info ---- > img size width %f height %f ",self.imageFromApp.size.width,self.imageFromApp.size.height);
+        NSAssert(nil != pathToVideo, @"save And Set The Resource To Photo: Userinfo doesn't contain videopath");
         [self saveVideoInfo:tmr.userInfo atIndex:photoFromFrame.photoNumber];
-        NSLog(@"saveAndSetTheResourceToPhoto:Saving Video");
+        NSLog(@"save And SetThe ResourceTo Photo:Saving Video");
     }
     NSLog(@" *********   %d ", eType);
 #if IMAGE_SELECTION
@@ -958,14 +1396,18 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     NSLog(@"Optimized image from (%f,%f) to (%f,%f)",self.imageFromApp.size.width,self.imageFromApp.size.height,optimizedImage.size.width,optimizedImage.size.height);
     
     /* Free the selected image image */
-    [self.imageFromApp release];
+   // @autoreleasepool {
+    //    [self.imageFromApp release];
+   // }
+
     
     /* Make the optimized image as the selected image */
     self.imageFromApp = optimizedImage;
 #endif
     /* save the image to HDD */
-    [self saveImage:self.imageFromApp atIndex:photoFromFrame.photoNumber];
     
+    [self saveImage:self.imageFromApp atIndex:photoFromFrame.photoNumber];
+    [self saveOriginalImage:self.imageFromApp atIndex:photoFromFrame.photoNumber];
     /* save frame type */
     [self saveFrameResourceType:eType atIndex:photoFromFrame.photoNumber];
     
@@ -974,7 +1416,11 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber ofType:eType atPath:pathToVideo forSession:iSessionId];
     
     /* set the image to photo */
-    photoFromFrame.image = self.imageFromApp;
+//    if(photoFromFrame.image == nil)
+//    {
+        NSLog(@"Photo setImage is called from here 2");
+        photoFromFrame.image = self.imageFromApp;
+   // }
     
     /* decrement the retain count */
     //[imageBeingSelected release];
@@ -984,8 +1430,8 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* Update the Session Icon */
     [self updateTheSessionIcon];
     
-    [Utility removeActivityIndicatorFrom:_frame.superview];
-    
+    [LoadingClass removeActivityIndicatorFrom:_frame.superview];
+    [self CheckIfAllFramesFilled];
     return;
 }
 #if 1
@@ -995,23 +1441,26 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [self handleVideoFrameSettingsUpdate];
     
     self.imageFromApp = img;
-    
+    NSLog(@"Image selected ***********************************************");
+    photoFromFrame.isContentTypeVideo = NO;
+    photoFromFrame.muteAudio = YES;
+    photoFromFrame.videoURL = nil;
     [self saveVideoInfo:nil atIndex:photoFromFrame.photoNumber];
-    
+    NSLog(@"image select for item delete video 1");
     [self deleteVideoFramesForPhotoAtIndex:photoFromFrame.photoNumber];
-    
+    [self deleteVideoEffectFramesForPhotoAtIndex:photoFromFrame.photoNumber];
     /* start the activity controller */
-    [Utility addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
+//    [LoadingClass addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
     
     /* schedule the timer to start the HDD saving, DB updated and setting to photo */
-    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheResourceToPhoto:) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(saveAndSetTheResourceToPhoto:) userInfo:nil repeats:NO];
 }
 #endif
 - (void)saveAndSetTheResourceForPhoto:(NSTimer*)timer
 {
     Photo *pht = [timer.userInfo objectForKey:@"Photo"];
     UIImage *selectedImage = [timer.userInfo objectForKey:@"selectedImage"];
-    
+    NSLog(@"selectedImage size is %@",NSStringFromCGSize(selectedImage.size));
     NSURL *pathToVideo = nil;
     eFrameResourceType eType = FRAME_RESOURCE_TYPE_PHOTO;
     
@@ -1023,24 +1472,35 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         {
             eType = FRAME_RESOURCE_TYPE_VIDEO;
             [self saveVideoInfo:timer.userInfo atIndex:pht.photoNumber];
-            NSLog(@"saveAndSetTheResourceToPhoto:Saving Video");
+            NSLog(@"save And Set The Resource To Photo:Saving Video");
+            pht.muteAudio = [self getAudioMuteValueForPhotoAtIndex:pht.photoNumber];
+            pht.videoURL =[self getVideoUrlForPhotoAtIndex:pht.photoNumber];
+            pht.isContentTypeVideo = YES;
         }
     }
     
 #if IMAGE_SELECTION
     /* First generate the optimized image of the selected image */
+   // @autoreleasepool {
     UIImage *optimizedImage = [Utility optimizedImage:selectedImage];
     
     NSLog(@"Optimized image from (%f,%f) to (%f,%f)",selectedImage.size.width,selectedImage.size.height,optimizedImage.size.width,optimizedImage.size.height);
     
     /* Free the selected image image */
-    [selectedImage release];
+    
+     //   [selectedImage release];
+    pht.isContentTypeVideo = NO;
+    pht.videoURL = nil;
+   
     
     /* Make the optimized image as the selected image */
     selectedImage = optimizedImage;
+    
 #endif
     /* save the image to HDD */
     [self saveImage:selectedImage atIndex:pht.photoNumber];
+    
+    [self saveOriginalImage:selectedImage atIndex:pht.photoNumber];
     
     /* save frame type */
     [self saveFrameResourceType:eType atIndex:pht.photoNumber];
@@ -1049,8 +1509,14 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [SessionDB updateImageSizeInDBWith:selectedImage.size atIndex:pht.photoNumber forSession:iSessionId];
     //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber ofType:eType atPath:pathToVideo forSession:iSessionId];
     
+    
+    
     /* set the image to photo */
+//    if(pht.image == nil)
+//    {
+        NSLog(@"Photo setImage is called from here 1");
     pht.image = selectedImage;
+   // }
     
     /* decrement the retain count */
     //[imageBeingSelected release];
@@ -1060,9 +1526,33 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* Update the Session Icon */
     [self updateTheSessionIcon];
     
-    [Utility removeActivityIndicatorFrom:_frame.superview];
-    
+    [LoadingClass removeActivityIndicatorFrom:_frame.superview];
+    [self CheckIfAllFramesFilled];
     return;
+//}        
+}
+
+-(void)CheckIfAllFramesFilled
+{
+    int maximumNumberOfImage = 0;
+    int photoIndex = 0;
+    for (photoIndex= 0; photoIndex< self.frame.photoCount; photoIndex++)
+    {
+        Photo *pht = [self.frame getPhotoAtIndex:photoIndex ];
+        if (pht.image != nil) {
+            maximumNumberOfImage ++;
+        }
+    }
+    NSLog(@"maximum Number Of Image %d photoCount %d",maximumNumberOfImage,self.frame.photoCount);
+    if( maximumNumberOfImage > 0)
+    {
+        if(maximumNumberOfImage == self.frame.photoCount)
+        {
+           // [self showRateUsPanel];
+            [[NSNotificationCenter defaultCenter] postNotificationName:show_RateUsPanel object:nil userInfo:nil];
+            NSLog(@"Show rate us panel");
+        }
+    }
 }
 
 - (void)imageSelectedForPhoto:(UIImage*)img indexOfPhoto:(int)photoNumer
@@ -1073,14 +1563,13 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     [self handleVideoFrameSettingsUpdate];
     
-    selectedImage = [img retain];
+    selectedImage = img;// [img retain];
     
     [self saveVideoInfo:nil atIndex:photoNumer];
-    
+    NSLog(@"Image select for photo 2 delete video");
     [self deleteVideoFramesForPhotoAtIndex:photoNumer];
-    
     /* start the activity controller */
-    [Utility addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
+//    [LoadingClass addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
     
     NSDictionary *input = [NSDictionary dictionaryWithObjectsAndKeys:selectedImage,@"selectedImage",pht,@"Photo", nil];
     /* schedule the timer to start the HDD saving, DB updated and setting to photo */
@@ -1093,6 +1582,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* Check if any video is selected */
     for(int index = 0; index < self.frame.photoCount; index++)
     {
+        
         if(FRAME_RESOURCE_TYPE_VIDEO == [self getFrameResourceTypeAtIndex:index])
         {
             isVideoFrame = YES;
@@ -1113,7 +1603,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         {
             videoFrame++;
         }
+            
     }
+
     
     return videoFrame;
 }
@@ -1129,8 +1621,8 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     readyToPlayPlayerCount = 0;
     
     /* create players based on number of video frames */
-    self.playerItems = [[[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]autorelease];
-    self.players     = [[[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]autorelease];
+    self.playerItems = [[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]; //autorelease];
+    self.players     = [[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]; //autorelease];
     
     for(int index = 0; index < self.frame.photoCount; index++)
     {
@@ -1182,8 +1674,8 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     readyToPlayPlayerCount = 0;
     
     /* create players based on number of video frames */
-    self.playerItems = [[[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]autorelease];
-    self.players     = [[[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]autorelease];
+    self.playerItems = [[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]; //autorelease];
+    self.players     = [[NSMutableArray alloc]initWithCapacity:self.frame.photoCount]; //autorelease];
     
     for(int index = 0; index < self.frame.photoCount; index++)
     {
@@ -1301,21 +1793,27 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 //-(void)videoSelectedForPhoto:(UIImage *)img atPath:(NSURL*)path
 - (void)videoSelectedForCurrentPhotoWithInfo:(NSDictionary*)videoInfo image:(UIImage*)img
 {
+    NSLog(@"Video selected ***********************************************");
     [self handleVideoFrameSettingsUpdate];
     [self deleteCurrentAudioMix];
     
     /* First set the image */
-    self.imageFromApp = [img retain];
+    self.imageFromApp = img;//[img retain];
+    NSLog(@"info ---- > img size width %f height %f ",self.imageFromApp.size.width,self.imageFromApp.size.height);
     //self.imageFromApp = [[videoInfo objectForKey:@"image"]retain];
     self.videoSelected = YES;
     /* start the activity controller */
-    [Utility addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
+    //[LoadingClass addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
     
     //NSDictionary *usrInfo = [NSDictionary dictionaryWithObject:path forKey:@"videoPath"];
-    
+    photoFromFrame.isContentTypeVideo = YES;
+    NSLog(@"video info is %@",videoInfo);
+    BOOL muted = [videoInfo[@"MuteAudio"] boolValue];
+    photoFromFrame.muteAudio = muted;
+    NSLog(@"mute audio %@",muted?@"YES":@"NO");
+    photoFromFrame.videoURL = [videoInfo objectForKey:@"videoPath"];
     /* schedule the timer to start the HDD saving, DB updated and setting to photo */
-    //[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheResourceToPhoto:) userInfo:usrInfo repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheResourceToPhoto:) userInfo:videoInfo repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(saveAndSetTheResourceToPhoto:) userInfo:videoInfo repeats:NO];
 }
 
 #pragma mark end saving video frames to HDD
@@ -1324,50 +1822,313 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return photoFromFrame.photoNumber;
 }
 
-- (void)saveVideoToDocDirectory:(NSURL*)url completion:(void (^)(NSString *localVideoPath))complete
+- (void)saveVideoToDocDirectory:(NSURL*)urlforVideo completion:(void (^)(NSString *localVideoPath))complete
 {
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString* documentsDirectory = [paths objectAtIndex:0];
+    NSURL *fileURL = urlforVideo;
+    NSString *filePath = [fileURL path];
+    NSString *localFilePath = [self getVideofilePath];
+    NSString *pathExtension = [filePath pathExtension] ;
+    if ([pathExtension length] > 0)
+    {
     
-    ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
+    AVAsset *asset = [AVAsset assetWithURL:urlforVideo];
     
-    [assetLibrary assetForURL:url resultBlock:^(ALAsset *asset) {
-        
-        ALAssetRepresentation *rep = [asset defaultRepresentation];
-        Byte *buffer = (Byte*)malloc((unsigned long)rep.size);
-        NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:(NSUInteger)rep.size error:nil];
-        NSData *videoData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-        NSString * videoName = [NSString stringWithFormat:@"student_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
-        NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
-        
-        NSLog(@"video path-%@",videoPath);
-        
-        [videoData writeToFile:videoPath atomically:YES];
-        
+    AVAssetTrack *videoTrack = [asset tracksWithMediaType:AVMediaTypeVideo].firstObject;
+    CGAffineTransform transform = videoTrack.preferredTransform;
+    CGSize naturalSize = videoTrack.naturalSize;
+    CGSize renderSize;
+
+    // Check if it's a rotated portrait video
+    if (transform.a == 0 && fabs(transform.b) == 1.0 &&
+            fabs(transform.c) == 1.0 && transform.d == 0) {
+            renderSize = CGSizeMake(naturalSize.height, naturalSize.width);
+        // Composition
+            AVMutableComposition *composition = [AVMutableComposition composition];
+            AVMutableCompositionTrack *compTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
+            [compTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+                               ofTrack:videoTrack
+                                atTime:kCMTimeZero
+                                 error:nil];
+
+            // Add audio if exists
+            AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
+        CMTime maxDurationPerVideo = CMTimeMakeWithSeconds(120, 600);
+        CMTime duration = CMTimeMinimum(asset.duration, maxDurationPerVideo);
+            if (audioTrack) {
+                AVMutableCompositionTrack *compAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+                [compAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, duration)
+                                        ofTrack:audioTrack
+                                         atTime:kCMTimeZero
+                                          error:nil];
+            }
+
+            // Video composition to fix orientation
+            AVMutableVideoComposition *videoComp = [AVMutableVideoComposition videoComposition];
+            videoComp.renderSize = renderSize;
+            videoComp.frameDuration = CMTimeMake(1, 30);
+
+            AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+            instruction.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
+
+            AVMutableVideoCompositionLayerInstruction *layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compTrack];
+            [layerInstruction setTransform:transform atTime:kCMTimeZero];
+
+            instruction.layerInstructions = @[layerInstruction];
+            videoComp.instructions = @[instruction];
+            NSURL *outputURL = [NSURL fileURLWithPath:localFilePath];
+        NSLog(@"video file location - orientation fix %@",outputURL);
+        // Export
+            AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:AVAssetExportPresetHighestQuality];
+            exportSession.outputURL = outputURL;
+            exportSession.outputFileType = AVFileTypeMPEG4;
+            exportSession.shouldOptimizeForNetworkUse = YES;
+            exportSession.videoComposition = videoComp;
+
+            [exportSession exportAsynchronouslyWithCompletionHandler:^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (exportSession.status == AVAssetExportSessionStatusCompleted) {
+                        NSLog(@"✅ Orientation fixed video saved to: %@", outputURL.path);
+                        if (complete) complete(outputURL.path);
+                    } else {
+                        NSLog(@"❌ Failed to export: %@", exportSession.error.localizedDescription);
+                        if (complete) complete(outputURL.path);
+                    }
+                });
+            }];
+    } else {
+        NSError *error = nil ;
+        [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:localFilePath error:&error];
         if(nil != complete)
         {
-            complete(videoPath);
+            NSLog(@"saved video");
+            complete(localFilePath);
         }
-        
-    } failureBlock:^(NSError *error) {
-        
-        if(nil != complete)
+        else
         {
-            complete(nil);
+            NSLog(@"video failed to save %@",error.localizedDescription);
+        }
+        }
+   }
+}
+
+- (void)saveVideoToDocDirectory:(NSURL*)urlforVideo
+                     completion:(void (^)(NSString *localVideoPath))complete
+                      progress:(void (^)(float progress))progressBlock
+{
+    NSURL *fileURL = urlforVideo;
+    NSString *filePath = [fileURL path];
+    NSString *localFilePath = [self getVideofilePath];
+    NSString *pathExtension = [filePath pathExtension];
+    
+    if ([pathExtension length] > 0) {
+        AVAsset *asset = [AVAsset assetWithURL:urlforVideo];
+        AVAssetTrack *videoTrack = [asset tracksWithMediaType:AVMediaTypeVideo].firstObject;
+        CGAffineTransform transform = videoTrack.preferredTransform;
+        CGSize naturalSize = videoTrack.naturalSize;
+        CGSize renderSize;
+        
+        if (transform.a == 0 && fabs(transform.b) == 1.0 && fabs(transform.c) == 1.0 && transform.d == 0) {
+            
+            renderSize = CGSizeMake(naturalSize.height, naturalSize.width);
+        // Composition
+            AVMutableComposition *composition = [AVMutableComposition composition];
+            AVMutableCompositionTrack *compTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
+            [compTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+                               ofTrack:videoTrack
+                                atTime:kCMTimeZero
+                                 error:nil];
+
+            // Add audio if exists
+            AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
+        CMTime maxDurationPerVideo = CMTimeMakeWithSeconds(120, 600);
+        CMTime duration = CMTimeMinimum(asset.duration, maxDurationPerVideo);
+            if (audioTrack) {
+                AVMutableCompositionTrack *compAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+                [compAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, duration)
+                                        ofTrack:audioTrack
+                                         atTime:kCMTimeZero
+                                          error:nil];
+            }
+
+            // Video composition to fix orientation
+            AVMutableVideoComposition *videoComp = [AVMutableVideoComposition videoComposition];
+            videoComp.renderSize = renderSize;
+            videoComp.frameDuration = CMTimeMake(1, 30);
+
+            AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+            instruction.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
+
+            AVMutableVideoCompositionLayerInstruction *layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compTrack];
+            [layerInstruction setTransform:transform atTime:kCMTimeZero];
+
+            instruction.layerInstructions = @[layerInstruction];
+            videoComp.instructions = @[instruction];
+            NSURL *outputURL = [NSURL fileURLWithPath:localFilePath];
+        NSLog(@"video file location - orientation fix %@",outputURL);
+        // Export
+            AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:AVAssetExportPresetHighestQuality];
+            exportSession.outputURL = outputURL;
+            exportSession.outputFileType = AVFileTypeMPEG4;
+            exportSession.shouldOptimizeForNetworkUse = YES;
+            exportSession.videoComposition = videoComp;
+            
+            __block NSTimer *progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+                if (progressBlock) {
+                    progressBlock(exportSession.progress);
+                }
+            }];
+            
+            [exportSession exportAsynchronouslyWithCompletionHandler:^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [progressTimer invalidate];
+                    progressTimer = nil;
+                    if (exportSession.status == AVAssetExportSessionStatusCompleted) {
+                        NSLog(@"✅ Orientation fixed video saved to: %@", outputURL.path);
+                        if (complete) complete(outputURL.path);
+                    } else {
+                        NSLog(@"❌ Failed to export: %@", exportSession.error.localizedDescription);
+                        if (complete) complete(outputURL.path);
+                    }
+                });
+            }];
+            
+        } else {
+            // Use our new file copy with progress
+            [self copyFileWithEstimatedProgressFromPath:filePath
+                                       toPath:localFilePath
+                                   completion:^(BOOL success, NSError *error) {
+                if (success) {
+                    NSLog(@"saved video");
+                    if (complete) complete(localFilePath);
+                } else {
+                    NSLog(@"video failed to save %@", error.localizedDescription);
+                    if (complete) complete(nil);
+                }
+            } progress:^(float progress) {
+                // Forward progress updates
+                if (progressBlock) {
+                    progressBlock(progress);
+                }
+            }];
+        }
+    }
+}
+
+- (void)copyFileWithEstimatedProgressFromPath:(NSString *)sourcePath
+                                     toPath:(NSString *)destinationPath
+                                 completion:(void (^)(BOOL success, NSError *error))completion
+                                  progress:(void (^)(float progress))progressBlock
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    
+    // Get file size
+    NSDictionary *sourceAttributes = [fileManager attributesOfItemAtPath:sourcePath error:&error];
+    if (error) {
+        completion(NO, error);
+        return;
+    }
+    
+    unsigned long long fileSize = [sourceAttributes fileSize];
+    __block unsigned long long copiedSize = 0;
+    
+    // Start a timer to estimate progress
+    NSTimer *progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        NSDictionary *destAttributes = [fileManager attributesOfItemAtPath:destinationPath error:nil];
+        if (destAttributes) {
+            copiedSize = [destAttributes fileSize];
+            float progress = (float)copiedSize / (float)fileSize;
+            progressBlock(progress);
         }
     }];
     
-    return ;
+    // Perform the copy in background
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *copyError = nil;
+        BOOL success = [fileManager copyItemAtPath:sourcePath toPath:destinationPath error:&copyError];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [progressTimer invalidate];
+            completion(success, copyError);
+        });
+    });
 }
+
+
+
+-(NSString *)getVideofilePath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) ;
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString * videoName = [NSString stringWithFormat:@"video_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
+    NSString *localFilePath = [documentsDirectory stringByAppendingPathComponent:videoName] ;
+    return  localFilePath;
+}
+
+
+-(NSURL*)createVideoCopyFromReferenceUrl:(NSURL*)inputUrlFromVideoPicker{
+
+        NSURL __block *videoURL;
+    
+//        PHFetchResult *phAssetFetchResult = [PHAsset fetchAssetsWithALAssetURLs:@[inputUrlFromVideoPicker] options:nil];
+    PHFetchResult *phAssetFetchResult = [PHAsset fetchAssetsWithOptions:nil];
+    
+        NSLog(@"1----------");
+        PHAsset *phAsset = [phAssetFetchResult firstObject];
+        NSLog(@"2----------");
+        dispatch_group_t group = dispatch_group_create();
+        dispatch_group_enter(group);
+    NSLog(@"3----------");
+
+        [[PHImageManager defaultManager] requestAVAssetForVideo:phAsset options:nil resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
+            NSLog(@"4----------");
+
+            if ([asset isKindOfClass:[AVURLAsset class]]) {
+                
+                NSLog(@"5----------");
+                NSURL *url = [(AVURLAsset *)asset URL];
+                
+                NSLog(@"Final URL %@",url);
+                NSData *videoData = [NSData dataWithContentsOfURL:url];
+
+                // optionally, write the video to the temp directory
+                NSString *videoPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%f.mp4",[NSDate timeIntervalSinceReferenceDate]]];
+
+                videoURL = [NSURL fileURLWithPath:videoPath];
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                BOOL writeResult = [videoData writeToURL:videoURL atomically:true];
+
+                if(writeResult) {
+                    NSLog(@"video success");
+                }
+                else {
+                    NSLog(@"video failure");
+                }
+//                });
+                 dispatch_group_leave(group);
+                // use URL to get file content
+            }
+        }];
+        dispatch_group_wait(group,  DISPATCH_TIME_FOREVER);
+        return videoURL;
+    }
+//---Requesting Save Video--------//
+
+    
 
 - (void)saveAndSetTheEditedImageToPhoto
 {
     
     /* save the image to HDD */
+   
     [self saveImage:self.imageFromApp atIndex:photoFromFrame.photoNumber];
     
     /*  update the database */
+   
     [SessionDB updateImageSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber forSession:iSessionId];
+    
     //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size
     //                              atIndex:photoFromFrame.photoNumber ofType:FRAME_RESOURCE_TYPE_PHOTO atPath:nil forSession:iSessionId];
     
@@ -1375,14 +2136,17 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [photoFromFrame setEditedImage:self.imageFromApp];
     
     /* decrement the retain count */
-    [self.imageFromApp release];
+   // @autoreleasepool {
+     //   [self.imageFromApp release];
+   // }
+   
     
     self.imageFromApp = nil;
     
     /* Now update the session icon */
     [self updateTheSessionIcon];
     
-    [Utility removeActivityIndicatorFrom:_frame.superview];
+    [LoadingClass removeActivityIndicatorFrom:_frame.superview];
     
     return;
 }
@@ -1395,7 +2159,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     self.imageFromApp = img;
     
     /* start the activity controller */
-    [Utility addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
+//    [LoadingClass addActivityIndicatotTo:_frame.superview withMessage:NSLocalizedString(@"PROCESSING", @"Processing")];
     
     /* schedule the timer to start the HDD saving, DB updated and setting to photo */
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(saveAndSetTheEditedImageToPhoto) userInfo:nil repeats:NO];
@@ -1434,6 +2198,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 #else
     NSString *databaseName = PICFARME_DATABASE;
+   // @autoreleasepool {
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [documentPaths objectAtIndex:0];
     NSString *dbPath       = [documentsDir stringByAppendingPathComponent:databaseName];
@@ -1443,12 +2208,14 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* open the database */
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
+    
     if (![db open])
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return 0;
     }
+    
 #endif
     
     [db beginTransaction];
@@ -1475,7 +2242,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* close the database */
     [db close];
-    
+//}
     return YES;
 }
 
@@ -1489,7 +2256,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     if ([[notification name] isEqualToString:selectImageForPhoto])
     {
         photoFromFrame = notification.object;
-        NSLog (@"Session Received %@ notification from photo %d",selectImageForPhoto,photoFromFrame.photoNumber);
+        NSLog (@"select Image For PhotoSession Received %@ notification from photo %d",selectImageForPhoto,photoFromFrame.photoNumber);
         [[NSNotificationCenter defaultCenter]postNotificationName:selectImageForSession
                                                            object:self
                                                          userInfo:notification.userInfo];
@@ -1516,7 +2283,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         {
             if(nil == swapFrom.image)
             {
-                swapFrom.image = [self getImageAtIndex:swapFrom.view.tag];
+                swapFrom.image = [self getImageAtIndex:(int)swapFrom.view.tag];
             }
             
             return;
@@ -1524,9 +2291,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         
         [self handleVideoFrameSettingsUpdate];
         
-        [self swapImageAtIndex:swapFrom.view.tag with:swapTo.view.tag];
+        [self swapImageAtIndex:(int)swapFrom.view.tag with:(int)swapTo.view.tag];
         
-        UIImage *img   = [self getImageAtIndex:swapFrom.view.tag];
+        UIImage *img   = [self getImageAtIndex:(int)swapFrom.view.tag];
         if(nil != img)
         {
             swapFrom.image = img;
@@ -1536,7 +2303,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
             [swapFrom setTheImageToBlank];
         }
         
-        img = [self getImageAtIndex:swapTo.view.tag];
+        img = [self getImageAtIndex:(int)swapTo.view.tag];
         if(nil != img)
         {
             swapTo.image   = img;
@@ -1551,7 +2318,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         NSLog(@"Session: SwapCancelled");
         if(nil == swapFrom.image)
         {
-            swapFrom.image = [self getImageAtIndex:swapFrom.view.tag];
+            swapFrom.image = [self getImageAtIndex:(int)swapFrom.view.tag];
         }
     }
     else if([[notification name] isEqualToString:scaleAndOffsetChanged])
@@ -1561,19 +2328,32 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         {
             return;
         }
-        
+    
         [self handleVideoFrameSettingsUpdate];
         
-        NSLog(@"received scaleAndOffsetChanged %d of %f, offset %f,%f",pht.photoNumber,pht.scale,pht.offset.x,pht.offset.y);
+        NSLog(@"received scaleAndOffsetChanged %d of %f, offset %f,%f minimumZoomScale %f",pht.photoNumber,pht.scale,pht.offset.x,pht.offset.y,pht.view.scrollView.minimumZoomScale);
         
-        [SessionDB updateImageScaleInDBWith:pht.scale offset:pht.offset atIndex:pht.view.tag forSession:iSessionId];
+        [SessionDB updateImageScaleInDBWith:(float)pht.scale offset:pht.offset atIndex:(int)pht.view.tag forSession:iSessionId];
     }
     else if([[notification name] isEqualToString:photoDimensionsChanged])
     {
         [self handleVideoFrameSettingsUpdate];
-        [_frame setWidth:0];
+        // [_frame setWidth:0];
         [self updatePhotosAndAdjustorsFromFrame:_frame];
-        [_frame setWidth:(int)self.frameWidth];
+        [_frame setWidth:(int)self.frameWidth+DEFAULT_FRAME_WIDTH];
+    }
+    else if([notification.name isEqualToString:@"AddAdditionalAudioToPlayer"])
+    {
+        NSURL *audioURL = notification.userInfo[@"audioURL"];
+        if (audioURL) {
+            NSLog(@"audio url %@",audioURL);
+            // Process the audio URL
+            self.additionalAudioURL = audioURL;
+        }
+    }
+    else if([notification.name isEqualToString:@"MuteMasterAudioPlayer"])
+    {
+        [self muteMasterAudio];
     }
     
     return;
@@ -1627,18 +2407,17 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* first delete the photo from HDD */
     [Session deleteSessionImageFromHdOfId:iSessionId atIndex:photoFromFrame.photoNumber];
-    
+    NSLog(@"erase image return for animation delete video 3");
     //delete videos assosiated with the photo
     [self deleteVideoFramesForPhotoAtIndex:photoFromFrame.photoNumber];
-    
+    [self deleteVideoEffectFramesForPhotoAtIndex:photoFromFrame.photoNumber];
     [self saveFrameResourceType:FRAME_RESOURCE_TYPE_INVALID atIndex:photoFromFrame.photoNumber];
     
     UIImageView *img = [[UIImageView alloc]initWithFrame:photoFromFrame.frame];
     img.image = photoFromFrame.image;
     [photoFromFrame setTheImageToBlank];
     [viewsForAnimation addObject:img];
-    [img release];
-    
+  //[img release];
     return viewsForAnimation;
 }
 
@@ -1681,7 +2460,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         img.image = pht.image;
         [pht setTheImageToBlank];
         [viewsForAnimation addObject:img];
-        [img release];
+      //  [img release];
     }
     
     return viewsForAnimation;
@@ -1703,16 +2482,16 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
     
     /* First remove if any shadow view is already attached */
-    UIView *shView = [view viewWithTag:TAG_SHADOW_VIEW];
+    UIImageView *shView = [ view  viewWithTag:TAG_SHADOW_VIEW];
     if(nil != shView)
     {
         [shView removeFromSuperview];
     }
-    
+    NSLog(@"show session on ");
     /* First Add the Shadow View */
-    UIView *v = [[UIView alloc]initWithFrame:_frame.frame];
+    UIImageView *v = [[UIImageView alloc]initWithFrame:_frame.frame];
     v.tag     = TAG_SHADOW_VIEW;
-    v.backgroundColor = [UIColor blackColor];
+    v.backgroundColor = [UIColor whiteColor];
     v.layer.masksToBounds = NO;
     v.layer.shadowRadius = 5.0;
     v.layer.shadowOpacity = 1.0;
@@ -1722,16 +2501,19 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     [view addSubview:v];
     
-    [v release];
+  //  [v release];
     
     [view addSubview:_frame];
+    [[NSNotificationCenter defaultCenter]postNotificationName:addWaterMark
+                                                       object:self
+                                                     userInfo:nil];
     
 }
 
 - (void)hideSession
 {
     /* First remove if any shadow view is already attached */
-    UIView *shView = [_frame.superview viewWithTag:TAG_SHADOW_VIEW];
+    UIImageView  *shView = [_frame.superview viewWithTag:TAG_SHADOW_VIEW];
     if(nil != shView)
     {
         [shView removeFromSuperview];
@@ -1774,7 +2556,11 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         }
         
         /* set the image */
-        pht.image = [self getImageAtIndex:index];
+//        if(pht.image == nil)
+//        {
+            NSLog(@"Photo setImage is called from here 3");
+            pht.image = [self getImageAtIndex:index];
+//        }
         
         /* set the scale */
         pht.scale = imgInfo[index].scale;
@@ -1811,7 +2597,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
         if (![db open])
         {
-            [db release];
+         //   [db release];
             NSLog(@"openDataBase:Could not open db.");
             return 0;
         }
@@ -1845,6 +2631,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 fInnerRadius = [sessions doubleForColumn:@"fInnerRadius"];
                 fOuterRadius = [sessions doubleForColumn:@"fOuterRadius"];
                 fFrameWidth  = [sessions doubleForColumn:@"fFrameWidth"];
+                shadowEffectValue=[sessions doubleForColumn:@"shadowValue"];
                 
                 bPatternSelected = [sessions intForColumn:@"bPatternSelected"];
                 sColor.fRed = [sessions doubleForColumn:@"fRed"];
@@ -1972,7 +2759,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         return self;
 #endif
         
-        [self release];
+      //  [self release];
         
         self = nil;
         
@@ -2107,7 +2894,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         
         /* First delete of any photos and adjustors are assosiated with this session */
         [self deletePhotosAndAdjustors];
-        
+        self.initialization = YES;
         self.frameNumber = iFrmNumber;
         
         [self initiClassVariables];
@@ -2151,7 +2938,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        [db release];
+      //  [db release];
         NSLog(@"openDataBase:Could not open db.");
         return;
     }
@@ -2164,7 +2951,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 #endif
     
     /* execute the update */
-    [db executeUpdate:@"update sessions set iFrameNumber = ?, iPattern = ?, iAspectRatio = ?, fInnerRadius = ?, fOuterRadius = ?,fFrameWidth = ?,bPatternSelected = ?,fRed = ?,fGreen = ?,fBlue = ?,fAlpha = ? where iSessionId = ?",
+    [db executeUpdate:@"update sessions set iFrameNumber = ?, iPattern = ?, iAspectRatio = ?, fInnerRadius = ?, fOuterRadius = ?,fFrameWidth = ?,bPatternSelected = ?,fRed = ?,fGreen = ?,fBlue = ?,fAlpha = ?,shadowEffectValue = ? where iSessionId = ?",
      [NSNumber numberWithInt:iFrameNumber],
      [NSNumber numberWithInt:iPattern],
      [NSNumber numberWithInt:iAspectRatio],
@@ -2177,6 +2964,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
      [NSNumber numberWithDouble:sColor.fBlue],
      [NSNumber numberWithDouble:sColor.fAlpha],
      [NSNumber numberWithFloat:iSessionId]];
+     [NSNumber numberWithFloat:shadowEffectValue];
     
     /* commit the transaction */
     [db commit];
@@ -2189,6 +2977,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 - (void)addPhotosToTheFrame:(Frame*)frm
 {
+    NSLog(@"************************************************************ 2 add  photto");
     int index = 0;
     
     for(index = 0; index < frm.photoCount; index++)
@@ -2199,18 +2988,63 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
             NSLog(@"addPhotosToTheFrame:Something is seriusly wrong,photo not found");
             continue;
         }
-        
-        UIImage *img = [self getImageAtIndex:index];
+       
+        UIImage *img = [self getOriginalImageAtIndex:index]; //[self getImageAtIndex:index];
         if(nil != img)
         {
-            pht.image = img;
+            if( [self getFrameResourceTypeAtIndex:index] == FRAME_RESOURCE_TYPE_PHOTO)
+            {
+//                if(pht.image == nil)
+//                {
+                    pht.muteAudio = YES;
+                    pht.videoURL = nil;
+                    NSLog(@"Photo setImage is called from here 4");
+                    pht.image = img;
+                    pht.isContentTypeVideo = NO;
+               // }
+            }
+            else
+            {
+                NSLog(@"pht = %@, class = %@", pht, NSStringFromClass([pht class]));
+                NSURL *videoURL;
+                NSString *effectPath = [self pathToEffectVideoAtIndex:index];
+                NSString *videoPath = [self getVideoUrlForPhotoAtIndex:index].path;
+                if([[NSFileManager defaultManager]fileExistsAtPath:effectPath])
+                {
+                    NSLog(@"effect video path ");
+                    pht.image = img;
+                    pht.muteAudio = [self getAudioMuteValueForPhotoAtIndex:index];
+                    pht.isContentTypeVideo = YES;
+                    videoURL = [NSURL fileURLWithPath:effectPath];
+                    pht.videoURL = videoURL;
+                }
+                else if([[NSFileManager defaultManager]fileExistsAtPath:videoPath])
+                {
+                    NSLog(@"video path ");
+                    pht.muteAudio = [self getAudioMuteValueForPhotoAtIndex:index];
+                    videoURL = [self getVideoUrlForPhotoAtIndex:index];
+                    NSLog(@"video url is = %@",videoURL);
+                    pht.videoURL = videoURL;
+                    pht.isContentTypeVideo = YES;
+                    pht.image = img;
+                }
+                
+                
+                
+                
+            }
+            NSLog(@" it is video == photoFromFrame.is Content TypeVideo %@",pht.isContentTypeVideo?@"YES":@"NO");
+            
         }
         else
         {
             //NSLog(@"Image at index %d is nil to add to the photo",index);
         }
     }
+    
 }
+
+
 
 - (int)frameNumber
 {
@@ -2219,8 +3053,8 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 - (void)setFrameNumber:(int)FrameNumber
 {
+    NSLog(@"set frame number ");
     [self handleVideoFrameSettingsUpdate];
-    
     iFrameNumber = FrameNumber;
     
     /* first release the frame assosiated with the session */
@@ -2232,7 +3066,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* release the frame */
     if(nil != _frame)
     {
-        [_frame release];
+     //   [_frame release];
         _frame = nil;
     }
     
@@ -2248,8 +3082,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* configure the frame */
     [_frame setWidth:DEFAULT_FRAMEWIDTH];
     
-    /* add photos to the frame */
-    [self addPhotosToTheFrame:_frame];
+//    if(!self.initialization)
+//    {
+        NSLog(@"Let initialisation be true");
+        /* add photos to the frame */
+        [self addPhotosToTheFrame:_frame];
+  //  }
     
     [self updateSessionInDB];
     
@@ -2335,9 +3173,24 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
-- (float)innerRadius
+- (float)getInnerRadius
 {
     return fInnerRadius;
+}
+
+-(void)setShadowValue:(float)val cornerRad:(int)initialValue
+
+{
+    [self handleVideoFrameSettingsUpdate];
+    
+     shadowEffectValue= val;
+    //NSLog(@"setInnerRadius : %f",innerRadius);
+    /* Update frame inner radius */
+    [_frame setShadowEffect:val cornerRadious:initialValue];
+    
+    //[self updateSessionInDB];
+    
+    return;
 }
 
 - (void)setInnerRadius:(float)innerRadius
@@ -2354,13 +3207,14 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
-- (float)outerRadius
+- (float)getOuterRadius
 {
     return fOuterRadius;
 }
 
 - (void)setOuterRadius:(float)outerRadius
 {
+   
     [self handleVideoFrameSettingsUpdate];
     
     fOuterRadius = outerRadius;
@@ -2370,7 +3224,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     if(nil != shView)
     {
         shView.layer.cornerRadius = outerRadius;
+        
     }
+    
     
     /* Update frame Outer radius */
     [_frame setOuterRadius:outerRadius];
@@ -2380,7 +3236,13 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return;
 }
 
-- (float)frameWidth
+
+-(float)getShadowValue
+{
+    return shadowEffectValue;
+}
+
+-(float)getFrameWidth
 {
     return fFrameWidth;
 }
@@ -2393,6 +3255,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* Update Frame Width */
     [_frame setPhotoWidth:photoWidth];
+    NSLog(@"frame width is %f",photoWidth);
     
     [self updateSessionInDB];
     
@@ -2418,7 +3281,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     return iAspectRatio;
 }
 
-- (void)setAspectRatio:(int)aspectRatio
+- (void)initAspectRatio:(int)aspectRatio
 {
     [self handleVideoFrameSettingsUpdate];
     
@@ -2428,11 +3291,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     nvm.aspectRatio = aspectRatio;
     
     UIView *sView   = [_frame superview];
-    
-    self.frameNumber = iFrameNumber;
     self.innerRadius = fInnerRadius;
     self.outerRadius = fOuterRadius;
     self.frameWidth  = fFrameWidth;
+    self.shadowEffectValue=shadowEffectValue;
     if(bPatternSelected)
     {
         self.pattern = iPattern;
@@ -2446,7 +3308,45 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [self updateTheSessionIcon];
     
     [self performSelectorOnMainThread:@selector(showSessionOn:) withObject:sView waitUntilDone:YES];
-    //[self showSessionOn:sView];
+    
+    [self updateSessionInDB];
+    
+    return;
+}
+
+
+- (void)setAspectRatio:(int)aspectRatio
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RemoveAllVideoPlayer" object:nil userInfo:nil];
+    NSLog(@"Removed all preview player");
+    [self handleVideoFrameSettingsUpdate];
+    
+    nvm = [Settings Instance];
+    
+    iAspectRatio = aspectRatio;
+    nvm.aspectRatio = aspectRatio;
+    
+    UIView *sView   = [_frame superview];
+    NSLog(@"set Aspect Ratio frameNumber %d iFrameNumber %d",self.frameNumber,iFrameNumber);
+    self.initialization = NO;
+    self.frameNumber = iFrameNumber;
+    self.innerRadius = fInnerRadius;
+    self.outerRadius = fOuterRadius;
+    self.frameWidth  = fFrameWidth;
+    self.shadowEffectValue=shadowEffectValue;
+    if(bPatternSelected)
+    {
+        self.pattern = iPattern;
+    }
+    else
+    {
+        self.color = [UIColor colorWithRed:sColor.fRed green:sColor.fGreen blue:sColor.fBlue alpha:sColor.fAlpha];
+    }
+    
+    /* Now update the session icon */
+    [self updateTheSessionIcon];
+    
+    [self performSelectorOnMainThread:@selector(showSessionOn:) withObject:sView waitUntilDone:YES];
     
     [self updateSessionInDB];
     

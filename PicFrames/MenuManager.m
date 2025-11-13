@@ -15,8 +15,10 @@
 
 -(void)doneWithMenuManager:(id)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
-    
+//    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"menu manager View controller dismissed!");
+    }];
     return;
 }
 
@@ -37,7 +39,7 @@
                                                                              target:self
                                                                              action:@selector(doneWithMenuManager:)];
         self.navigationItem.leftBarButtonItem = itm;
-        [itm release];
+       // [itm release];
     }
     
     return self;
@@ -45,7 +47,7 @@
 
 - (void)dealloc
 {
-    [super dealloc];
+  //  [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -218,7 +220,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];// autorelease];
     }
  
     cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -227,7 +229,7 @@
     cell.accessoryType           = UITableViewCellAccessoryDisclosureIndicator;
     
     // Configure the cell...
-    int section = indexPath.section;
+    int section = (int)indexPath.section;
 #if SESSIONSUPPORT_ENABLE
     section = section;
 #else
@@ -395,7 +397,7 @@
      [detailViewController release];
      */
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    int section = indexPath.section;
+    int section = (int)indexPath.section;
     
 #if SESSIONSUPPORT_ENABLE
     section = section;
@@ -457,9 +459,11 @@
                 {
                     if(NO == nvm.connectedToInternet)
                     {
-                        UIAlertView *alview = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"FAILED", nil) message:NSLocalizedString(@"NOINTERNET",nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-                        [alview show];
-                        [alview release];
+                        UIAlertController * alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"FAILED", nil) message:NSLocalizedString(@"NOINTERNET",nil) preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+                        [alertController addAction:cancelAction];
+                      
+                        [KeyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
                         return;
                     }
                     else

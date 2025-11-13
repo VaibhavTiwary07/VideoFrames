@@ -339,6 +339,7 @@ typedef enum {
     _menuItems = menuItems;
     
     _contentView = [self mkContentView];
+    
     [self addSubview:_contentView];
     
     [self setupFrameInView:view fromRect:rect];
@@ -459,7 +460,8 @@ typedef enum {
     contentView.autoresizingMask = UIViewAutoresizingNone;
    // contentView.backgroundColor = popup_color;
     /* *******  Change background color of the kxmenu ****** */
-    contentView . backgroundColor = [UIColor colorWithRed:(9.0/255.0) green:(22.0/255.0) blue:(48.0/255.0) alpha:1.0];
+//    contentView . backgroundColor = [UIColor colorWithRed:(102/255.0f) green:(154.0f/255.0f) blue:(174.0f/255.0f) alpha:PHOTO_DEFAULT_COLOR_A];
+    contentView . backgroundColor = [UIColor colorWithRed:(28/255.0f) green:(31.0f/255.0f) blue:(38.0f/255.0f) alpha:PHOTO_DEFAULT_COLOR_A];
     contentView.opaque = NO;
     
     CGFloat itemY = kMarginY * 2;
@@ -859,9 +861,13 @@ static UIFont *gTitleFont;
         
         _observing = YES;
         
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(orientationWillChange:)
+//                                                     name:UIApplicationWillChangeStatusBarOrientationNotification
+//                                                   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationWillChange:)
-                                                     name:UIApplicationWillChangeStatusBarOrientationNotification
+                                                     name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
     }
     
@@ -887,9 +893,13 @@ static UIFont *gTitleFont;
     
         _observing = YES;
         
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(orientationWillChange:)
+//                                                     name:UIApplicationWillChangeStatusBarOrientationNotification
+//                                                   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationWillChange:)
-                                                     name:UIApplicationWillChangeStatusBarOrientationNotification
+                                                     name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
     }
 

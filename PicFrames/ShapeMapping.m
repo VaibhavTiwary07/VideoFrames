@@ -93,6 +93,7 @@ static tShapeMap shape_mapping[FRAME_SHAPE_LAST] = {
 
 + (NSString*)nameOfTheShapeAtIndex:(int)shape
 {
+    NSLog(@"shape name is %@",shape_mapping[shape].name);
     return shape_mapping[shape].name;
 }
 
