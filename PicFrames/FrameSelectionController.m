@@ -35,16 +35,17 @@
     int _curTabSelection;
     int _curSelectedFrameIndex;
     UIButton *_appoxeeBadge;
-    
+    UIButton *_customDoneButton;  // Custom Done button for gradient support
+
     FrameSelectionView *frameSelectionView;
  //   SubscriptionPage *SubscriptionView;
     SimpleSubscriptionView *SubscriptionView2;
-    
+
     //ExpiryStatus//
     NSUserDefaults *prefsTime;
     NSUserDefaults *prefsDate;
     NSUserDefaults *SuccessStatus;
-    
+
 }
 
 @end
@@ -139,16 +140,20 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     prefsTime = [NSUserDefaults standardUserDefaults];
     prefsDate= [NSUserDefaults standardUserDefaults];
     SuccessStatus = [NSUserDefaults standardUserDefaults];
+
+    printf("[FRAME_DEBUG] getLockStatusOfFrame - frameIndex=%d group=%d\n", fil, grp);
+
     if([[SRSubscriptionModel shareKit]IsAppSubscribed])
     {
        // bought_allpackages
         NSLog(@"UnLocked-----");
+        printf("[FRAME_DEBUG] getLockStatusOfFrame - SUBSCRIPTION ACTIVE: Frame=%d unlocked\n", fil);
         return NO;
     }
     else
     {
         NSLog(@" Locked-----");
-        return YES;
+        printf("[FRAME_DEBUG] getLockStatusOfFrame - NO SUBSCRIPTION: Checking lock status\n");
 //        if([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
 //        {
 //            return NO;
@@ -177,8 +182,9 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     
     if(nil == data)
     {
+        printf("[FRAME_DEBUG] getLockStatusOfFrame - No stored lock data, initializing defaults\n");
         memset(&lockstatus[0],1,sizeof(BOOL) * FRAMES_GROUP_LAST * FRAMES_MAX_PERGROUP);
-        
+
         /* store the values in lockstatus and upload to defaults */
         for(int i = 0; i < FRAMES_MAX_PERGROUP; i++)
         {
@@ -187,24 +193,27 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
 #else
             lockstatus[FRAMES_GROUP_UNEVEN][i] = NO;
 #endif
-            
+
             /* By default all even frames are unlocked */
             lockstatus[FRAMES_GROUP_EVEN][i] = NO;
         }
-        
+
         /* Also save Maximum frames per group */
         [[NSUserDefaults standardUserDefaults]setInteger:FRAMES_MAX_PERGROUP forKey:@"MaximumFramesPerGroup"];
-        
+
         /* update in defaults */
         NSData *data = [NSData dataWithBytes:&lockstatus[0] length:(sizeof(BOOL) * FRAMES_GROUP_LAST * FRAMES_MAX_PERGROUP)];
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"framelockstatus"];
     }
     else
     {
+        printf("[FRAME_DEBUG] getLockStatusOfFrame - Loaded lock status from defaults\n");
         memcpy(&lockstatus[0], data.bytes, data.length);
     }
-    
-    return lockstatus[grp][fil];
+
+    BOOL lockState = lockstatus[grp][fil];
+    printf("[FRAME_DEBUG] getLockStatusOfFrame - RESULT: Frame=%d Group=%d IsLocked=%s\n", fil, grp, lockState ? "YES" : "NO");
+    return lockState;
 }
 
 - (void)showAppoxee:(id)sender
@@ -536,7 +545,7 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
 
 -(void)continueChangeTabbarSelectionBackToDefault:(id)sender
 {
-    [_customTabBar setSelectedItem:0];
+    // [_customTabBar setSelectedItem:0];  // Commented out - no tab bar
 
     return;
 }
@@ -1361,7 +1370,52 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     // Set the custom back button as the left bar button item
     self.navigationItem.leftBarButtonItem = backButton;
 
-    
+    // Create custom Done button with gradient support
+    _customDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _customDoneButton.frame = CGRectMake(0, 0, 70, 35);
+    [_customDoneButton setTitle:@"Done" forState:UIControlStateNormal];
+    [_customDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    _customDoneButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    _customDoneButton.layer.cornerRadius = 5.0;
+    _customDoneButton.clipsToBounds = YES;
+
+    // Set initial appearance (no frame selected)
+    [self updateDoneButtonAppearance];
+
+    // Wrap in bar button item
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithCustomView:_customDoneButton];
+    self.navigationItem.rightBarButtonItem = doneButton;
+
+    // Configure navigation bar to blend with black background
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+        [appearance configureWithTransparentBackground];
+        appearance.backgroundColor = [UIColor blackColor];
+        appearance.shadowColor = nil;  // Remove separator line
+
+        // Set title text to white
+        appearance.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor],
+            NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
+        };
+
+        self.navigationController.navigationBar.standardAppearance = appearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = appearance;
+    } else {
+        // iOS 12 and earlier
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+
+        // Set title text to white for iOS 12
+        self.navigationController.navigationBar.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor],
+            NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
+        };
+    }
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
     self.isDynamically = NO;
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(FrameSelected:) name:@"SelectedFrame" object:nil];
@@ -1385,7 +1439,7 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     nvm = [Settings Instance];
     NSLog(@"44444  FrameSelectionView");
     UIView *imgView = [[UIView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    imgView.backgroundColor=[UIColor colorWithRed:48.0/255 green:51.0/255 blue:58.0/255 alpha:1.0];
+    imgView.backgroundColor = [UIColor blackColor];  // Changed to black background
     imgView.tag = TAG_FRAMEGRID_CONTROLLER;
     [self.view addSubview:imgView];
  //   [imgView release];
@@ -1397,7 +1451,8 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
    // [self addToolbarWithTitle:@"Frames" tag:tag_frameselection_toolbar];
     //here it is//
     CGRect rect = [[UIScreen mainScreen]bounds];
-    CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-100-20);
+    // Increased height by removing 50px tab bar space: was (height-100-20), now (height-50-20)
+    CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-50-20);
     NSLog(@"before  FrameSelectionView");
     frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
     NSLog(@"after  FrameSelectionView");
@@ -1411,7 +1466,7 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
    // [frameSelectionView release];
     self.navigationController.navigationBarHidden = NO;
     self.title = NSLocalizedString(@"FRAMES",@"Frames");
-    [self addTabbar];
+    // [self addTabbar];  // Commented out - no tab bar for this screen
 
 }
 
@@ -1801,12 +1856,16 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     int indexInsidePage = [self convertIndexToIndexInsidePage:index];
     int colPerPage      = 3;
     int rowsPerPage     = 4;
-    
+
+    printf("[FRAME_DEBUG] frameTypeFromIndex - displayIndex=%d indexInsidePage=%d\n", index, indexInsidePage);
+
     if(indexInsidePage < ((rowsPerPage/2)*colPerPage)+1)
     {
+        printf("[FRAME_DEBUG] frameTypeFromIndex - displayIndex=%d is FREE type\n", index);
         return FRAMES_TYPE_FREE;
     }
-    
+
+    printf("[FRAME_DEBUG] frameTypeFromIndex - displayIndex=%d is PREMIUM type\n", index);
     return FRAMES_TYPE_PREMIUM;
 }
 
@@ -1818,31 +1877,39 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     int pageNumber      = [self convertIndexToPageNumber:index];
     int indexInsidePage = [self convertIndexToIndexInsidePage:index];
     int items           = pageNumber * (itemsPerPage/2);
-    
+
+    printf("[FRAME_DEBUG] convertIndexToFrameTypeIndex - displayIndex=%d pageNum=%d indexInPage=%d\n", index, pageNumber, indexInsidePage);
+
     if(indexInsidePage < ((rowsPerPage/2)*colPerPage)+1)
     {
         items = items + indexInsidePage;
-        
+        printf("[FRAME_DEBUG] convertIndexToFrameTypeIndex - displayIndex=%d → FREE frame number=%d\n", index, items);
         return items;//+1;
     }
-    
+
     items = items + (indexInsidePage - ((rowsPerPage/2)*colPerPage));
-    
-    return 1000+items;//+1;
+    int premiumFrameNum = 1000+items;
+    printf("[FRAME_DEBUG] convertIndexToFrameTypeIndex - displayIndex=%d → PREMIUM frame number=%d\n", index, premiumFrameNum);
+    return premiumFrameNum;//+1;
 }
 
 - (BOOL)frameScrollView:(FrameScrollView*)gView contentLockedAtIndex:(int)index
 {
     //index = index - 1;
+    printf("[FRAME_DEBUG] frameScrollView:contentLockedAtIndex: - displayIndex=%d\n", index);
+
     if(FRAMES_TYPE_FREE == [self frameTypeFromIndex:index])
     {
+        printf("[FRAME_DEBUG] frameScrollView:contentLockedAtIndex: - displayIndex=%d is FREE, not locked\n", index);
         return NO;
     }
-    
-    int frameTypeIndex = [self convertIndexToFrameTypeIndex:index];
-    
 
-    return [FrameSelectionController getLockStatusOfFrame:frameTypeIndex-1000 group:FRAMES_TYPE_PREMIUM];
+    int frameTypeIndex = [self convertIndexToFrameTypeIndex:index];
+    printf("[FRAME_DEBUG] frameScrollView:contentLockedAtIndex: - displayIndex=%d frameTypeIndex=%d checking lock\n", index, frameTypeIndex);
+
+    BOOL isLocked = [FrameSelectionController getLockStatusOfFrame:frameTypeIndex-1000 group:FRAMES_TYPE_PREMIUM];
+    printf("[FRAME_DEBUG] frameScrollView:contentLockedAtIndex: - displayIndex=%d result: %s\n", index, isLocked ? "LOCKED" : "UNLOCKED");
+    return isLocked;
 }
 
 
@@ -1879,42 +1946,63 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     set.currentFrameNumber = _curSelectedFrameIndex;
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
+
+    // Update Done button appearance when frame is selected
+    [self updateDoneButtonAppearance];
 }
 
 -(void)frameScrollView:(FrameScrollView *)gView selectedItemIndex:(int)index button:(UIButton*)btn
 {
+    printf("[FRAME_DEBUG] ========== FRAME SELECTION STARTED ==========\n");
+    printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - USER TAPPED displayIndex=%d\n", index);
+
     _curSelectedGroup = [self frameTypeFromIndex:index];
     _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index];
     NSLog(@"Selected frame %d to frametype _curSelectedFrame %d   _curSelectedFrameIndex %d",index,_curSelectedFrame,_curSelectedFrameIndex);
-    
+    printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - frameGroup=%d convertedIndex=%d\n", _curSelectedGroup, _curSelectedFrameIndex);
+
     if(_curSelectedFrame<3 || [[SRSubscriptionModel shareKit]IsAppSubscribed])
     {
+        printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Checking if frame is locked...\n");
         if(NO == [self frameScrollView:gView contentLockedAtIndex:index])
-    {
-        Settings *set = [Settings Instance];
-        set.currentSessionIndex = set.nextFreeSessionIndex;
-        set.currentFrameNumber = _curSelectedFrameIndex;
-        
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
-    }
+        {
+            printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - FRAME UNLOCKED! Posting selection notification\n");
+            Settings *set = [Settings Instance];
+            set.currentSessionIndex = set.nextFreeSessionIndex;
+            set.currentFrameNumber = _curSelectedFrameIndex;
+
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
+            printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - POSTING NOTIFICATION: newframeselected with frameNumber=%d sessionNumber=%d\n", set.currentFrameNumber, set.currentSessionIndex);
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
+
+            // Update Done button appearance when frame is selected
+            [self updateDoneButtonAppearance];
+        }
+        else
+        {
+            printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - FRAME IS LOCKED, dismissing without selection\n");
+        }
+
         if(_curSelectedFrame<3)
         {
-       [self dismissViewControllerAnimated:NO completion:nil];
+            printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Free frame, dismissing view controller\n");
+            [self dismissViewControllerAnimated:NO completion:nil];
         }
         else
         {
             if([[SRSubscriptionModel shareKit]IsAppSubscribed])
             {
+                printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Subscription active, popping view controller\n");
                 [self.navigationController popViewControllerAnimated:NO];
             }
             else
             {
                 if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
                 {
+                    printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Purchased status found, popping view controller\n");
                     [self.navigationController popViewControllerAnimated:NO];
                 }
             }
@@ -1922,10 +2010,12 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     }
     else
     {
-        CGRect _fullscreen = [[UIScreen mainScreen]bounds];
-        CGRect tabbarFrame = CGRectMake(0, _fullscreen.size.height-50, _fullscreen.size.width, 50);
-        _customTabBar.frame = tabbarFrame;
+        printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - FRAME LOCKED, showing subscription view\n");
+        // CGRect _fullscreen = [[UIScreen mainScreen]bounds];
+        // CGRect tabbarFrame = CGRectMake(0, _fullscreen.size.height-50, _fullscreen.size.width, 50);
+        // _customTabBar.frame = tabbarFrame;  // Commented out - no tab bar
     }
+    printf("[FRAME_DEBUG] ========== FRAME SELECTION COMPLETED ==========\n");
 }
 
 - (UIImage*)frameScrollView:(FrameScrollView*)gView imageForItemAtIndex:(int)index
@@ -2003,8 +2093,63 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
    // saving an Integer
    [prefs setInteger:1 forKey:@"ClassDynamic"];
-    
+
     NSLog(@"ClassDynamic value before %ld",(long)[prefs integerForKey:@"ClassDynamic"]);
 }
+
+// MARK: Update Done Button Appearance
+-(void)updateDoneButtonAppearance
+{
+    // Check if a frame is selected
+    if (_curSelectedFrameIndex > 0) {
+        // Frame selected state: gradient background with black text
+        // Remove old gradient layer if exists
+        for (CALayer *layer in _customDoneButton.layer.sublayers) {
+            if ([layer isKindOfClass:[CAGradientLayer class]]) {
+                [layer removeFromSuperlayer];
+            }
+        }
+
+        // Add gradient layer (green to cyan)
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.frame = _customDoneButton.bounds;
+        UIColor *greenColor = [UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0];
+        UIColor *cyanColor = [UIColor colorWithRed:20/255.0 green:249/255.0 blue:245/255.0 alpha:1.0];
+        gradientLayer.colors = @[(id)greenColor.CGColor, (id)cyanColor.CGColor];
+        gradientLayer.startPoint = CGPointMake(0, 0.5);
+        gradientLayer.endPoint = CGPointMake(1, 0.5);
+        [_customDoneButton.layer insertSublayer:gradientLayer atIndex:0];
+
+        // Set text color to black
+        [_customDoneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _customDoneButton.enabled = YES;
+    } else {
+        // No frame selected state: dark grey background with white text
+        // Remove gradient layer
+        for (CALayer *layer in _customDoneButton.layer.sublayers) {
+            if ([layer isKindOfClass:[CAGradientLayer class]]) {
+                [layer removeFromSuperlayer];
+            }
+        }
+
+        // Set dark grey background
+        _customDoneButton.backgroundColor = [UIColor colorWithRed:47/255.0 green:53/255.0 blue:64/255.0 alpha:1.0];
+
+        // Set text color to white
+        [_customDoneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _customDoneButton.enabled = NO;
+    }
+}
+
+// MARK: Done Button Action
+-(void)doneButtonPressed
+{
+    // Only proceed if a frame is selected
+    if (_curSelectedFrameIndex > 0) {
+        // Pop the frame selection controller and return to main controller (video selection)
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 @end
 

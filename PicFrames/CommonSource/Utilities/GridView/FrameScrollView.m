@@ -12,8 +12,7 @@
 {
     int _pageCount;
     NSMutableArray *_pages;
-    BOOL pageControlUsed;
-    
+
     //ExpiryStatus//
     NSUserDefaults *prefsTime;
     NSUserDefaults *prefsDate;
@@ -34,30 +33,23 @@
     if (self)
     {
         self.tag = tag;
-        UIScrollView *scrlView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height - FSV_PAGECONTROL_HEIGHT)];
-        scrlView.pagingEnabled = YES;
+        // Changed to vertical scrolling: full frame height without page control
+        UIScrollView *scrlView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        scrlView.pagingEnabled = NO;  // Disable paging for continuous vertical scroll
         scrlView.contentSize = frame.size;
         scrlView.showsHorizontalScrollIndicator = NO;
-        scrlView.showsVerticalScrollIndicator = NO;
+        scrlView.showsVerticalScrollIndicator = YES;  // Show vertical scroll indicator
         scrlView.scrollsToTop = NO;
         scrlView.delegate = self;
         scrlView.userInteractionEnabled = YES;
         scrlView.tag = FSV_TAG_SCROLLVIEW;
-        
-        UIPageControl *pgControl = [[UIPageControl alloc]initWithFrame:CGRectMake(0,frame.size.height - FSV_PAGECONTROL_HEIGHT,FSV_PAGECONTROL_HEIGHT,FSV_PAGECONTROL_HEIGHT)];
-        pgControl.numberOfPages = 3;
-        pgControl.currentPage   = 0;
-        pgControl.center        = CGPointMake(scrlView.center.x,pgControl.center.y);
-        [pgControl addTarget:self action:@selector(pageChanged:) forControlEvents:UIControlEventValueChanged];
-        pgControl.userInteractionEnabled = YES;
-        pgControl.tag = FSV_TAG_PAGECONTROLVIEW;
+
+        // Add scroll view - no page control needed for vertical continuous scrolling
         [self addSubview:scrlView];
-        [self addSubview:pgControl];
         [scrlView release];
-        [pgControl release];
         self.userInteractionEnabled = YES;
     }
-    
+
     return self;
 }
 
@@ -129,52 +121,46 @@
 -(void)updatePageCount
 {
     int totalItems   = [self totalItemCount];
-    int itemsPerPage = [self itemsPerPage];
+    int cols         = [self columnCount];
+    int rows         = 0;
     UIScrollView *scrollView = [self scrollView];
-    UIPageControl *pageControl = [self pageControlView];
-    _pageCount       = 0;
-    /* get page count */
-    _pageCount = totalItems/itemsPerPage;
-    
-    if(totalItems%itemsPerPage)
-    {
-        _pageCount = _pageCount + 1;
-    }
-    
-    if(_pageCount > 1)
-    {
-        /* Configure the scroll view */
-        scrollView.pagingEnabled = YES;
-    }
-    else
-    {
-        /* Configure the scroll view */
-        scrollView.pagingEnabled = NO;
-    }
-    
-    if(_pageCount == pageControl.numberOfPages)
-    {
-        return;
-    }
-    pageControl.numberOfPages = _pageCount;
-    
+
+    printf("[FRAME_DEBUG] FrameScrollView.updatePageCount - Calculating layout: totalItems=%d cols=%d\n", totalItems, cols);
+
+    // Calculate number of rows needed for all items (for continuous vertical layout)
+    rows = (totalItems + cols - 1) / cols;  // Ceiling division
+
+    // For continuous scrolling, we only need ONE "page" containing all rows
+    _pageCount = 1;
+
+    printf("[FRAME_DEBUG] FrameScrollView.updatePageCount - Calculated: rows=%d pageCount=%d\n", rows, _pageCount);
+
+    /* Configure the scroll view */
+    scrollView.pagingEnabled = NO;  // No paging - continuous scroll
+
     if(nil != _pages)
     {
         [_pages release];
     }
-    
+
     _pages = [[NSMutableArray alloc]initWithCapacity:_pageCount];
     if(nil == _pages)
     {
         return;
     }
-    
+
     for (unsigned i = 0; i < _pageCount; i++)
     {
         [_pages addObject:[NSNull null]];
     }
-    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * _pageCount, scrollView.frame.size.height);
-   // NSLog(@"Page number is %d",_pageCount);
+
+    // Calculate content size: width is scroll view width, height is rows * item height + gaps
+    float itemHeight = FSV_ITEM_HEIGHT;
+    float verticalGap = [self verticleGap];
+    float totalHeight = (rows * itemHeight) + ((rows + 1) * verticalGap);
+
+    printf("[FRAME_DEBUG] FrameScrollView.updatePageCount - Content size: width=%.0f height=%.0f\n", scrollView.frame.size.width, totalHeight);
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, totalHeight);
 }
 
 -(int)pageNumberOfItemIndex:(int)index
@@ -197,9 +183,11 @@
 -(void)frameSelected:(id)sender
 {
     UIButton *btn = (UIButton*)sender;
+    printf("[FRAME_DEBUG] FrameScrollView.frameSelected - Button tapped with tag=%ld\n", (long)btn.tag);
 
     if([self.delegate respondsToSelector:@selector(frameScrollView:selectedItemIndex:button:)])
     {
+        printf("[FRAME_DEBUG] FrameScrollView.frameSelected - Delegating to controller\n");
         [self.delegate frameScrollView:self selectedItemIndex:btn.tag button:btn];
     }
     return;
@@ -207,7 +195,8 @@
 // Scale up on button press
 - (void) buttonPress:(UIButton*)button
 {
-    
+    printf("[FRAME_DEBUG] FrameScrollView.buttonPress - Touch DOWN on button tag=%ld\n", (long)button.tag);
+
     int selectedItemIndex = [self selectedItemIndex];
 
     /* first set the image of the previous frame back to original color only if it is
@@ -248,6 +237,7 @@
 // Scale down on button release
 - (void) buttonRelease:(UIButton*)button
 {
+    printf("[FRAME_DEBUG] FrameScrollView.buttonRelease - Touch UP on button tag=%ld\n", (long)button.tag);
     [UIView beginAnimations:@"ScaleButton" context:NULL];
     [UIView setAnimationDuration: 0.5f];
     button.transform = CGAffineTransformMakeScale(1.0, 1.0);
@@ -276,26 +266,38 @@
 }
 -(UIView*)allocPageForPageNume:(int)pageNum
 {
+    printf("[FRAME_DEBUG] FrameScrollView.allocPageForPageNume - Creating layout for page %d\n", pageNum);
     UIScrollView *scrlView = [self scrollView];
-    UIView *v = [[UIView alloc]initWithFrame:CGRectMake(0, 0, scrlView.frame.size.width, scrlView.frame.size.height)];
+    int cols = [self columnCount];
+    int totalItemsCount = [self totalItemCount];
+
+    // Calculate total rows needed for all items
+    int totalRows = (totalItemsCount + cols - 1) / cols;
+
+    // Create a view that spans the entire scrollable content (all rows)
+    float itemHeight = FSV_ITEM_HEIGHT;
+    float verticalGap = [self verticleGap];
+    float totalHeight = (totalRows * itemHeight) + ((totalRows + 1) * verticalGap);
+
+    printf("[FRAME_DEBUG] FrameScrollView.allocPageForPageNume - Grid: %d cols × %d rows = %d items total\n", cols, totalRows, totalItemsCount);
+
+    UIView *v = [[UIView alloc]initWithFrame:CGRectMake(0, 0, scrlView.frame.size.width, totalHeight)];
     if(nil == v)
     {
         NSLog(@"allocPageForPageNume:Failed to allocate memory for view");
         return nil;
     }
-    
+
     v.userInteractionEnabled = YES;
-    
-    int itemIndex = pageNum * [self itemsPerPage];
+
+    int itemIndex = 0;
     int i = 0;
     int j = 0;
-    int rows = [self rowCount];
-    int cols = [self columnCount];
-    int totalItemsCount = [self totalItemCount];
-    
-    for(i = 0; i < rows;i++)
+
+    // Layout ALL items in continuous vertical grid
+    for(i = 0; i < totalRows; i++)
     {
-        for(j = 0; j < cols;j++)
+        for(j = 0; j < cols; j++)
         {
             itemIndex++;
             if(itemIndex > totalItemsCount)
@@ -336,10 +338,15 @@
             if(([self selectedItemIndex] > 0) && ([self selectedItemIndex] == itemIndex))
             {
                 [gridbtn setBackgroundImage:[self.delegate frameScrollView:self coloredImageForItemAtIndex:gridbtn.tag] forState:UIControlStateNormal];
+                // Add green border to selected frame
+                gridbtn.layer.borderWidth = 3.0;
+                gridbtn.layer.borderColor = [[UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0] CGColor];
             }
             else
             {
                 [gridbtn setBackgroundImage:[self.delegate frameScrollView:self imageForItemAtIndex:gridbtn.tag] forState:UIControlStateNormal];
+                // Remove border from unselected frames
+                gridbtn.layer.borderWidth = 0;
                // NSLog(@"Button Tag is %ld",(long)btn.tag);
 
                     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -555,7 +562,8 @@
             [btn addTarget:self action:@selector(frameSelected:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
-    
+
+    printf("[FRAME_DEBUG] FrameScrollView.allocPageForPageNume - Page %d layout complete with %d items\n", pageNum, itemIndex);
     return v;
 }
 
@@ -582,8 +590,8 @@
     if (nil == page.superview)
     {
         CGRect frame = scrlView.frame;
-        frame.origin.x = frame.size.width * pageNum;
-        frame.origin.y = 0;
+        frame.origin.x = 0;  // Changed: no horizontal offset
+        frame.origin.y = frame.size.height * pageNum;  // Changed: vertical offset for pages
         page.frame = frame;
         [scrlView addSubview:page];
     }
@@ -591,107 +599,41 @@
 
 -(void)loadPages
 {
-    UIPageControl *pgControl  = [self pageControlView];
+    printf("[FRAME_DEBUG] FrameScrollView.loadPages - Starting to load frames\n");
     UIScrollView  *scrlView   = [self scrollView];
-    int index                 = 0;
-    int pageIndex             = _pageCount-1;
-    
+
     [self updatePageCount];
-   
-    
-    for(index = 0; index < _pageCount; index++)
-    {
-        [self loadPage:index];
-    }
-    
-    pgControl.currentPage = pageIndex;
-    CGRect frame   = scrlView.frame;
-    frame.origin.x = frame.size.width * pageIndex;
-    frame.origin.y = 0;
-    [scrlView scrollRectToVisible:frame animated:YES];
-    
-    // Set the boolean used when scrolls originate from the UIPageControl. See scrollViewDidScroll: above.
-    pageControlUsed = YES;
-    
-    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(animateFrames:) userInfo:nil repeats:NO];
-    
+
+    // For continuous scrolling, we only load one "page" containing all frames
+    printf("[FRAME_DEBUG] FrameScrollView.loadPages - Loading page 0\n");
+    [self loadPage:0];
+
+    // Scroll to top for continuous layout
+    printf("[FRAME_DEBUG] FrameScrollView.loadPages - Scroll view size: %.0f x %.0f, contentSize: %.0f x %.0f\n",
+          scrlView.frame.size.width, scrlView.frame.size.height, scrlView.contentSize.width, scrlView.contentSize.height);
+    [scrlView setContentOffset:CGPointMake(0, 0) animated:NO];
+
+    printf("[FRAME_DEBUG] FrameScrollView.loadPages - Frame loading complete\n");
     return;
 }
 
 -(void)animateFrames:(id)timer
 {
-    CGPoint offset;
-    UIScrollView  *scrlView   = [self scrollView];
-    int selectedItemIndex     = [self selectedItemIndex];
-    int pageIndex             = [self pageNumberOfItemIndex:selectedItemIndex];
-
-    /* Move the last page */
-    offset.x = scrlView.frame.size.width * (_pageCount-1);
-    offset.y = 0;
-    [scrlView setContentOffset:offset animated:NO];
-    
-    /* animate the page where selected item resides */
-    offset.x = scrlView.frame.size.width * pageIndex;
-    offset.y = 0;
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:2.0];
-    [scrlView setContentOffset:offset];
-    [UIView commitAnimations];
-    
+    // For continuous scrolling, no animation needed
+    // All frames are already visible in the scroll view
     return;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender
 {
-    UIPageControl *pgControl = [self pageControlView];
-    UIScrollView *scrlView   = [self scrollView];
-    // We don't want a "feedback loop" between the UIPageControl and the scroll delegate in
-    // which a scroll event generated from the user hitting the page control triggers updates from
-    // the delegate method. We use a boolean to disable the delegate logic when the page control is used.
-    if (pageControlUsed)
-    {
-        // do nothing - the scroll was initiated from the page control, not the user dragging
-        return;
-    }
-    
-    // Switch the indicator when more than 50% of the previous/next page is visible
-    CGFloat pageWidth = scrlView.frame.size.width;
-    int page = floor((scrlView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    pgControl.currentPage = page;
-	
-    // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
-    [self loadPage:page - 1];
-    [self loadPage:page];
-    [self loadPage:page + 1];
-	
-    // A possible optimization would be to unload the views+controllers which are no longer visible
+    // For vertical continuous scrolling, no page-based logic needed
+    // All frames are already loaded in a single view
     return;
 }
 
-// At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    pageControlUsed = NO;
-}
-
-- (void)pageChanged:(id)sender
-{
-    UIPageControl *pgControl = [self pageControlView];
-    UIScrollView *scrlView   = [self scrollView];
-    int page = pgControl.currentPage;
-
-    // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
-    [self loadPage:page - 1];
-    [self loadPage:page];
-    [self loadPage:page + 1];
-    // update the scroll view to the appropriate page
-    CGRect frame = scrlView.frame;
-    frame.origin.x = frame.size.width * page;
-    frame.origin.y = 0;
-    [scrlView scrollRectToVisible:frame animated:YES];
-    // Set the boolean used when scrolls originate from the UIPageControl. See scrollViewDidScroll: above.
-    pageControlUsed = YES;
+    // No additional logic needed for vertical continuous scrolling
 }
 /*
 // Only override drawRect: if you perform custom drawing.
