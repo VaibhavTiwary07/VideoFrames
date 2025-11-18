@@ -11,7 +11,7 @@
 #import "DBUtilities.h"
 #import "Frame.h"
 #import "Settings.h"
-#import "SessionDB.h"
+// SessionDB.h removed - using SessionRepository instead (Phase 4B)
 #import "Utility.h"
 #import "ssivPub.h"
 #import <Photos/Photos.h>

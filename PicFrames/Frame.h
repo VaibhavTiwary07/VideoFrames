@@ -11,7 +11,7 @@
 #import "Config.h"
 #import "Photo.h"
 #import "Adjustor.h"
-#import "FrameDB.h"
+// FrameDB.h removed - using FrameRepository instead (Phase 4B)
 #import "Utility.h"
 #import "Settings.h"
 #import "ssivView.h"
