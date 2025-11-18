@@ -83,6 +83,7 @@
 		3C9CA492185AF56900DCC5B1 /* ImageSelectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2801D7D616599777007D7D89 /* ImageSelectionHandler.m */; };
 		3C9CA494185AF56900DCC5B1 /* FrameSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 081196FF17FFE3E00049BBFC /* FrameSelectionController.m */; };
 		B304E37718B642389E7589CE /* FrameSelectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD25611ED70473A86B67C30 /* FrameSelectionModel.m */; };
+		9F158A8EC3AF480ABC2DE2F0 /* SecretsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DEE62BAC35E45F69F07FD47 /* SecretsManager.m */; };
 		3C9CA495185AF56900DCC5B1 /* ssivView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28AFFA851662612600D54AE0 /* ssivView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C9CA497185AF56900DCC5B1 /* InAppPurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 288B700416736CA600CC182E /* InAppPurchaseManager.m */; };
 		3C9CA498185AF56900DCC5B1 /* SKProduct+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 288B700816736CA600CC182E /* SKProduct+LocalizedPrice.m */; };
@@ -276,6 +277,8 @@
 		0811970017FFE3E00049BBFC /* FrameSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameSelectionController.h; sourceTree = "<group>"; };
 		09C822150A734DA6A4718730 /* FrameSelectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameSelectionModel.h; sourceTree = "<group>"; };
 		2AD25611ED70473A86B67C30 /* FrameSelectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameSelectionModel.m; sourceTree = "<group>"; };
+		576E54502AF74006A4722DA6 /* SecretsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecretsManager.h; sourceTree = "<group>"; };
+		4DEE62BAC35E45F69F07FD47 /* SecretsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecretsManager.m; sourceTree = "<group>"; };
 		082F59EB17E04F0200AD5EE1 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0895DF2F183CCD000093E968 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		08EDB626182CBB070066F4C5 /* TouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchView.h; sourceTree = "<group>"; };
@@ -1457,6 +1460,8 @@
 				081196FF17FFE3E00049BBFC /* FrameSelectionController.m */,
 				09C822150A734DA6A4718730 /* FrameSelectionModel.h */,
 				2AD25611ED70473A86B67C30 /* FrameSelectionModel.m */,
+				576E54502AF74006A4722DA6 /* SecretsManager.h */,
+				4DEE62BAC35E45F69F07FD47 /* SecretsManager.m */,
 				081196FD17FFE3BF0049BBFC /* FrameSelectionView.h */,
 				081196FC17FFE3BF0049BBFC /* FrameSelectionView.m */,
 				28C9EAE0152546A500E3E8E4 /* InitSessionManager.h */,
@@ -1840,6 +1845,7 @@
 				3C9CA492185AF56900DCC5B1 /* ImageSelectionHandler.m in Sources */,
 				3C9CA494185AF56900DCC5B1 /* FrameSelectionController.m in Sources */,
 				B304E37718B642389E7589CE /* FrameSelectionModel.m in Sources */,
+				9F158A8EC3AF480ABC2DE2F0 /* SecretsManager.m in Sources */,
 				3C9CA495185AF56900DCC5B1 /* ssivView.m in Sources */,
 				3C9CA497185AF56900DCC5B1 /* InAppPurchaseManager.m in Sources */,
 				5343200C26B291A8008EAF32 /* NSImage+ANImageBitmapRep.m in Sources */,

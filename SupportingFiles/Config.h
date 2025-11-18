@@ -5,10 +5,18 @@
 //  Created by Sunitha Gadigota on 2/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
+//  REFACTORED: Phase 1 - Security improvements
+//  Secrets are now managed by SecretsManager (see PicFrames/Services/SecretsManager.h)
+//  Use [[SecretsManager shared] propertyName] instead of hardcoded defines
+//
 #import "DeviceHw.h"
 #import "PubTypes.h"
+
 #ifndef PicFrames_Config_h
 #define PicFrames_Config_h
+
+// Import SecretsManager for secure API key access
+#import "SecretsManager.h"
 
 #if defined(VideoCollagePRO)
 #define proVersion 1
@@ -45,7 +53,10 @@
 #define terms_n_conditions_text @"                           \n\n All the payments or transactions made through iTunes handled and controlled by Apple. upon confirmation of purchase, the payment will be charged to the iTunes account. Until you turn off the auto-renew at least 24 hours before the end of the current period it will be automatically renewed. The account will be charged for renewal within 24 hours prior to the end of the current period, and identify the cost of the renewal.  any unused portion of a free trial period, if offered, will be forfeited if you purchase a subscription to that publication, where applicable - If you decide to turn off auto-renewal, you can turn it off by going to iTunes account settings after purchase"
 #define subscription_Details @"\n\u2022 No Ads \n\u2022 No Watermark on your videos \n\u2022 Unlimited music,video,all effects \n\u2022 Unlimited background color,patterns\n"
 
-#define secreteSharedKeyForSubcription @"5fc96744668a430fbe7d7d4efeb010c6"
+// DEPRECATED: Hardcoded secret moved to SecretsManager for security
+// Use: [[SecretsManager shared] subscriptionSharedSecret]
+// #define secreteSharedKeyForSubcription @"5fc96744668a430fbe7d7d4efeb010c6"
+#define secreteSharedKeyForSubcription [[SecretsManager shared] subscriptionSharedSecret]
 
 
 
@@ -283,9 +294,18 @@
 #define userDefaultForLimitSave [NSUserDefaults standardUserDefaults]
 
 
-#define flurrykey   @"2283GYBGQX9NYDBCVK5J"
-#define tapjoyAppId @"9e1f8880-1d30-468e-ae6c-6c1c8c5cd91e"
-#define tapjoySec   @"jI91fR0KoGjux2xMQRLa"
+// DEPRECATED: Hardcoded API keys moved to SecretsManager for security
+// Use SecretsManager properties instead:
+//   [[SecretsManager shared] flurryKey]
+//   [[SecretsManager shared] tapjoyAppId]
+//   [[SecretsManager shared] tapjoySecretKey]
+// #define flurrykey   @"2283GYBGQX9NYDBCVK5J"
+// #define tapjoyAppId @"9e1f8880-1d30-468e-ae6c-6c1c8c5cd91e"
+// #define tapjoySec   @"jI91fR0KoGjux2xMQRLa"
+
+#define flurrykey   [[SecretsManager shared] flurryKey]
+#define tapjoyAppId [[SecretsManager shared] tapjoyAppId]
+#define tapjoySec   [[SecretsManager shared] tapjoySecretKey]
 #if defined(VideoCollagePRO)
 
 //#define iosAppId         722633887
@@ -303,12 +323,14 @@
 #define iosProAppIdString  @"712175767"
 
 #endif
-#define admobpublishedid_iphone @"ca-app-pub-8572140050384873/8625652341"
-#define admobmediationid_iphone @"ca-app-pub-8572140050384873/8625652341"
-#define admobmediationid_ipad @"ca-app-pub-8572140050384873/8625652341"
-#define admobpublishedid_ipad @"ca-app-pub-8572140050384873/8625652341"
+// NOTE: AdMob IDs kept as-is for now. Consider moving to Secrets.plist if needed.
+// These are less sensitive than API keys but should still be configurable.
+#define admobpublishedid_iphone [[SecretsManager shared] adMobBannerUnitId] ?: @"ca-app-pub-8572140050384873/8625652341"
+#define admobmediationid_iphone [[SecretsManager shared] adMobBannerUnitId] ?: @"ca-app-pub-8572140050384873/8625652341"
+#define admobmediationid_ipad [[SecretsManager shared] adMobBannerUnitId] ?: @"ca-app-pub-8572140050384873/8625652341"
+#define admobpublishedid_ipad [[SecretsManager shared] adMobBannerUnitId] ?: @"ca-app-pub-8572140050384873/8625652341"
 //#define fullscreen_admob_id   @"5ca06978c5a04f6a"
-#define fullscreen_admob_id  @"ca-app-pub-8572140050384873/1755440420"
+#define fullscreen_admob_id  [[SecretsManager shared] adMobInterstitialUnitId] ?: @"ca-app-pub-8572140050384873/1755440420"
 
 
 
