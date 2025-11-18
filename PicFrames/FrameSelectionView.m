@@ -220,6 +220,18 @@ typedef struct
 //#import "MainController.h"
 @implementation FrameSelectionView
 @synthesize delegate;
+@synthesize selectionModel = _selectionModel;
+
+// REFACTORED: Pass model to scroll view when set
+- (void)setSelectionModel:(FrameSelectionModel *)selectionModel {
+    _selectionModel = selectionModel;
+
+    // Pass to scroll view if it exists
+    if (fsv) {
+        printf("[SELECTION_VIEW] Passing model to FrameScrollView\n");
+        fsv.selectionModel = selectionModel;
+    }
+}
 
 
 +(void)prefillLockStatusForFreeFrames

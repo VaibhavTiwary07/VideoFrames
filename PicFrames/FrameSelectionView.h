@@ -13,6 +13,7 @@
 
 //#import "UniversalLayout.h"
 #import "SimpleSubscriptionView.h"
+#import "FrameSelectionModel.h"
 
 @class FrameSelectionView;
 
@@ -28,6 +29,9 @@
 @end
 //#import "MainController.h"
 @interface FrameSelectionView : UIView
+
+// REFACTORED: Pass model through view hierarchy
+@property(nonatomic, strong) FrameSelectionModel *selectionModel;
 
 +(int)facebookLockedFrameCount;
 +(int)twitterLockedFrameCount;

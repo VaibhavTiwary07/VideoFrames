@@ -24,6 +24,7 @@
 
 @implementation FrameScrollView
 @synthesize delegate;
+@synthesize selectionModel;
 
 - (id)initWithFrame:(CGRect)frame indextag:(int)tag
 {
@@ -173,42 +174,72 @@
     return framePage;
 }
 
+// REFACTORED: Simple, model-driven frame selection
 -(void)frameSelected:(id)sender
 {
     UIButton *btn = (UIButton*)sender;
-    printf("[FRAME_SCROLL] ========== frameSelected CALLED ==========\n");
-    printf("[FRAME_SCROLL] Button tag: %ld\n", (long)btn.tag);
-    printf("[FRAME_SCROLL] Button frame: x=%.1f y=%.1f w=%.1f h=%.1f\n",
-           btn.frame.origin.x, btn.frame.origin.y, btn.frame.size.width, btn.frame.size.height);
-    NSLog(@" *** Frame Selected ***");
+    printf("\n[FRAME_SCROLL] ═══════════════════════════════════\n");
+    printf("[FRAME_SCROLL] Frame button tapped: tag=%ld\n", (long)btn.tag);
 
-    // Remove green border from previously selected button
-    if (_previouslySelectedButton != nil && _previouslySelectedButton != btn) {
-        printf("[FRAME_SCROLL] Removing border from previous button (tag=%ld)\n", (long)_previouslySelectedButton.tag);
-        _previouslySelectedButton.layer.borderWidth = 0;
-        _previouslySelectedButton.layer.borderColor = nil;
-    }
+    // Refresh all button appearances based on new selection
+    // This is simpler than manual tracking - just redraw everything
+    [self refreshButtonAppearances];
 
-    // Add green border to newly selected button
-    printf("[FRAME_SCROLL] Adding GREEN BORDER to button (tag=%ld)\n", (long)btn.tag);
-    printf("[FRAME_SCROLL] Border width: 5.0, Color: RGB(188, 234, 109)\n");
-    btn.layer.borderWidth = 5.0;  // Increased border width for better visibility
-    btn.layer.borderColor = [[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0] CGColor];
-    btn.layer.cornerRadius = 0;  // Ensure sharp corners for the border
-    btn.clipsToBounds = NO;  // Allow border to extend slightly outside bounds
-
-    // Store reference to this button
-    _previouslySelectedButton = btn;
-    printf("[FRAME_SCROLL] Stored button reference for future deselection\n");
-
+    // Notify delegate
     if([self.delegate respondsToSelector:@selector(frameScrollView:selectedItemIndex:button:)])
     {
-        printf("[FRAME_SCROLL] Calling delegate: frameScrollView:selectedItemIndex:button:\n");
+        printf("[FRAME_SCROLL] → Notifying delegate\n");
         [self.delegate frameScrollView:self selectedItemIndex:(int)btn.tag button:btn];
-        printf("[FRAME_SCROLL] Delegate call completed\n");
     }
-    printf("[FRAME_SCROLL] ========== frameSelected COMPLETED ==========\n\n");
-    return;
+
+    printf("[FRAME_SCROLL] ═══════════════════════════════════\n\n");
+}
+
+// Configure a single button's appearance based on whether it's selected
+- (void)configureButton:(UIButton*)button selected:(BOOL)selected
+{
+    if (selected) {
+        // Green border for selected frame
+        button.layer.borderWidth = 5.0;
+        button.layer.borderColor = [[UIColor colorWithRed:188/255.0
+                                                     green:234/255.0
+                                                      blue:109/255.0
+                                                     alpha:1.0] CGColor];
+        button.layer.cornerRadius = 0;
+        button.clipsToBounds = NO;
+    } else {
+        // No border for unselected frames
+        button.layer.borderWidth = 0;
+        button.layer.borderColor = nil;
+    }
+}
+
+// Refresh all button appearances based on selection model
+- (void)refreshButtonAppearances
+{
+    if (!self.selectionModel) {
+        printf("[FRAME_SCROLL] ⚠️  No selection model set\n");
+        return;
+    }
+
+    NSInteger selectedIndex = self.selectionModel.selectedFrameIndex;
+    printf("[FRAME_SCROLL] Refreshing buttons, selected index: %ld\n", (long)selectedIndex);
+
+    // Get the scroll view that contains all buttons
+    UIScrollView *scrollView = [self scrollView];
+
+    // Iterate through all subviews to find buttons
+    for (UIView *pageView in scrollView.subviews) {
+        if (![pageView isKindOfClass:[UIView class]]) continue;
+
+        for (UIView *subview in pageView.subviews) {
+            if ([subview isKindOfClass:[UIButton class]]) {
+                UIButton *button = (UIButton*)subview;
+                BOOL isSelected = (button.tag == selectedIndex);
+                [self configureButton:button selected:isSelected];
+            }
+        }
+    }
 }
 // Scale up on button press
 - (void) buttonPress:(UIButton*)button
@@ -367,19 +398,17 @@
             gridbtn.tag =((self.tag - TAG_BASEFRAME_GRIDVIEW)*1000)+itemIndex;
           
 #if 1
+            // Use helper method for consistent button styling
+            BOOL isSelected = (self.selectionModel && self.selectionModel.selectedFrameIndex == itemIndex);
+            [self configureButton:gridbtn selected:isSelected];
+
             if(([self selectedItemIndex] > 0) && ([self selectedItemIndex] == itemIndex))
             {
                 [gridbtn setBackgroundImage:[self.delegate frameScrollView:self coloredImageForItemAtIndex:(int)gridbtn.tag] forState:UIControlStateNormal];
-                // Add green border to selected frame
-                gridbtn.layer.borderWidth = 5.0;  // Increased border width for better visibility
-                gridbtn.layer.borderColor = [[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0] CGColor];
-                gridbtn.clipsToBounds = NO;  // Allow border to extend slightly outside bounds
             }
             else
             {
                 [gridbtn setBackgroundImage:[self.delegate frameScrollView:self imageForItemAtIndex:(int)gridbtn.tag] forState:UIControlStateNormal];
-                // Remove border from unselected frames
-                gridbtn.layer.borderWidth = 0;
                 if(gridbtn.tag<100)
                 {
 

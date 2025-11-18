@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Config.h"
 #import "Utility.h"
+#import "FrameSelectionModel.h"
 
 
 #define DEVICE_HEIGHT ([[UIScreen mainScreen]bounds].size.height)
@@ -47,13 +48,16 @@ typedef enum
 @end
 
 @interface FrameScrollView : UIView<UIScrollViewDelegate>
-{
-    UIButton *_previouslySelectedButton;  // Track previously selected button for border management
-}
+
+// Selection model - single source of truth
+@property(nonatomic, strong) FrameSelectionModel *selectionModel;
 
 @property(nonatomic,retain)id<FrameScrollViewDelegate>delegate;
 - (id)initWithFrame:(CGRect)frame indextag:(int)tag;
 - (void)loadPages;
+
+// Refresh button appearances based on selection model
+- (void)refreshButtonAppearances;
 
 //-(void)removeframelockImage;
 @end

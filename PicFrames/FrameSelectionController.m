@@ -11,6 +11,7 @@
 #import "Config.h"
 //#import "InAppPurchasePreview.h"
 #import "FrameSelectionView.h"
+#import "FrameSelectionModel.h"
 //#import "FBLikeUsView.h"
 //#import "InstagramFollowView.h"
 //#import "HelpScreenViewController.h"
@@ -36,6 +37,9 @@
     int _curSelectedFrameIndex;
     UIButton *_appoxeeBadge;
     UIButton *_customDoneButton;  // Custom Done button for gradient support
+
+    // REFACTORED: Single source of truth for selection state
+    FrameSelectionModel *_selectionModel;
 
     FrameSelectionView *frameSelectionView;
  //   SubscriptionPage *SubscriptionView;
@@ -1453,12 +1457,32 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     CGRect rect = [[UIScreen mainScreen]bounds];
     // Increased height by removing 50px tab bar space: was (height-100-20), now (height-50-20)
     CGRect fsvRect = CGRectMake(0.0, 50.0, rect.size.width, rect.size.height-50-20);
+    // REFACTORED: Initialize selection model with automatic UI updates
+    printf("\n[CONTROLLER] ═══════════════════════════════════════\n");
+    printf("[CONTROLLER] Initializing FrameSelectionModel\n");
+    _selectionModel = [[FrameSelectionModel alloc] init];
+
+    // Set up callback for automatic Done button updates
+    __weak typeof(self) weakSelf = self;
+    _selectionModel.onSelectionChanged = ^(NSInteger index, FrameType type) {
+        printf("[CONTROLLER] → Model callback: index=%ld, type=%d\n", (long)index, type);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateDoneButtonAppearance];
+        });
+    };
+    printf("[CONTROLLER] Model initialized with callback\n");
+    printf("[CONTROLLER] ═══════════════════════════════════════\n\n");
+
     NSLog(@"before  FrameSelectionView");
     frameSelectionView = [[FrameSelectionView alloc]initWithFrame:fsvRect];
     NSLog(@"after  FrameSelectionView");
     frameSelectionView.delegate = self;
     frameSelectionView.tag = tag_frameselection_view;
     frameSelectionView.userInteractionEnabled = YES;
+
+    // REFACTORED: Pass model to the view hierarchy
+    frameSelectionView.selectionModel = _selectionModel;
+
     self.view.userInteractionEnabled = YES;
     [self.view addSubview:frameSelectionView];
     NSLog(@"view did load frame selection controller");
@@ -1958,94 +1982,54 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
     [self updateDoneButtonAppearance];
 }
 
+// REFACTORED: Simplified using model-driven approach
 -(void)frameScrollView:(FrameScrollView *)gView selectedItemIndex:(int)index button:(UIButton*)btn
 {
-    printf("\n");
-    printf("╔════════════════════════════════════════════════════════════════╗\n");
-    printf("║          FRAME SELECTION DELEGATE METHOD CALLED                ║\n");
-    printf("╚════════════════════════════════════════════════════════════════╝\n");
-    printf("[FRAME_CTRL] Input displayIndex: %d\n", index);
-    printf("[FRAME_CTRL] Button tag: %ld\n", (long)btn.tag);
+    printf("\n[CONTROLLER] ═══════════════════════════════════════\n");
+    printf("[CONTROLLER] Frame selected: display index=%d\n", index);
 
-    // Calculate frame indices
+    // Calculate frame type and index
     _curSelectedGroup = [self frameTypeFromIndex:index];
     _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index];
+    _curSelectedFrame = _curSelectedFrameIndex; // Keep legacy variables in sync
 
-    printf("\n[FRAME_CTRL] ═══ VARIABLE STATE BEFORE UPDATE ═══\n");
-    printf("[FRAME_CTRL] _curSelectedFrame (OLD VAR): %d\n", _curSelectedFrame);
-    printf("[FRAME_CTRL] _curSelectedFrameIndex (NEW VAR): %d\n", _curSelectedFrameIndex);
-    printf("[FRAME_CTRL] _curSelectedGroup: %d\n", _curSelectedGroup);
+    printf("[CONTROLLER] Converted to: frameIndex=%d, frameType=%d\n",
+           _curSelectedFrameIndex, _curSelectedGroup);
 
-    // CRITICAL FIX: Set _curSelectedFrame to match _curSelectedFrameIndex
-    _curSelectedFrame = _curSelectedFrameIndex;
-    printf("[FRAME_CTRL] ✓ Set _curSelectedFrame = _curSelectedFrameIndex = %d\n", _curSelectedFrame);
+    // Update model - this automatically triggers Done button update via callback
+    [_selectionModel selectFrameAtIndex:_curSelectedFrameIndex frameType:_curSelectedGroup];
 
-    // Check subscription status
+    // Check subscription and lock status
     BOOL isSubscribed = [[SRSubscriptionModel shareKit]IsAppSubscribed];
-    printf("\n[FRAME_CTRL] ═══ SUBSCRIPTION CHECK ═══\n");
-    printf("[FRAME_CTRL] Is subscribed: %s\n", isSubscribed ? "YES" : "NO");
-    printf("[FRAME_CTRL] Condition (_curSelectedFrame<3): %s\n", (_curSelectedFrame<3) ? "TRUE" : "FALSE");
-    printf("[FRAME_CTRL] Overall condition result: %s\n",
-           (_curSelectedFrame<3 || isSubscribed) ? "PASS" : "FAIL");
+    BOOL isLocked = [self frameScrollView:gView contentLockedAtIndex:index];
 
-    if(_curSelectedFrame<3 || isSubscribed)
+    printf("[CONTROLLER] Subscription: %s, Locked: %s\n",
+           isSubscribed ? "YES" : "NO", isLocked ? "YES" : "NO");
+
+    // Only update settings if frame is accessible
+    if((_curSelectedFrame < 3 || isSubscribed) && !isLocked)
     {
-        printf("\n[FRAME_CTRL] ═══ CHECKING LOCK STATUS ═══\n");
-        BOOL isLocked = [self frameScrollView:gView contentLockedAtIndex:index];
-        printf("[FRAME_CTRL] Frame locked: %s\n", isLocked ? "YES" : "NO");
+        printf("[CONTROLLER] ✓ Frame accessible, updating settings\n");
+        Settings *set = [Settings Instance];
+        set.currentFrameNumber = _curSelectedFrameIndex;
 
-        if(NO == isLocked)
-        {
-            printf("\n[FRAME_CTRL] ✓✓✓ FRAME IS UNLOCKED - PROCEEDING ✓✓✓\n");
-            Settings *set = [Settings Instance];
-            set.currentSessionIndex = set.nextFreeSessionIndex;
-            set.currentFrameNumber = _curSelectedFrameIndex;
+        NSDictionary *params = @{
+            @"FrameNumber": @(set.currentFrameNumber),
+            @"SessionNumber": @(set.currentSessionIndex)
+        };
 
-            printf("[FRAME_CTRL] Settings updated:\n");
-            printf("[FRAME_CTRL]   - currentFrameNumber: %d\n", set.currentFrameNumber);
-            printf("[FRAME_CTRL]   - currentSessionIndex: %d\n", set.currentSessionIndex);
-
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",
-                                   [NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
-
-            printf("\n[FRAME_CTRL] ═══ POSTING NOTIFICATION ═══\n");
-            printf("[FRAME_CTRL] Notification: 'newframeselected'\n");
-            printf("[FRAME_CTRL] Parameters: FrameNumber=%d, SessionNumber=%d\n",
-                   set.currentFrameNumber, set.currentSessionIndex);
-            [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
-            printf("[FRAME_CTRL] ✓ Notification posted\n");
-        }
-        else
-        {
-            printf("\n[FRAME_CTRL] ✗✗✗ FRAME IS LOCKED ✗✗✗\n");
-            printf("[FRAME_CTRL] Not updating selection state\n");
-        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected
+                                                            object:nil
+                                                          userInfo:params];
+        printf("[CONTROLLER] → Posted 'newframeselected' notification\n");
     }
     else
     {
-        printf("\n[FRAME_CTRL] ✗✗✗ SUBSCRIPTION CHECK FAILED ✗✗✗\n");
-        printf("[FRAME_CTRL] Frame requires subscription and user not subscribed\n");
+        printf("[CONTROLLER] ✗ Frame not accessible (locked or needs subscription)\n");
     }
 
-    // CRITICAL: Update Done button REGARDLESS of lock/subscription status
-    // This ensures the UI reflects the current selection state
-    printf("\n[FRAME_CTRL] ═══ UPDATING DONE BUTTON (MAIN THREAD) ═══\n");
-    printf("[FRAME_CTRL] Current thread: %s\n", [NSThread isMainThread] ? "MAIN" : "BACKGROUND");
-    printf("[FRAME_CTRL] Dispatching updateDoneButtonAppearance to main thread...\n");
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        printf("[FRAME_CTRL] → Now on main thread: %s\n", [NSThread isMainThread] ? "YES" : "NO");
-        printf("[FRAME_CTRL] → Calling updateDoneButtonAppearance with _curSelectedFrameIndex=%d\n",
-               self->_curSelectedFrameIndex);
-        [self updateDoneButtonAppearance];
-        printf("[FRAME_CTRL] → updateDoneButtonAppearance completed\n");
-    });
-
-    printf("\n[FRAME_CTRL] ═══ NO AUTO-NAVIGATION - WAITING FOR DONE BUTTON ═══\n");
-    printf("╔════════════════════════════════════════════════════════════════╗\n");
-    printf("║          FRAME SELECTION DELEGATE METHOD COMPLETED             ║\n");
-    printf("╚════════════════════════════════════════════════════════════════╝\n\n");
+    printf("[CONTROLLER] → Waiting for Done button press...\n");
+    printf("[CONTROLLER] ═══════════════════════════════════════\n\n");
 }
 
 - (UIImage*)frameScrollView:(FrameScrollView*)gView imageForItemAtIndex:(int)index
@@ -2128,99 +2112,65 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
 }
 
 // MARK: Update Done Button Appearance
+// REFACTORED: Simplified using model
 -(void)updateDoneButtonAppearance
 {
-    printf("\n");
-    printf("╔════════════════════════════════════════════════════════════════╗\n");
-    printf("║              UPDATE DONE BUTTON APPEARANCE                     ║\n");
-    printf("╚════════════════════════════════════════════════════════════════╝\n");
-    printf("[DONE_BTN] Thread: %s\n", [NSThread isMainThread] ? "MAIN ✓" : "BACKGROUND ✗");
-    printf("[DONE_BTN] _curSelectedFrameIndex: %d\n", _curSelectedFrameIndex);
-    printf("[DONE_BTN] Button bounds: x=%.1f y=%.1f w=%.1f h=%.1f\n",
-           _customDoneButton.bounds.origin.x, _customDoneButton.bounds.origin.y,
-           _customDoneButton.bounds.size.width, _customDoneButton.bounds.size.height);
-    printf("[DONE_BTN] Button enabled (before): %s\n", _customDoneButton.enabled ? "YES" : "NO");
+    printf("\n[DONE_BTN] ═══════════════════════════════════════\n");
+    printf("[DONE_BTN] Updating appearance (Thread: %s)\n",
+           [NSThread isMainThread] ? "MAIN" : "BACKGROUND");
+    printf("[DONE_BTN] Model hasSelection: %s\n",
+           _selectionModel.hasSelection ? "YES" : "NO");
 
-    // Check if a frame is selected (use >= 1 since frame indices start at 1 or 1000+)
-    if (_curSelectedFrameIndex >= 1) {
-        printf("\n[DONE_BTN] ═══ FRAME IS SELECTED - APPLYING GRADIENT ═══\n");
-        printf("[DONE_BTN] Check: _curSelectedFrameIndex(%d) >= 1 = TRUE\n", _curSelectedFrameIndex);
+    if (_selectionModel.hasSelection) {
+        // Frame selected: gradient (green → cyan) with black text
+        printf("[DONE_BTN] → Applying GREEN→CYAN gradient\n");
 
-        // Frame selected state: gradient background with black text
-        // Remove old gradient layer if exists
-        NSInteger removedLayers = 0;
+        // Remove old gradients
         for (CALayer *layer in [_customDoneButton.layer.sublayers copy]) {
             if ([layer isKindOfClass:[CAGradientLayer class]]) {
                 [layer removeFromSuperlayer];
-                removedLayers++;
             }
         }
-        printf("[DONE_BTN] Removed %ld old gradient layers\n", (long)removedLayers);
 
-        // Clear background color first
         _customDoneButton.backgroundColor = [UIColor clearColor];
-        printf("[DONE_BTN] ✓ Background color cleared\n");
 
-        // Add gradient layer (green to cyan)
-        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-        gradientLayer.frame = _customDoneButton.bounds;
-        gradientLayer.cornerRadius = 5.0;  // Match button corner radius
-        printf("[DONE_BTN] ✓ Gradient layer frame set: %.1fx%.1f\n",
-               gradientLayer.frame.size.width, gradientLayer.frame.size.height);
+        // Add gradient
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = _customDoneButton.bounds;
+        gradient.cornerRadius = 5.0;
+        gradient.colors = @[
+            (id)[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0].CGColor,
+            (id)[UIColor colorWithRed:20/255.0 green:249/255.0 blue:245/255.0 alpha:1.0].CGColor
+        ];
+        gradient.startPoint = CGPointMake(0, 0.5);
+        gradient.endPoint = CGPointMake(1, 0.5);
+        [_customDoneButton.layer insertSublayer:gradient atIndex:0];
 
-        UIColor *greenColor = [UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0];
-        UIColor *cyanColor = [UIColor colorWithRed:20/255.0 green:249/255.0 blue:245/255.0 alpha:1.0];
-        gradientLayer.colors = @[(id)greenColor.CGColor, (id)cyanColor.CGColor];
-        gradientLayer.startPoint = CGPointMake(0, 0.5);
-        gradientLayer.endPoint = CGPointMake(1, 0.5);
-        printf("[DONE_BTN] ✓ Gradient colors: RGB(188,234,109) → RGB(20,249,245)\n");
-        printf("[DONE_BTN] ✓ Gradient direction: Horizontal (left to right)\n");
-
-        [_customDoneButton.layer insertSublayer:gradientLayer atIndex:0];
-        printf("[DONE_BTN] ✓ Gradient layer inserted at index 0\n");
-        printf("[DONE_BTN] ✓ Total sublayers: %lu\n", (unsigned long)_customDoneButton.layer.sublayers.count);
-
-        // Set text color to black
         [_customDoneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _customDoneButton.enabled = YES;
-        printf("[DONE_BTN] ✓ Text color: BLACK\n");
-        printf("[DONE_BTN] ✓ Button enabled: YES\n");
-
-        printf("\n[DONE_BTN] ✓✓✓ GRADIENT SUCCESSFULLY APPLIED ✓✓✓\n");
+        printf("[DONE_BTN] ✓ Gradient applied, button enabled\n");
     } else {
-        printf("\n[DONE_BTN] ═══ NO FRAME SELECTED - APPLYING GREY BACKGROUND ═══\n");
-        printf("[DONE_BTN] Check: _curSelectedFrameIndex(%d) >= 1 = FALSE\n", _curSelectedFrameIndex);
+        // No frame selected: dark grey with white text
+        printf("[DONE_BTN] → Applying GREY background\n");
 
-        // No frame selected state: dark grey background with white text
-        // Remove gradient layer
-        NSInteger removedLayers = 0;
+        // Remove gradients
         for (CALayer *layer in [_customDoneButton.layer.sublayers copy]) {
             if ([layer isKindOfClass:[CAGradientLayer class]]) {
                 [layer removeFromSuperlayer];
-                removedLayers++;
             }
         }
-        printf("[DONE_BTN] Removed %ld gradient layers\n", (long)removedLayers);
 
-        // Set dark grey background
-        _customDoneButton.backgroundColor = [UIColor colorWithRed:47/255.0 green:53/255.0 blue:64/255.0 alpha:1.0];
-        printf("[DONE_BTN] ✓ Background: RGB(47,53,64) - Dark Grey\n");
-
-        // Set text color to white
+        _customDoneButton.backgroundColor = [UIColor colorWithRed:47/255.0
+                                                             green:53/255.0
+                                                              blue:64/255.0
+                                                             alpha:1.0];
         [_customDoneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _customDoneButton.enabled = NO;
-        printf("[DONE_BTN] ✓ Text color: WHITE\n");
-        printf("[DONE_BTN] ✓ Button enabled: NO\n");
+        printf("[DONE_BTN] ✓ Grey background applied, button disabled\n");
     }
 
-    // Force layout update
     [_customDoneButton setNeedsLayout];
-    [_customDoneButton layoutIfNeeded];
-    printf("\n[DONE_BTN] ✓ Layout update forced\n");
-    printf("[DONE_BTN] Button enabled (after): %s\n", _customDoneButton.enabled ? "YES" : "NO");
-    printf("╔════════════════════════════════════════════════════════════════╗\n");
-    printf("║          UPDATE DONE BUTTON COMPLETED                          ║\n");
-    printf("╚════════════════════════════════════════════════════════════════╝\n\n");
+    printf("[DONE_BTN] ═══════════════════════════════════════\n\n");
 }
 
 // MARK: Done Button Action
