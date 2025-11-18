@@ -1464,8 +1464,8 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
 
     // Set up callback for automatic Done button updates
     __weak typeof(self) weakSelf = self;
-    _selectionModel.onSelectionChanged = ^(NSInteger index, FrameType type) {
-        printf("[CONTROLLER] → Model callback: index=%ld, type=%d\n", (long)index, type);
+    _selectionModel.onSelectionChanged = ^(NSInteger index, NSInteger type) {
+        printf("[CONTROLLER] → Model callback: index=%ld, type=%ld\n", (long)index, (long)type);
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateDoneButtonAppearance];
         });

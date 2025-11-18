@@ -10,7 +10,7 @@
 
 @interface FrameSelectionModel()
 @property (nonatomic, assign, readwrite) NSInteger selectedFrameIndex;
-@property (nonatomic, assign, readwrite) FrameType selectedFrameType;
+@property (nonatomic, assign, readwrite) NSInteger selectedFrameType;
 @end
 
 @implementation FrameSelectionModel
@@ -19,12 +19,12 @@
     self = [super init];
     if (self) {
         _selectedFrameIndex = 0; // 0 means no selection (frames start at 1)
-        _selectedFrameType = FrameTypeNormal;
+        _selectedFrameType = 0;
     }
     return self;
 }
 
-- (void)selectFrameAtIndex:(NSInteger)index frameType:(FrameType)type {
+- (void)selectFrameAtIndex:(NSInteger)index frameType:(NSInteger)type {
     printf("\n[MODEL] ═══════════════════════════════════════\n");
     printf("[MODEL] Selecting frame: index=%ld, type=%d\n", (long)index, type);
 
@@ -43,10 +43,10 @@
 - (void)clearSelection {
     printf("[MODEL] Clearing selection\n");
     _selectedFrameIndex = 0;
-    _selectedFrameType = FrameTypeNormal;
+    _selectedFrameType = 0;
 
     if (self.onSelectionChanged) {
-        self.onSelectionChanged(0, FrameTypeNormal);
+        self.onSelectionChanged(0, 0);
     }
 }
 

@@ -7,20 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FrameTypeEnum.h"
 
 @interface FrameSelectionModel : NSObject
 
 // Current selection state
 @property (nonatomic, assign, readonly) NSInteger selectedFrameIndex;
-@property (nonatomic, assign, readonly) FrameType selectedFrameType;
+@property (nonatomic, assign, readonly) NSInteger selectedFrameType;
 @property (nonatomic, assign, readonly) BOOL hasSelection;
 
 // Selection management
-- (void)selectFrameAtIndex:(NSInteger)index frameType:(FrameType)type;
+- (void)selectFrameAtIndex:(NSInteger)index frameType:(NSInteger)type;
 - (void)clearSelection;
 
 // Callback for when selection changes
-@property (nonatomic, copy) void (^onSelectionChanged)(NSInteger index, FrameType type);
+@property (nonatomic, copy) void (^onSelectionChanged)(NSInteger index, NSInteger type);
 
 @end
