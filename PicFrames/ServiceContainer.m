@@ -10,18 +10,24 @@
 #import "InAppPurchaseManager.h"
 #import "SRSubscriptionModel.h"
 #import "SecretsManager.h"
+#import "SessionRepository.h"
+#import "FrameRepository.h"
 
 @interface ServiceContainer ()
 
 // Custom injected services (for testing)
 @property (nonatomic, strong, nullable) Settings *customSettings;
 @property (nonatomic, strong, nullable) SessionStateService *customSessionState;
+@property (nonatomic, strong, nullable) SessionRepository *customSessionRepository;
+@property (nonatomic, strong, nullable) FrameRepository *customFrameRepository;
 
 // Lazy-loaded service instances
 @property (nonatomic, strong, nullable) Settings *cachedSettings;
 @property (nonatomic, strong, nullable) InAppPurchaseManager *cachedPurchaseManager;
 @property (nonatomic, strong, nullable) SRSubscriptionModel *cachedSubscriptionModel;
 @property (nonatomic, strong, nullable) SecretsManager *cachedSecrets;
+@property (nonatomic, strong, nullable) SessionRepository *cachedSessionRepository;
+@property (nonatomic, strong, nullable) FrameRepository *cachedFrameRepository;
 
 @end
 
@@ -72,6 +78,34 @@
     return self.cachedSecrets;
 }
 
+#pragma mark - Data Access (Repositories)
+
+- (SessionRepository *)sessionRepository {
+    // Return custom implementation if injected
+    if (self.customSessionRepository) {
+        return self.customSessionRepository;
+    }
+
+    // Lazy load
+    if (!self.cachedSessionRepository) {
+        self.cachedSessionRepository = [[SessionRepository alloc] init];
+    }
+    return self.cachedSessionRepository;
+}
+
+- (FrameRepository *)frameRepository {
+    // Return custom implementation if injected
+    if (self.customFrameRepository) {
+        return self.customFrameRepository;
+    }
+
+    // Lazy load
+    if (!self.cachedFrameRepository) {
+        self.cachedFrameRepository = [[FrameRepository alloc] init];
+    }
+    return self.cachedFrameRepository;
+}
+
 #pragma mark - Store Services
 
 - (InAppPurchaseManager *)purchaseManager {
@@ -98,13 +132,25 @@
     self.customSessionState = sessionState;
 }
 
+- (void)setCustomSessionRepository:(SessionRepository *)sessionRepository {
+    self.customSessionRepository = sessionRepository;
+}
+
+- (void)setCustomFrameRepository:(FrameRepository *)frameRepository {
+    self.customFrameRepository = frameRepository;
+}
+
 - (void)reset {
     self.customSettings = nil;
     self.customSessionState = nil;
+    self.customSessionRepository = nil;
+    self.customFrameRepository = nil;
     self.cachedSettings = nil;
     self.cachedPurchaseManager = nil;
     self.cachedSubscriptionModel = nil;
     self.cachedSecrets = nil;
+    self.cachedSessionRepository = nil;
+    self.cachedFrameRepository = nil;
 }
 
 @end

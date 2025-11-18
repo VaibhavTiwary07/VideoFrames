@@ -13,6 +13,8 @@
 @class SRSubscriptionModel;
 @class SecretsManager;
 @class SessionStateService;
+@class SessionRepository;
+@class FrameRepository;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,6 +48,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// Secrets management (API keys, etc.)
 @property (nonatomic, strong, readonly) SecretsManager *secrets;
 
+// MARK: - Data Access (Repositories)
+
+/// Session data repository
+@property (nonatomic, strong, readonly) SessionRepository *sessionRepository;
+
+/// Frame template repository
+@property (nonatomic, strong, readonly) FrameRepository *frameRepository;
+
 // MARK: - Store Services (Reasonable Singletons)
 
 /// In-app purchase manager (StoreKit wrapper)
@@ -62,6 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setCustomSettings:(Settings *)settings;
 - (void)setCustomSessionState:(SessionStateService * _Nullable)sessionState;
+- (void)setCustomSessionRepository:(SessionRepository *)sessionRepository;
+- (void)setCustomFrameRepository:(FrameRepository *)frameRepository;
 
 /**
  * Reset all services (useful for testing)
