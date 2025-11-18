@@ -16,6 +16,8 @@
 #import "ssivPub.h"
 #import <Photos/Photos.h>
 #import "LoadingClass.h"
+#import "ServiceContainer.h"
+#import "SessionRepository.h"
 
 #define DEFAULT_ASPECTRATIO 1
 #define DEFAULT_FRAMEWIDTH  DEFAULT_FRAME_WIDTH
@@ -73,6 +75,10 @@ typedef struct
 @property (strong, nonatomic) id audioLoopObserver;
 @property (nonatomic) BOOL isMasterAudioMuted;
 @property (nonatomic) BOOL initialization;
+
+// Modern dependency injection - repository for data access
+@property (nonatomic, strong) SessionRepository *sessionRepository;
+
 -(id)initWithSessionId:(int)sessionId;
 -(id)initWithFrameNumber:(int)iFrmNumber;
 - (void)initAspectRatio:(int)aspectRatio;

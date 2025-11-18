@@ -15,6 +15,8 @@
 #import "Utility.h"
 #import "Settings.h"
 #import "ssivView.h"
+#import "ServiceContainer.h"
+#import "FrameRepository.h"
 //#import "Session.h"
 
 #define MAX_PHOTOS_SUPPORTED 5
@@ -33,6 +35,9 @@
 @property(nonatomic,readonly)int photoCount;
 @property(nonatomic,readonly)int adjustorCount;
 @property(nonatomic,readonly)int viewcount;
+
+// Modern dependency injection - repository for data access
+@property (nonatomic, strong) FrameRepository *frameRepository;
 
 //Methods
 -(id)initWithFrameNumber:(int)frameNumber;

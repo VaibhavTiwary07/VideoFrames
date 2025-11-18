@@ -155,9 +155,15 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 + (void)deleteSessionWithId:(int)sessId
 {
     [Session deleteSessionImagesFromHddOfId:sessId];
-    [SessionDB deleteSessionDimensionsOfId:sessId];
-    [SessionDB deleteSessionOfId:sessId];
-    
+
+    // Using modern repository pattern
+    SessionRepository *repo = [[ServiceContainer shared] sessionRepository];
+    NSError *error = nil;
+    BOOL success = [repo deleteSession:sessId error:&error];
+    if (error) {
+        NSLog(@"Error deleting session %d: %@", sessId, error.localizedDescription);
+    }
+
     return;
 }
 
@@ -271,7 +277,17 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 #pragma mark session dimensions table operations
 - (BOOL)deletePhotosAndAdjustors
 {
-    return [SessionDB deleteSessionDimensionsOfId:iSessionId];
+    // Using modern repository pattern
+    if (!self.sessionRepository) {
+        self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+    }
+
+    NSError *error = nil;
+    BOOL success = [self.sessionRepository deleteSessionDimensions:iSessionId error:&error];
+    if (error) {
+        NSLog(@"Error deleting session dimensions: %@", error.localizedDescription);
+    }
+    return success;
 }
 
 - (BOOL)addPhotosAndAdjustorsFromFrame:(Frame*)frm
@@ -1411,10 +1427,19 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* save frame type */
     [self saveFrameResourceType:eType atIndex:photoFromFrame.photoNumber];
     
-    /*  update the database */
-    [SessionDB updateImageSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber forSession:iSessionId];
-    //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber ofType:eType atPath:pathToVideo forSession:iSessionId];
-    
+    /*  update the database - using modern repository pattern */
+    if (!self.sessionRepository) {
+        self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+    }
+    NSError *updateError = nil;
+    [self.sessionRepository updateImageSize:self.imageFromApp.size
+                                atPhotoIndex:photoFromFrame.photoNumber
+                                  forSession:iSessionId
+                                       error:&updateError];
+    if (updateError) {
+        NSLog(@"Error updating image size: %@", updateError.localizedDescription);
+    }
+
     /* set the image to photo */
 //    if(photoFromFrame.image == nil)
 //    {
@@ -1504,13 +1529,20 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     /* save frame type */
     [self saveFrameResourceType:eType atIndex:pht.photoNumber];
-    
-    /*  update the database */
-    [SessionDB updateImageSizeInDBWith:selectedImage.size atIndex:pht.photoNumber forSession:iSessionId];
-    //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber ofType:eType atPath:pathToVideo forSession:iSessionId];
-    
-    
-    
+
+    /*  update the database - using modern repository pattern */
+    if (!self.sessionRepository) {
+        self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+    }
+    NSError *updateError2 = nil;
+    [self.sessionRepository updateImageSize:selectedImage.size
+                                atPhotoIndex:pht.photoNumber
+                                  forSession:iSessionId
+                                       error:&updateError2];
+    if (updateError2) {
+        NSLog(@"Error updating image size: %@", updateError2.localizedDescription);
+    }
+
     /* set the image to photo */
 //    if(pht.image == nil)
 //    {
@@ -2124,14 +2156,20 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     /* save the image to HDD */
    
     [self saveImage:self.imageFromApp atIndex:photoFromFrame.photoNumber];
-    
-    /*  update the database */
-   
-    [SessionDB updateImageSizeInDBWith:self.imageFromApp.size atIndex:photoFromFrame.photoNumber forSession:iSessionId];
-    
-    //[SessionDB updateResourceSizeInDBWith:self.imageFromApp.size
-    //                              atIndex:photoFromFrame.photoNumber ofType:FRAME_RESOURCE_TYPE_PHOTO atPath:nil forSession:iSessionId];
-    
+
+    /*  update the database - using modern repository pattern */
+    if (!self.sessionRepository) {
+        self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+    }
+    NSError *updateError3 = nil;
+    [self.sessionRepository updateImageSize:self.imageFromApp.size
+                                atPhotoIndex:photoFromFrame.photoNumber
+                                  forSession:iSessionId
+                                       error:&updateError3];
+    if (updateError3) {
+        NSLog(@"Error updating image size: %@", updateError3.localizedDescription);
+    }
+
     /* set the image to photo */
     [photoFromFrame setEditedImage:self.imageFromApp];
     
@@ -2332,8 +2370,20 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         [self handleVideoFrameSettingsUpdate];
         
         NSLog(@"received scaleAndOffsetChanged %d of %f, offset %f,%f minimumZoomScale %f",pht.photoNumber,pht.scale,pht.offset.x,pht.offset.y,pht.view.scrollView.minimumZoomScale);
-        
-        [SessionDB updateImageScaleInDBWith:(float)pht.scale offset:pht.offset atIndex:(int)pht.view.tag forSession:iSessionId];
+
+        // Update using modern repository pattern
+        if (!self.sessionRepository) {
+            self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+        }
+        NSError *scaleError = nil;
+        [self.sessionRepository updateImageScale:pht.scale
+                                           offset:pht.offset
+                                     atPhotoIndex:(int)pht.view.tag
+                                       forSession:iSessionId
+                                            error:&scaleError];
+        if (scaleError) {
+            NSLog(@"Error updating image scale: %@", scaleError.localizedDescription);
+        }
     }
     else if([[notification name] isEqualToString:photoDimensionsChanged])
     {
@@ -2543,36 +2593,37 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     int count = 0;
     int index = 0;
     
-    /* configure the images */
-    stImageInfo *imgInfo = NULL;
-    
-    count = [SessionDB getTheImageInfoForSessionId:iSessionId to:&imgInfo];
-    for(index = 0; index < [_frame photoCount]; index++)
+    /* configure the images - using modern repository pattern */
+    if (!self.sessionRepository) {
+        self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+    }
+
+    NSError *imageInfoError = nil;
+    NSArray<ImageInfo *> *imageInfoArray = [self.sessionRepository getImageInfoForSession:iSessionId
+                                                                                     error:&imageInfoError];
+    if (imageInfoError) {
+        NSLog(@"Error loading image info: %@", imageInfoError.localizedDescription);
+    }
+
+    for(index = 0; index < [_frame photoCount] && index < imageInfoArray.count; index++)
     {
         Photo *pht = [_frame getPhotoAtIndex:index];
         if(nil == pht)
         {
             continue;
         }
-        
+
         /* set the image */
 //        if(pht.image == nil)
 //        {
             NSLog(@"Photo setImage is called from here 3");
             pht.image = [self getImageAtIndex:index];
 //        }
-        
-        /* set the scale */
-        pht.scale = imgInfo[index].scale;
-        
-        /* set the offset */
-        pht.offset = imgInfo[index].offset;
-    }
-    
-    if(NULL != imgInfo)
-    {
-        free(imgInfo);
-        imgInfo = NULL;
+
+        /* set the scale and offset from modern ImageInfo model */
+        ImageInfo *imgInfo = imageInfoArray[index];
+        pht.scale = imgInfo.scale;
+        pht.offset = imgInfo.offset;
     }
     
     return;
@@ -2583,16 +2634,19 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     self  = [super init];
     if(nil != self)
     {
+        // Initialize repository for modern data access
+        self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+
         FMResultSet *sessions  = nil;
-        
+
         NSString *databaseName = PICFARME_DATABASE;
         NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSString *documentsDir = [documentPaths objectAtIndex:0];
         NSString *dbPath       = [documentsDir stringByAppendingPathComponent:databaseName];
-        
+
         /* First make sure that database is copied to filesystem */
         [DBUtilities checkAndCreateDatabase];
-        
+
         /* open the database */
         FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
         if (![db open])
@@ -2601,7 +2655,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
             NSLog(@"openDataBase:Could not open db.");
             return 0;
         }
-        
+
         sessions = [db executeQuery:@"select * from sessions where iSessionId = ?",[NSNumber numberWithInt:sessionId]];
         if(nil == sessions)
         {
@@ -2609,7 +2663,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
             [db close];
             return nil;
         }
-        
+
         if(nil == nvm)
         {
             nvm = [Settings Instance];
@@ -2658,46 +2712,53 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 //self.frameWidth  = fFrameWidth;
                 
                 /* configure the photos one by one */
-                stPhotoInfo *phtInfo = NULL;
                 int          index   = 0;
-                int          count = 0;
-                
-                /* get the photo info and configure the photos */
-                count = [SessionDB getThePhotoInfoForSessionId:sessionId to:&phtInfo];
-                for(index = 0; index < [frm photoCount]; index++)
+
+                /* get the photo info and configure the photos - using modern repository pattern */
+                NSError *photoError = nil;
+                NSArray<PhotoInfo *> *photoInfoArray = [self.sessionRepository getPhotoInfoForSession:sessionId
+                                                                                                 error:&photoError];
+                if (photoError) {
+                    NSLog(@"Error loading photo info: %@", photoError.localizedDescription);
+                }
+
+                for(index = 0; index < [frm photoCount] && index < photoInfoArray.count; index++)
                 {
                     Photo *pht = [frm getPhotoAtIndex:index];
                     if(nil == pht)
                     {
                         continue;
                     }
-                    
-                    pht.frame = phtInfo[index].dimension;
-                    pht.actualFrame = phtInfo[index].dimension;
-                }
-                
-                /* Free the Photo information */
-                if(NULL != phtInfo)
-                {
-                    free(phtInfo);
+
+                    PhotoInfo *photoInfo = photoInfoArray[index];
+                    pht.frame = photoInfo.dimension;
+                    pht.actualFrame = photoInfo.dimension;
                 }
                 
                 /* configure the adjustors one by one */
                 stAdjustorInfo *adjInfo = NULL;
-                
-                count = [SessionDB getTheAdjustorInfoForSessionId:sessionId to:&adjInfo];
-                for(index = 0; index < [frm adjustorCount]; index++)
+
+                // Using repository - still returns C struct for backward compatibility
+                NSError *adjError = nil;
+                int adjCount = (int)[self.sessionRepository getAdjustorInfoForSession:sessionId
+                                                                          adjustorInfo:&adjInfo
+                                                                                 error:&adjError];
+                if (adjError) {
+                    NSLog(@"Error loading adjustor info: %@", adjError.localizedDescription);
+                }
+
+                for(index = 0; index < [frm adjustorCount] && index < adjCount; index++)
                 {
                     Adjustor *adj = [frm getAdjustorAtIndex:index];
                     if(nil == adj)
                     {
                         continue;
                     }
-                    
+
                     adj.frame = adjInfo[index].dimension;
                     adj.actualFrame = adjInfo[index].dimension;
                 }
-                
+
                 if(NULL != adjInfo)
                 {
                     free(adjInfo);

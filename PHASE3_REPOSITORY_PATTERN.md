@@ -216,11 +216,11 @@ Before: Repeated 12+ times across files
 - Created SessionRepository and FrameRepository
 - Integrated with ServiceContainer
 
-### Phase 3B: Gradual Migration (Next)
-1. **Update Session.m** to use SessionRepository
-2. **Update Frame.m** to use FrameRepository
-3. **Deprecate SessionDB.m and FrameDB.m**
-4. **Add caching layer** to repositories (optional performance enhancement)
+### Phase 3B: Gradual Migration (DONE ✅)
+1. **Update Session.m** to use SessionRepository ✅
+2. **Update Frame.m** to use FrameRepository ✅
+3. **Deprecate SessionDB.m and FrameDB.m** (future)
+4. **Add caching layer** to repositories (optional future enhancement)
 
 ### Migration Pattern
 
@@ -244,6 +244,215 @@ NSError *error = nil;
 NSArray<PhotoInfo *> *photos = [services.sessionRepository
     getPhotoInfoForSession:sessionId error:&error];
 ```
+
+## Real-World Migration Examples (Phase 3B)
+
+### Session.m - 10 SessionDB Calls Migrated
+
+#### Migration 1: Photo Info Loading (Session.m:2666-2685)
+
+**BEFORE:**
+```objc
+stPhotoInfo *PhotoInfo = NULL;
+int photoCount = [SessionDB getThePhotoInfoForSessionId:sessionId to:&PhotoInfo];
+
+for(index = 0; index < [frm photoCount]; index++)
+{
+    Photo *pht = [frm getPhotoAtIndex:index];
+    pht.frame = PhotoInfo[index].dimension;
+    pht.actualFrame = PhotoInfo[index].dimension;
+}
+free(PhotoInfo); // Manual memory management
+```
+
+**AFTER:**
+```objc
+// Initialize repository
+if (!self.sessionRepository) {
+    self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+}
+
+// Get modern PhotoInfo array
+NSError *photoError = nil;
+NSArray<PhotoInfo *> *photoInfoArray = [self.sessionRepository getPhotoInfoForSession:sessionId
+                                                                                 error:&photoError];
+if (photoError) {
+    NSLog(@"Error loading photo info: %@", photoError.localizedDescription);
+}
+
+// Use type-safe PhotoInfo objects
+for(index = 0; index < [frm photoCount] && index < photoInfoArray.count; index++)
+{
+    Photo *pht = [frm getPhotoAtIndex:index];
+    PhotoInfo *photoInfo = photoInfoArray[index];
+    pht.frame = photoInfo.dimension;
+    pht.actualFrame = photoInfo.dimension;
+}
+// No free() needed - ARC handles memory
+```
+
+#### Migration 2: Image Scale Updates (Session.m:2374-2386)
+
+**BEFORE:**
+```objc
+FMDatabase *db = [DBUtilities openDataBase];
+[db executeUpdate:@"UPDATE sessiondimensions SET img_scale = ?, img_offset_x = ?, img_offset_y = ? WHERE sessionId = ? AND photoIndex = ? AND type = ?",
+    [NSNumber numberWithDouble:pht.scale],
+    [NSNumber numberWithDouble:pht.offset.x],
+    [NSNumber numberWithDouble:pht.offset.y],
+    [NSNumber numberWithInt:iSessionId],
+    [NSNumber numberWithInt:(int)pht.view.tag],
+    [NSNumber numberWithInt:0]];
+[db close];
+```
+
+**AFTER:**
+```objc
+// Update using modern repository pattern
+if (!self.sessionRepository) {
+    self.sessionRepository = [[ServiceContainer shared] sessionRepository];
+}
+NSError *scaleError = nil;
+[self.sessionRepository updateImageScale:pht.scale
+                                   offset:pht.offset
+                             atPhotoIndex:(int)pht.view.tag
+                               forSession:iSessionId
+                                    error:&scaleError];
+if (scaleError) {
+    NSLog(@"Error updating image scale: %@", scaleError.localizedDescription);
+}
+```
+
+#### Migration 3: Session Deletion (Session.m:155-168)
+
+**BEFORE:**
+```objc
++ (void)deleteSessionWithId:(int)sessId
+{
+    [Session deleteSessionImagesFromHddOfId:sessId];
+    [SessionDB deleteSessionDimensionsOfId:sessId];
+    [SessionDB deleteSessionOfId:sessId];
+}
+```
+
+**AFTER:**
+```objc
++ (void)deleteSessionWithId:(int)sessId
+{
+    [Session deleteSessionImagesFromHddOfId:sessId];
+
+    // Using modern repository pattern
+    SessionRepository *repo = [[ServiceContainer shared] sessionRepository];
+    NSError *error = nil;
+    BOOL success = [repo deleteSession:sessId error:&error];
+    if (error) {
+        NSLog(@"Error deleting session %d: %@", sessId, error.localizedDescription);
+    }
+}
+```
+
+### Frame.m - 2 FrameDB Calls Migrated
+
+#### Migration 4: Photo Info Loading (Frame.m:579)
+
+**BEFORE:**
+```objc
+stPhotoInfo *PhotoInfo = NULL;
+iRowCount = [FrameDB getThePhotoInfoForFrameNumber:frameNumber to:&PhotoInfo];
+
+photos = [[NSMutableArray alloc]initWithCapacity:iRowCount];
+for(iIndex = 0; iIndex < iRowCount; iIndex++)
+{
+    Photo *photo = [[Photo alloc]initWithFrame:PhotoInfo[iIndex].dimension withBgColor:clr];
+
+    if(SHAPE_NOSHAPE != PhotoInfo[iIndex].eFrameShape)
+    {
+        [photo.view setShape:PhotoInfo[iIndex].eFrameShape];
+    }
+    [photos insertObject:photo atIndex:iIndex];
+}
+free(PhotoInfo);
+```
+
+**AFTER:**
+```objc
+// Initialize repository
+if (!self.frameRepository) {
+    self.frameRepository = [[ServiceContainer shared] frameRepository];
+}
+
+// Get modern PhotoInfo array
+NSError *photoError = nil;
+NSArray<PhotoInfo *> *photoInfoArray = [self.frameRepository getPhotoInfoForFrame:frameNumber
+                                                                             error:&photoError];
+if (photoError) {
+    NSLog(@"Error loading photo info for frame %d: %@", frameNumber, photoError.localizedDescription);
+}
+
+iRowCount = (int)photoInfoArray.count;
+photos = [[NSMutableArray alloc]initWithCapacity:iRowCount];
+
+for(iIndex = 0; iIndex < iRowCount; iIndex++)
+{
+    PhotoInfo *currentPhotoInfo = photoInfoArray[iIndex];
+    Photo *photo = [[Photo alloc]initWithFrame:currentPhotoInfo.dimension withBgColor:clr];
+
+    if(SHAPE_NOSHAPE != currentPhotoInfo.eFrameShape)
+    {
+        [photo.view setShape:currentPhotoInfo.eFrameShape];
+    }
+    [photos insertObject:photo atIndex:iIndex];
+}
+// No free() needed - ARC handles memory
+```
+
+#### Migration 5: Adjustor Info Loading (Frame.m:645)
+
+**BEFORE:**
+```objc
+stAdjustorInfo *AdjustorInfo = NULL;
+iRowCount = [FrameDB getTheAdjustorInfoForFrameNumber:frameNumber to:&AdjustorInfo];
+
+adjustors = [[NSMutableArray alloc]initWithCapacity:iRowCount];
+// Use AdjustorInfo[i].dimension...
+free(AdjustorInfo);
+```
+
+**AFTER:**
+```objc
+stAdjustorInfo *AdjustorInfo = NULL;
+
+// Repository still returns C struct for backward compatibility
+NSError *adjError = nil;
+iRowCount = (int)[self.frameRepository getAdjustorInfoForFrame:frameNumber
+                                                   adjustorInfo:&AdjustorInfo
+                                                          error:&adjError];
+if (adjError) {
+    NSLog(@"Error loading adjustor info for frame %d: %@", frameNumber, adjError.localizedDescription);
+}
+
+adjustors = [[NSMutableArray alloc]initWithCapacity:iRowCount];
+// Use AdjustorInfo[i].dimension (same as before)
+free(AdjustorInfo); // Still need to free C struct
+```
+
+### Summary of Phase 3B Migrations
+
+**Files Modified:**
+- `PicFrames/Session.h` - Added sessionRepository property
+- `PicFrames/Session.m` - Migrated 10 SessionDB calls to SessionRepository
+- `PicFrames/Frame.h` - Added frameRepository property
+- `PicFrames/Frame.m` - Migrated 2 FrameDB calls to FrameRepository
+
+**Total Database Calls Migrated:** 12
+
+**Benefits Achieved:**
+1. ✅ Proper error handling with NSError (was: silent failures)
+2. ✅ Type-safe PhotoInfo/ImageInfo objects (was: void** pointers)
+3. ✅ Automatic memory management where possible (was: manual malloc/free)
+4. ✅ Clean separation of data access from business logic
+5. ✅ Testable code via dependency injection
+6. ✅ Consistent database access pattern throughout codebase
 
 ## Integration with Xcode
 

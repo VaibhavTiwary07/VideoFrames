@@ -563,43 +563,52 @@ int intcmp(const void *aa, const void *bb)
         dbWidth= 700.0;
     else dbWidth = 300.0;
     
-    stPhotoInfo *PhotoInfo = NULL;
-       
-
-
     /* First enable the touches */
     self.userInteractionEnabled = YES;
-    
+
     /* Set the background color to default color */
     self.backgroundColor = [UIColor whiteColor];
    // self.backgroundColor = [UIColor greenColor];
 //checking for frames color
-    
-    /* Call database function to get the photoinfos of the frame */
-    iRowCount = [FrameDB getThePhotoInfoForFrameNumber:frameNumber to:&PhotoInfo];
-    
+
+    /* Call repository to get the photoinfos of the frame - using modern repository pattern */
+    if (!self.frameRepository) {
+        self.frameRepository = [[ServiceContainer shared] frameRepository];
+    }
+
+    NSError *photoError = nil;
+    NSArray<PhotoInfo *> *photoInfoArray = [self.frameRepository getPhotoInfoForFrame:frameNumber
+                                                                                 error:&photoError];
+    if (photoError) {
+        NSLog(@"Error loading photo info for frame %d: %@", frameNumber, photoError.localizedDescription);
+    }
+
+    iRowCount = (int)photoInfoArray.count;
     photos = [[NSMutableArray alloc]initWithCapacity:iRowCount];
     //NSLog(@"Frame %d> Photo Count %d",frameNumber,iRowCount);
     /* Add the photos */
     for(iIndex = 0; iIndex < iRowCount; iIndex++)
     {
-        /* Get the  */
+        /* Get the PhotoInfo from modern array */
+        PhotoInfo *currentPhotoInfo = photoInfoArray[iIndex];
+        CGRect photoDimension = currentPhotoInfo.dimension;
+
         view1=[[UIView alloc]init];
-        NSLog(@"index i is %d photo info is %@ screen height %f",iIndex,NSStringFromCGRect(PhotoInfo[iIndex].dimension),fullScreen.size.height);
+        NSLog(@"index i is %d photo info is %@ screen height %f",iIndex,NSStringFromCGRect(photoDimension),fullScreen.size.height);
         //Note Changes : To adjust the iphone frame size is screen size
         if (([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) && (fullScreen.size.height != 568.0))
         {
-            //dbWidth = PhotoInfo[iIndex].dimension.size.width;
+            //dbWidth = photoDimension.size.width;
             CGFloat actaulWidth = fullScreen.size.width - 40;
             CGFloat ratio = actaulWidth / dbWidth;
-            PhotoInfo[iIndex].dimension.size.width *= ratio;
-            PhotoInfo[iIndex].dimension.size.height *= ratio;
-            PhotoInfo[iIndex].dimension.origin.x *= ratio;
-            PhotoInfo[iIndex].dimension.origin.y *= ratio;
-            
-            NSLog(@"index i is %d photo info is %@ ",iIndex,NSStringFromCGRect(PhotoInfo[iIndex].dimension));
+            photoDimension.size.width *= ratio;
+            photoDimension.size.height *= ratio;
+            photoDimension.origin.x *= ratio;
+            photoDimension.origin.y *= ratio;
+
+            NSLog(@"index i is %d photo info is %@ ",iIndex,NSStringFromCGRect(photoDimension));
         }
-        Photo *photo = [[Photo alloc]initWithFrame:PhotoInfo[iIndex].dimension withBgColor:clr];
+        Photo *photo = [[Photo alloc]initWithFrame:photoDimension withBgColor:clr];
                // photo.image = [UIImage imageNamed:@"photo.JPG"];
        // photo.image = [UIImage imageNamed:@"filled_image.jpg"];
         photo.view.backgroundColor = clr;
@@ -618,32 +627,38 @@ int intcmp(const void *aa, const void *bb)
        
          [self addSubview:view1];
          [self addSubview:photo.view];
-        
+
 //        [photo.view release];
 //        [view1 release];
-        
-        
-        
-        if(SHAPE_NOSHAPE != PhotoInfo[iIndex].eFrameShape)
+
+
+
+        if(SHAPE_NOSHAPE != currentPhotoInfo.eFrameShape)
         {
-            [photo.view setShape:PhotoInfo[iIndex].eFrameShape];
+            [photo.view setShape:currentPhotoInfo.eFrameShape];
         }
-        
+
         /* Add the photo to the photo array */
         [photos insertObject:photo atIndex:iIndex];
-        
+
         /* Release photo */
       //  [photo release];
     }
-    
-    /* Free the memory for Photo Info */
-    free(PhotoInfo);
-    
-    /* Now initialize the adjustors */
+
+    /* Photo info is now managed by ARC - no need to free */
+
+    /* Now initialize the adjustors - using modern repository pattern */
     stAdjustorInfo *AdjustorInfo = NULL;
-    
-    iRowCount = [FrameDB getTheAdjustorInfoForFrameNumber:frameNumber to:&AdjustorInfo];
-    
+
+    // Repository still returns C struct for backward compatibility
+    NSError *adjError = nil;
+    iRowCount = (int)[self.frameRepository getAdjustorInfoForFrame:frameNumber
+                                                       adjustorInfo:&AdjustorInfo
+                                                              error:&adjError];
+    if (adjError) {
+        NSLog(@"Error loading adjustor info for frame %d: %@", frameNumber, adjError.localizedDescription);
+    }
+
     adjustors = [[NSMutableArray alloc]initWithCapacity:iRowCount];
     
     /* Add the Adjustors */
