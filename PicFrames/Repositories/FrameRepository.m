@@ -35,7 +35,7 @@
 
         PhotoInfo *info = [[PhotoInfo alloc] initWithDimension:dimension
                                                      photoShape:PHOTO_NOSHAPE
-                                                     frameShape:SHAPE_RECTANGLE
+                                                     frameShape:SHAPE_NOSHAPE
                                                      photoIndex:[row[@"photo"] integerValue]];
         [photoInfoArray addObject:info];
     }

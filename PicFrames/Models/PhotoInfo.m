@@ -35,7 +35,7 @@
 - (instancetype)init {
     return [self initWithDimension:CGRectZero
                         photoShape:PHOTO_NOSHAPE
-                        frameShape:SHAPE_RECTANGLE
+                        frameShape:SHAPE_NOSHAPE
                         photoIndex:0];
 }
 
@@ -63,7 +63,7 @@
     // Default to no shape for now
     return [[PhotoInfo alloc] initWithDimension:dimension
                                      photoShape:PHOTO_NOSHAPE
-                                     frameShape:SHAPE_RECTANGLE
+                                     frameShape:SHAPE_NOSHAPE
                                      photoIndex:[row[@"photoIndex"] integerValue]];
 }
 
