@@ -109,7 +109,7 @@ static NSString * const kRepositoryErrorDomain = @"com.picframes.repository";
 
     NSMutableArray *rows = [NSMutableArray array];
     while ([results next]) {
-        [rows addObject:[results resultDictionary]];
+        [rows addObject:[results resultDict]];
     }
 
     [results close];
