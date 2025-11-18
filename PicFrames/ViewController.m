@@ -180,7 +180,7 @@
 - (void)showShapes
 {
     sgwController *sgw = [[sgwController alloc]initWithDelegate:self currentItem:[sess shapeOfCurrentlySelectedPhoto]];
-    [self.navigationController presentModalViewController:sgw animated:NO];
+    [self.navigationController presentViewController:sgw animated:NO completion:nil];
     [sgw release];
     
     if(UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM())
@@ -383,7 +383,7 @@
 {
     /* Dismiss the controller */
     [photoAlbumPopover dismissPopoverAnimated:YES];
-    [picker dismissModalViewControllerAnimated:NO];
+    [picker dismissViewControllerAnimated:NO completion:nil];
     
     /* Get Media Type */
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
@@ -2335,7 +2335,7 @@
     InitSessionManager *mg = [[InitSessionManager alloc]initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:mg];
     navBar.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController presentModalViewController:navBar animated:YES];
+    [self.navigationController presentViewController:navBar animated:YES completion:nil];
     [navBar release];
     [mg release];
 #else
@@ -2345,9 +2345,9 @@
     {
         return;
     }
-    
-    [self.navigationController presentModalViewController:sc animated:NO];
-    
+
+    [self.navigationController presentViewController:sc animated:NO completion:nil];
+
     [sc release];
 #endif
 }
@@ -2724,11 +2724,14 @@
     }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    //NSLog(@"shouldAutorotateToInterfaceOrientation");
-    //return NO;
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 #pragma mark comman exit function for settings
@@ -3709,11 +3712,11 @@
     {
         return;
     }
-    
-    [self.navigationController presentModalViewController:sc animated:NO];
-    
+
+    [self.navigationController presentViewController:sc animated:NO completion:nil];
+
     [sc release];
-    
+
     return;
 }
 
@@ -4236,14 +4239,14 @@
     picker.delegate                     = self;
     picker.allowsPickingMultipleItems   = NO;
     picker.prompt                       = NSLocalizedString (@"Select any song from the list", @"Prompt to user to choose some songs to play");
-    
-    [self presentModalViewController: picker animated: YES];
+
+    [self presentViewController:picker animated:YES completion:nil];
     [picker release];
 }
 
 - (void) mediaPickerDidCancel: (MPMediaPickerController *) mediaPicker
 {
-    [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -4380,9 +4383,9 @@
         
         [self audioCell:musicTrackCell setStatus:YES];
     }
-    
-    [self dismissModalViewControllerAnimated: YES];
-    
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+
     return;
 }
 
@@ -5622,7 +5625,7 @@
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
 	/* Dismiss the modelview controller */
-	[controller dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
 	
 	switch(result)
 	{
@@ -5695,10 +5698,10 @@
             
             /* Fill out the email body text */
             [picker setMessageBody:emailBody isHTML:YES];
-            
+
             /* Present the email compose view to the user */
-            [self presentModalViewController:picker animated:YES];
-            
+            [self presentViewController:picker animated:YES completion:nil];
+
             /* Free the resources */
             [picker release];
         }

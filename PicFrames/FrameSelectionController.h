@@ -51,7 +51,7 @@ typedef enum
     FRAMES_TYPE_MAX
 }eFrameType;
 
-@interface FrameSelectionController : UIViewController <UITabBarDelegate,UIAlertViewDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UIActionSheetDelegate,FrameScrollViewDelegate>
+@interface FrameSelectionController : UIViewController <UITabBarDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,FrameScrollViewDelegate>
 {
     Settings *nvm;
     FrameScrollView *fsv;

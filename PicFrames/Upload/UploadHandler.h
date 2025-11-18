@@ -28,7 +28,7 @@ typedef struct
 }t_TwitterCredentials;
 
 
-@interface UploadHandler : NSObject <UIAlertViewDelegate,UITextFieldDelegate,MFMailComposeViewControllerDelegate,UIWebViewDelegate,UIAlertViewDelegate,UIDocumentInteractionControllerDelegate> //FBSDKSharingDelegate
+@interface UploadHandler : NSObject <UITextFieldDelegate,MFMailComposeViewControllerDelegate,UIWebViewDelegate,UIDocumentInteractionControllerDelegate> //FBSDKSharingDelegate
 {
     /* Facebook like */
     BOOL bAlreadyLiked;

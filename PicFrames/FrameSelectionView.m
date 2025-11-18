@@ -630,8 +630,8 @@ typedef struct
                 NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:set.currentFrameNumber],@"FrameNumber",[NSNumber numberWithInt:set.currentSessionIndex],@"SessionNumber", nil];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
-                
-                [self dismissModalViewControllerAnimated:NO];
+
+                [self dismissViewControllerAnimated:NO completion:nil];
             }
             else if(eStatus == eVideoAdUsedCanceledTheAd)
             {
@@ -689,10 +689,38 @@ typedef struct
     [self removeLockedContentMenu];
     
     /* show success alert with remaining points */
-    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"Success" message:[NSString stringWithFormat:@"Congragulations!!, you have successfully unlocked the filter. Your current instapic points count is %d, would you like earn some more FREE points",[tapPoints Instance].curScore] delegate:self cancelButtonTitle: @"No Thanks" otherButtonTitles:@"Earn Free Points", nil];
-    al.tag = tag_frameselection_successfullunlock;
-    [al show];
-    [al release];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success"
+                                                                   message:[NSString stringWithFormat:@"Congragulations!!, you have successfully unlocked the filter. Your current instapic points count is %d, would you like earn some more FREE points",[tapPoints Instance].curScore]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *noThanksAction = [UIAlertAction actionWithTitle:@"No Thanks"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
+
+    UIAlertAction *earnPointsAction = [UIAlertAction actionWithTitle:@"Earn Free Points"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * action) {
+        // TODO: Open offerwall or earn points screen
+        // Original delegate method was commented out, so no action is taken for now
+    }];
+
+    [alert addAction:noThanksAction];
+    [alert addAction:earnPointsAction];
+
+    // Find the view controller to present from
+    UIViewController *viewController = nil;
+    UIResponder *responder = self;
+    while (responder != nil) {
+        if ([responder isKindOfClass:[UIViewController class]]) {
+            viewController = (UIViewController *)responder;
+            break;
+        }
+        responder = [responder nextResponder];
+    }
+
+    if (viewController) {
+        [viewController presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 - (void)popupMenuDidDismiss:(PopupMenu*)sender
@@ -1174,10 +1202,14 @@ typedef struct
     return [UIImage imageWithContentsOfFile:pPath];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 - (id)initWithFrame:(CGRect)frame

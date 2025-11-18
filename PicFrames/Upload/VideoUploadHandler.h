@@ -21,7 +21,7 @@
 //#import"YouTubeHelper.h"
 #import"ShareViewController.h"
 
-@interface VideoUploadHandler : NSObject <UIAlertViewDelegate,MFMailComposeViewControllerDelegate,UIAlertViewDelegate,UIDocumentInteractionControllerDelegate,UIPopoverControllerDelegate,PopoverViewDelegate,UIWebViewDelegate,MBProgressHUDDelegate> //,FBSDKSharingDelegate
+@interface VideoUploadHandler : NSObject <MFMailComposeViewControllerDelegate,UIDocumentInteractionControllerDelegate,UIPopoverControllerDelegate,PopoverViewDelegate,UIWebViewDelegate,MBProgressHUDDelegate> //,FBSDKSharingDelegate
 {
 
     BOOL mIsPrivate;

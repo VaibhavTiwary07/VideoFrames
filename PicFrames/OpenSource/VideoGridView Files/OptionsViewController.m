@@ -126,7 +126,12 @@ typedef enum {
 #pragma mark Controller events
 //////////////////////////////////////////////////////////////
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate
 {
     return YES;
 }
