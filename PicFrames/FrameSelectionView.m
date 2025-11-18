@@ -930,16 +930,25 @@ typedef struct
 #if LOCKED_FRAME_SUPPORT
 -(void)frameScrollView:(FrameScrollView *)gView selectedItemIndex:(int)index button:(UIButton*)btn
 {
+    printf("\n");
+    printf("╔════════════════════════════════════════════════════════════════╗\n");
+    printf("║       FrameSelectionView DELEGATE CALLED (INTERMEDIATE)       ║\n");
+    printf("╚════════════════════════════════════════════════════════════════╝\n");
+    printf("[FRAME_VIEW] Received from FrameScrollView: index=%d\n", index);
+
     _curSelectedGroup = [self frameTypeFromIndex:index];
     _curSelectedFrameIndex = [self convertIndexToFrameTypeIndex:index];
 
+    printf("[FRAME_VIEW] Converted: group=%d, frameIndex=%d\n", _curSelectedGroup, _curSelectedFrameIndex);
+
     if(YES == [self frameScrollView:gView contentLockTypeAtIndex:index])
     {
+        printf("[FRAME_VIEW] Frame IS LOCKED - showing menu\n");
         if(nil != _lockedMenu)
         {
             _lockedMenu = nil;
         }
-        
+
         CGPoint p = CGPointMake(gView.frame.origin.x+btn.frame.origin.x+btn.frame.size.width/2.0, gView.frame.origin.y+btn.frame.origin.y);
         _lockedMenu = [[PopupMenu alloc]initWithFrame:CGRectMake(0, 0, 150, 150) style:UITableViewStylePlain delegate:self];
         _lockedMenu.tag = gView.tag;
@@ -950,14 +959,30 @@ typedef struct
     }
     else
     {
-        Settings *set = [Settings Instance];
-        set.currentSessionIndex = set.nextFreeSessionIndex;
-        set.currentFrameNumber = _curSelectedFrameIndex;
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:createNewSession object:nil];
-        
+        printf("[FRAME_VIEW] Frame NOT locked\n");
+
+        // REMOVED: Direct notification posting that bypassed FrameSelectionController!
+        // This was causing immediate navigation without Done button
+        // [[NSNotificationCenter defaultCenter] postNotificationName:createNewSession object:nil];
+
+        printf("[FRAME_VIEW] ✗✗✗ REMOVED AUTOMATIC createNewSession NOTIFICATION ✗✗✗\n");
+        printf("[FRAME_VIEW] Calling parent delegate instead (FrameSelectionController)\n");
+
+        // Forward to FrameSelectionController delegate
+        if([self.delegate respondsToSelector:@selector(frameSelectionView:selectedItemIndex:button:)])
+        {
+            printf("[FRAME_VIEW] → Forwarding to FrameSelectionController delegate\n");
+            [self.delegate frameSelectionView:self selectedItemIndex:_curSelectedFrameIndex button:btn];
+        }
+        else
+        {
+            printf("[FRAME_VIEW] ✗ WARNING: Delegate doesn't respond to selector!\n");
+        }
     }
-    
+
+    printf("╔════════════════════════════════════════════════════════════════╗\n");
+    printf("║       FrameSelectionView DELEGATE COMPLETED                   ║\n");
+    printf("╚════════════════════════════════════════════════════════════════╝\n\n");
     return;
 }
 
