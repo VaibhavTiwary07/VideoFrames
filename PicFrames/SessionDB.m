@@ -8,6 +8,34 @@
 
 #import "SessionDB.h"
 
+// ============================================================================
+// DEPRECATION NOTICE - DO NOT USE THIS CLASS IN NEW CODE
+// ============================================================================
+//
+// This class is DEPRECATED and should NOT be used in new code.
+// All existing usages have been migrated to SessionRepository.
+//
+// WHY THIS CLASS IS DEPRECATED:
+// ❌ No error handling - failures are silent
+// ❌ Manual memory management with malloc/free - error prone
+// ❌ No type safety - uses void** pointers
+// ❌ Cannot be tested - uses static methods with real database
+// ❌ SQL is scattered throughout code - violates single responsibility
+//
+// MIGRATION PATH:
+// Instead of:  #import "SessionDB.h"
+// Use:         #import "ServiceContainer.h"
+//              #import "SessionRepository.h"
+//
+// Instead of:  [SessionDB getThePhotoInfoForSessionId:id to:&photos]
+// Use:         [[ServiceContainer shared].sessionRepository getPhotoInfoForSession:id error:&error]
+//
+// See PHASE4_DEPRECATION.md for complete migration guide with examples.
+//
+// This implementation is kept ONLY for backward compatibility during
+// the transition period. It will be removed in a future phase.
+// ============================================================================
+
 @implementation SessionDB
 
 +(int)printTableForSessionId:(int)sessId

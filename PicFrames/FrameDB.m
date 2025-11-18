@@ -8,6 +8,34 @@
 
 #import "FrameDB.h"
 
+// ============================================================================
+// DEPRECATION NOTICE - DO NOT USE THIS CLASS IN NEW CODE
+// ============================================================================
+//
+// This class is DEPRECATED and should NOT be used in new code.
+// All existing usages have been migrated to FrameRepository.
+//
+// WHY THIS CLASS IS DEPRECATED:
+// ❌ No error handling - failures are silent
+// ❌ Manual memory management with malloc/free - error prone
+// ❌ No type safety - uses void** pointers
+// ❌ Cannot be tested - uses static methods with real database
+// ❌ SQL is scattered throughout code - violates single responsibility
+//
+// MIGRATION PATH:
+// Instead of:  #import "FrameDB.h"
+// Use:         #import "ServiceContainer.h"
+//              #import "FrameRepository.h"
+//
+// Instead of:  [FrameDB getThePhotoInfoForFrameNumber:num to:&photos]
+// Use:         [[ServiceContainer shared].frameRepository getPhotoInfoForFrame:num error:&error]
+//
+// See PHASE4_DEPRECATION.md for complete migration guide with examples.
+//
+// This implementation is kept ONLY for backward compatibility during
+// the transition period. It will be removed in a future phase.
+// ============================================================================
+
 @implementation FrameDB
 
 #if 0
