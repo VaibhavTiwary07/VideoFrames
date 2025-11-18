@@ -47,7 +47,9 @@ typedef enum
 @end
 
 @interface FrameScrollView : UIView<UIScrollViewDelegate>
-
+{
+    UIButton *_previouslySelectedButton;  // Track previously selected button for border management
+}
 
 @property(nonatomic,retain)id<FrameScrollViewDelegate>delegate;
 - (id)initWithFrame:(CGRect)frame indextag:(int)tag;

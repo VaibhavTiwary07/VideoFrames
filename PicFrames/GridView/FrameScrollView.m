@@ -177,6 +177,21 @@
 {
     UIButton *btn = (UIButton*)sender;
     NSLog(@" *** Frame Selected ***");
+
+    // Remove green border from previously selected button
+    if (_previouslySelectedButton != nil && _previouslySelectedButton != btn) {
+        _previouslySelectedButton.layer.borderWidth = 0;
+        _previouslySelectedButton.layer.borderColor = nil;
+    }
+
+    // Add green border to newly selected button
+    btn.layer.borderWidth = 3.0;
+    btn.layer.borderColor = [[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0] CGColor];
+    btn.layer.cornerRadius = 0;  // Ensure sharp corners for the border
+
+    // Store reference to this button
+    _previouslySelectedButton = btn;
+
     if([self.delegate respondsToSelector:@selector(frameScrollView:selectedItemIndex:button:)])
     {
         [self.delegate frameScrollView:self selectedItemIndex:(int)btn.tag button:btn];
@@ -345,7 +360,7 @@
                 [gridbtn setBackgroundImage:[self.delegate frameScrollView:self coloredImageForItemAtIndex:(int)gridbtn.tag] forState:UIControlStateNormal];
                 // Add green border to selected frame
                 gridbtn.layer.borderWidth = 3.0;
-                gridbtn.layer.borderColor = [[UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0] CGColor];
+                gridbtn.layer.borderColor = [[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0] CGColor];
             }
             else
             {
