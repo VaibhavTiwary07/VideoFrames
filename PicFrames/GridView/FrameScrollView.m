@@ -185,9 +185,10 @@
     }
 
     // Add green border to newly selected button
-    btn.layer.borderWidth = 3.0;
+    btn.layer.borderWidth = 5.0;  // Increased border width for better visibility
     btn.layer.borderColor = [[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0] CGColor];
     btn.layer.cornerRadius = 0;  // Ensure sharp corners for the border
+    btn.clipsToBounds = NO;  // Allow border to extend slightly outside bounds
 
     // Store reference to this button
     _previouslySelectedButton = btn;
@@ -359,8 +360,9 @@
             {
                 [gridbtn setBackgroundImage:[self.delegate frameScrollView:self coloredImageForItemAtIndex:(int)gridbtn.tag] forState:UIControlStateNormal];
                 // Add green border to selected frame
-                gridbtn.layer.borderWidth = 3.0;
+                gridbtn.layer.borderWidth = 5.0;  // Increased border width for better visibility
                 gridbtn.layer.borderColor = [[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0] CGColor];
+                gridbtn.clipsToBounds = NO;  // Allow border to extend slightly outside bounds
             }
             else
             {

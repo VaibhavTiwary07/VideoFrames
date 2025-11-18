@@ -2108,19 +2108,27 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
 // MARK: Update Done Button Appearance
 -(void)updateDoneButtonAppearance
 {
-    // Check if a frame is selected
-    if (_curSelectedFrameIndex > 0) {
+    NSLog(@"[DONE_BTN] updateDoneButtonAppearance called - _curSelectedFrameIndex = %d", _curSelectedFrameIndex);
+
+    // Check if a frame is selected (use >= 1 since frame indices start at 1 or 1000+)
+    if (_curSelectedFrameIndex >= 1) {
+        NSLog(@"[DONE_BTN] Frame IS selected, applying gradient");
+
         // Frame selected state: gradient background with black text
         // Remove old gradient layer if exists
-        for (CALayer *layer in _customDoneButton.layer.sublayers) {
+        for (CALayer *layer in [_customDoneButton.layer.sublayers copy]) {
             if ([layer isKindOfClass:[CAGradientLayer class]]) {
                 [layer removeFromSuperlayer];
             }
         }
 
+        // Clear background color first
+        _customDoneButton.backgroundColor = [UIColor clearColor];
+
         // Add gradient layer (green to cyan)
         CAGradientLayer *gradientLayer = [CAGradientLayer layer];
         gradientLayer.frame = _customDoneButton.bounds;
+        gradientLayer.cornerRadius = 5.0;  // Match button corner radius
         UIColor *greenColor = [UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0];
         UIColor *cyanColor = [UIColor colorWithRed:20/255.0 green:249/255.0 blue:245/255.0 alpha:1.0];
         gradientLayer.colors = @[(id)greenColor.CGColor, (id)cyanColor.CGColor];
@@ -2131,10 +2139,14 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
         // Set text color to black
         [_customDoneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _customDoneButton.enabled = YES;
+
+        NSLog(@"[DONE_BTN] Gradient applied successfully");
     } else {
+        NSLog(@"[DONE_BTN] NO frame selected, applying grey background");
+
         // No frame selected state: dark grey background with white text
         // Remove gradient layer
-        for (CALayer *layer in _customDoneButton.layer.sublayers) {
+        for (CALayer *layer in [_customDoneButton.layer.sublayers copy]) {
             if ([layer isKindOfClass:[CAGradientLayer class]]) {
                 [layer removeFromSuperlayer];
             }
@@ -2147,15 +2159,24 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
         [_customDoneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _customDoneButton.enabled = NO;
     }
+
+    // Force layout update
+    [_customDoneButton setNeedsLayout];
+    [_customDoneButton layoutIfNeeded];
 }
 
 // MARK: Done Button Action
 -(void)doneButtonPressed
 {
-    // Only proceed if a frame is selected
-    if (_curSelectedFrameIndex > 0) {
+    NSLog(@"[DONE_BTN] doneButtonPressed called - _curSelectedFrameIndex = %d", _curSelectedFrameIndex);
+
+    // Only proceed if a frame is selected (use >= 1 since frame indices start at 1 or 1000+)
+    if (_curSelectedFrameIndex >= 1) {
+        NSLog(@"[DONE_BTN] Frame selected, popping view controller to navigate back");
         // Pop the frame selection controller and return to main controller (video selection)
         [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        NSLog(@"[DONE_BTN] No frame selected, ignoring Done button press");
     }
 }
 
