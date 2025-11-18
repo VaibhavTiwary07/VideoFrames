@@ -1980,33 +1980,36 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
 
             // Update Done button appearance when frame is selected
             [self updateDoneButtonAppearance];
+
+            printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Frame selected, waiting for Done button press\n");
         }
         else
         {
             printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - FRAME IS LOCKED, dismissing without selection\n");
         }
 
-        if(_curSelectedFrame<3)
-        {
-            printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Free frame, dismissing view controller\n");
-            [self dismissViewControllerAnimated:NO completion:nil];
-        }
-        else
-        {
-            if([[SRSubscriptionModel shareKit]IsAppSubscribed])
-            {
-                printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Subscription active, popping view controller\n");
-                [self.navigationController popViewControllerAnimated:NO];
-            }
-            else
-            {
-                if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
-                {
-                    printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Purchased status found, popping view controller\n");
-                    [self.navigationController popViewControllerAnimated:NO];
-                }
-            }
-        }
+        // REMOVED automatic navigation - user must press Done button to proceed
+        // if(_curSelectedFrame<3)
+        // {
+        //     printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Free frame, dismissing view controller\n");
+        //     [self dismissViewControllerAnimated:NO completion:nil];
+        // }
+        // else
+        // {
+        //     if([[SRSubscriptionModel shareKit]IsAppSubscribed])
+        //     {
+        //         printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Subscription active, popping view controller\n");
+        //         [self.navigationController popViewControllerAnimated:NO];
+        //     }
+        //     else
+        //     {
+        //         if ([SuccessStatus integerForKey:@"PurchasedYES"] == 1)
+        //         {
+        //             printf("[FRAME_DEBUG] frameScrollView:selectedItemIndex: - Purchased status found, popping view controller\n");
+        //             [self.navigationController popViewControllerAnimated:NO];
+        //         }
+        //     }
+        // }
     }
     else
     {
