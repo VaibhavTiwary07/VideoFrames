@@ -1569,7 +1569,12 @@ NSString *__templateReviewURL = @"itms-apps://itunes.apple.com/WebObjects/MZStor
    
     [[NSNotificationCenter defaultCenter] postNotificationName:newframeselected object:nil userInfo:params];
     NSLog(@"selected Item Index----");
-    [self.navigationController popViewControllerAnimated:NO];
+
+    // Update Done button appearance when frame is selected
+    [self updateDoneButtonAppearance];
+
+    // REMOVED automatic navigation - user must press Done button to proceed
+    // [self.navigationController popViewController Animated:NO];
     
 //    NSUserDefaults *prefs1 = [NSUserDefaults standardUserDefaults];
 //    if(set.currentFrameNumber<3||[prefs1 integerForKey:@"Productpurchased"] == 1)
