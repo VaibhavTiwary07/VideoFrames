@@ -14,6 +14,7 @@
 #import "Settings.h"
 #import "SRSubscriptionModel.h"
 #import "Config.h"
+#import "Utility.h"
 
 // Lock mapping for frames (frame number -> lock type)
 // Frames 1-2 are free, rest follow this mapping
@@ -80,6 +81,7 @@ static NSDictionary *frameLockMapping = nil;
     [self setupNavigationBar];
     [self setupCollectionView];
     [self loadFrameData];
+    [self generateFrameThumbnailsIfNeeded];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -235,6 +237,27 @@ static NSDictionary *frameLockMapping = nil;
     return FrameLockTypeInApp;
 }
 
+- (void)generateFrameThumbnailsIfNeeded {
+    // Check if thumbnails exist by checking a sample frame from premium range
+    NSString *sampleThumbnailPath = [Utility frameThumbNailPathForFrameNumber:1001];
+
+    if (![[NSFileManager defaultManager] fileExistsAtPath:sampleThumbnailPath]) {
+        // Thumbnails don't exist, generate them
+        [Utility addActivityIndicatotTo:self.view withMessage:@"Loading Frames..."];
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            // Generate thumbnails in background
+            [Utility generateThumnailsForFrames];
+
+            // Update UI on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [Utility removeActivityIndicatorFrom:self.view];
+                [self.collectionView reloadData];
+            });
+        });
+    }
+}
+
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -265,13 +288,7 @@ static NSDictionary *frameLockMapping = nil;
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     FrameItem *selectedFrame = self.frameItems[indexPath.item];
 
-    // Check if frame is locked
-    if (selectedFrame.isLocked) {
-        [self handleLockedFrameSelection:selectedFrame];
-        return;
-    }
-
-    // Update selection
+    // Update selection (allow all frames, including locked ones)
     NSInteger previousSelection = self.selectedFrameIndex;
     self.selectedFrameIndex = selectedFrame.frameNumber;
 

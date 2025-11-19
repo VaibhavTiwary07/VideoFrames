@@ -954,7 +954,8 @@ void pattern2Callback (void *info, CGContextRef context)
        // [frame release];
     }
 
-    for(index = UNEVEN_FRAME_INDEX; index < (UNEVEN_FRAME_INDEX+STARTINGUNEVEN_FRAME_COUNT); index++)
+    // Generate colored thumbnails for all premium frames (1001-1049)
+    for(index = UNEVEN_FRAME_INDEX; index <= 1049; index++)
     {
         /* First verify if the image already exist, if exist do not proceed further */
         filePath = [Utility coloredFrameThumbNailPathForFrameNumber:index];
@@ -989,7 +990,8 @@ void pattern2Callback (void *info, CGContextRef context)
       //  [frame release];
     }
 
-    for(index = UNEVEN_FRAME_INDEX; index < (UNEVEN_FRAME_INDEX+STARTINGUNEVEN_FRAME_COUNT); index++)
+    // Generate normal thumbnails for all premium frames (1001-1049)
+    for(index = UNEVEN_FRAME_INDEX; index <= 1049; index++)
     {
         /* First verify if the image already exist, if exist do not proceed further */
         filePath = [Utility frameThumbNailPathForFrameNumber:index];
