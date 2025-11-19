@@ -14,6 +14,8 @@
 
 @implementation FrameCell
 
+@synthesize imageCache = _imageCache;
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -46,16 +48,32 @@
 }
 
 - (void)configureWithFrame:(FrameItem *)frameItem isSelected:(BOOL)selected {
-    // Set thumbnail image
-    UIImage *thumbnail = nil;
-    if (selected) {
-        // Show colored version when selected
-        thumbnail = [UIImage imageWithContentsOfFile:frameItem.coloredThumbnailPath];
+    // Set thumbnail image with caching and async loading for performance
+    NSString *imagePath = selected ? frameItem.coloredThumbnailPath : frameItem.thumbnailPath;
+
+    // Check cache first (instant if cached)
+    UIImage *cachedImage = [self.imageCache objectForKey:imagePath];
+    if (cachedImage) {
+        self.thumbnailImageView.image = cachedImage;
     } else {
-        // Show normal version when not selected
-        thumbnail = [UIImage imageWithContentsOfFile:frameItem.thumbnailPath];
+        // Not in cache - load asynchronously to avoid blocking UI
+        self.thumbnailImageView.image = nil;  // Clear while loading
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            // Load image from disk on background thread
+            UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+
+            if (image) {
+                // Cache the image for future use
+                [self.imageCache setObject:image forKey:imagePath];
+
+                // Update UI on main thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.thumbnailImageView.image = image;
+                });
+            }
+        });
     }
-    self.thumbnailImageView.image = thumbnail;
 
     // Show/hide lock icon
     self.lockIconView.hidden = !frameItem.isLocked;

@@ -30,6 +30,9 @@ static NSDictionary *frameLockMapping = nil;
 @property (nonatomic, strong) NSMutableArray<FrameItem *> *frameItems;
 @property (nonatomic, assign) NSInteger selectedFrameIndex;
 
+// Performance optimization - image cache
+@property (nonatomic, strong) NSCache<NSString *, UIImage *> *imageCache;
+
 @end
 
 @implementation FrameSelectionController
@@ -77,6 +80,11 @@ static NSDictionary *frameLockMapping = nil;
 
     self.selectedFrameIndex = -1;  // No selection
     self.view.backgroundColor = [UIColor blackColor];
+
+    // Initialize image cache for performance (critical for iPad)
+    self.imageCache = [[NSCache alloc] init];
+    self.imageCache.countLimit = 200;  // Cache all frame images (49 frames × 2 versions + buffer)
+    self.imageCache.name = @"FrameThumbnailCache";
 
     [self setupNavigationBar];
     [self setupCollectionView];
@@ -164,10 +172,12 @@ static NSDictionary *frameLockMapping = nil;
 }
 
 - (void)setupCollectionView {
-    // Calculate cell size (3 columns grid)
+    // Calculate cell size (3 columns grid - responsive for all devices)
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGFloat spacing = 12.0;
-    CGFloat cellWidth = (screenWidth - (4 * spacing)) / 3.0;  // 3 columns
+    CGFloat spacing = 12.0;  // Space between cells
+    CGFloat leftRightPadding = 20.0;  // Fixed edge padding for all devices
+    CGFloat availableWidth = screenWidth - (2 * leftRightPadding) - (2 * spacing);
+    CGFloat cellWidth = availableWidth / 3.0;  // Responsive: divides space evenly for 3 columns
     CGFloat cellHeight = cellWidth;
 
     // Collection view layout
@@ -175,22 +185,28 @@ static NSDictionary *frameLockMapping = nil;
     layout.itemSize = CGSizeMake(cellWidth, cellHeight);
     layout.minimumInteritemSpacing = spacing;
     layout.minimumLineSpacing = spacing;
-    layout.sectionInset = UIEdgeInsetsMake(spacing, spacing, spacing, spacing);
+    layout.sectionInset = UIEdgeInsetsMake(20.0, leftRightPadding, spacing, leftRightPadding);  // Top spacing + calculated side padding
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
     // Collection view
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height +
-                           [UIApplication sharedApplication].statusBarFrame.size.height;
-    CGRect collectionFrame = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height - navBarHeight);
-
-    self.collectionView = [[UICollectionView alloc] initWithFrame:collectionFrame
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
                                              collectionViewLayout:layout];
     self.collectionView.backgroundColor = [UIColor blackColor];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.showsVerticalScrollIndicator = YES;
     self.collectionView.alwaysBounceVertical = YES;
+
+    // Add content inset for navigation bar + extra spacing
+    if (@available(iOS 13.0, *)) {
+        CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height +
+                               [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.collectionView.contentInset = UIEdgeInsetsMake(navBarHeight + 15.0, 0, 0, 0);
+        self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
+    } else {
+        self.collectionView.contentInset = UIEdgeInsetsMake(15.0, 0, 0, 0);
+        self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
+    }
 
     // Register cell
     [self.collectionView registerClass:[FrameCell class]
@@ -224,6 +240,11 @@ static NSDictionary *frameLockMapping = nil;
     }
 
     [self.collectionView reloadData];
+
+    // Force another reload after a brief delay to ensure images load immediately
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
 }
 
 - (FrameLockType)lockTypeForFrameNumber:(NSInteger)frameNumber {
@@ -276,6 +297,9 @@ static NSDictionary *frameLockMapping = nil;
 
     FrameItem *frameItem = self.frameItems[indexPath.item];
     BOOL isSelected = (frameItem.frameNumber == self.selectedFrameIndex);
+
+    // Pass image cache to cell for performance optimization
+    cell.imageCache = self.imageCache;
 
     [cell configureWithFrame:frameItem isSelected:isSelected];
 

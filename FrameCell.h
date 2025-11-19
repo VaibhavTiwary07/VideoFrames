@@ -17,6 +17,8 @@
 
 @interface FrameCell : UICollectionViewCell
 
+@property (nonatomic, strong) NSCache<NSString *, UIImage *> *imageCache;
+
 - (void)configureWithFrame:(FrameItem *)frameItem isSelected:(BOOL)selected;
 
 @end
