@@ -17,7 +17,7 @@
 #import "WCAlertView.h"
 //#import "UniversalLayout.h"
 #import "SimpleSubscriptionView.h"
-#import <Firebase/Firebase.h>
+@import FirebaseAnalytics;
 #import "MainController.h"
 
 #define videoPlayButtonTag 987677

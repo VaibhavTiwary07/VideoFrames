@@ -68,7 +68,6 @@
 		3C9CA467185AF56900DCC5B1 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F0869F1508461600A9D736 /* Settings.m */; };
 		3C9CA468185AF56900DCC5B1 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F086B11508541300A9D736 /* Utility.m */; };
 		3C9CA46B185AF56900DCC5B1 /* SessionDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F086C7150AAC3700A9D736 /* SessionDB.m */; };
-		3C9CA470185AF56900DCC5B1 /* FrameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 287AB0021516A52100D31761 /* FrameButton.m */; };
 		3C9CA472185AF56900DCC5B1 /* InitSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C9EAE1152546A600E3E8E4 /* InitSessionManager.m */; };
 		3C9CA473185AF56900DCC5B1 /* FrameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C9EAE515269A6A00E3E8E4 /* FrameViewController.m */; };
 		3C9CA474185AF56900DCC5B1 /* MenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D4AEA31526C494007D88F7 /* MenuManager.m */; };
@@ -81,7 +80,6 @@
 		3C9CA48F185AF56900DCC5B1 /* UIImageView+Shapes.m in Sources */ = {isa = PBXBuildFile; fileRef = 28531B59164737B60055B714 /* UIImageView+Shapes.m */; };
 		3C9CA491185AF56900DCC5B1 /* PopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2801D7CF16597C8D007D7D89 /* PopupMenu.m */; };
 		3C9CA492185AF56900DCC5B1 /* ImageSelectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2801D7D616599777007D7D89 /* ImageSelectionHandler.m */; };
-		3C9CA494185AF56900DCC5B1 /* FrameSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 081196FF17FFE3E00049BBFC /* FrameSelectionController.m */; };
 		3C9CA495185AF56900DCC5B1 /* ssivView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28AFFA851662612600D54AE0 /* ssivView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C9CA497185AF56900DCC5B1 /* InAppPurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 288B700416736CA600CC182E /* InAppPurchaseManager.m */; };
 		3C9CA498185AF56900DCC5B1 /* SKProduct+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 288B700816736CA600CC182E /* SKProduct+LocalizedPrice.m */; };
@@ -89,7 +87,6 @@
 		3C9CA49A185AF56900DCC5B1 /* ShapeMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 288B70111674E51F00CC182E /* ShapeMapping.m */; };
 		3C9CA4C6185AF56900DCC5B1 /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB627182CBB070066F4C5 /* TouchView.m */; };
 		3C9CA4CA185AF56900DCC5B1 /* AVPlayerDemoPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF495B817D9614C007DAC6D /* AVPlayerDemoPlaybackView.m */; };
-		3C9CA4D6185AF56900DCC5B1 /* FrameSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 081196FC17FFE3BF0049BBFC /* FrameSelectionView.m */; };
 		3C9CA50D185AF56900DCC5B1 /* BackgroundSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F38CD017F69E5400E23F29 /* BackgroundSliderViewController.m */; };
 		3C9CA549185AF56900DCC5B1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3D1BC3158934C400A08FF4 /* MediaPlayer.framework */; };
 		3C9CA54B185AF56900DCC5B1 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082F59EB17E04F0200AD5EE1 /* AssetsLibrary.framework */; };
@@ -159,7 +156,6 @@
 		531E400D26A84C9A004CD0E9 /* HelveticaNeue.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 531E400C26A84C9A004CD0E9 /* HelveticaNeue.ttf */; };
 		532014C42D11A6F5006ED29F /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 532014C02D11A482006ED29F /* CoreAudio.framework */; };
 		532D665326A6D36C008C743C /* SRSubscriptionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 532D665126A6D36C008C743C /* SRSubscriptionModel.m */; };
-		53431FDA26B2772E008EAF32 /* FrameScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53431FD126B2772E008EAF32 /* FrameScrollView.m */; };
 		53431FDB26B2772E008EAF32 /* FrameGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53431FD226B2772E008EAF32 /* FrameGridView.m */; };
 		53431FDC26B2772E008EAF32 /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53431FD326B2772E008EAF32 /* GridView.m */; };
 		53431FDE26B2772E008EAF32 /* FrameGridController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53431FD926B2772E008EAF32 /* FrameGridController.m */; };
@@ -252,6 +248,9 @@
 		84B51D692C9D57F7005C5DEE /* MenuTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B51D682C9D57F7005C5DEE /* MenuTableViewHeader.swift */; };
 		C36046AF249A20F100782565 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C36046AD249A20F100782565 /* LaunchScreen.storyboard */; };
 		C3B0927724EA4D960001115A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C378BCE324B889FE00E57083 /* Assets.xcassets */; };
+		DB49E8872ECDA05900622782 /* FrameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB49E8862ECDA05900622782 /* FrameCell.m */; };
+		DB96A6062ECD83F8003D5BCC /* FrameItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DB96A6032ECD83F8003D5BCC /* FrameItem.m */; };
+		DB96A6072ECD83F8003D5BCC /* FrameSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB96A6052ECD83F8003D5BCC /* FrameSelectionController.m */; };
 		E26A1A851C1ADAD700F95377 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E26A1A841C1ADAD700F95377 /* libc++.tbd */; };
 /* End PBXBuildFile section */
 
@@ -269,10 +268,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		081196FC17FFE3BF0049BBFC /* FrameSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameSelectionView.m; sourceTree = "<group>"; };
-		081196FD17FFE3BF0049BBFC /* FrameSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameSelectionView.h; sourceTree = "<group>"; };
-		081196FF17FFE3E00049BBFC /* FrameSelectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameSelectionController.m; sourceTree = "<group>"; };
-		0811970017FFE3E00049BBFC /* FrameSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameSelectionController.h; sourceTree = "<group>"; };
+		081196FF17FFE3E00049BBFC /* FrameSelectionControllerOLD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameSelectionControllerOLD.m; sourceTree = "<group>"; };
+		0811970017FFE3E00049BBFC /* FrameSelectionControllerOLD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameSelectionControllerOLD.h; sourceTree = "<group>"; };
 		082F59EB17E04F0200AD5EE1 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0895DF2F183CCD000093E968 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		08EDB626182CBB070066F4C5 /* TouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchView.h; sourceTree = "<group>"; };
@@ -354,8 +351,6 @@
 		28531B59164737B60055B714 /* UIImageView+Shapes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Shapes.m"; sourceTree = "<group>"; };
 		286E08E716A602820046560B /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		287AAFDD1515B0B100D31761 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		287AB0011516A51F00D31761 /* FrameButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameButton.h; sourceTree = "<group>"; };
-		287AB0021516A52100D31761 /* FrameButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameButton.m; sourceTree = "<group>"; };
 		288B700316736CA600CC182E /* InAppPurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseManager.h; sourceTree = "<group>"; };
 		288B700416736CA600CC182E /* InAppPurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseManager.m; sourceTree = "<group>"; };
 		288B700716736CA600CC182E /* SKProduct+LocalizedPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+LocalizedPrice.h"; sourceTree = "<group>"; };
@@ -468,12 +463,10 @@
 		532014C22D11A4F3006ED29F /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		532D665126A6D36C008C743C /* SRSubscriptionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRSubscriptionModel.m; sourceTree = "<group>"; };
 		532D665226A6D36C008C743C /* SRSubscriptionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRSubscriptionModel.h; sourceTree = "<group>"; };
-		53431FD126B2772E008EAF32 /* FrameScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameScrollView.m; sourceTree = "<group>"; };
 		53431FD226B2772E008EAF32 /* FrameGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameGridView.m; sourceTree = "<group>"; };
 		53431FD326B2772E008EAF32 /* GridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridView.m; sourceTree = "<group>"; };
 		53431FD426B2772E008EAF32 /* FrameGridController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameGridController.h; sourceTree = "<group>"; };
 		53431FD526B2772E008EAF32 /* FrameGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameGridView.h; sourceTree = "<group>"; };
-		53431FD626B2772E008EAF32 /* FrameScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameScrollView.h; sourceTree = "<group>"; };
 		53431FD826B2772E008EAF32 /* GridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridView.h; sourceTree = "<group>"; };
 		53431FD926B2772E008EAF32 /* FrameGridController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameGridController.m; sourceTree = "<group>"; };
 		53431FEC26B291A8008EAF32 /* UIImage+ANImageBitmapRep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ANImageBitmapRep.m"; sourceTree = "<group>"; };
@@ -662,6 +655,12 @@
 		B425D3B99C3C24CB578671B6 /* Pods_VideoFrames.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VideoFrames.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C36046AD249A20F100782565 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C378BCE324B889FE00E57083 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DB49E8852ECDA05900622782 /* FrameCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameCell.h; sourceTree = "<group>"; };
+		DB49E8862ECDA05900622782 /* FrameCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameCell.m; sourceTree = "<group>"; };
+		DB96A6022ECD83F8003D5BCC /* FrameItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameItem.h; sourceTree = "<group>"; };
+		DB96A6032ECD83F8003D5BCC /* FrameItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameItem.m; sourceTree = "<group>"; };
+		DB96A6042ECD83F8003D5BCC /* FrameSelectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameSelectionController.h; sourceTree = "<group>"; };
+		DB96A6052ECD83F8003D5BCC /* FrameSelectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameSelectionController.m; sourceTree = "<group>"; };
 		E26A1A841C1ADAD700F95377 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -1004,12 +1003,10 @@
 		53431FCF26B2772E008EAF32 /* GridView */ = {
 			isa = PBXGroup;
 			children = (
-				53431FD126B2772E008EAF32 /* FrameScrollView.m */,
 				53431FD226B2772E008EAF32 /* FrameGridView.m */,
 				53431FD326B2772E008EAF32 /* GridView.m */,
 				53431FD426B2772E008EAF32 /* FrameGridController.h */,
 				53431FD526B2772E008EAF32 /* FrameGridView.h */,
-				53431FD626B2772E008EAF32 /* FrameScrollView.h */,
 				53431FD826B2772E008EAF32 /* GridView.h */,
 				53431FD926B2772E008EAF32 /* FrameGridController.m */,
 			);
@@ -1316,6 +1313,8 @@
 		9F250A3714FC6DDE00E14565 = {
 			isa = PBXGroup;
 			children = (
+				DB49E8852ECDA05900622782 /* FrameCell.h */,
+				DB49E8862ECDA05900622782 /* FrameCell.m */,
 				18C50D122E1BDB830070F8CD /* CircularProgressView.m */,
 				18C50D112E1BDB520070F8CD /* CircularProgressView.h */,
 				18F02C752E17B2800038974C /* WhatsAppShareManager.m */,
@@ -1429,6 +1428,10 @@
 		9F250A4C14FC6DDE00E14565 /* PicFrames */ = {
 			isa = PBXGroup;
 			children = (
+				DB96A6022ECD83F8003D5BCC /* FrameItem.h */,
+				DB96A6032ECD83F8003D5BCC /* FrameItem.m */,
+				DB96A6042ECD83F8003D5BCC /* FrameSelectionController.h */,
+				DB96A6052ECD83F8003D5BCC /* FrameSelectionController.m */,
 				53431FCF26B2772E008EAF32 /* GridView */,
 				53152CB226A6DFC400897A5B /* Upload */,
 				9FF495B817D9614C007DAC6D /* AVPlayerDemoPlaybackView.m */,
@@ -1450,10 +1453,8 @@
 				28F086C7150AAC3700A9D736 /* SessionDB.m */,
 				28D4AEA21526C494007D88F7 /* MenuManager.h */,
 				28D4AEA31526C494007D88F7 /* MenuManager.m */,
-				0811970017FFE3E00049BBFC /* FrameSelectionController.h */,
-				081196FF17FFE3E00049BBFC /* FrameSelectionController.m */,
-				081196FD17FFE3BF0049BBFC /* FrameSelectionView.h */,
-				081196FC17FFE3BF0049BBFC /* FrameSelectionView.m */,
+				0811970017FFE3E00049BBFC /* FrameSelectionControllerOLD.h */,
+				081196FF17FFE3E00049BBFC /* FrameSelectionControllerOLD.m */,
 				28C9EAE0152546A500E3E8E4 /* InitSessionManager.h */,
 				28C9EAE415269A6A00E3E8E4 /* FrameViewController.h */,
 				28C9EAE515269A6A00E3E8E4 /* FrameViewController.m */,
@@ -1462,8 +1463,6 @@
 				28C9EAE1152546A600E3E8E4 /* InitSessionManager.m */,
 				9F250A8514FC6F2600E14565 /* Session.h */,
 				9F250A8614FC6F2600E14565 /* Session.m */,
-				287AB0011516A51F00D31761 /* FrameButton.h */,
-				287AB0021516A52100D31761 /* FrameButton.m */,
 				9F250A7B14FC6E1100E14565 /* Frame.h */,
 				9F250A7C14FC6E1100E14565 /* Frame.m */,
 				9FED9876150303BB001F276F /* Adjustor.h */,
@@ -1788,11 +1787,12 @@
 				3C9CA463185AF56900DCC5B1 /* UIImage+Alpha.m in Sources */,
 				53D31E842A1646A200F915AC /* DGActivityIndicatorNineDotsAnimation.m in Sources */,
 				3C9CA464185AF56900DCC5B1 /* UIImage+Resize.m in Sources */,
-				53431FDA26B2772E008EAF32 /* FrameScrollView.m in Sources */,
 				3C9CA465185AF56900DCC5B1 /* UIImage+RoundedCorner.m in Sources */,
 				18A656262D5E6F5200D23A20 /* SliderViewController.swift in Sources */,
 				3C9CA466185AF56900DCC5B1 /* Reachability.m in Sources */,
 				3C9CA467185AF56900DCC5B1 /* Settings.m in Sources */,
+				DB96A6062ECD83F8003D5BCC /* FrameItem.m in Sources */,
+				DB96A6072ECD83F8003D5BCC /* FrameSelectionController.m in Sources */,
 				18E660BA2D836D8500489DFA /* FilterCell.swift in Sources */,
 				3C9CA599188D07BE00E36B99 /* Effects.m in Sources */,
 				180EF90D2D8C923400826CB2 /* EffectsViewController.swift in Sources */,
@@ -1808,7 +1808,6 @@
 				3C9CA46B185AF56900DCC5B1 /* SessionDB.m in Sources */,
 				53431FDC26B2772E008EAF32 /* GridView.m in Sources */,
 				5343200B26B291A8008EAF32 /* UIImage+ANImageBitmapRep.m in Sources */,
-				3C9CA470185AF56900DCC5B1 /* FrameButton.m in Sources */,
 				189843542D529F4300F5CF07 /* UIImage+withPadding.swift in Sources */,
 				3C9CA472185AF56900DCC5B1 /* InitSessionManager.m in Sources */,
 				5343201426B291A8008EAF32 /* BitmapContextRep.m in Sources */,
@@ -1833,7 +1832,7 @@
 				18DC1FCE2D67AD59001EE7C6 /* FilteredStickerCell.swift in Sources */,
 				3C9CA491185AF56900DCC5B1 /* PopupMenu.m in Sources */,
 				3C9CA492185AF56900DCC5B1 /* ImageSelectionHandler.m in Sources */,
-				3C9CA494185AF56900DCC5B1 /* FrameSelectionController.m in Sources */,
+				DB49E8872ECDA05900622782 /* FrameCell.m in Sources */,
 				3C9CA495185AF56900DCC5B1 /* ssivView.m in Sources */,
 				3C9CA497185AF56900DCC5B1 /* InAppPurchaseManager.m in Sources */,
 				5343200C26B291A8008EAF32 /* NSImage+ANImageBitmapRep.m in Sources */,
@@ -1890,7 +1889,6 @@
 				53D31E722A1646A200F915AC /* DGActivityIndicatorBallScaleRippleMultipleAnimation.m in Sources */,
 				18F20BDA2D4C1ED4004D0D14 /* BackgroundSelectionViewController.swift in Sources */,
 				53D31E6D2A1646A200F915AC /* DGActivityIndicatorDoubleBounceAnimation.m in Sources */,
-				3C9CA4D6185AF56900DCC5B1 /* FrameSelectionView.m in Sources */,
 				3C31667F187E6A9E009E01E8 /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
 				814BDA4325A6ED6E00C61DDA /* DEMONavigationController.m in Sources */,
 				53D31E6F2A1646A200F915AC /* DGActivityIndicatorBallScaleRippleAnimation.m in Sources */,
@@ -1942,24 +1940,28 @@
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"$(SRCROOT)/**",
+					"$(inherited)",
+					"$(SRCROOT)",
 				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)//Supporting Files/VideoFrames-Prefix.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Supporting Files/VideoFrames-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
 					VideoCollage,
 					"DEBUG=1",
-					"$(inherited)",
 				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "$(inherited)";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"$(SDKROOT)/usr/include/libxml2/**",
+					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
 					"\"$(SRCROOT)/CTAssetsPickerController\"",
 					"\"$(SRCROOT)/Pods/RSColorPicker\"",
+					"$(SRCROOT)/PicFrames",
 				);
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollage/VideoFrames-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VideoCollage;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2005,20 +2007,27 @@
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"$(SRCROOT)/**",
+					"$(inherited)",
+					"$(SRCROOT)",
 				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)//Supporting Files/VideoFrames-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = VideoCollage;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Supporting Files/VideoFrames-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					VideoCollage,
+				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "$(inherited)";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"$(SDKROOT)/usr/include/libxml2/**",
+					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
 					"\"$(SRCROOT)/CTAssetsPickerController\"",
 					"\"$(SRCROOT)/Pods/RSColorPicker\"",
+					"$(SRCROOT)/PicFrames",
 				);
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollage/VideoFrames-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VideoCollage;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2064,20 +2073,27 @@
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"$(SRCROOT)/**",
+					"$(inherited)",
+					"$(SRCROOT)",
 				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)//Supporting Files/VideoFrames-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = VideoCollage;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Supporting Files/VideoFrames-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					VideoCollage,
+				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "$(inherited)";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"$(SDKROOT)/usr/include/libxml2/**",
+					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
 					"\"$(SRCROOT)/CTAssetsPickerController\"",
 					"\"$(SRCROOT)/Pods/RSColorPicker\"",
+					"$(SRCROOT)/PicFrames",
 				);
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollage/VideoFrames-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VideoCollage;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

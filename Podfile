@@ -4,20 +4,22 @@ target 'VideoFrames' do
   use_frameworks! :linkage => :static   # ✅ allows Swift + ObjC pods together
   # remove use_modular_headers!
 
-  pod 'SBJson', '~> 3.2'
+  pod 'SBJson4'
   pod 'CMPopTipView', '~> 2.0.0'
   pod 'Google-Mobile-Ads-SDK'
   pod 'GPUImage', '~> 0.1.2'
   pod 'CTAssetsPickerController'
 
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Messaging'
-  pod 'Firebase/RemoteConfig'
-  pod 'Firebase/DynamicLinks'
-  pod 'Firebase/Crashlytics'
 
-  # Firebase/Core is deprecated — remove it
-  # pod 'Firebase/Core'
+
+	pod 'FirebaseAnalytics'
+	pod 'FirebaseCrashlytics'
+	pod 'FirebaseMessaging'
+	pod 'FirebaseRemoteConfig'
+	pod 'FirebaseDynamicLinks'   # Deprecated, but still installable
+
+
+  
 
   pod 'BAShimmerButton'
   pod 'TYCyclePagerView'

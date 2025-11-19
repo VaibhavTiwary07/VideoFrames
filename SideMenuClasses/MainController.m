@@ -6,6 +6,7 @@
 //
 #import <stdlib.h>
 #import "MainController.h"
+@import FirebaseAnalytics;
 #import "kxmenu.h"
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>

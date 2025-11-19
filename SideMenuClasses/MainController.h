@@ -19,8 +19,8 @@
 #import "UploadHandler.h"
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
-#if defined(APP_INSTAPICFRAMES)
 #import "FrameGridView.h"
+#if defined(APP_INSTAPICFRAMES)
 #import "InitSessionManager.h"
 #import "MenuManager.h"
 #endif
@@ -37,7 +37,8 @@
 
 #import "CustomUI.h"
 #import "PopoverView.h"
-//#import "PopupMenu.h"
+#import "SNPopupView.h"
+#import "PopupMenu.h"
 //#import <PopUpMenu/PopupMenu.h>
 #import "ImageSelectionHandler.h"
 #import "Config.h"
@@ -45,8 +46,6 @@
 #if SHAPE_CHAGING_SUPPORT
 #import "sgwController.h"
 #endif
-#import "FrameSelectionController.h"
-#import "FrameScrollView.h"
 //#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 //#import "CEMovieMaker.h"
@@ -61,18 +60,18 @@
 #import <StoreKit/StoreKit.h>
 #import "DXPopover.h"
 #import "LoadingClass.h"
-#import "VideoFrames-Bridging-Header.h"
 #import "Effects.h"
 
+
 @import GoogleMobileAds;
-@import Firebase;
+@import FirebaseCore;
 
-
-
+// Forward declarations
+@class FrameSelectionController;
 
 @interface MainController : UIViewController
 
-<UITabBarDelegate,UINavigationControllerDelegate,RSColorPickerViewDelegate,GridViewDelegate,MFMailComposeViewControllerDelegate,FrameGridViewDelegate,UIImagePickerControllerDelegate,SNPopupViewModalDelegate,UIDocumentInteractionControllerDelegate,PopupMenuDelegate,GADFullScreenContentDelegate,SKRequestDelegate>
+<UITabBarDelegate,UINavigationControllerDelegate,RSColorPickerViewDelegate,GridViewDelegate,MFMailComposeViewControllerDelegate,GridViewDelegate,UIImagePickerControllerDelegate,SNPopupViewModalDelegate,UIDocumentInteractionControllerDelegate,PopupMenuDelegate,GADFullScreenContentDelegate,SKRequestDelegate>
 //GADInterstitialDelegate
 {
     UIView *bgview2;

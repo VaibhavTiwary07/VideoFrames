@@ -12,6 +12,7 @@
 #import "SRSubscriptionModel.h"
 #import <StoreKit/StoreKit.h>
 #import "Config.h"
+@import FirebaseAnalytics;
 
 
 NSString *const kSandboxServer = @"https://sandbox.itunes.apple.com/verifyReceipt";

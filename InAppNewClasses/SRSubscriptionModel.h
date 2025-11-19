@@ -36,7 +36,7 @@
 //#import "SubscriptionPage.h"
 //#import "UniversalLayout.h"
 #import "SimpleSubscriptionView.h"
-@import Firebase;
+@import FirebaseCore;
 
 extern NSString *const kStoreKitSecret;
 extern NSString *const kSubscriptionActive;

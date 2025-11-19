@@ -5,25 +5,6 @@ PODS:
   - CTAssetsPickerController (3.3.1):
     - PureLayout (~> 3.0.0)
   - DXPopover (0.1.1)
-  - Firebase/Analytics (11.15.0):
-    - Firebase/Core
-  - Firebase/Core (11.15.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 11.15.0)
-  - Firebase/CoreOnly (11.15.0):
-    - FirebaseCore (~> 11.15.0)
-  - Firebase/Crashlytics (11.15.0):
-    - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 11.15.0)
-  - Firebase/DynamicLinks (11.15.0):
-    - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 11.15.0)
-  - Firebase/Messaging (11.15.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 11.15.0)
-  - Firebase/RemoteConfig (11.15.0):
-    - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 11.15.0)
   - FirebaseABTesting (11.15.0):
     - FirebaseCore (~> 11.15.0)
   - FirebaseAnalytics (11.15.0):
@@ -168,7 +149,7 @@ PODS:
     - PromisesObjC (= 2.4.0)
   - PureLayout (3.0.2)
   - REFrostedViewController (2.4.8)
-  - SBJson (3.2)
+  - SBJson4 (4.0.5)
   - SWSnapshotStackView (0.0.1)
   - THLabel (1.4.10)
   - TYCyclePagerView (1.2.0)
@@ -180,17 +161,17 @@ DEPENDENCIES:
   - CMPopTipView (~> 2.0.0)
   - CTAssetsPickerController
   - DXPopover
-  - Firebase/Analytics
-  - Firebase/Crashlytics
-  - Firebase/DynamicLinks
-  - Firebase/Messaging
-  - Firebase/RemoteConfig
+  - FirebaseAnalytics
+  - FirebaseCrashlytics
+  - FirebaseDynamicLinks
+  - FirebaseMessaging
+  - FirebaseRemoteConfig
   - Google-Mobile-Ads-SDK
   - GPUImage (~> 0.1.2)
   - lottie-ios (= 2.5.3)
   - PopoverView
   - REFrostedViewController
-  - SBJson (~> 3.2)
+  - SBJson4
   - SWSnapshotStackView
   - THLabel (~> 1.4.0)
   - TYCyclePagerView
@@ -203,7 +184,6 @@ SPEC REPOS:
     - CMPopTipView
     - CTAssetsPickerController
     - DXPopover
-    - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
     - FirebaseCore
@@ -231,7 +211,7 @@ SPEC REPOS:
     - PromisesSwift
     - PureLayout
     - REFrostedViewController
-    - SBJson
+    - SBJson4
     - SWSnapshotStackView
     - THLabel
     - TYCyclePagerView
@@ -243,7 +223,6 @@ SPEC CHECKSUMS:
   CMPopTipView: 54edc952102b76a19c5c2f2d4cedae8b683b8ab4
   CTAssetsPickerController: b1d1d50ab87cf6b8b13531de5f4530482e7e53ed
   DXPopover: 13e6bbd1a0da4e62b2190de51f43a94850769e0f
-  Firebase: d99ac19b909cd2c548339c2241ecd0d1599ab02e
   FirebaseABTesting: 5e9d432834aebf27ab72100d37af44dfbe8d82f7
   FirebaseAnalytics: 6433dfd311ba78084fc93bdfc145e8cb75740eae
   FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
@@ -271,12 +250,12 @@ SPEC CHECKSUMS:
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
   REFrostedViewController: a893b4979ba1f200c547aef9ff4c3fd5a18f5923
-  SBJson: 9626892a7dc75ccaa2aad207ed4e4f73d6762846
+  SBJson4: e1aa705a4104e83fd250420709a57de5efae96ff
   SWSnapshotStackView: 53f0b1d182f1e6f0a106aa642e7307086b20be0a
   THLabel: 3fc93a0f01f74e4eec7574df2819e576d57150b3
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   WCAlertView: 36a1d087d0b3eb7f6ce3dae623fbb474f26f2beb
 
-PODFILE CHECKSUM: 24fc23a7018a517cbb5bbe749cd4531cc7175c44
+PODFILE CHECKSUM: b7ecab67278e0a68c4862a6849a27a08e83c926c
 
 COCOAPODS: 1.16.2

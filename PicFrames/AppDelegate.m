@@ -13,8 +13,8 @@
 #import "DEMOMenuViewController.h"
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import <AdSupport/AdSupport.h>
-#import <Firebase/Firebase.h>
-#import <FirebaseDynamicLinks/FirebaseDynamicLinks.h>
+@import FirebaseCore;
+@import FirebaseDynamicLinks;
 #import "VideoCollage-Swift.h"
 #import "VideoFrames-Bridging-Header.h"
 #import <StoreKit/StoreKit.h>
@@ -224,7 +224,8 @@
         [application endBackgroundTask:self.backgroundTask];
         self.backgroundTask = UIBackgroundTaskInvalid;
     }
-    [FrameSelectionController handleIfAnySocialFollowInProgress];
+    // Social follow handling removed - not used in refactored FrameSelectionController
+    // [FrameSelectionController handleIfAnySocialFollowInProgress];
 }
 
 //- (void)applicationWillEnterForeground:(UIApplication *)application
