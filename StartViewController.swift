@@ -59,7 +59,7 @@ import UserMessagingPlatform
     var rateUsRemoteCount: Int = 0 // Int property for rate us count
     var subscriptionMode: Int = 0 // Int property for subscription mode
     var native_homeCount: Int = 0
-    var interestial_HomeString: String?
+    // UNUSED: var interestial_HomeString: String?
     var interestial_ShareString: String?
     var interestial_HomeButtonClickString: String?
     var interestial_Launch: String?
@@ -663,12 +663,14 @@ import UserMessagingPlatform
     
     
     
+    // UNUSED:
+    /*
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
-        
+
         let widthRatio  = targetSize.width  / size.width
         let heightRatio = targetSize.height / size.height
-        
+
         // Figure out what our orientation is, and use that to form the rectangle
         var newSize: CGSize
         if(widthRatio > heightRatio) {
@@ -676,18 +678,19 @@ import UserMessagingPlatform
         } else {
             newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
         }
-        
+
         // This is the rect that we've calculated out and this is what is actually used below
         let rect = CGRect(origin: .zero, size: newSize)
-        
+
         // Actually do the resizing to the rect using the ImageContext stuff
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         image.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         return newImage!
     }
+    */
     
     @objc func menuButtonTapped() {
         if isMenuVisible {
@@ -801,10 +804,13 @@ extension StartViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    // UNUSED:
+    /*
     func showSubscriptionView() {
         let subscriptionView = SimpleSubscriptionView()
         navigationController?.pushViewController(subscriptionView, animated: true)
     }
+    */
     
     @objc func promptForRating() {
         
@@ -1437,11 +1443,14 @@ class DotIndicatorView: UIView {
 }
 
 
+// UNUSED:
+/*
 extension UIView {
     var isAnimating: Bool {
         return layer.animationKeys()?.isEmpty == false
     }
 }
+*/
 
 extension StartViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

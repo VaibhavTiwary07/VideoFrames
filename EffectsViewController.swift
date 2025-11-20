@@ -21,10 +21,10 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
     let small_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.25) : (UIScreen.main.bounds.height * 0.25)
     let verySmall_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.15) : (UIScreen.main.bounds.height * 0.18)
     var heightOfTitleBar : CGFloat = 60
-    let heightConstant : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 80 : UIScreen.main.bounds.height*0.075
+    // UNUSED: let heightConstant : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 80 : UIScreen.main.bounds.height*0.075
     let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 10 : 5
-    let cellsize : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 60 : UIScreen.main.bounds.height*0.06
-    var initialBounds: CGRect?
+    // UNUSED: let cellsize : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 60 : UIScreen.main.bounds.height*0.06
+    // UNUSED: var initialBounds: CGRect?
    
     var topView: ShadowContainerView = {
         let view = ShadowContainerView()
@@ -68,11 +68,14 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
     
     var effectsCollectionView: UICollectionView!
     
+    // UNUSED:
+    /*
     var selectedTypeIndex: Int = 0 {
         didSet {
             print("new index selected")
         }
     }
+    */
     
     @objc func handleNotification(_ notification: Notification) {
         print("Notification received: \(notification)")
@@ -119,11 +122,14 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
         setupCollectionViews()
     }
     
+    // UNUSED:
+    /*
     func didTapButton(in cell: FilterCell) {
         if let indexPath = effectsCollectionView.indexPath(for: cell) {
             print("Button tapped in cell at index: \(indexPath.row)")
         }
     }
+    */
     
 //    override func viewDidAppear(_ animated: Bool) {
 //        super.viewDidAppear(animated)
@@ -305,6 +311,8 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     }
     
+    // UNUSED:
+    /*
     func scaleWithCABasicAnimation(_ view: UIView, scale: CGFloat, duration: CFTimeInterval) {
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.fromValue = 0
@@ -314,7 +322,7 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
         scaleAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         view.layer.add(scaleAnimation, forKey: "scale")
     }
-    
+
     func scaleView(_ view: UIView, scale: CGFloat, duration: TimeInterval) {
         UIView.animate(withDuration: duration,
                        delay: 0,
@@ -329,6 +337,7 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
             }
         }
     }
+    */
     
     
     
@@ -359,18 +368,23 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
             }
     }
     
+    // UNUSED:
+    /*
     func MoveUIUP()
     {
         let myNotificationName = Notification.Name("BringUIUP")
         NotificationCenter.default.post(name: myNotificationName, object: nil, userInfo: nil)
     }
-    
+    */
+
     func MoveUIDown()
     {
         let myNotificationName = Notification.Name("BringUIBacktoNormal")
         NotificationCenter.default.post(name: myNotificationName, object: nil, userInfo: nil)
     }
-    
+
+    // UNUSED:
+    /*
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
         return true
     }
@@ -380,4 +394,5 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
         let dismissedVC = presentationController.presentedViewController
         print("Dismissed ViewController: \(type(of: dismissedVC))")
     }
+    */
 }

@@ -65,7 +65,7 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
     var verySmall :UISheetPresentationController.Detent = .medium()
     var small :UISheetPresentationController.Detent = .medium()
      var heightConstraint: NSLayoutConstraint?
-    let screenWidth : CGFloat  = UIScreen.main.bounds.width
+    // UNUSED: let screenWidth : CGFloat  = UIScreen.main.bounds.width
     let screenHeight : CGFloat = UIScreen.main.bounds.height
     let small_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.25) : (UIScreen.main.bounds.height * 0.25)
     let verySmall_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.15) : (UIScreen.main.bounds.height * 0.18)
@@ -73,7 +73,7 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
     let heightConstant : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 80 : UIScreen.main.bounds.height*0.075
     let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 10 : 5
     let cellsize : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 60 : UIScreen.main.bounds.height*0.06
-    var initialBounds: CGRect?
+    // UNUSED: var initialBounds: CGRect?
 //    var topView: UIView = {
 //        let view = UIView()
 //        view.backgroundColor = .clear //UIColor(red: 48.0/255.0, green: 51.0/255.0, blue: 58.0/255.0, alpha: 1.0)
@@ -800,6 +800,8 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
         }
     }
     
+    // UNUSED:
+    /*
     func scaleWithCABasicAnimation(_ view: UIView, scale: CGFloat, duration: CFTimeInterval) {
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.fromValue = 0
@@ -809,7 +811,7 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
         scaleAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         view.layer.add(scaleAnimation, forKey: "scale")
     }
-    
+
     func scaleView(_ view: UIView, scale: CGFloat, duration: TimeInterval) {
         UIView.animate(withDuration: duration,
                        delay: 0,
@@ -824,6 +826,7 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
             }
         }
     }
+    */
   
     
     func openSettings() {
@@ -951,11 +954,14 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
         NotificationCenter.default.post(name: myNotificationName, object: nil, userInfo: nil)
     }
     
+    // UNUSED:
+    /*
     func MoveUINormal()
     {
         let myNotificationName = Notification.Name("BringUIBacktoNormal")
         NotificationCenter.default.post(name: myNotificationName, object: nil, userInfo: nil)
     }
+    */
     
     func showColorPicker() {
 //           let colorPicker = UIColorPickerViewController()
@@ -1009,6 +1015,8 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
         present(colorPicker, animated: true)
        }
      
+    // UNUSED:
+    /*
     func openColorPicker()
     {
         MoveUIDown()
@@ -1027,6 +1035,7 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
         }
         present(colorPicker, animated: true, completion: nil)
     }
+    */
     
     func presentImagePicker()
     {
@@ -1060,9 +1069,12 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
         print("Final selected color: \(viewController.selectedColor)")
     }
     
+    // UNUSED:
+    /*
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
         return true
     }
+    */
 
     
     // Delegate callback for PHPickerViewController
@@ -1111,10 +1123,13 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
          NotificationCenter.default.post(name: myNotificationName, object: nil, userInfo: params)
      }
     
+    // UNUSED:
+    /*
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         print("Sheet was dismissed")
         let dismissedVC = presentationController.presentedViewController
             print("Dismissed ViewController: \(type(of: dismissedVC))")
     }
+    */
     
 }

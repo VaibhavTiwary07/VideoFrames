@@ -21,7 +21,7 @@ class SliderViewController: UIViewController{
     let shadowLabel = UILabel()
     var heightOfTitleBar : CGFloat = 60
     let screenWidth : CGFloat  = UIScreen.main.bounds.width
-    let screenHeight : CGFloat = UIScreen.main.bounds.height
+    // UNUSED: let screenHeight : CGFloat = UIScreen.main.bounds.height
     let RADIUS_SETTINGS_MAXIMUM: Float = 60
     let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 10 : 5
     var layoutOffset : CGFloat = UIScreen.main.bounds.height * 0.0145

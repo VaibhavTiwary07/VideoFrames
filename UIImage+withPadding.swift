@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+// UNUSED: All functions in this file are not used in current app flow
+/*
 extension UIImage {
     func withPadding(_ insets: UIEdgeInsets) -> UIImage? {
         let newSize = CGSize(width: self.size.width + insets.left + insets.right,
@@ -21,7 +23,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return paddedImage
     }
-    
+
 }
 extension UIImage {
     func resizedAspectFit(to maxSize: CGSize) -> UIImage? {
@@ -43,3 +45,4 @@ extension UIImage {
         }
     }
 }
+*/

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class CategoryCell: UICollectionViewCell {
-    static let identifier = "CategoryCell"
+    // UNUSED: static let identifier = "CategoryCell"
     
     // Add an image view
 //    private let imageView: UIImageView = {
@@ -58,9 +58,12 @@ class CategoryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // UNUSED:
+    /*
     // Configure the cell with data
-    func configure(text: String) {//imageName: String, 
+    func configure(text: String) {//imageName: String,
       //  imageView.image = UIImage(named: imageName)
         label.text = text
     }
+    */
 }

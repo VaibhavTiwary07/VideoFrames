@@ -145,6 +145,8 @@ class TypeBGCell: UICollectionViewCell {
         func didTapButton(in cell: TypeBGCell)
     }
 
+// UNUSED:
+/*
 extension UIImage {
     static func from(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
         let rect = CGRect(origin: .zero, size: size)
@@ -156,3 +158,4 @@ extension UIImage {
         return image ?? UIImage()
     }
 }
+*/

@@ -1,0 +1,6 @@
+retain_objc_accessible: true
+schemes:
+- VideoFrames
+targets:
+- VideoFrames
+workspace: VideoFrames.xcworkspace

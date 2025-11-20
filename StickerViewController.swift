@@ -41,9 +41,9 @@ class StickerViewController: UIViewController, UIScrollViewDelegate,UITextFieldD
     let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 10 : 5
     weak var delegate: StickerViewControllerDelegate?
     var allStickerfileNames:[String] = []
-    var categories: [String] = []
-    var categorizedImages: [String: [ImageAsset]] = [:]
-    var stickerArray: [String] = []
+    // UNUSED: var categories: [String] = []
+    // UNUSED: var categorizedImages: [String: [ImageAsset]] = [:]
+    // UNUSED: var stickerArray: [String] = []
     // var listCategory :ListCategory
    // var categoryElements:[CategoryElement] = []
     var stickerData: StickerData?

@@ -201,15 +201,15 @@
 #define IPAD_POPOVER_HEIGHT 700.0
 
 /* Application theame related settings */
-#define PHOTO_DEFAULT_COLOR_R (0.08f)
-#define PHOTO_DEFAULT_COLOR_G (0.08f)
-#define PHOTO_DEFAULT_COLOR_B (0.08f)
+#define PHOTO_DEFAULT_COLOR_R (0.0f)
+#define PHOTO_DEFAULT_COLOR_G (0.0f)
+#define PHOTO_DEFAULT_COLOR_B (0.0f)
 #define PHOTO_DEFAULT_COLOR_A (1.0f)
 
 #define PHOTO_DEFAULT_COLOR ([UIColor colorWithRed:PHOTO_DEFAULT_COLOR_R green:PHOTO_DEFAULT_COLOR_G blue:PHOTO_DEFAULT_COLOR_B alpha:PHOTO_DEFAULT_COLOR_A])
 
-// Dark gray background for all screens
-#define DARK_GRAY_BG [UIColor colorWithRed:0.08 green:0.08 blue:0.08 alpha:1]
+// Black background for all screens
+#define DARK_GRAY_BG [UIColor colorWithRed:0 green:0 blue:0 alpha:1]
 
 #define popup_color ([UIColor colorWithRed:28/255.5 green:31/255.0 blue:38/255.0 alpha:1.0])
 //102,154,174

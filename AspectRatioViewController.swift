@@ -14,7 +14,7 @@ class AspectRatioViewController: UIViewController, UICollectionViewDelegate, UIC
     let screenHeight : CGFloat = UIScreen.main.bounds.height
     let small_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.25) : (UIScreen.main.bounds.height * 0.25)
  //   let mediumSmall_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.18) : (UIScreen.main.bounds.height * 0.20)
-    let verySmall_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.15) : (UIScreen.main.bounds.height * 0.15)
+    // UNUSED: let verySmall_DetentHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? (UIScreen.main.bounds.height * 0.15) : (UIScreen.main.bounds.height * 0.15)
     var heightOfTitleBar : CGFloat = 60
     let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 10 : 5
     
@@ -201,6 +201,8 @@ class AspectRatioViewController: UIViewController, UICollectionViewDelegate, UIC
 //        }
 //    }
     
+    // UNUSED:
+    /*
     private func setupRoundedCorners() {
         let path = UIBezierPath(roundedRect: topView.bounds,
                                    byRoundingCorners: [.topLeft, .topRight],
@@ -212,6 +214,7 @@ class AspectRatioViewController: UIViewController, UICollectionViewDelegate, UIC
         // Apply shadow using a separate shadowPath to match the view shape
         topView.layer.shadowPath = path.cgPath
        }
+    */
     
 //    func applySubtle3DTransformTotopView() {
 //        // Add subtle 3D shadow to the bottom view for a smooth, refined look
@@ -252,10 +255,13 @@ class AspectRatioViewController: UIViewController, UICollectionViewDelegate, UIC
         print("vertical direction, screen width ",screenWidth,screenWidth)
     }
     
+    // UNUSED:
+    /*
     // Update collection view data
     func updateCollectionView() {
         stickersCollectionView.reloadData()  // Reload collection view with new data
     }
+    */
     
     
     
@@ -609,10 +615,13 @@ class AspectRatioViewController: UIViewController, UICollectionViewDelegate, UIC
         NotificationCenter.default.post(name: myNotificationName, object: nil, userInfo: nil)
     }
     
+    // UNUSED:
+    /*
     func MoveUIUP()
     {
         let myNotificationName = Notification.Name("BringUIUP")
         NotificationCenter.default.post(name: myNotificationName, object: nil, userInfo: nil)
     }
+    */
     
 }

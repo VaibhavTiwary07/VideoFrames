@@ -4,7 +4,7 @@
  *
  * Copyright (c) Yuichi YOSHIDA, 10/12/07.
  * All rights reserved.
- * 
+ *
  * BSD License
  *
  * Redistribution and use in source and binary forms, with or without modification, are 

@@ -7,11 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
+// #import "ViewController.h"  // DEPRECATED - Not used in current app flow
 #import "Appirater.h"
 #import "Config.h"
-#import "DEMONavigationController.h"
-#import "DEMOMenuViewController.h"
+// #import "DEMONavigationController.h"  // DEPRECATED - Old side menu, not used
+// #import "DEMOMenuViewController.h"  // DEPRECATED - Old side menu, not used
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import <AdSupport/AdSupport.h>
 @import FirebaseCore;
@@ -149,11 +149,13 @@
         
         return YES;
 
-     //Existing one
-    
-    /* Set default setting of app booted to YES */
+    // DEPRECATED - Unreachable code below (early return above)
+    /*
+    // Existing one
+
+    // Set default setting of app booted to YES
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"applicationbooted"];
-    
+
     [self customizeAlertviewLook];
 
     [Appirater setAppId:iosAppIdString];
@@ -162,8 +164,8 @@
     [Appirater setTimeBeforeReminding:1];
     [Appirater setSignificantEventsUntilPrompt:1];
 
- 
     return YES;
+    */
 }
 
 

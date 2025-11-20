@@ -4274,33 +4274,38 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     
     sessionFrameColor = [UIColor whiteColor];
     
-    UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
-    [appearance configureWithOpaqueBackground];
-    appearance.backgroundColor = [UIColor clearColor]; //PHOTO_DEFAULT_COLOR; // Change to your preferred color
-    appearance.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]}; // Title color
-    // Create rounded background image
-    UIImage *roundedImage = [self createRoundedNavBarImageWithColor:PHOTO_DEFAULT_COLOR cornerRadius:20];
-    [appearance setBackgroundImage:roundedImage];
-    
-    self.navigationController.navigationBar.standardAppearance = appearance;
-    self.navigationController.navigationBar.scrollEdgeAppearance = appearance;
-    self.navigationController.navigationBar.compactAppearance = appearance;
-    
+    // Navigation bar appearance (matching FrameSelectionController style)
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+        [appearance configureWithTransparentBackground];
+        appearance.backgroundColor = [UIColor blackColor];
+        appearance.shadowColor = nil;
+        appearance.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor],
+            NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
+        };
+        self.navigationController.navigationBar.standardAppearance = appearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = appearance;
+        self.navigationController.navigationBar.compactAppearance = appearance;
+    } else {
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+        self.navigationController.navigationBar.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor],
+            NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
+        };
+    }
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
     backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_svg"]
                                                   style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
     // Set the custom back button as the left bar button item
     self.navigationItem.leftBarButtonItem = backButton;
     doneLockedRightBarButton = [self createLockDoneButton];
-    doneUnlockedRightBarButton = [self createUnlockDoneButton];//[self createDoneButton:NO];
+    doneUnlockedRightBarButton = [self createUnlockDoneButton];
     homeRightBarButton = [self createHomeAsRightButton];
-    float textFont = 10;
-    if(UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)
-        textFont = 25;
-    else textFont = 18;
-    [self.navigationController.navigationBar setTitleTextAttributes:@{
-        NSFontAttributeName: [UIFont boldSystemFontOfSize:textFont],
-        NSForegroundColorAttributeName: [UIColor whiteColor]
-    }];
     
     
     alertShownCount = 0;
@@ -4369,7 +4374,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     
     //[self loadInterstitial2];
     mainBackground = [[UIView alloc]initWithFrame:self.view.frame ];
-    mainBackground.backgroundColor = [UIColor clearColor];
+    mainBackground.backgroundColor = [UIColor blackColor];
     mainBackground.tag = mainBGTag;
     mainBackground.userInteractionEnabled = YES;
     imgview = [[UIView alloc]initWithFrame:self.view.frame ];
@@ -4411,7 +4416,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     //Bottom2//
     if(UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)
     {
-        imgview.backgroundColor=[UIColor colorWithRed:48.0/255.0 green:51.0/255.0 blue:58.0/255.0 alpha:1.0];
+        imgview.backgroundColor=[UIColor blackColor];
         
         //        if (@available(iOS 11.0, *)) {
         //            if (SafeAreaBottomPadding > 0) {
@@ -4432,7 +4437,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     }
     else
     {
-        imgview.backgroundColor=[UIColor colorWithRed:48.0/255.0 green:51.0/255.0 blue:58.0/255.0 alpha:1.0];
+        imgview.backgroundColor=[UIColor blackColor];
         //        //safe area here //
         //        if (@available(iOS 11.0, *)) {
         //            if (SafeAreaBottomPadding > 0) {
@@ -6247,7 +6252,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
 {
     UIImageView *bgnd = [[UIImageView alloc]initWithFrame:rect];
     UIImageView *color = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, bgnd.frame.size.width, bgnd.frame.size.height)];
-    color.backgroundColor = [UIColor colorWithRed:28/255.0 green:31/255.0 blue:38/255.0 alpha:1.0];
+    color.backgroundColor = [UIColor blackColor];
     //color.backgroundColor = [UIColor colorWithRed:102/255.0 green:154/255.0 blue:174/255.0 alpha:1.0];
     //color.backgroundColor=[UIColor whiteColor];
     [bgnd addSubview:color];

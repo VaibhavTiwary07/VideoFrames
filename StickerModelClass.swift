@@ -18,6 +18,8 @@ struct StickerData: Codable {
     let categories: [StickerCategory]
 }
 
+// UNUSED:
+/*
 struct ImageAsset: Codable {
     let name: String
     let fileName: String
@@ -32,6 +34,7 @@ struct ListCategory:Codable
 {
     let list : [ImageCategories]
 }
+*/
 
 //struct CategoryElement
 //{

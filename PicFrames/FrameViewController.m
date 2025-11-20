@@ -94,6 +94,31 @@
     
     self.navigationController.navigationBarHidden = NO;
     self.title = NSLocalizedString(@"Frames",@"Frames");
+
+    // Navigation bar styling - matching FrameSelectionController
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+        [appearance configureWithTransparentBackground];
+        appearance.backgroundColor = [UIColor blackColor];
+        appearance.shadowColor = nil;
+        appearance.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor],
+            NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
+        };
+        self.navigationController.navigationBar.standardAppearance = appearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = appearance;
+        self.navigationController.navigationBar.compactAppearance = appearance;
+    } else {
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+        self.navigationController.navigationBar.titleTextAttributes = @{
+            NSForegroundColorAttributeName: [UIColor whiteColor],
+            NSFontAttributeName: [UIFont boldSystemFontOfSize:17]
+        };
+    }
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 

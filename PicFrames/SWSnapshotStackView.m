@@ -5,8 +5,8 @@
  ** \author Scott White (support@scottwhite.id.au, http://github.com/snwau)
  **
  ** Snapshot Stack View provides an easy means of decorating your UIImage's
- ** of any aspect ratio with a rendered matte frame and associated drop 
- ** shadow. It also may render your image to look as though it is the top 
+ ** of any aspect ratio with a rendered matte frame and associated drop
+ ** shadow. It also may render your image to look as though it is the top
  ** photograph (or snapshot) within a stack of shots.
  **
  ** Copyright (c) 2012 Scott White. All rights reserved.

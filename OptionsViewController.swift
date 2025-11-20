@@ -11,8 +11,8 @@ class OptionsViewController: UIViewController, UICollectionViewDelegate, UIColle
    
     var optionsList: [Option] = []
     let screenWidth : CGFloat  = UIScreen.main.bounds.width
-    let screenHeight : CGFloat = UIScreen.main.bounds.height
-    let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 10 : 5
+    // UNUSED: let screenHeight : CGFloat = UIScreen.main.bounds.height
+    // UNUSED: let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 10 : 5
     let topAnchorConstant : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 12 : 8
     let viewHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 70
 
@@ -59,12 +59,15 @@ class OptionsViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     
     
+    // UNUSED:
+    /*
     var selectedCategoryIndex: Int = 0 {
         didSet {
             optionsCollectionView.reloadData()
             print("new index selected")
         }
     }
+    */
     
     var optionsLayout:UICollectionViewFlowLayout!
 
