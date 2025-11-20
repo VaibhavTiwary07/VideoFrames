@@ -14531,6 +14531,7 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
         [self removeAllStickerviewsFromParent];
         [self removeAllEffectVideos]; // It removes all effects video if present when switching to frames view
         [sess initAspectRatio:ASPECTRATIO_1_1];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -14555,66 +14556,18 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
 
 -(UIBarButtonItem *)createLockDoneButton
 {
-    // Create the container UIView
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 75, 30)];  // Adjust size as needed
-    containerView.backgroundColor = UIColor.clearColor;  // Transparent background
-    
-    // Create the main UIImageView (container for label and image)
-    UIImageView *mainImageView = [[UIImageView alloc] initWithFrame:containerView.bounds];
-    mainImageView.contentMode = UIViewContentModeScaleAspectFit;
-    mainImageView.image = [UIImage imageNamed:@"done_lock"];
-    mainImageView.backgroundColor = UIColor.clearColor;  // Background color
-    mainImageView.layer.cornerRadius = 8.0;  // Rounded corners
-    mainImageView.clipsToBounds = YES;
-    [containerView addSubview:mainImageView];
-    
-    // Create the image view
-    UIImageView *iconImageView = [[UIImageView alloc] init];//WithFrame:CGRectMake(10, 5, 30, 30)];
-    iconImageView.image = [UIImage imageNamed:@"lock_done"];  // Use system image or custom image
-    iconImageView.contentMode = UIViewContentModeScaleAspectFit;
-    iconImageView.tintColor = UIColor.whiteColor;  // Image color
-    iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [mainImageView addSubview:iconImageView];
-    
-    // Create the label
-    UILabel *textLabel = [[UILabel alloc] init];//WithFrame:CGRectMake(45, 5, 60, 30)];
-    textLabel.text = @"Done";
-    textLabel.textColor = [UIColor colorWithRed:61.0/255.0 green:27.0/255.0 blue:4.0/255.0 alpha:1];
-    textLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightBold];
-    textLabel.textAlignment = NSTextAlignmentLeft;
-    textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [mainImageView addSubview:textLabel];
-    
-    // Add tap gesture for button-like behavior
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ShareAction)];
-    [containerView addGestureRecognizer:tapGesture];
-    
-    
-    // Auto Layout Constraints
-    [NSLayoutConstraint activateConstraints:@[
-        // Main ImageView constraints
-        [mainImageView.leadingAnchor constraintEqualToAnchor:containerView.leadingAnchor],
-        [mainImageView.trailingAnchor constraintEqualToAnchor:containerView.trailingAnchor],
-        [mainImageView.topAnchor constraintEqualToAnchor:containerView.topAnchor],
-        [mainImageView.bottomAnchor constraintEqualToAnchor:containerView.bottomAnchor],
-        
-        // Icon ImageView constraints (25% width, centered vertically)
-        [iconImageView.leadingAnchor constraintEqualToAnchor:mainImageView.leadingAnchor constant:8],
-        [iconImageView.centerYAnchor constraintEqualToAnchor:mainImageView.centerYAnchor],
-        [iconImageView.widthAnchor constraintEqualToAnchor:mainImageView.widthAnchor multiplier:0.25],
-        [iconImageView.heightAnchor constraintEqualToAnchor:iconImageView.widthAnchor],
-        
-        // TextLabel constraints (remaining width)
-        [textLabel.leadingAnchor constraintEqualToAnchor:iconImageView.trailingAnchor constant:5],
-        [textLabel.trailingAnchor constraintEqualToAnchor:mainImageView.trailingAnchor constant:-5],
-        [textLabel.centerYAnchor constraintEqualToAnchor:mainImageView.centerYAnchor],
-        [textLabel.heightAnchor constraintEqualToAnchor:mainImageView.heightAnchor multiplier:0.75]
-    ]];
-    
-    
-    // Create the UIBarButtonItem
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:containerView];
-    
+    // Disabled state button - dark gray background, white text
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    doneButton.frame = CGRectMake(0, 0, 70, 35);
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    [doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    doneButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    doneButton.backgroundColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1.0];
+    doneButton.layer.cornerRadius = 5.0;
+    doneButton.clipsToBounds = YES;
+    [doneButton addTarget:self action:@selector(ShareAction) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
     return rightBarButton;
 }
 
@@ -14625,54 +14578,28 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
 
 -(UIBarButtonItem *)createUnlockDoneButton
 {
-    // Create the container UIView
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];  // Adjust size as needed
-    containerView.backgroundColor = UIColor.clearColor;  // Transparent background
-    
-    // Create the main UIImageView (container for label and image)
-    UIImageView *mainImageView = [[UIImageView alloc] initWithFrame:containerView.bounds];
-    mainImageView.contentMode = UIViewContentModeScaleAspectFit;
-    mainImageView.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];  // Background color
-    mainImageView.layer.cornerRadius = 15;  // Rounded corners
-    mainImageView.clipsToBounds = YES;
-    [containerView addSubview:mainImageView];
-    
-    
-    
-    // Create the label
-    UILabel *textLabel = [[UILabel alloc] init];//WithFrame:CGRectMake(45, 5, 60, 30)];
-    textLabel.text = @"Done";
-    textLabel.textColor = [UIColor whiteColor];
-    textLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightBold];
-    textLabel.textAlignment = NSTextAlignmentCenter;
-    textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [mainImageView addSubview:textLabel];
-    
-    // Add tap gesture for button-like behavior
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ShareAction)];
-    [containerView addGestureRecognizer:tapGesture];
-    
-    
-    // Auto Layout Constraints
-    [NSLayoutConstraint activateConstraints:@[
-        // Main ImageView constraints
-        [mainImageView.leadingAnchor constraintEqualToAnchor:containerView.leadingAnchor],
-        [mainImageView.trailingAnchor constraintEqualToAnchor:containerView.trailingAnchor],
-        [mainImageView.topAnchor constraintEqualToAnchor:containerView.topAnchor],
-        [mainImageView.bottomAnchor constraintEqualToAnchor:containerView.bottomAnchor],
-        
-        // TextLabel constraints (remaining width)
-        [textLabel.widthAnchor constraintEqualToConstant:40],
-        [textLabel.centerXAnchor constraintEqualToAnchor:mainImageView.centerXAnchor],
-        [textLabel.centerYAnchor constraintEqualToAnchor:mainImageView.centerYAnchor]
-        //,
-        // [textLabel.heightAnchor constraintEqualToAnchor:mainImageView.heightAnchor multiplier:0.75]
-    ]];
-    
-    
-    // Create the UIBarButtonItem
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:containerView];
-    
+    // Enabled state button - green to cyan gradient, black text (matching FrameSelectionController)
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    doneButton.frame = CGRectMake(0, 0, 70, 35);
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    [doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    doneButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    doneButton.layer.cornerRadius = 5.0;
+    doneButton.clipsToBounds = YES;
+    [doneButton addTarget:self action:@selector(ShareAction) forControlEvents:UIControlEventTouchUpInside];
+
+    // Add gradient layer
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.frame = doneButton.bounds;
+    UIColor *greenColor = [UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0];
+    UIColor *cyanColor = [UIColor colorWithRed:20/255.0 green:249/255.0 blue:245/255.0 alpha:1.0];
+    gradientLayer.colors = @[(id)greenColor.CGColor, (id)cyanColor.CGColor];
+    gradientLayer.startPoint = CGPointMake(0.0, 0.5);
+    gradientLayer.endPoint = CGPointMake(1.0, 0.5);
+    gradientLayer.cornerRadius = 5.0;
+    [doneButton.layer insertSublayer:gradientLayer atIndex:0];
+
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
     return rightBarButton;
 }
 

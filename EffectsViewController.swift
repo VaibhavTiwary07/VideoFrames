@@ -45,14 +45,27 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
     
     var doneButton: UIButton = {
         let btn = UIButton()
-        btn.tintColor = .white
-        btn.backgroundColor = .clear
-        btn.setImage(UIImage(named: "done2")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn.setTitle("Done", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        btn.layer.cornerRadius = 5.0
+        btn.clipsToBounds = true
         btn.isUserInteractionEnabled = true
-        btn.imageView?.contentMode = .scaleAspectFit
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
+
+    private func applyGradientToDoneButton() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = doneButton.bounds
+        let greenColor = UIColor(red: 188/255.0, green: 234/255.0, blue: 109/255.0, alpha: 1.0)
+        let cyanColor = UIColor(red: 20/255.0, green: 249/255.0, blue: 245/255.0, alpha: 1.0)
+        gradientLayer.colors = [greenColor.cgColor, cyanColor.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer.cornerRadius = 5.0
+        doneButton.layer.insertSublayer(gradientLayer, at: 0)
+    }
     
     var lineView: UIView = {
         let view = UIView()
@@ -120,6 +133,13 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
             loadData(j: Int32(j))
         }
         setupCollectionViews()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if doneButton.layer.sublayers?.first(where: { $0 is CAGradientLayer }) == nil {
+            applyGradientToDoneButton()
+        }
     }
     
     // UNUSED:
@@ -264,11 +284,10 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
             titlLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
             titlLabel.centerYAnchor.constraint(equalTo: topView.centerYAnchor,constant: 0),
             
-            doneButton.topAnchor.constraint(equalTo: topView.topAnchor, constant: 0),
-            doneButton.widthAnchor.constraint(equalToConstant: heightOfTitleBar),
-            doneButton.heightAnchor.constraint(equalToConstant: heightOfTitleBar),
+            doneButton.widthAnchor.constraint(equalToConstant: 70),
+            doneButton.heightAnchor.constraint(equalToConstant: 35),
             doneButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -offset*2),
-            // doneButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
+            doneButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
             
             
             lineView.topAnchor.constraint(equalTo: topView.bottomAnchor,constant: -1),

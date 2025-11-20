@@ -196,7 +196,33 @@ import UserMessagingPlatform
     }
     
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
+
+        // Navigation bar styling - matching FrameSelectionController
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.backgroundColor = .black
+            appearance.shadowColor = nil
+            appearance.titleTextAttributes = [
+                .foregroundColor: UIColor.white,
+                .font: UIFont.boldSystemFont(ofSize: 17)
+            ]
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.compactAppearance = appearance
+        } else {
+            navigationController?.navigationBar.barStyle = .black
+            navigationController?.navigationBar.barTintColor = .black
+            navigationController?.navigationBar.isTranslucent = false
+            navigationController?.navigationBar.shadowImage = UIImage()
+            navigationController?.navigationBar.titleTextAttributes = [
+                .foregroundColor: UIColor.white,
+                .font: UIFont.boldSystemFont(ofSize: 17)
+            ]
+        }
+        navigationController?.navigationBar.tintColor = .white
+
         //InAppPurchaseManager.instance()?.loadStore()
         setUpConstraints()
         loadInterstitialAd()
