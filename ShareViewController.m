@@ -208,7 +208,7 @@
    // [self allocateResourcesForTopToolBar];
     
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = DARK_GRAY_BG;
 
        // Create a right bar button item with an image named "Home"
        UIImage *homeImage = [UIImage imageNamed:@"Home"];
@@ -1935,7 +1935,7 @@
         
         Resume_view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, full_Screen.size.width, full_Screen.size.height+200)];
         Resume_view.image = [UIImage imageNamed:@"Resume_screen.png"];
-        Resume_view.backgroundColor =[UIColor whiteColor];
+        Resume_view.backgroundColor = DARK_GRAY_BG;
         Resume_view.contentMode = UIViewContentModeScaleAspectFit;
         Resume_view.userInteractionEnabled = YES;
         

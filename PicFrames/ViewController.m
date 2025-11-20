@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "Config.h"
 #import "KxMenu.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -810,7 +811,7 @@
     
     /* add lable and bar display frame */
     UIView *displayArea = [[UIView alloc]initWithFrame:CGRectMake(0, 0, full.size.width-150, 100)];
-    displayArea.backgroundColor = [UIColor blackColor];
+    displayArea.backgroundColor = DARK_GRAY_BG;
     displayArea.alpha = 0.8;
     displayArea.layer.cornerRadius = 9.0;
     displayArea.center = touchBlock.center;
@@ -2497,7 +2498,7 @@
                                                            tag:MODE_SHARE];
     preview.nestedSelectionEnabled = NO;
     customTabBar.showOverlayOnSelection = NO;
-    customTabBar.backgroundImage = [UIImage imageNamed:bottombarImage];
+    // customTabBar.backgroundImage = [UIImage imageNamed:bottombarImage];  // Commented to use OT_TabBar background color
     customTabBar.delegate        = self;
     customTabBar.items = [NSArray arrayWithObjects:frames,colorAndPattern,adjustSettings,effect,videoSettings,share, nil];
     
@@ -3311,7 +3312,7 @@
 #if CMTIPPOPVIEW_ENABLE
     /* add it on top of tipview */
     CMPopTipView *aspectRatioView = [[CMPopTipView alloc]initWithCustomView:aspectRatioMenu];
-    aspectRatioView.backgroundColor = [UIColor blackColor];
+    aspectRatioView.backgroundColor = DARK_GRAY_BG;
     aspectRatioView.alpha = 0.5;
     aspectRatioView.tag = TAG_ASPECTRATIO_TIPVIEW;
     aspectRatioView.disableTapToDismiss = YES;
@@ -3949,7 +3950,7 @@
 {
     UIImageView *bgnd = [[UIImageView alloc]initWithFrame:rect];
     UIImageView *color = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, bgnd.frame.size.width, bgnd.frame.size.height)];
-    color.backgroundColor = [UIColor blackColor];
+    color.backgroundColor = DARK_GRAY_BG;
     color.alpha = 0.3;
     [bgnd addSubview:color];
     [color release];

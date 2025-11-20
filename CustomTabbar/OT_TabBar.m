@@ -40,6 +40,9 @@
         self.selectedTabOverlayImage = nil;
         self.selectedTabOverlayColor = OT_tabbar_default_selected_overlay_color;
         tabItemCount = 0;
+
+        // Set tab bar background color
+        self.backgroundColor = [UIColor colorWithRed:28/255.0 green:32/255.0 blue:38/255.0 alpha:1];
     }
     return self;
 }

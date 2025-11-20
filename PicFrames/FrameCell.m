@@ -10,6 +10,7 @@
 @interface FrameCell()
 @property (nonatomic, strong) UIImageView *thumbnailImageView;
 @property (nonatomic, strong) UIImageView *lockIconView;
+@property (nonatomic, strong) UIImageView *proBadgeView;
 @end
 
 @implementation FrameCell
@@ -41,13 +42,35 @@
                                           self.contentView.bounds.size.height / 2);
     [self.contentView addSubview:self.lockIconView];
 
+    // PRO badge view (top-right corner for premium frames)
+    CGFloat badgeSize = 28.0;
+    self.proBadgeView = [[UIImageView alloc] initWithFrame:CGRectMake(self.contentView.bounds.size.width - badgeSize - 1, 1, badgeSize, badgeSize)];
+    self.proBadgeView.image = [UIImage imageNamed:@"ProBadge"];
+    self.proBadgeView.contentMode = UIViewContentModeScaleAspectFit;
+    self.proBadgeView.hidden = YES;  // Hidden by default, shown only for locked frames
+    [self.contentView addSubview:self.proBadgeView];
+
     // Setup border
     self.contentView.layer.cornerRadius = FRAME_CORNER_RADIUS;
     self.contentView.layer.borderWidth = FRAME_BORDER_WIDTH;
-    self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
+    self.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+
+    // Ensure badge isn't clipped
+    self.contentView.clipsToBounds = NO;
+    self.clipsToBounds = NO;
 }
 
 - (void)configureWithFrame:(FrameItem *)frameItem isSelected:(BOOL)selected {
+    // Update subview frames for dynamic cell sizing (critical for iPad)
+    CGFloat padding = 3.0;
+    self.thumbnailImageView.frame = CGRectInset(self.contentView.bounds, padding, padding);
+    self.lockIconView.center = CGPointMake(self.contentView.bounds.size.width / 2,
+                                           self.contentView.bounds.size.height / 2);
+    // Scale badge size based on cell size (25% of cell width, min 20, max 32)
+    CGFloat badgeSize = MIN(MAX(self.contentView.bounds.size.width * 0.25, 20.0), 32.0);
+    self.proBadgeView.frame = CGRectMake(self.contentView.bounds.size.width - badgeSize - 2,
+                                         2, badgeSize, badgeSize);
+
     // Set thumbnail image with caching and async loading for performance
     NSString *imagePath = selected ? frameItem.coloredThumbnailPath : frameItem.thumbnailPath;
 
@@ -75,8 +98,9 @@
         });
     }
 
-    // Show/hide lock icon
+    // Show/hide lock icon and PRO badge
     self.lockIconView.hidden = !frameItem.isLocked;
+    self.proBadgeView.hidden = !frameItem.isLocked;  // Show PRO badge for all locked frames
 
     // Update border for selection
     if (selected) {
@@ -87,7 +111,7 @@
             self.transform = CGAffineTransformMakeScale(1.05, 1.05);
         }];
     } else {
-        self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
+        self.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         self.transform = CGAffineTransformIdentity;
     }
 }
@@ -96,7 +120,8 @@
     [super prepareForReuse];
     self.thumbnailImageView.image = nil;
     self.lockIconView.hidden = YES;
-    self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
+    self.proBadgeView.hidden = YES;
+    self.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.transform = CGAffineTransformIdentity;
 }
 

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "Appirater.h"
+#import "Config.h"
 #import "DEMONavigationController.h"
 #import "DEMOMenuViewController.h"
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
@@ -124,8 +125,9 @@
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        
-    
+    self.window.backgroundColor = DARK_GRAY_BG;
+
+
         // Create an instance of the Swift view controller
     
     StartViewController *homeVC = [[StartViewController alloc] init];

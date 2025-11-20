@@ -76,7 +76,7 @@
   
     self . view .frame = frameOfView;
     self. view .userInteractionEnabled = YES;
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = DARK_GRAY_BG;
     NSInteger spacing = INTERFACE_IS_PHONE ? 20 : 15;
     
     GMGridView *gmGridView = [[GMGridView alloc] initWithFrame:CGRectMake(0, 0, frameOfView.size.width, frameOfView.size.height)];
@@ -240,40 +240,14 @@
     label.font = [UIFont boldSystemFontOfSize:gridCornerSticker_font];
     [imageView addSubview:label];
 
-    // Add Pro Marker with Gradient Background
-    CGFloat proMarkerWidth = 55;
-    CGFloat proMarkerHeight = 32;
-    UIView *proMarkerView = [[UIView alloc] initWithFrame:CGRectMake(size.width - proMarkerWidth - 5, 5, proMarkerWidth, proMarkerHeight)];
-    proMarkerView.clipsToBounds = YES;
-    proMarkerView.layer.cornerRadius = 5;
-    proMarkerView.backgroundColor = [UIColor clearColor];
-
-    // Create gradient layer with proper frame
-    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.frame = CGRectMake(0, 0, proMarkerWidth, proMarkerHeight);
-    gradientLayer.cornerRadius = 5;
-    gradientLayer.masksToBounds = YES;
-    gradientLayer.colors = @[
-        (id)[UIColor colorWithRed:188/255.0 green:234/255.0 blue:109/255.0 alpha:1.0].CGColor,
-        (id)[UIColor colorWithRed:20/255.0 green:249/255.0 blue:245/255.0 alpha:1.0].CGColor
-    ];
-    gradientLayer.startPoint = CGPointMake(0.5, 0.0);  // top
-    gradientLayer.endPoint = CGPointMake(0.5, 1.0);    // bottom
-    [proMarkerView.layer insertSublayer:gradientLayer atIndex:0];
-
-    // Add "PRO" label with shadow for better visibility
-    UILabel *proLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, proMarkerWidth, proMarkerHeight)];
-    proLabel.text = @"PRO";
-    proLabel.textAlignment = NSTextAlignmentCenter;
-    proLabel.font = [UIFont boldSystemFontOfSize:13];
-    proLabel.textColor = [UIColor whiteColor];
-    proLabel.backgroundColor = [UIColor clearColor];
-    proLabel.shadowColor = [UIColor blackColor];
-    proLabel.shadowOffset = CGSizeMake(0, 1);
-    [proMarkerView addSubview:proLabel];
-
-    [imageView addSubview:proMarkerView];
-    [imageView bringSubviewToFront:proMarkerView];
+    // Add Pro Badge image from assets in top-right corner
+    CGFloat proBadgeWidth = 55;
+    CGFloat proBadgeHeight = 32;
+    UIImageView *proBadgeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(size.width - proBadgeWidth - 5, 5, proBadgeWidth, proBadgeHeight)];
+    proBadgeImageView.image = [UIImage imageNamed:@"ProBadge"];
+    proBadgeImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [imageView addSubview:proBadgeImageView];
+    [imageView bringSubviewToFront:proBadgeImageView];
 
     [cell.contentView setNeedsDisplay];
 

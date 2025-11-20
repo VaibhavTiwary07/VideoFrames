@@ -79,11 +79,11 @@ static NSDictionary *frameLockMapping = nil;
     [super viewDidLoad];
 
     self.selectedFrameIndex = -1;  // No selection
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = DARK_GRAY_BG;
 
     // Initialize image cache for performance (critical for iPad)
     self.imageCache = [[NSCache alloc] init];
-    self.imageCache.countLimit = 200;  // Cache all frame images (49 frames × 2 versions + buffer)
+    self.imageCache.countLimit = 250;  // Cache all frame images (99 frames × 2 versions + buffer)
     self.imageCache.name = @"FrameThumbnailCache";
 
     [self setupNavigationBar];
@@ -112,6 +112,11 @@ static NSDictionary *frameLockMapping = nil;
             }
         });
     }
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 #pragma mark - UI Setup
@@ -173,9 +178,9 @@ static NSDictionary *frameLockMapping = nil;
 
 - (void)setupCollectionView {
     // Calculate cell size (3 columns grid - responsive for all devices)
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screenWidth = self.view.bounds.size.width;
     CGFloat spacing = 12.0;  // Space between cells
-    CGFloat leftRightPadding = 20.0;  // Fixed edge padding for all devices
+    CGFloat leftRightPadding = 30.0;  // Fixed edge padding for all devices
     CGFloat availableWidth = screenWidth - (2 * leftRightPadding) - (2 * spacing);
     CGFloat cellWidth = availableWidth / 3.0;  // Responsive: divides space evenly for 3 columns
     CGFloat cellHeight = cellWidth;
@@ -191,7 +196,7 @@ static NSDictionary *frameLockMapping = nil;
     // Collection view
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
                                              collectionViewLayout:layout];
-    self.collectionView.backgroundColor = [UIColor blackColor];
+    self.collectionView.backgroundColor = DARK_GRAY_BG;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.showsVerticalScrollIndicator = YES;
@@ -220,19 +225,11 @@ static NSDictionary *frameLockMapping = nil;
 - (void)loadFrameData {
     self.frameItems = [NSMutableArray array];
 
-    // Load all frames (total count from Config.h: FRAME_COUNT)
-    // Free frames: 1, 2
-    // Premium frames: 1001-1049 (mapping to display indices 3-51)
+    // Load ALL frames 1-99 (all available in VidFrameThumbNails.xcassets)
+    // Lock status determined by frameLockMapping dictionary
+    // Free frames: 1, 2, 9, 19, 31, 36, 39, 69, 73, 85
 
-    // Add free frames (1-2)
-    for (int i = 1; i <= 2; i++) {
-        FrameItem *item = [[FrameItem alloc] initWithFrameNumber:i
-                                                       lockType:FrameLockTypeFree];
-        [self.frameItems addObject:item];
-    }
-
-    // Add premium frames (1001-1049, displayed as indices 3-51)
-    for (int i = 1001; i <= 1049; i++) {
+    for (int i = 1; i <= 99; i++) {
         FrameLockType lockType = [self lockTypeForFrameNumber:i];
         FrameItem *item = [[FrameItem alloc] initWithFrameNumber:i
                                                        lockType:lockType];
@@ -304,6 +301,24 @@ static NSDictionary *frameLockMapping = nil;
     [cell configureWithFrame:frameItem isSelected:isSelected];
 
     return cell;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    // Calculate cell size dynamically (3 columns grid - works for all devices including iPad)
+    CGFloat spacing = 12.0;
+    CGFloat leftRightPadding = 30.0;
+    CGFloat availableWidth = collectionView.bounds.size.width - (2 * leftRightPadding) - (2 * spacing);
+    CGFloat cellWidth = floor(availableWidth / 3.0);
+
+    // Cap cell size for iPad to prevent overly large cells
+    CGFloat maxCellSize = 120.0;
+    cellWidth = MIN(cellWidth, maxCellSize);
+
+    return CGSizeMake(cellWidth, cellWidth);
 }
 
 #pragma mark - UICollectionView Delegate

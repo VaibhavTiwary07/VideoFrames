@@ -6,6 +6,7 @@
 //
 #import <stdlib.h>
 #import "MainController.h"
+#import "Config.h"
 @import FirebaseAnalytics;
 #import "kxmenu.h"
 #import <AVKit/AVKit.h>
@@ -544,7 +545,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     // 1. Create the content view controller
     UIViewController *contentViewController = [[UIViewController alloc] init];
     contentViewController.preferredContentSize = CGSizeMake(300, 200);
-    contentViewController.view.backgroundColor = [UIColor whiteColor];
+    contentViewController.view.backgroundColor = DARK_GRAY_BG;
     
     // 2. Set the modal presentation style
     contentViewController.modalPresentationStyle = UIModalPresentationPopover;
@@ -1176,7 +1177,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     
     /* add lable and bar display frame */
     UIView *displayArea = [[UIView alloc]initWithFrame:CGRectMake(0, 0, full.size.width-150, 100)];
-    displayArea.backgroundColor = [UIColor blackColor];
+    displayArea.backgroundColor = DARK_GRAY_BG;
     displayArea.alpha = 0.8;
     displayArea.layer.cornerRadius = 9.0;
     displayArea.center = touchBlock.center;
@@ -5746,7 +5747,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
         }
         else
         {
-            aspect.backgroundColor = [UIColor whiteColor];
+            aspect.backgroundColor = DARK_GRAY_BG;
         }
         
         [aspect setTitle:title forState:UIControlStateNormal];
@@ -5761,7 +5762,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
 #if CMTIPPOPVIEW_ENABLE
     /* add it on top of tipview */
     CMPopTipView *aspectRatioView = [[CMPopTipView alloc]initWithCustomView:aspectRatioMenu];
-    aspectRatioView.backgroundColor = [UIColor blackColor];
+    aspectRatioView.backgroundColor = DARK_GRAY_BG;
     aspectRatioView.alpha = 0.5;
     aspectRatioView.tag = TAG_ASPECTRATIO_TIPVIEW;
     aspectRatioView.disableTapToDismiss = YES;
@@ -8146,7 +8147,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     alignmentCollectionView.dataSource = self;
     
     ellipsisOverlay = [[UIView alloc] init];
-    ellipsisOverlay.backgroundColor = [UIColor blackColor];
+    ellipsisOverlay.backgroundColor = DARK_GRAY_BG;
     ellipsisOverlay.translatesAutoresizingMaskIntoConstraints = NO;
     
     uitoolbar = [[UIToolbar alloc] init];
@@ -8170,8 +8171,8 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     ColorsCollectionView.hidden = YES;
     [self.view addSubview:self.ColorsCollectionView];
     [self.view addSubview:self.fontsCollectionView];
-    self.ColorsCollectionView.backgroundColor = [UIColor blackColor];
-    self.fontsCollectionView.backgroundColor = [UIColor blackColor];
+    self.ColorsCollectionView.backgroundColor = DARK_GRAY_BG;
+    self.fontsCollectionView.backgroundColor = DARK_GRAY_BG;
     uitoolbar.hidden = YES;
     [self.view addSubview:self.uitoolbar];
     self.uitoolbar.translatesAutoresizingMaskIntoConstraints = NO;
@@ -13734,7 +13735,7 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
         
         Resume_view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, full_Screen.size.width, full_Screen.size.height+200)];
         Resume_view.image = [UIImage imageNamed:@"Resume_screen.png"];
-        Resume_view.backgroundColor =[UIColor whiteColor];
+        Resume_view.backgroundColor = DARK_GRAY_BG;
         Resume_view.contentMode = UIViewContentModeScaleAspectFit;
         Resume_view.userInteractionEnabled = YES;
         

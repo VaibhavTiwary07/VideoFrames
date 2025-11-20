@@ -16,8 +16,18 @@
     if (self) {
         _frameNumber = frameNumber;
         _lockType = lockType;
-        _thumbnailPath = [Utility frameThumbNailPathForFrameNumber:(int)frameNumber];
-        _coloredThumbnailPath = [Utility coloredFrameThumbNailPathForFrameNumber:(int)frameNumber];
+
+        // Load thumbnails directly from VidFrameThumbNails.xcassets
+        // Asset naming: thumbles_01.png through thumbles_99.png
+        NSString *assetName;
+        if (frameNumber < 10) {
+            assetName = [NSString stringWithFormat:@"thumbles_0%ld", (long)frameNumber];
+        } else {
+            assetName = [NSString stringWithFormat:@"thumbles_%ld", (long)frameNumber];
+        }
+
+        _thumbnailPath = assetName;
+        _coloredThumbnailPath = assetName;  // Use same image for both (colored versions can be added later)
 
         // Determine if locked based on lock type and subscription status
         _isLocked = [self checkIfLocked];

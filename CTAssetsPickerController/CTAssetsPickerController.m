@@ -29,6 +29,7 @@
 
 #import "CTAssetsPickerController.h"
 #import "NSDate+TimeInterval.h"
+#import "Config.h"
 
 #define IS_IOS7             ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)
 #define kThumbnailLength    78.0f
@@ -586,7 +587,7 @@
 
 - (void)setupViews
 {
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = DARK_GRAY_BG;
 }
 
 - (void)setupButtons
