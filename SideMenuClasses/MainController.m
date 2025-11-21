@@ -4534,7 +4534,9 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popOverMenuClosed) name:@"PopoverMenuClosed" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllLocksHere) name:@"ClearAllLocksHere" object:nil];
-    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePhotoSlotSelected:) name:@"photoSlotSelected" object:nil];
+
     self.configs = @[
         @"SELECT PHOTO",
         @"SELECT VIDEO",
@@ -4631,8 +4633,24 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     [framButtonType2 setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     //effeects Lock
     lockImageView.image = [UIImage imageNamed:@""];
-    
+
 }
+
+-(void)handlePhotoSlotSelected:(NSNotification *)notification
+{
+    Photo *selectedPhoto = notification.object;
+
+    // Deselect all other photos
+    for (int i = 0; i < sess.frame.photoCount; i++) {
+        Photo *photo = [sess.frame getPhotoAtIndex:i];
+        if (photo != selectedPhoto && photo.isSelected) {
+            photo.isSelected = NO;
+            photo.view.scrollView.layer.borderWidth = 0.0;
+            photo.view.scrollView.layer.borderColor = [UIColor clearColor].CGColor;
+        }
+    }
+}
+
 -(void)SessionExpired
 {
     NSLog(@"Subscription Session Expired");

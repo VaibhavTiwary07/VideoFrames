@@ -134,8 +134,17 @@
     {
         return;
     }
-    
-    
+
+    // Add green selection border
+    self.isSelected = YES;
+    self.view.scrollView.layer.borderWidth = 3.0;
+    self.view.scrollView.layer.borderColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0].CGColor;
+
+    // Notify to deselect other photos
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
+                                                        object:self
+                                                      userInfo:nil];
+
     if(nil == self.view.imageView.image)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForPhoto
@@ -376,6 +385,19 @@
         self.view.exclusiveTouch = YES;
         self.view.imageView.multipleTouchEnabled = NO;
         self.view.imageView.exclusiveTouch = YES;
+
+        // Add "add" icon for empty slots
+        UIImage *addImage = [UIImage imageNamed:@"add"];
+        self.addIconView = [[UIImageView alloc] initWithImage:addImage];
+        CGFloat iconSize = MIN(frame.size.width, frame.size.height) * 0.3;
+        self.addIconView.frame = CGRectMake((frame.size.width - iconSize) / 2,
+                                            (frame.size.height - iconSize) / 2,
+                                            iconSize, iconSize);
+        self.addIconView.contentMode = UIViewContentModeScaleAspectFit;
+        self.addIconView.userInteractionEnabled = NO;
+        [self.view addSubview:self.addIconView];
+
+        self.isSelected = NO;
     }
     return self;
 }
@@ -413,6 +435,9 @@
     //_image = nil;
     self._internalImage = nil;
     self.view.imageView.redirectView = nil;
+
+    // Show add icon for empty slot
+    self.addIconView.hidden = NO;
 }
 
 -(UIImage*)image
@@ -473,7 +498,10 @@
 
         return;
     }
-    
+
+    // Hide add icon when image is set
+    self.addIconView.hidden = YES;
+
     self.view.imageView.redirectView = nil;
     self.view.imageView.transform = CGAffineTransformIdentity;
     //_image = image;
