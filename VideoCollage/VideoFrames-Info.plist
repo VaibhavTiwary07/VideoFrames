@@ -133,6 +133,8 @@
 	<string>$(PRODUCT_NAME) uses camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) need access to  your photo library access to let you select photos and videos for creating personalized video collages. For example, you can choose images from your gallery to include in a birthday collage.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to save your video collages to your photo library.</string>
 	<key>NSRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
