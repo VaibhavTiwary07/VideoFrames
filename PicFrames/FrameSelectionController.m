@@ -126,12 +126,12 @@ static NSDictionary *frameLockMapping = nil;
     self.navigationItem.hidesBackButton = YES;
 
     // Custom back button
-    UIImage *backButtonImage = [UIImage imageNamed:@"back_svg"];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:backButtonImage
-                                                                   style:UIBarButtonItemStylePlain
-                                                                  target:self
-                                                                  action:@selector(backButtonPressed)];
-    self.navigationItem.leftBarButtonItem = backButton;
+//    UIImage *backButtonImage = [UIImage imageNamed:@"back_svg"];
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:backButtonImage
+//                                                                   style:UIBarButtonItemStylePlain
+//                                                                  target:self
+//                                                                  action:@selector(backButtonPressed)];
+//    self.navigationItem.leftBarButtonItem = backButton;
 
     // Custom done button with gradient support
     self.customDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];

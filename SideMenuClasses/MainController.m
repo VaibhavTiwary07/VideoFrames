@@ -4754,34 +4754,16 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
         NSLog(@"Play all video player 8");
         [self playAllPreviewPlayers];
     }
-    if(changeTitle)
-    {
-        if ([[SRSubscriptionModel shareKit] IsAppSubscribed]) {
-            removeWatermarkButton.hidden = YES;
-        }else
-        {
-            removeWatermarkButton.hidden = NO;
-        }
-//        if(generatingVideo)
-//        {
-//            generatingVideo = NO;
-//            isTouchWillDetect = YES;
-//            frameIsEdited = YES;
-//        }
-//        if(progressView)
-//        {
-//            [self removeCircularProgressView];
-//        }
+    if(optionsView.view.hidden) {
+        optionsView.view.hidden = NO;
     }
-    //For Subscription Expiry Status
-    prefsTime = [NSUserDefaults standardUserDefaults];
-    prefsDate= [NSUserDefaults standardUserDefaults];
-    if([[SRSubscriptionModel shareKit]IsAppSubscribed])
-    {
-        NSLog(@"remove water mark");
-        [self removeWaterMarkFromFrame];
-        
+    if(self.navigationController.navigationBar.hidden) {
+        self.navigationController.navigationBar.hidden = NO;
     }
+    if(sess != nil) {
+        [sess showSessionOn:mainBackground];
+    }
+    [self assignRightBarButtonItem];
     if(from_share == FALSE)
     {
         [Resume_view removeFromSuperview];
@@ -14549,7 +14531,7 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
         [self removeAllStickerviewsFromParent];
         [self removeAllEffectVideos]; // It removes all effects video if present when switching to frames view
         [sess initAspectRatio:ASPECTRATIO_1_1];
-        [self.navigationController popViewControllerAnimated:YES];
+       // [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
