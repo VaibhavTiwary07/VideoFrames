@@ -266,11 +266,12 @@
 
 -(float)verticleGap
 {
-    // For vertical continuous scrolling, the vertical gap should be consistent
-    // and not dependent on the number of rows fitting on a screen.
-    // Since FSV_ITEM_WIDTH and FSV_ITEM_HEIGHT are the same, we can use the
-    // same gap for both horizontal and vertical spacing to maintain a grid look.
-    return [self horizantalGap];
+    UIScrollView *scrlView       = [self scrollView];
+    int           rows           = [self rowCount];
+    float         vSpaceForItems = FSV_ITEM_HEIGHT * rows;
+    float         gap            = (scrlView.frame.size.height-vSpaceForItems)/(rows+1);
+    
+    return gap;
 }
 -(UIView*)allocPageForPageNume:(int)pageNum
 {
