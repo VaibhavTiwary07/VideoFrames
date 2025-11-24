@@ -42,6 +42,7 @@ final class FrameSelectionViewControllerNew: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- FrameSelectionViewControllerNew loaded ---")
         setupUI()
         setupNavigationBar()
         bindViewModel()
@@ -279,7 +280,7 @@ final class FrameCellNew: UICollectionViewCell {
     private func setupUI() {
         contentView.layer.cornerRadius = 4
         contentView.layer.borderWidth = 3
-        contentView.layer.borderColor = UIColor.lightGray.cgColor
+        contentView.layer.borderColor = UIColor.clear.cgColor
 
         contentView.addSubview(imageView)
         contentView.addSubview(lockIcon)
@@ -302,11 +303,14 @@ final class FrameCellNew: UICollectionViewCell {
         imageView.image = UIImage(named: data.thumbnailName)
         lockIcon.isHidden = !data.isLocked
 
+        // Debugging: Print selection state
+        print("Configuring cell for \(data.thumbnailName): isSelected = \(data.isSelected)")
+
         if data.isSelected {
-            contentView.layer.borderColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1).cgColor
+            contentView.layer.borderColor = UIColor.green.cgColor
             transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
         } else {
-            contentView.layer.borderColor = UIColor.lightGray.cgColor
+            contentView.layer.borderColor = UIColor.clear.cgColor
             transform = .identity
         }
     }
@@ -316,6 +320,6 @@ final class FrameCellNew: UICollectionViewCell {
         imageView.image = nil
         lockIcon.isHidden = true
         transform = .identity
-        contentView.layer.borderColor = UIColor.lightGray.cgColor
+        contentView.layer.borderColor = UIColor.clear.cgColor
     }
 }

@@ -197,6 +197,7 @@ import UserMessagingPlatform
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- StartViewController loaded ---")
 
         // Navigation bar styling - matching FrameSelectionController
         if #available(iOS 13.0, *) {

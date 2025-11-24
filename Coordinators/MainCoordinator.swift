@@ -20,12 +20,14 @@ final class MainCoordinator: NSObject, Coordinator {
 
     // MARK: - Initialization
     init(navigationController: UINavigationController) {
+        print("--- MainCoordinator initialized ---")
         self.navigationController = navigationController
         super.init()
     }
 
     // MARK: - Coordinator Methods
     func start() {
+        print("--- MainCoordinator.swift: start() ---")
         let mainVC = MainController()
         mainVC.coordinator = self
         mainController = mainVC

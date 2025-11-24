@@ -52,6 +52,7 @@ final class FrameService {
 
     // MARK: - Initialization
     private init() {
+        print("--- FrameService.swift: init ---")
         setupCache()
     }
 
@@ -150,9 +151,29 @@ final class FrameService {
     }
 
     private func photoCount(for frameNumber: Int) -> Int {
-        // This would typically come from frame data
-        // For now, return a default value
-        return 2
+        // Convert new frame number (1-99) to database format using original page-based logic
+        let dbFrameNumber = convertIndexToDbFrameNumber(frameNumber - 1)
+        let count = FrameDB.getPhotoCount(forFrameNumber: Int32(dbFrameNumber))
+        return Int(count)
+    }
+
+    // Convert display index to database frame number using original page-based logic
+    private func convertIndexToDbFrameNumber(_ index: Int) -> Int {
+        let rowsPerPage = 4
+        let colPerPage = 3
+        let itemsPerPage = rowsPerPage * colPerPage  // 12
+        let pageNumber = index / itemsPerPage
+        let indexInsidePage = index % itemsPerPage
+        var items = pageNumber * (itemsPerPage / 2)  // pageNumber * 6
+
+        // Top half of page (positions 0-6): FREE frames
+        if indexInsidePage < ((rowsPerPage / 2) * colPerPage) + 1 {  // < 7
+            return items + indexInsidePage
+        }
+
+        // Bottom half of page: PREMIUM frames
+        items = items + (indexInsidePage - ((rowsPerPage / 2) * colPerPage))
+        return 1000 + items
     }
 
     private func isFrameUnlocked(_ frameNumber: Int, lockType: FrameLockType) -> Bool {

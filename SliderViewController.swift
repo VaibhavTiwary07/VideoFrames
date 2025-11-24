@@ -85,6 +85,7 @@ class SliderViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- SliderViewController.swift: viewDidLoad ---")
         if((UIDevice.current.userInterfaceIdiom == .pad) )
         {
             heightOfTitleBar = 60

@@ -46,7 +46,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    printf("--- FrameGridController.m: viewDidLoad ---\n");
     UIView *v = [[UIView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     v.userInteractionEnabled = YES;
     [self.view addSubview:v];

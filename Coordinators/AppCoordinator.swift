@@ -19,6 +19,7 @@ final class AppCoordinator: Coordinator {
 
     // MARK: - Initialization
     init(window: UIWindow) {
+        print("--- AppCoordinator initialized ---")
         self.window = window
         self.navigationController = UINavigationController()
         setupNavigationBarAppearance()

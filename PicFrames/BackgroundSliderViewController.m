@@ -49,7 +49,7 @@
 }
 - (void)viewDidLoad
 {
-    
+    printf("--- BackgroundSliderViewController.m: viewDidLoad ---\n");
  [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector(applicationWillEnterForeground)
                                               name:UIApplicationWillEnterForegroundNotification

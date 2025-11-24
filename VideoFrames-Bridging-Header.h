@@ -12,6 +12,7 @@
 #import "Config.h"
 #import "Session.h"
 #import "MainController.h"
+#import "FrameDB.h"
 // Firebase modular imports (recommended over umbrella import)
 @import FirebaseCore;
 @import FirebaseAnalytics;

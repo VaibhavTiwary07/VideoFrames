@@ -203,6 +203,7 @@ class BackgroundSelectionViewController:UIViewController, UICollectionViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- BackgroundSelectionViewController.swift: viewDidLoad ---")
         if((UIDevice.current.userInterfaceIdiom == .pad) )
         {
             heightOfTitleBar = 60

@@ -137,7 +137,7 @@
 
 - (void)viewDidLoad
 {
-    
+    printf("--- ShareViewController.m: viewDidLoad ---\n");
     //Create a custom back button with your image
    UIImage *backButtonImage = [UIImage imageNamed:@"back_svg"]; // Ensure this image exists in your assets
    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:backButtonImage

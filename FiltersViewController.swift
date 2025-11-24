@@ -72,6 +72,7 @@ class FiltersViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- FiltersViewController.swift: viewDidLoad ---")
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleNotification(_:)),
                                                name: NSNotification.Name("FilterDoneInvoked"),

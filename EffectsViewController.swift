@@ -100,6 +100,7 @@ class EffectsViewController :UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- EffectsViewController.swift: viewDidLoad ---")
         if((UIDevice.current.userInterfaceIdiom == .pad) )
         {
             heightOfTitleBar = 60

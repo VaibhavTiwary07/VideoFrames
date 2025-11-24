@@ -18,11 +18,13 @@ final class StartCoordinator: Coordinator {
 
     // MARK: - Initialization
     init(navigationController: UINavigationController) {
+        print("--- StartCoordinator.swift: init ---")
         self.navigationController = navigationController
     }
 
     // MARK: - Coordinator Methods
     func start() {
+        print("--- StartCoordinator.swift: start() ---")
         let startVC = StartViewController()
         startVC.coordinator = self
         navigationController.setViewControllers([startVC], animated: false)

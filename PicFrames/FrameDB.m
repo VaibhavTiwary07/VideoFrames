@@ -266,10 +266,51 @@
     
     [adjustors close];
     [db close];
-    
+
     *adjustorInfo = AInfo;
-    
+
     return iAdjustorCount;
+}
+
++(int)getPhotoCountForFrameNumber:(int)FrameNumber
+{
+    int iPhotoCount = 0;
+    FMResultSet *photoCount = nil;
+
+    NSString *databaseName = PICFARME_DATABASE;
+    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDir = [documentPaths objectAtIndex:0];
+    NSString *dbPath       = [documentsDir stringByAppendingPathComponent:databaseName];
+
+    /* First make sure that database is copied to filesystem */
+    [DBUtilities checkAndCreateDatabase];
+
+    /* open the database */
+    FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
+    if (![db open])
+    {
+        NSLog(@"getPhotoCountForFrameNumber:Could not open db.");
+        return 0;
+    }
+
+    /* Get the count of photos */
+    photoCount = [db executeQuery:@"select COUNT(iFrameNumber) as photocount from frames where iFrameNumber = ? and type = ?",[NSNumber numberWithInt:FrameNumber],[NSNumber numberWithInt:0]];
+    if(nil == photoCount)
+    {
+        NSLog(@"getPhotoCountForFrameNumber:Could not get photo count");
+        [db close];
+        return 0;
+    }
+
+    while([photoCount next])
+    {
+        iPhotoCount = [photoCount intForColumn:@"photocount"];
+    }
+
+    [photoCount close];
+    [db close];
+
+    return iPhotoCount;
 }
 #endif
 @end

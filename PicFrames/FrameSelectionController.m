@@ -77,6 +77,7 @@ static NSDictionary *frameLockMapping = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    printf("--- FrameSelectionController loaded ---\n");
 
     self.selectedFrameIndex = -1;  // No selection
     self.view.backgroundColor = DARK_GRAY_BG;

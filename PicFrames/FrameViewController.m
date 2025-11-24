@@ -65,7 +65,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    printf("--- FrameViewController.m: viewDidLoad ---\n");
     //[Utility generateThumnailsForFrames];
     UIImageView *imgView = [[UIImageView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     imgView.image        = [UIImage imageWithContentsOfFile:[Utility documentDirectoryPathForFile:@"mainbackground.jpg"]];

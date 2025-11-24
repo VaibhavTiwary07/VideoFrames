@@ -85,6 +85,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    printf("--- AppDelegate: didFinishLaunchingWithOptions ---\n");
     
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"callingFromEffects"];
     

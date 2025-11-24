@@ -34,6 +34,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        printf("--- Frame.m: initWithFrame ---\n");
         // Initialization code
     }
     return self;
@@ -472,7 +473,7 @@ int intcmp(const void *aa, const void *bb)
 - (Photo*)getPhotoAtIndex:(int)index
 {
     //NSLog(@"photos count %lu ",photos.count);
-    return [photos objectAtIndex:index]; //[photos objectAtIndex:(index < photos.count)?index:0];
+    return [photos objectAtIndex:index]; // [photos objectAtIndex:(index < photos.count)?index:0];
 }
 
 -(Adjustor*)getAdjustorAtIndex:(int)index
@@ -553,30 +554,56 @@ int intcmp(const void *aa, const void *bb)
     return rect;
 }
 
+// Convert display index to database frame number using original page-based logic
+- (int)convertIndexToDbFrameNumber:(int)index
+{
+    int rowsPerPage  = 4;
+    int colPerPage   = 3;
+    int itemsPerPage = rowsPerPage * colPerPage;  // 12
+    int pageNumber   = index / itemsPerPage;
+    int indexInsidePage = index % itemsPerPage;
+    int items = pageNumber * (itemsPerPage / 2);  // pageNumber * 6
+
+    // Top half of page (positions 0-6): FREE frames
+    if (indexInsidePage < ((rowsPerPage / 2) * colPerPage) + 1) {  // < 7
+        return items + indexInsidePage;
+    }
+
+    // Bottom half of page: PREMIUM frames
+    items = items + (indexInsidePage - ((rowsPerPage / 2) * colPerPage));
+    return 1000 + items;
+}
+
 - (void)addPhotosAndAdjustorsToFrame:(int)frameNumber withBgColor:(UIColor*)clr
 {
     int iRowCount = 0;
     int iIndex    = 0;
     CGFloat dbWidth =  300;
-    
+
     if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         dbWidth= 700.0;
     else dbWidth = 300.0;
-    
-    stPhotoInfo *PhotoInfo = NULL;
-       
 
+    stPhotoInfo *PhotoInfo = NULL;
+
+    // Convert new frame number (1-99) to database format using original page-based logic
+    int dbFrameNumber = frameNumber;
+    if (frameNumber > 0 && frameNumber < 1000) {
+        // New UI uses 1-based index, convert to 0-based for the algorithm
+        dbFrameNumber = [self convertIndexToDbFrameNumber:(frameNumber - 1)];
+    }
+    NSLog(@"Frame.m: Converting frame number %d to database format %d", frameNumber, dbFrameNumber);
 
     /* First enable the touches */
     self.userInteractionEnabled = YES;
-    
+
     /* Set the background color to default color */
     self.backgroundColor = [UIColor whiteColor];
    // self.backgroundColor = [UIColor greenColor];
 //checking for frames color
-    
+
     /* Call database function to get the photoinfos of the frame */
-    iRowCount = [FrameDB getThePhotoInfoForFrameNumber:frameNumber to:&PhotoInfo];
+    iRowCount = [FrameDB getThePhotoInfoForFrameNumber:dbFrameNumber to:&PhotoInfo];
     
     photos = [[NSMutableArray alloc]initWithCapacity:iRowCount];
     //NSLog(@"Frame %d> Photo Count %d",frameNumber,iRowCount);
@@ -618,6 +645,19 @@ int intcmp(const void *aa, const void *bb)
        
          [self addSubview:view1];
          [self addSubview:photo.view];
+
+        // Add dotted border to the photo's view
+        photo.view.layer.borderColor = [UIColor blackColor].CGColor;
+        photo.view.layer.borderWidth = 2.0f;
+        
+        CAShapeLayer *border = [CAShapeLayer layer];
+        border.strokeColor = [UIColor blackColor].CGColor;
+        border.fillColor = nil;
+        border.lineDashPattern = @[@2, @2];
+        border.frame = photo.view.bounds;
+        border.path = [UIBezierPath bezierPathWithRect:photo.view.bounds].CGPath;
+        [photo.view.layer addSublayer:border];
+        
         
 //        [photo.view release];
 //        [view1 release];
@@ -641,8 +681,8 @@ int intcmp(const void *aa, const void *bb)
     
     /* Now initialize the adjustors */
     stAdjustorInfo *AdjustorInfo = NULL;
-    
-    iRowCount = [FrameDB getTheAdjustorInfoForFrameNumber:frameNumber to:&AdjustorInfo];
+
+    iRowCount = [FrameDB getTheAdjustorInfoForFrameNumber:dbFrameNumber to:&AdjustorInfo];
     
     adjustors = [[NSMutableArray alloc]initWithCapacity:iRowCount];
     
@@ -737,7 +777,7 @@ int intcmp(const void *aa, const void *bb)
 
 -(void)addTextview
 {
-    NSLog(@"Frame info text get value is %ld ",[userDefaultForLimitSave integerForKey:@"ShowFrameInfoText"]);
+    NSLog(@"Frame info text get value is %ld ",[userDefaultForLimitSave integerForKey:@"ShowFrameInfoText"] );
     if([userDefaultForLimitSave integerForKey:@"ShowFrameInfoText"] == 0 )
     {
         [userDefaultForLimitSave setInteger:1 forKey:@"ShowFrameInfoText"];
@@ -1613,7 +1653,7 @@ int intcmp(const void *aa, const void *bb)
 {
     int iIndex = 0;
     //NSLog(@"setInnerRadius");
-    for(iIndex = 0; iIndex < [photos count]; iIndex++)
+    for(iIndex = 0; iIndex  < [photos count]; iIndex++)
     {
         Photo *pht = [photos objectAtIndex:iIndex];
         pht.view.layer.cornerRadius = radius;
@@ -1666,4 +1706,3 @@ int intcmp(const void *aa, const void *bb)
 //}
 
 @end
-

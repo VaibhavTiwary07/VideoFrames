@@ -77,6 +77,7 @@ class OptionsViewController: UIViewController, UICollectionViewDelegate, UIColle
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- OptionsViewController.swift: viewDidLoad ---")
         let user_default_color =  UIColor(red:28/255.0, green:32/255.0 , blue:38/255.0, alpha:1.0)
         view.backgroundColor = user_default_color
         view.layer.cornerRadius = 20

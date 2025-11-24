@@ -135,6 +135,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    printf("--- VideoGridViewViewController.m: viewDidLoad ---\n");
     UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.anyObject;
      orientation = windowScene.interfaceOrientation;
      _gmGridView.mainSuperView = self.navigationController.view;

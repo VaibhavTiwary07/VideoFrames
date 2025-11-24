@@ -130,6 +130,7 @@ class AspectRatioViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- AspectRatioViewController.swift: viewDidLoad ---")
         if((UIDevice.current.userInterfaceIdiom == .pad) )
         {
             heightOfTitleBar = 60

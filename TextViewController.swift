@@ -108,6 +108,7 @@ import AudioToolbox
     @objc init(frame: CGRect,view:UIView)
     {
         super.init(frame: frame)
+        print("--- TextViewController.swift: init ---")
         parentview = view
         setupView()
     }

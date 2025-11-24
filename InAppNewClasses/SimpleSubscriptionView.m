@@ -103,8 +103,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+    printf("--- SimpleSubscriptionView.m: viewDidLoad ---\n");
+
 
 //    self.exampleDatas = [NSMutableArray new];
 //

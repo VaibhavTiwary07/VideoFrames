@@ -2365,7 +2365,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    printf("--- ViewController.m: viewDidLoad ---\n");
     NSLog(@"View did load");
         //isVideoOrderChangedByUser = NO;
     isEffectEnabled = NO;

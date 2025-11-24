@@ -17,5 +17,6 @@
 
 +(int)getThePhotoInfoForFrameNumber:(int)FrameNumber to:(stPhotoInfo**)photoInfo;
 +(int)getTheAdjustorInfoForFrameNumber:(int)FrameNumber to:(stAdjustorInfo**)adjustorInfo;
++(int)getPhotoCountForFrameNumber:(int)FrameNumber;
 
 @end

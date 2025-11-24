@@ -38,6 +38,7 @@ final class FrameSelectionViewModel {
 
     // MARK: - Initialization
     init(frameService: FrameService = .shared) {
+        print("--- FrameSelectionViewModel.swift: init ---")
         self.frameService = frameService
     }
 

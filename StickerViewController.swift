@@ -302,6 +302,7 @@ class StickerViewController: UIViewController, UIScrollViewDelegate,UITextFieldD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--- StickerViewController.swift: viewDidLoad ---")
         if((UIDevice.current.userInterfaceIdiom == .pad) )
         {
             heightOfTitleBar = 75

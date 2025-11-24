@@ -20,6 +20,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        printf("--- FrameCell.m: initWithFrame ---\n");
         [self setupViews];
     }
     return self;
@@ -61,6 +62,7 @@
 }
 
 - (void)configureWithFrame:(FrameItem *)frameItem isSelected:(BOOL)selected {
+    printf("--- FrameCell: configureWithFrame %ld, isSelected: %d ---\n", (long)frameItem.frameNumber, selected);
     // Update subview frames for dynamic cell sizing (critical for iPad)
     CGFloat padding = 3.0;
     self.thumbnailImageView.frame = CGRectInset(self.contentView.bounds, padding, padding);

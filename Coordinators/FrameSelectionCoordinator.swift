@@ -20,11 +20,13 @@ final class FrameSelectionCoordinator: Coordinator {
 
     // MARK: - Initialization
     init(navigationController: UINavigationController) {
+        print("--- FrameSelectionCoordinator initialized ---")
         self.navigationController = navigationController
     }
 
     // MARK: - Coordinator Methods
     func start() {
+        print("--- FrameSelectionCoordinator.swift: start() ---")
         let viewModel = FrameSelectionViewModel()
         let frameVC = FrameSelectionViewControllerNew(viewModel: viewModel)
         frameVC.coordinator = self

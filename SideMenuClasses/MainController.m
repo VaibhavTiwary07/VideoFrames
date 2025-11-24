@@ -3732,7 +3732,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
         /* Get the video path and send it to importer */
         NSLog(@"user info inside notification handler %@",notification.userInfo);
         //  NSURL *videoPath = [notification.userInfo objectForKey:backgroundVideoSelected];
-        NSString *videoPath = [notification.userInfo objectForKey:backgroundVideoSelected];
+        NSURL *videoPath = [notification.userInfo objectForKey:backgroundVideoSelected];
         NSAssert(nil != videoPath, @"Received nil videoPathUrl in backgroundvideoSelected notification");
         NSLog(@"Not Supported format---%@",videoPath);
         NSDictionary *info = [NSDictionary dictionaryWithObject:videoPath forKey:@"videoPath"];
@@ -4191,6 +4191,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
 
 - (void)viewDidLoad
 {
+    printf("--- MainController.m: viewDidLoad ---\n");
     self.appWentToBackground = NO;
     framesLoaded = false;
     videoSaveprogress = 0.5;
