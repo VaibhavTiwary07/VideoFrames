@@ -176,6 +176,17 @@
         NSArray *keys = [NSArray arrayWithObjects:@"x_location",@"y_location",@"view",@"scrollview", nil];
         NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
         NSLog(@" single tap");
+
+        // Set green selection border
+        self.isSelected = YES;
+        self.view.scrollView.layer.borderWidth = 3.0;
+        self.view.scrollView.layer.borderColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0].CGColor;
+
+        // Post notification to deselect other photos
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
+                                                            object:self
+                                                          userInfo:nil];
+
         if(nil == self.view.imageView.image)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForPhoto
