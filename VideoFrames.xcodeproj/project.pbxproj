@@ -248,6 +248,8 @@
 		84B51D692C9D57F7005C5DEE /* MenuTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B51D682C9D57F7005C5DEE /* MenuTableViewHeader.swift */; };
 		C36046AF249A20F100782565 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C36046AD249A20F100782565 /* LaunchScreen.storyboard */; };
 		C3B0927724EA4D960001115A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C378BCE324B889FE00E57083 /* Assets.xcassets */; };
+		DB32AB872ED4759D0092447F /* VolumeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB32AB862ED4759D0092447F /* VolumeViewController.swift */; };
+		DB32AB882ED4759D0092447F /* EditOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB32AB852ED4759D0092447F /* EditOptionsViewController.swift */; };
 		DB49E8872ECDA05900622782 /* FrameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB49E8862ECDA05900622782 /* FrameCell.m */; };
 		DB96A6062ECD83F8003D5BCC /* FrameItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DB96A6032ECD83F8003D5BCC /* FrameItem.m */; };
 		DB96A6072ECD83F8003D5BCC /* FrameSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB96A6052ECD83F8003D5BCC /* FrameSelectionController.m */; };
@@ -655,6 +657,8 @@
 		B425D3B99C3C24CB578671B6 /* Pods_VideoFrames.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VideoFrames.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C36046AD249A20F100782565 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C378BCE324B889FE00E57083 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DB32AB852ED4759D0092447F /* EditOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOptionsViewController.swift; sourceTree = "<group>"; };
+		DB32AB862ED4759D0092447F /* VolumeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeViewController.swift; sourceTree = "<group>"; };
 		DB49E8852ECDA05900622782 /* FrameCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameCell.h; sourceTree = "<group>"; };
 		DB49E8862ECDA05900622782 /* FrameCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameCell.m; sourceTree = "<group>"; };
 		DB96A6022ECD83F8003D5BCC /* FrameItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameItem.h; sourceTree = "<group>"; };
@@ -1321,6 +1325,8 @@
 				18F02C742E17B25C0038974C /* WhatsAppShareManager.h */,
 				1889008F2E0BCAD8005DF059 /* CALayer+Additions.m */,
 				1889008E2E0BCAB1005DF059 /* CALayer+Additions.h */,
+				DB32AB852ED4759D0092447F /* EditOptionsViewController.swift */,
+				DB32AB862ED4759D0092447F /* VolumeViewController.swift */,
 				180FE78A2D93627100FCA02D /* OptionsViewController.swift */,
 				180FE7882D93625300FCA02D /* OptionsCell.swift */,
 				180EF90C2D8C923400826CB2 /* EffectsViewController.swift */,
@@ -1875,6 +1881,8 @@
 				53D31E6E2A1646A200F915AC /* DGActivityIndicatorBallRotateAnimation.m in Sources */,
 				81E29AFC27F43FF3006816D7 /* LoadingClass.m in Sources */,
 				53D31E7E2A1646A200F915AC /* DGActivityIndicatorFiveDotsAnimation.m in Sources */,
+				DB32AB872ED4759D0092447F /* VolumeViewController.swift in Sources */,
+				DB32AB882ED4759D0092447F /* EditOptionsViewController.swift in Sources */,
 				5343201026B291A8008EAF32 /* BitmapScaleManipulator.m in Sources */,
 				3C9CA4C6185AF56900DCC5B1 /* TouchView.m in Sources */,
 				1809DAB42D6400F200D967FD /* StickerCollectionViewCell.swift in Sources */,

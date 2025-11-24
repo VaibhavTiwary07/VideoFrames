@@ -306,10 +306,11 @@
 - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr
 {
     self = [super init];
-    if (self) 
+    if (self)
     {
         Settings *nvm = [Settings Instance];
         self.noTouchMode = NO;
+        self.videoVolume = 1.0; // Default full volume
 #if 0        
         if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         {

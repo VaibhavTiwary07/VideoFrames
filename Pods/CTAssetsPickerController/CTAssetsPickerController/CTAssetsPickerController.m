@@ -210,8 +210,13 @@ NSString * const CTAssetsPickerDidDeselectAssetNotification = @"CTAssetsPickerDi
 
 - (void)checkAuthorizationStatus
 {
-    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
-    
+    PHAuthorizationStatus status;
+    if (@available(iOS 14, *)) {
+        status = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelReadWrite];
+    } else {
+        status = [PHPhotoLibrary authorizationStatus];
+    }
+
     switch (status)
     {
         case PHAuthorizationStatusNotDetermined:
@@ -223,6 +228,7 @@ NSString * const CTAssetsPickerDidDeselectAssetNotification = @"CTAssetsPickerDi
             [self showAccessDenied];
             break;
         }
+        case PHAuthorizationStatusLimited:
         case PHAuthorizationStatusAuthorized:
         default:
         {
@@ -237,24 +243,46 @@ NSString * const CTAssetsPickerDidDeselectAssetNotification = @"CTAssetsPickerDi
 
 - (void)requestAuthorizationStatus
 {
-    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-        switch (status) {
-            case PHAuthorizationStatusAuthorized:
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self checkAssetsCount];
-                });
-                break;
+    if (@available(iOS 14, *)) {
+        [PHPhotoLibrary requestAuthorizationForAccessLevel:PHAccessLevelReadWrite handler:^(PHAuthorizationStatus status){
+            switch (status) {
+                case PHAuthorizationStatusAuthorized:
+                case PHAuthorizationStatusLimited:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self checkAssetsCount];
+                    });
+                    break;
+                }
+                default:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self showAccessDenied];
+                    });
+                    break;
+                }
             }
-            default:
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self showAccessDenied];
-                });
-                break;
+        }];
+    } else {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+            switch (status) {
+                case PHAuthorizationStatusAuthorized:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self checkAssetsCount];
+                    });
+                    break;
+                }
+                default:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self showAccessDenied];
+                    });
+                    break;
+                }
             }
-        }
-    }];
+        }];
+    }
 }
 
 

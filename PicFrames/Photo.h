@@ -50,6 +50,7 @@
 @property(nonatomic,readwrite)BOOL effectTouchMode;
 @property(nonatomic,readwrite)BOOL isContentTypeVideo;
 @property(nonatomic,readwrite)BOOL muteAudio;
+@property(nonatomic,readwrite)float videoVolume;
 @property(nonatomic,readwrite)BOOL isSelected;
 @property(nonatomic,strong)UIImageView *addIconView;
 @property (nonatomic, strong, nullable) NSURL *videoURL; // Remove custom getter/setter if possible

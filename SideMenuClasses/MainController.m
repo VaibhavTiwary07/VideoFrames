@@ -23,7 +23,7 @@
 //#import "VideoSettingsController.h"
 //#import "HelpScreenViewController.h"
 #import "VideoGridViewViewController.h"
-#import "CTAssetsPickerController.h"
+#import <CTAssetsPickerController/CTAssetsPickerController.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "Effects.h"
 #import "ShareViewController.h"
@@ -231,6 +231,8 @@ typedef struct {
 @property (nonatomic, strong) EffectsViewController *sheetFilterVC;
 @property (nonatomic, strong) SliderViewController *sliderVC;
 @property (nonatomic, strong) StickerViewController *stickerVC;
+@property (nonatomic, strong) VolumeViewController *volumeVC;
+@property (nonatomic, strong) EditOptionsViewController *editOptionsVC;
 //@property (nonatomic, assign)bool isVideoOrderChangedByUser;
 @property(nonatomic   , assign) BOOL isVideoFile;
 @property(nonatomic   , assign) BOOL imageToVideo;
@@ -7978,8 +7980,9 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     }
     else if([name  isEqual:  @"Background"])
     {
-        eMode = MODE_COLOR_AND_PATTERN;
-        [self ShowBackgroundViewController];
+        // Background now shows the adjust/slider view
+        eMode = MODE_ADJUST_SETTINGS;
+        [self ShowSlidersViewController];
     }
     else if([name  isEqual:  @"Adjust"])
     {
@@ -8010,6 +8013,131 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     {
         eMode = MODE_TEXT;
         [self ShowTextView];
+    }
+    else if([name  isEqual:  @"Edit"])
+    {
+        // Show the Edit secondary tabbar
+        [self showEditOptionsViewController];
+    }
+    else if([name  isEqual:  @"Volume"])
+    {
+        // Show volume control for selected photo slot
+        [self showVolumeViewController];
+    }
+    else if([name  isEqual:  @"EditBackground"])
+    {
+        // Background from Edit submenu shows color/pattern selection
+        eMode = MODE_COLOR_AND_PATTERN;
+        [self ShowBackgroundViewController];
+    }
+}
+
+-(void)showEditOptionsViewController
+{
+    // Hide main options view and show edit options
+    if(optionsView != nil)
+    {
+        optionsView.view.hidden = YES;
+    }
+
+    if(self.editOptionsVC == nil)
+    {
+        self.editOptionsVC = [[EditOptionsViewController alloc] init];
+    }
+
+    CGFloat optionsViewHeight = (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 110 : 85;
+    self.editOptionsVC.view.frame = CGRectMake(0, fullScreen.size.height - optionsViewHeight, fullScreen.size.width, optionsViewHeight);
+
+    [self.view addSubview:self.editOptionsVC.view];
+    [self addChildViewController:self.editOptionsVC];
+    [self.editOptionsVC didMoveToParentViewController:self];
+
+    // Listen for back button
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEditOptionsBack)
+                                                 name:@"editOptionsBack"
+                                               object:nil];
+}
+
+-(void)handleEditOptionsBack
+{
+    // Remove edit options and show main options
+    if(self.editOptionsVC != nil)
+    {
+        [self.editOptionsVC.view removeFromSuperview];
+        [self.editOptionsVC removeFromParentViewController];
+    }
+
+    if(optionsView != nil)
+    {
+        optionsView.view.hidden = NO;
+    }
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"editOptionsBack" object:nil];
+}
+
+-(void)showVolumeViewController
+{
+    self.volumeVC = [[VolumeViewController alloc] init];
+
+    // Get current volume from selected photo if available
+    if(currentSelectedPhotoNumberForEffect >= 0 && currentSelectedPhotoNumberForEffect < sess.frame.photoCount)
+    {
+        Photo *selectedPhoto = [sess.frame getPhotoAtIndex:currentSelectedPhotoNumberForEffect];
+        if(selectedPhoto != nil)
+        {
+            self.volumeVC.currentVolume = selectedPhoto.videoVolume;
+        }
+    }
+
+    if (@available(iOS 16.0, *)) {
+        self.volumeVC.modalPresentationStyle = UIModalPresentationFormSheet;
+        self.volumeVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        self.volumeVC.preferredContentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, 200);
+
+        if (@available(iOS 15.0, *)) {
+            UISheetPresentationController *sheetController = (UISheetPresentationController *)self.volumeVC.presentationController;
+            if (@available(iOS 16.0, *)) {
+                UISheetPresentationControllerDetent *smallDetent =
+                [UISheetPresentationControllerDetent customDetentWithIdentifier:@"volumeSmall" resolver:^CGFloat(id<UISheetPresentationControllerDetentResolutionContext>  _Nonnull context) {
+                    return 200;
+                }];
+                sheetController.largestUndimmedDetentIdentifier = @"volumeSmall";
+                sheetController.detents = @[smallDetent];
+            } else {
+                sheetController.detents = @[[UISheetPresentationControllerDetent mediumDetent]];
+            }
+            sheetController.preferredCornerRadius = 10;
+            sheetController.prefersEdgeAttachedInCompactHeight = YES;
+            sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = YES;
+            sheetController.prefersGrabberVisible = NO;
+        }
+
+        [self presentViewController:self.volumeVC animated:YES completion:nil];
+    } else {
+        [self presentViewController:self.volumeVC animated:YES completion:nil];
+    }
+
+    // Listen for volume changes
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleVolumeChanged:)
+                                                 name:@"VolumeValueChanged"
+                                               object:nil];
+}
+
+-(void)handleVolumeChanged:(NSNotification *)notification
+{
+    float volume = [[notification.userInfo objectForKey:@"Volume"] floatValue];
+
+    // Apply volume to selected photo
+    if(currentSelectedPhotoNumberForEffect >= 0 && currentSelectedPhotoNumberForEffect < sess.frame.photoCount)
+    {
+        Photo *selectedPhoto = [sess.frame getPhotoAtIndex:currentSelectedPhotoNumberForEffect];
+        if(selectedPhoto != nil)
+        {
+            selectedPhoto.videoVolume = volume;
+            NSLog(@"Set volume %.2f for photo %d", volume, currentSelectedPhotoNumberForEffect);
+        }
     }
 }
 

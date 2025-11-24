@@ -17,44 +17,34 @@ class OptionsViewController: UIViewController, UICollectionViewDelegate, UIColle
     let viewHeight : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 70
 
     private func loadData() {
-    
+
         // Apply custom RGB color
         let customColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
-        
-        
-        optionsList.append( Option(name: "Frames", image: UIImage(named: "frames2")!, selectedImage: UIImage(named: "frames_active2")!))
-        
-        optionsList.append(  Option(name: "Ratio", image: UIImage(named: "Ratio")!, selectedImage: UIImage(named: "Ratio_active")!))
-        
-        optionsList.append(Option(name: "Background", image: UIImage(named: "colors2")!, selectedImage: UIImage(named: "colors_active2")!))
-        
-        optionsList.append( Option(name: "Adjust", image: UIImage(named: "adjust2")!, selectedImage: UIImage(named: "adjust_active2")!))
-        
-        optionsList.append(  Option(name: "Effects", image: UIImage(named: "fx2")!, selectedImage: UIImage(named: "fx_active2")!))
-        
-        optionsList.append(  Option(name: "Music", image: UIImage(named: "music2")!, selectedImage: UIImage(named: "music_active2")!))
-        
-        
-        
-        
-        
-        if let systemImage = UIImage(systemName: "face.smiling", withConfiguration: config) {
-            
-            let whiteFaceTintedImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
 
-            let selectedFaceTintedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
-            optionsList.append(Option(name: "Stickers", image:whiteFaceTintedImage, selectedImage: selectedFaceTintedImage))
-        }
-        
-        if let systemImage = UIImage(systemName: "textformat.size", withConfiguration: config) {
-            
-            let whiteTextTintedImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+        // Main TabBar: Ratio, Edit, Volume, Background, Music
 
-            let selectedTextTintedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
-            optionsList.append(Option(name: "Text", image:whiteTextTintedImage, selectedImage:selectedTextTintedImage ))
+        optionsList.append(Option(name: "Ratio", image: UIImage(named: "Ratio")!, selectedImage: UIImage(named: "Ratio_active")!))
+
+        // Edit - using system icon
+        if let systemImage = UIImage(systemName: "slider.horizontal.3", withConfiguration: config) {
+            let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+            let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
+            optionsList.append(Option(name: "Edit", image: whiteImage, selectedImage: selectedImage))
         }
-        
+
+        // Volume - using system icon
+        if let systemImage = UIImage(systemName: "speaker.wave.2", withConfiguration: config) {
+            let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+            let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
+            optionsList.append(Option(name: "Volume", image: whiteImage, selectedImage: selectedImage))
+        }
+
+        // Background - shows adjust/slider view
+        optionsList.append(Option(name: "Background", image: UIImage(named: "adjust2")!, selectedImage: UIImage(named: "adjust_active2")!))
+
+        optionsList.append(Option(name: "Music", image: UIImage(named: "music2")!, selectedImage: UIImage(named: "music_active2")!))
+
     }
     
     
