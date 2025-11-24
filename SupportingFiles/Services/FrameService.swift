@@ -152,7 +152,7 @@ final class FrameService {
 
     private func photoCount(for frameNumber: Int) -> Int {
         // Convert new frame number (1-99) to database format using original page-based logic
-        let dbFrameNumber = convertIndexToDbFrameNumber(frameNumber - 1)
+        let dbFrameNumber = convertIndexToDbFrameNumber(frameNumber)
         let count = FrameDB.getPhotoCount(forFrameNumber: Int32(dbFrameNumber))
         return Int(count)
     }

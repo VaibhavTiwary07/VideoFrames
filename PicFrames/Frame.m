@@ -589,8 +589,7 @@ int intcmp(const void *aa, const void *bb)
     // Convert new frame number (1-99) to database format using original page-based logic
     int dbFrameNumber = frameNumber;
     if (frameNumber > 0 && frameNumber < 1000) {
-        // New UI uses 1-based index, convert to 0-based for the algorithm
-        dbFrameNumber = [self convertIndexToDbFrameNumber:(frameNumber - 1)];
+        dbFrameNumber = [self convertIndexToDbFrameNumber:frameNumber];
     }
     NSLog(@"Frame.m: Converting frame number %d to database format %d", frameNumber, dbFrameNumber);
 
