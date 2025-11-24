@@ -13,6 +13,7 @@
 #import <CTAssetsPickerController/CTAssetsPickerController.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
+#import "VideoCollage-Swift.h"
 
 @interface ImageSelectionHandler()<CTAssetsPickerControllerDelegate>
 {
@@ -26,6 +27,7 @@
     PHAccessLevel accessLevel;
 }
 @property (nonatomic, retain) NSMutableArray *assets_array;
+@property (nonatomic, strong) ModernImagePicker *modernPicker;
 
 //@property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
 //@property (nonatomic, strong) ALAsset *asset;
@@ -177,13 +179,11 @@
         //imgPicker.allowsEditing = NO;
         
         /* Set th delegate for the picker view */
-//        imgPicker.delegate = self;
-        
+        imgPicker.delegate = self;
+
         //[imgPicker setVideoMaximumDuration:30.0];
         //[imgPicker setVideoQuality:UIImagePickerControllerQualityTypeLow];
-        
-        /* Set the model transition style */
-//        imgPicker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+
         imgPicker.modalPresentationStyle = UIModalPresentationFullScreen;
         imgPicker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)UTTypeMovie,nil];
         
@@ -212,90 +212,98 @@
 
 -(void)handleCamera
 {
-//    NSAutoreleasePool *localPool = [[NSAutoreleasePool alloc] init];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        /* Allocate the picker view */
-        UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
-        /* Set the source type */
-        imgPicker.sourceType    = UIImagePickerControllerSourceTypeCamera;
-        /* Do not allow editing */
-        imgPicker.allowsEditing = NO;
-        /* Set th delegate for the picker view */
-//        imgPicker.delegate = self;
-        /* Set the model transition style */
-        imgPicker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        /* present the picker */
-//        [_controller presentModalViewController:imgPicker animated:YES];
-        [_controller presentViewController:imgPicker animated:YES completion:nil];
-
-        /* Release the image picker */
-    //    [imgPicker release];
+        // Check camera permission first
+        [[PermissionManager shared] requestCameraAccessWithCompletion:^(BOOL granted) {
+            if (granted) {
+                /* Allocate the picker view */
+                UIImagePickerController *imgPicker = [[UIImagePickerController alloc] init];
+                /* Set the source type */
+                imgPicker.sourceType    = UIImagePickerControllerSourceTypeCamera;
+                /* Do not allow editing */
+                imgPicker.allowsEditing = NO;
+                /* Set th delegate for the picker view */
+                imgPicker.delegate = self;
+                /* Set the model transition style */
+                imgPicker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                /* present the picker */
+                [self->_controller presentViewController:imgPicker animated:YES completion:nil];
+            } else {
+                [[PermissionManager shared] showCameraDeniedAlertFrom:self->_controller];
+            }
+        }];
     }
-    //[localPool release];
+    else
+    {
+        [self ShowAlert:@"Camera" message:@"Camera is not available on this device!!!"];
+    }
     return;
 }
 
 -(void)pickImage:(int)maximumNumberOfImage
 {
-  
     Videoselection = NO;
     Imageselection = YES;
-    
+
     if (self.assets_array == nil) {
         NSLog(@"new asset selected");
         self.assets_array = [[NSMutableArray alloc] init];
     }
     maximum_NumberOf_Image = maximumNumberOfImage;
-//    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+
+    // Use modern PHPickerViewController on iOS 14+
+    if (@available(iOS 14, *)) {
+        self.modernPicker = [[ModernImagePicker alloc] initWithViewController:_controller];
+        self.modernPicker.delegate = self;
+        [self.modernPicker pickImagesWithMaxCount:maximumNumberOfImage];
+    } else {
+        // Fallback to CTAssetsPickerController for older iOS
         dispatch_async(dispatch_get_main_queue(), ^{
             CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
             picker.showsSelectionIndex = YES;
             picker.delegate = self;
-            
-           picker.modalPresentationStyle = UIModalPresentationFullScreen;
-            
+            picker.modalPresentationStyle = UIModalPresentationFullScreen;
+
             PHFetchOptions *fetchOptions = [PHFetchOptions new];
             fetchOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType == %d", PHAssetMediaTypeImage];
-            /// assign options
             picker.assetsFetchOptions = fetchOptions;
-            //dispatch_async(dispatch_get_main_queue(), ^{
-                [_controller presentViewController:picker animated:YES completion:nil];
-           // });
-    NSLog(@"assetsPickerController opens photos library");
-    });
-//}];
+            [self->_controller presentViewController:picker animated:YES completion:nil];
+            NSLog(@"assetsPickerController opens photos library");
+        });
+    }
 }
 
 -(void)pickVideo
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
     maximum_NumberOf_Image = 1;
+    Imageselection = NO;
+    Videoselection = YES;
 
-    @autoreleasepool {
-            Imageselection = NO;
-            Videoselection = YES;
-            if (self.asset1== nil) {
-                NSLog(@"new pick Video2 asset selected");
-                //here leak is there 15 %
-                self.assets_array = [[NSMutableArray alloc] init];
-            }
+    if (self.asset1 == nil) {
+        NSLog(@"new pick Video asset selected");
+        self.assets_array = [[NSMutableArray alloc] init];
+    }
+
+    // Use modern PHPickerViewController on iOS 14+
+    if (@available(iOS 14, *)) {
+        self.modernPicker = [[ModernImagePicker alloc] initWithViewController:_controller];
+        self.modernPicker.delegate = self;
+        [self.modernPicker pickVideo];
+    } else {
+        // Fallback to CTAssetsPickerController for older iOS
+        dispatch_async(dispatch_get_main_queue(), ^{
             CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
             picker.showsSelectionIndex = YES;
             picker.delegate = self;
-        
-        picker.modalPresentationStyle = UIModalPresentationFullScreen;
-        
-            /// create options for fetching photo only
+            picker.modalPresentationStyle = UIModalPresentationFullScreen;
+
             PHFetchOptions *fetchOptions = [PHFetchOptions new];
             fetchOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType == %d", PHAssetMediaTypeVideo];
-            /// assign options
             picker.assetsFetchOptions = fetchOptions;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_controller presentViewController:picker animated:YES completion:nil];
+            [self->_controller presentViewController:picker animated:YES completion:nil];
         });
-        }
-    });
+    }
 }
 
 -(BOOL)assetsPickerController:(CTAssetsPickerController *)picker shouldHighlightAsset:(PHAsset *)asset
@@ -629,6 +637,74 @@
 -(void)assetsPickerController:(CTAssetsPickerController *)picker didSelectAsset:(PHAsset *)asset
 {
     NSLog(@"assetsPickerController did select Picking Assets");
+}
+
+#pragma mark - UIImagePickerController Delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info
+{
+    NSLog(@"imagePickerController didFinishPickingMediaWithInfo");
+
+    NSString *mediaType = info[UIImagePickerControllerMediaType];
+
+    if ([mediaType isEqualToString:(NSString *)UTTypeMovie.identifier] || [mediaType isEqualToString:@"public.movie"]) {
+        // Video was selected
+        NSURL *videoURL = info[UIImagePickerControllerMediaURL];
+        NSLog(@"Selected video URL: %@", videoURL);
+
+        if (videoURL) {
+            [self videoSelected:videoURL result:nil];
+        }
+    } else {
+        // Image was selected (from camera)
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        NSLog(@"Selected image: %@", image);
+
+        if (image) {
+            NSMutableArray *imageArray = [[NSMutableArray alloc] initWithObjects:image, nil];
+            [self imageSelected:imageArray result:nil];
+        }
+    }
+
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    NSLog(@"imagePickerController did cancel");
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - ModernImagePickerDelegate
+
+- (void)modernImagePicker:(ModernImagePicker *)picker didSelectImages:(NSArray<UIImage *> *)images
+{
+    NSLog(@"ModernImagePicker selected %lu images", (unsigned long)images.count);
+
+    if (images.count > 0) {
+        NSMutableArray *imageArray = [NSMutableArray arrayWithArray:images];
+        [self imageSelected:imageArray result:nil];
+    }
+}
+
+- (void)modernImagePicker:(ModernImagePicker *)picker didSelectVideoAt:(NSURL *)url
+{
+    NSLog(@"ModernImagePicker selected video at: %@", url);
+
+    if (url) {
+        [self videoSelected:url result:nil];
+    }
+}
+
+- (void)modernImagePickerDidCancel:(ModernImagePicker *)picker
+{
+    NSLog(@"ModernImagePicker did cancel");
+}
+
+- (void)modernImagePicker:(ModernImagePicker *)picker didFailWithError:(NSError *)error
+{
+    NSLog(@"ModernImagePicker failed with error: %@", error.localizedDescription);
+    [self ShowAlert:@"Error" message:error.localizedDescription];
 }
 
 -(void)exportingURL:(NSURL*)exportURL

@@ -20,7 +20,10 @@
 
 //@class NewPickerViewController;
 
-@interface ImageSelectionHandler : NSObject <UINavigationControllerDelegate,GADFullScreenContentDelegate,PHPickerViewControllerDelegate>//CTAssetsPickerControllerDelegate
+@class ModernImagePicker;
+@protocol ModernImagePickerDelegate;
+
+@interface ImageSelectionHandler : NSObject <UINavigationControllerDelegate,UIImagePickerControllerDelegate,GADFullScreenContentDelegate,PHPickerViewControllerDelegate,ModernImagePickerDelegate>//CTAssetsPickerControllerDelegate
 {
     Settings *nvm;
     BOOL Imageselection;

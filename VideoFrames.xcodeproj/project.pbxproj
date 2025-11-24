@@ -39,6 +39,8 @@
 		18F20BDA2D4C1ED4004D0D14 /* BackgroundSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F20BD92D4C1ED4004D0D14 /* BackgroundSelectionViewController.swift */; };
 		18F20BDC2D4C2402004D0D14 /* TypeBGCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F20BDB2D4C2402004D0D14 /* TypeBGCell.swift */; };
 		18F20BDE2D4C3B35004D0D14 /* BGCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F20BDD2D4C3B35004D0D14 /* BGCell.swift */; };
+		CC11223344556677AABB0001 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC11223344556677AABB0002 /* PermissionManager.swift */; };
+		CC11223344556677AABB0003 /* ModernImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC11223344556677AABB0004 /* ModernImagePicker.swift */; };
 		37D7730D4403F9F005F16C6D /* Pods_VideoFrames.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B425D3B99C3C24CB578671B6 /* Pods_VideoFrames.framework */; };
 		3C1F9DF118992B3500732EE1 /* curves01.acv in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F9DED18992B3500732EE1 /* curves01.acv */; };
 		3C1F9DF318992B3500732EE1 /* curves02.acv in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F9DEE18992B3500732EE1 /* curves02.acv */; };
@@ -316,6 +318,8 @@
 		18F20BD92D4C1ED4004D0D14 /* BackgroundSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSelectionViewController.swift; sourceTree = "<group>"; };
 		18F20BDB2D4C2402004D0D14 /* TypeBGCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeBGCell.swift; sourceTree = "<group>"; };
 		18F20BDD2D4C3B35004D0D14 /* BGCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGCell.swift; sourceTree = "<group>"; };
+		CC11223344556677AABB0002 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		CC11223344556677AABB0004 /* ModernImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernImagePicker.swift; sourceTree = "<group>"; };
 		2801D7CE16597C8D007D7D89 /* PopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupMenu.h; sourceTree = "<group>"; };
 		2801D7CF16597C8D007D7D89 /* PopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupMenu.m; sourceTree = "<group>"; };
 		2801D7D516599777007D7D89 /* ImageSelectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageSelectionHandler.h; sourceTree = "<group>"; };
@@ -1337,6 +1341,8 @@
 				188FFE412D55581F0006B24F /* RoundedTopCorners+Shadow.swift */,
 				189843532D529F4300F5CF07 /* UIImage+withPadding.swift */,
 				18F20BDD2D4C3B35004D0D14 /* BGCell.swift */,
+				CC11223344556677AABB0002 /* PermissionManager.swift */,
+				CC11223344556677AABB0004 /* ModernImagePicker.swift */,
 				18F20BDB2D4C2402004D0D14 /* TypeBGCell.swift */,
 				18F20BD92D4C1ED4004D0D14 /* BackgroundSelectionViewController.swift */,
 				18C0D6452D694F0800EAB4FE /* AlignmentCell.swift */,
@@ -1775,6 +1781,8 @@
 				5343201526B291A8008EAF32 /* ANImageBitmapRep.m in Sources */,
 				3C9CA45B185AF56900DCC5B1 /* Session.m in Sources */,
 				18F20BDE2D4C3B35004D0D14 /* BGCell.swift in Sources */,
+				CC11223344556677AABB0001 /* PermissionManager.swift in Sources */,
+				CC11223344556677AABB0003 /* ModernImagePicker.swift in Sources */,
 				3C31667D187E6A9E009E01E8 /* OptionsViewController.m in Sources */,
 				53D31E1C2A16468300F915AC /* DGActivityIndicatorView.m in Sources */,
 				3C9CA45C185AF56900DCC5B1 /* FrameDB.m in Sources */,
