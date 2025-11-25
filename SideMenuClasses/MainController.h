@@ -68,6 +68,10 @@
 
 // Forward declarations
 @class FrameSelectionController;
+@class PhotoActionViewController;
+@class AdjustOptionsViewController;
+@class SpeedViewController;
+@class TrimViewController;
 
 @interface MainController : UIViewController
 
@@ -94,7 +98,13 @@
 @property (nonatomic,assign) int interestial_HomeButtonClickCount;
 @property (nonatomic,assign) int interestial_ShareCount;
 
-
+// Photo Selection Feature
+@property (nonatomic, strong) PhotoActionViewController *photoActionVC;
+@property (nonatomic, strong) AdjustOptionsViewController *adjustOptionsVC;
+@property (nonatomic, strong) SpeedViewController *speedVC;
+@property (nonatomic, strong) TrimViewController *trimVC;
+@property (nonatomic, assign) int currentSelectedPhotoIndex;
+@property (nonatomic, assign) BOOL isInPhotoSelectionMode;
 
 //-(void)uploadSelected;
 -(void)updateNewsBadgeTo:(NSString*)badge flashState:(BOOL)flash;

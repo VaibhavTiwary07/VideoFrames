@@ -1,0 +1,1058 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -workspace VideoFrames.xcworkspace -scheme VideoFrames -sdk iphonesimulator build
+
+Build settings from command line:
+    SDKROOT = iphonesimulator26.0
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+{ platform:iOS Simulator, arch:arm64, id:FE468199-1AF2-4EBE-8F86-D38F88BFF064, OS:15.2, name:iPad (9th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:FE468199-1AF2-4EBE-8F86-D38F88BFF064, OS:15.2, name:iPad (9th generation) }
+{ platform:iOS Simulator, arch:arm64, id:CD7F9FE2-255C-4E72-8E42-4FAD59CDF247, OS:18.5, name:iPad (A16) }
+{ platform:iOS Simulator, arch:x86_64, id:CD7F9FE2-255C-4E72-8E42-4FAD59CDF247, OS:18.5, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:B98B3D46-4E2C-4AE5-B284-8F2E7F98457F, OS:26.0, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:912F9F78-7788-422F-B50A-2086A4CC80E6, OS:15.2, name:iPad Air (4th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:912F9F78-7788-422F-B50A-2086A4CC80E6, OS:15.2, name:iPad Air (4th generation) }
+{ platform:iOS Simulator, arch:arm64, id:15198F8E-F43B-4001-9273-09D913809941, OS:18.5, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:x86_64, id:15198F8E-F43B-4001-9273-09D913809941, OS:18.5, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:CFF14535-2C36-4EDC-B49C-CF2C2DA356AC, OS:26.0, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:1A1ACE24-6725-4296-802E-F7C39F52BF55, OS:18.5, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:x86_64, id:1A1ACE24-6725-4296-802E-F7C39F52BF55, OS:18.5, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:B97055B2-271E-4790-BA77-D8ABCE25DEFF, OS:26.0, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:3B2D793E-0C26-435B-BD52-4F868E704D47, OS:15.2, name:iPad Pro (9.7-inch) }
+{ platform:iOS Simulator, arch:x86_64, id:3B2D793E-0C26-435B-BD52-4F868E704D47, OS:15.2, name:iPad Pro (9.7-inch) }
+{ platform:iOS Simulator, arch:arm64, id:22012D75-D47A-4E4B-9A7C-58458514FF4A, OS:15.2, name:iPad Pro (11-inch) (3rd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:22012D75-D47A-4E4B-9A7C-58458514FF4A, OS:15.2, name:iPad Pro (11-inch) (3rd generation) }
+{ platform:iOS Simulator, arch:arm64, id:DF9290EB-C378-46CE-9340-F422A259C938, OS:15.2, name:iPad Pro (12.9-inch) (5th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:DF9290EB-C378-46CE-9340-F422A259C938, OS:15.2, name:iPad Pro (12.9-inch) (5th generation) }
+{ platform:iOS Simulator, arch:arm64, id:D11EBB54-9084-4734-B9CB-2B2142CE0081, OS:18.5, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:x86_64, id:D11EBB54-9084-4734-B9CB-2B2142CE0081, OS:18.5, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:478B3BA7-1954-4574-B5AD-9FAC619D395C, OS:26.0, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:A73CA73A-DF39-492F-AF83-5BF7A5AD4269, OS:18.5, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:x86_64, id:A73CA73A-DF39-492F-AF83-5BF7A5AD4269, OS:18.5, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:56F3B039-1D86-4261-874A-DA27FCAD867E, OS:26.0, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:F2BEB7AD-0B50-46E1-9D68-6516EF59D8FC, OS:15.2, name:iPad mini (6th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:F2BEB7AD-0B50-46E1-9D68-6516EF59D8FC, OS:15.2, name:iPad mini (6th generation) }
+{ platform:iOS Simulator, arch:arm64, id:83E50510-6E5C-4E19-AAB6-EC3EDCD6AABC, OS:18.5, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:x86_64, id:83E50510-6E5C-4E19-AAB6-EC3EDCD6AABC, OS:18.5, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:0D04964E-5BD4-4E8D-B627-28BBEEA840E8, OS:26.0, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:1E384D8E-FA1A-4821-8324-D81C88F1D3D5, OS:15.2, name:iPhone 13 }
+{ platform:iOS Simulator, arch:x86_64, id:1E384D8E-FA1A-4821-8324-D81C88F1D3D5, OS:15.2, name:iPhone 13 }
+{ platform:iOS Simulator, arch:arm64, id:5149C705-48E7-4730-A3D2-621388575B39, OS:15.2, name:iPhone 13 Pro }
+{ platform:iOS Simulator, arch:x86_64, id:5149C705-48E7-4730-A3D2-621388575B39, OS:15.2, name:iPhone 13 Pro }
+{ platform:iOS Simulator, arch:arm64, id:423472B5-5A34-4E2F-B2F5-8DDC8577B7DB, OS:15.2, name:iPhone 13 Pro Max }
+{ platform:iOS Simulator, arch:x86_64, id:423472B5-5A34-4E2F-B2F5-8DDC8577B7DB, OS:15.2, name:iPhone 13 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:39D35260-D3B3-4E78-AB52-5F32BD93C4AA, OS:15.2, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:x86_64, id:39D35260-D3B3-4E78-AB52-5F32BD93C4AA, OS:15.2, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:arm64, id:890E96DA-F239-4B3A-9E7B-BD1AC4E77ACE, OS:18.5, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:x86_64, id:890E96DA-F239-4B3A-9E7B-BD1AC4E77ACE, OS:18.5, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:arm64, id:169A27F0-3D06-423B-AE53-996369DFC656, OS:18.5, name:iPhone 16 }
+{ platform:iOS Simulator, arch:x86_64, id:169A27F0-3D06-423B-AE53-996369DFC656, OS:18.5, name:iPhone 16 }
+{ platform:iOS Simulator, arch:arm64, id:9782FB1E-02CE-49A6-8F4F-EE9F3FB13268, OS:18.5, name:iPhone 16 Plus }
+{ platform:iOS Simulator, arch:x86_64, id:9782FB1E-02CE-49A6-8F4F-EE9F3FB13268, OS:18.5, name:iPhone 16 Plus }
+{ platform:iOS Simulator, arch:arm64, id:E91CDB7E-14D6-4980-AB3F-96B5C4BD7517, OS:18.5, name:iPhone 16 Pro }
+{ platform:iOS Simulator, arch:x86_64, id:E91CDB7E-14D6-4980-AB3F-96B5C4BD7517, OS:18.5, name:iPhone 16 Pro }
+{ platform:iOS Simulator, arch:arm64, id:481DD558-F984-4AFF-A91F-26520B1E792C, OS:18.5, name:iPhone 16 Pro Max }
+{ platform:iOS Simulator, arch:x86_64, id:481DD558-F984-4AFF-A91F-26520B1E792C, OS:18.5, name:iPhone 16 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:02613826-F8FD-4874-BC6F-85A7C8517D2C, OS:18.5, name:iPhone 16e }
+{ platform:iOS Simulator, arch:x86_64, id:02613826-F8FD-4874-BC6F-85A7C8517D2C, OS:18.5, name:iPhone 16e }
+{ platform:iOS Simulator, arch:arm64, id:B475992E-2AB9-4D12-A851-78F9AC7A5C00, OS:26.0, name:iPhone 16e }
+{ platform:iOS Simulator, arch:arm64, id:DF759FFD-BBD1-4506-B446-D1583AE57714, OS:26.0, name:iPhone 17 }
+{ platform:iOS Simulator, arch:arm64, id:CA0E6195-4F38-462B-9654-29ABA2D0E4BE, OS:26.0, name:iPhone 17 Pro }
+{ platform:iOS Simulator, arch:arm64, id:C44AB877-70D4-42A2-B8F6-9F7264C21B17, OS:26.0, name:iPhone 17 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:9DD6F247-B809-4EC9-A115-193F418E0FF7, OS:26.0, name:iPhone Air }
+{ platform:iOS Simulator, arch:arm64, id:632568BF-7AE6-45CA-9299-D0EC570BB7E6, OS:15.2, name:iPhone SE (2nd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:632568BF-7AE6-45CA-9299-D0EC570BB7E6, OS:15.2, name:iPhone SE (2nd generation) }
+{ platform:iOS Simulator, arch:arm64, id:C40529AD-AB05-4FB4-9156-AE20B46CBC5C, OS:18.5, name:iPhone SE (3rd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:C40529AD-AB05-4FB4-9156-AE20B46CBC5C, OS:18.5, name:iPhone SE (3rd generation) }
+{ platform:iOS Simulator, arch:arm64, id:0C2EAA6B-8CE4-4113-BE01-D28AE103F3E5, OS:15.2, name:iPod touch (7th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:0C2EAA6B-8CE4-4113-BE01-D28AE103F3E5, OS:15.2, name:iPod touch (7th generation) }
+{ platform:iOS Simulator, arch:arm64, id:6EA7DEAA-3D4E-416E-90F5-944FF0F6AB68, OS:18.5, name:ipad 9 }
+{ platform:iOS Simulator, arch:x86_64, id:6EA7DEAA-3D4E-416E-90F5-944FF0F6AB68, OS:18.5, name:ipad 9 }
+{ platform:iOS Simulator, arch:arm64, id:F0FF30B7-9E07-420E-8E0C-4CBF87C1AAAF, OS:26.0, name:ipad m4 ios 26 }
+{ platform:iOS Simulator, arch:arm64, id:E29B6046-8D4D-4A93-B511-D00B6FE7E7C8, OS:15.2, name:iphone ios 15 }
+{ platform:iOS Simulator, arch:x86_64, id:E29B6046-8D4D-4A93-B511-D00B6FE7E7C8, OS:15.2, name:iphone ios 15 }
+{ platform:iOS Simulator, arch:arm64, id:D2A09EE0-FF95-4790-B4F8-45381DA5033D, OS:18.5, name:iphone se 2 }
+{ platform:iOS Simulator, arch:x86_64, id:D2A09EE0-FF95-4790-B4F8-45381DA5033D, OS:18.5, name:iphone se 2 }
+{ platform:iOS Simulator, arch:arm64, id:9B5782CC-843D-4F56-BF2E-79B5B9781223, OS:15.2, name:ipod 7th gen touch }
+{ platform:iOS Simulator, arch:x86_64, id:9B5782CC-843D-4F56-BF2E-79B5B9781223, OS:15.2, name:ipod 7th gen touch }
+{ platform:iOS Simulator, arch:arm64, id:61E96C5D-1F44-45D9-8A90-6FEB7745939C, OS:15.2, name:ipphone se1 }
+{ platform:iOS Simulator, arch:x86_64, id:61E96C5D-1F44-45D9-8A90-6FEB7745939C, OS:15.2, name:ipphone se1 }
+{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008132-000239A23439801C, name:My Mac }
+{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
+{ platform:iOS, arch:arm64, id:00008030-000345D23ED8C02E, name:Black iPad }
+{ platform:iOS, arch:arm64, id:00008110-001C6C183E80A01E, name:Vaibhav }
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (59 targets)
+    Target 'VideoFrames' in project 'VideoFrames'
+        ➜ Implicit dependency on target 'Pods-VideoFrames' in project 'Pods' via file 'Pods_VideoFrames.framework' in build phase 'Link Binary'
+        ➜ Implicit dependency on target 'Appirater' in project 'Pods' via options '-framework Appirater' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'BAShimmerButton' in project 'Pods' via options '-framework BAShimmerButton' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CMPopTipView' in project 'Pods' via options '-framework CMPopTipView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CTAssetsPickerController' in project 'Pods' via options '-framework CTAssetsPickerController' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'DXPopover' in project 'Pods' via options '-framework DXPopover' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PromisesObjC' in project 'Pods' via options '-framework FBLPromises' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseABTesting' in project 'Pods' via options '-framework FirebaseABTesting' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCore' in project 'Pods' via options '-framework FirebaseCore' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCoreExtension' in project 'Pods' via options '-framework FirebaseCoreExtension' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCoreInternal' in project 'Pods' via options '-framework FirebaseCoreInternal' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCrashlytics' in project 'Pods' via options '-framework FirebaseCrashlytics' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseDynamicLinks' in project 'Pods' via options '-framework FirebaseDynamicLinks' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseInstallations' in project 'Pods' via options '-framework FirebaseInstallations' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseMessaging' in project 'Pods' via options '-framework FirebaseMessaging' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseRemoteConfig' in project 'Pods' via options '-framework FirebaseRemoteConfig' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods' via options '-framework FirebaseRemoteConfigInterop' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseSessions' in project 'Pods' via options '-framework FirebaseSessions' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseSharedSwift' in project 'Pods' via options '-framework FirebaseSharedSwift' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GPUImage' in project 'Pods' via options '-framework GPUImage' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GoogleDataTransport' in project 'Pods' via options '-framework GoogleDataTransport' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GoogleUtilities' in project 'Pods' via options '-framework GoogleUtilities' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'Google-Mobile-Ads-SDK' in project 'Pods' via options '-framework Google_Mobile_Ads_SDK' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'lottie-ios' in project 'Pods' via options '-framework Lottie' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PopoverView' in project 'Pods' via options '-framework PopoverView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PromisesSwift' in project 'Pods' via options '-framework Promises' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PureLayout' in project 'Pods' via options '-framework PureLayout' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'REFrostedViewController' in project 'Pods' via options '-framework REFrostedViewController' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'SBJson4' in project 'Pods' via options '-framework SBJson4' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'SWSnapshotStackView' in project 'Pods' via options '-framework SWSnapshotStackView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'THLabel' in project 'Pods' via options '-framework THLabel' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'TYCyclePagerView' in project 'Pods' via options '-framework TYCyclePagerView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'WCAlertView' in project 'Pods' via options '-framework WCAlertView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'nanopb' in project 'Pods' via options '-framework nanopb' in build setting 'OTHER_LDFLAGS'
+    Target 'Pods-VideoFrames' in project 'Pods'
+        ➜ Explicit dependency on target 'Appirater' in project 'Pods'
+        ➜ Explicit dependency on target 'BAShimmerButton' in project 'Pods'
+        ➜ Explicit dependency on target 'CMPopTipView' in project 'Pods'
+        ➜ Explicit dependency on target 'CTAssetsPickerController' in project 'Pods'
+        ➜ Explicit dependency on target 'DXPopover' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseABTesting' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAnalytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCrashlytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseDynamicLinks' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseMessaging' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfig' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSessions' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSharedSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'GPUImage' in project 'Pods'
+        ➜ Explicit dependency on target 'Google-Mobile-Ads-SDK' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAdsOnDeviceConversion' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAppMeasurement' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PopoverView' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'PureLayout' in project 'Pods'
+        ➜ Explicit dependency on target 'REFrostedViewController' in project 'Pods'
+        ➜ Explicit dependency on target 'SBJson4' in project 'Pods'
+        ➜ Explicit dependency on target 'SWSnapshotStackView' in project 'Pods'
+        ➜ Explicit dependency on target 'THLabel' in project 'Pods'
+        ➜ Explicit dependency on target 'TYCyclePagerView' in project 'Pods'
+        ➜ Explicit dependency on target 'WCAlertView' in project 'Pods'
+        ➜ Explicit dependency on target 'lottie-ios' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'lottie-ios' in project 'Pods' (no dependencies)
+    Target 'WCAlertView' in project 'Pods' (no dependencies)
+    Target 'TYCyclePagerView' in project 'Pods' (no dependencies)
+    Target 'THLabel' in project 'Pods' (no dependencies)
+    Target 'SWSnapshotStackView' in project 'Pods' (no dependencies)
+    Target 'SBJson4' in project 'Pods' (no dependencies)
+    Target 'REFrostedViewController' in project 'Pods' (no dependencies)
+    Target 'PopoverView' in project 'Pods' (no dependencies)
+    Target 'Google-Mobile-Ads-SDK' in project 'Pods'
+        ➜ Explicit dependency on target 'Google-Mobile-Ads-SDK-GoogleMobileAdsResources' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'Pods'
+    Target 'GoogleUserMessagingPlatform' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform-UserMessagingPlatformResources' in project 'Pods'
+    Target 'GoogleUserMessagingPlatform-UserMessagingPlatformResources' in project 'Pods' (no dependencies)
+    Target 'Google-Mobile-Ads-SDK-GoogleMobileAdsResources' in project 'Pods' (no dependencies)
+    Target 'GPUImage' in project 'Pods' (no dependencies)
+    Target 'FirebaseRemoteConfig' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseABTesting' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfig-FirebaseRemoteConfig_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSharedSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'FirebaseSharedSwift' in project 'Pods' (no dependencies)
+    Target 'FirebaseRemoteConfig-FirebaseRemoteConfig_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseMessaging' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseMessaging-FirebaseMessaging_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'FirebaseMessaging-FirebaseMessaging_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseDynamicLinks' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseDynamicLinks-FirebaseDynamicLinks_Privacy' in project 'Pods'
+    Target 'FirebaseDynamicLinks-FirebaseDynamicLinks_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCrashlytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCrashlytics-FirebaseCrashlytics_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSessions' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'FirebaseSessions' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'PromisesSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesSwift-Promises_Privacy' in project 'Pods'
+    Target 'PromisesSwift-Promises_Privacy' in project 'Pods' (no dependencies)
+    Target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport-GoogleDataTransport_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'GoogleDataTransport-GoogleDataTransport_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseRemoteConfigInterop' in project 'Pods' (no dependencies)
+    Target 'FirebaseCrashlytics-FirebaseCrashlytics_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension-FirebaseCoreExtension_Privacy' in project 'Pods'
+    Target 'FirebaseCoreExtension-FirebaseCoreExtension_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseAnalytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAppMeasurement' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'GoogleAppMeasurement' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAdsOnDeviceConversion' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'GoogleAdsOnDeviceConversion' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'nanopb' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb-nanopb_Privacy' in project 'Pods'
+    Target 'nanopb-nanopb_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations-FirebaseInstallations_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+    Target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC-FBLPromises_Privacy' in project 'Pods'
+    Target 'PromisesObjC-FBLPromises_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseInstallations-FirebaseInstallations_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseABTesting' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseABTesting-FirebaseABTesting_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+    Target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore-FirebaseCore_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal-FirebaseCoreInternal_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities-GoogleUtilities_Privacy' in project 'Pods'
+    Target 'GoogleUtilities-GoogleUtilities_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCoreInternal-FirebaseCoreInternal_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCore-FirebaseCore_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseABTesting-FirebaseABTesting_Privacy' in project 'Pods' (no dependencies)
+    Target 'DXPopover' in project 'Pods'
+        ➜ Explicit dependency on target 'DXPopover-DXPopover' in project 'Pods'
+    Target 'DXPopover-DXPopover' in project 'Pods' (no dependencies)
+    Target 'CTAssetsPickerController' in project 'Pods'
+        ➜ Explicit dependency on target 'CTAssetsPickerController-CTAssetsPickerController' in project 'Pods'
+        ➜ Explicit dependency on target 'PureLayout' in project 'Pods'
+    Target 'PureLayout' in project 'Pods' (no dependencies)
+    Target 'CTAssetsPickerController-CTAssetsPickerController' in project 'Pods' (no dependencies)
+    Target 'CMPopTipView' in project 'Pods' (no dependencies)
+    Target 'BAShimmerButton' in project 'Pods'
+        ➜ Explicit dependency on target 'BAShimmerButton-BAShimmerButton' in project 'Pods'
+    Target 'BAShimmerButton-BAShimmerButton' in project 'Pods' (no dependencies)
+    Target 'Appirater' in project 'Pods'
+        ➜ Explicit dependency on target 'Appirater-Appirater' in project 'Pods'
+    Target 'Appirater-Appirater' in project 'Pods' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-26257891a6c027eb51374368541b8346.sdkstatcache
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-26257891a6c027eb51374368541b8346.sdkstatcache
+
+warning: Run script build phase 'Run Script' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'VideoFrames' from project 'VideoFrames')
+ScanDependencies /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/14877033481237339702/VideoFrames-Prefix.pch.gch /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Supporting\ Files/VideoFrames-Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler (in target 'VideoFrames' from project 'VideoFrames')
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    
+    Using response file: /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp
+    
+    builtin-ScanDependencies -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/14877033481237339702/VideoFrames-Prefix.pchscan.gch -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c-header -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-implicit-atomic-properties -Wno-objc-interface-ivars -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -index-store-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Index.noindex/DataStore @/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp -c /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Supporting\ Files/VideoFrames-Prefix.pch -MD -MT dependencies -MF /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/14877033481237339702/VideoFrames-Prefix.pch.d -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/14877033481237339702/VideoFrames-Prefix.pch.gch --serialize-diagnostics /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/14877033481237339702/VideoFrames-Prefix.pch.dia
+
+ScanDependencies /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m normal arm64 objective-c com.apple.compilers.llvm.clang.1_0.compiler (in target 'VideoFrames' from project 'VideoFrames')
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    
+    Using response file: /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp
+    
+    builtin-ScanDependencies -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o.scan -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-26257891a6c027eb51374368541b8346.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-implicit-atomic-properties -Wno-objc-interface-ivars -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -index-store-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Index.noindex/DataStore @/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp -include /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/15299219082300005813/VideoFrames-Prefix.pch -MMD -MT dependencies -MF /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.d --serialize-diagnostics /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.dia -c /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o -index-unit-output-path /VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o
+
+ScanDependencies /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12798777210178308076/VideoFrames-Prefix.pch.gch /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Supporting\ Files/VideoFrames-Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler (in target 'VideoFrames' from project 'VideoFrames')
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    
+    Using response file: /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp
+    
+    builtin-ScanDependencies -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12798777210178308076/VideoFrames-Prefix.pchscan.gch -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c-header -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-implicit-atomic-properties -Wno-objc-interface-ivars -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -index-store-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Index.noindex/DataStore @/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp -c /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Supporting\ Files/VideoFrames-Prefix.pch -fno-objc-arc -MD -MT dependencies -MF /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12798777210178308076/VideoFrames-Prefix.pch.d -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12798777210178308076/VideoFrames-Prefix.pch.gch --serialize-diagnostics /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12798777210178308076/VideoFrames-Prefix.pch.dia
+
+CompileAssetCatalogVariant thinned /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/VideoCollage.app /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFramesPatterns.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/LatestUI.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFrameShapes.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/NewUIVidFrames.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFrameThumbNails.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Assets.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Stickers.xcassets (in target 'VideoFrames' from project 'VideoFrames')
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFramesPatterns.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/LatestUI.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFrameShapes.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/NewUIVidFrames.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFrameThumbNails.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Assets.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Stickers.xcassets --compile /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 15.0 --platform iphonesimulator
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/GeneratedAssetSymbols.swift:1084:14: warning: The "emoji_1" image asset name resolves to the symbol "emoji1" which already exists. Try renaming the asset.
+    #warning("The \"emoji_1\" image asset name resolves to the symbol \"emoji1\" which already exists. Try renaming the asset.")
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/GeneratedAssetSymbols.swift:1974:14: warning: The "pattern_2" image asset name resolves to the symbol "pattern2" which already exists. Try renaming the asset.
+    #warning("The \"pattern_2\" image asset name resolves to the symbol \"pattern2\" which already exists. Try renaming the asset.")
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/GeneratedAssetSymbols.swift:2306:14: warning: The "star_Image" image asset name resolves to the symbol "star" which already exists. Try renaming the asset.
+    #warning("The \"star_Image\" image asset name resolves to the symbol \"star\" which already exists. Try renaming the asset.")
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SwiftDriver VideoFrames normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'VideoFrames' from project 'VideoFrames')
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name VideoCollage -Onone -enforce-exclusivity\=checked @/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/VideoCollage.SwiftFileList -D COCOAPODS -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk -target x86_64-apple-ios15.0-simulator -g -module-cache-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Appirater -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/BAShimmerButton -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CMPopTipView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CTAssetsPickerController -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/DXPopover -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseABTesting -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCore -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreExtension -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreInternal -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCrashlytics -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseDynamicLinks -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseInstallations -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseMessaging -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfig -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfigInterop -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSessions -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSharedSwift -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Google-Mobile-Ads-SDK -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleDataTransport -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleUtilities -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PopoverView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesObjC -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesSwift -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PureLayout -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/REFrostedViewController -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SBJson4 -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SWSnapshotStackView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/THLabel -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/TYCyclePagerView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/WCAlertView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/lottie-ios -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/nanopb -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseAnalytics/Frameworks -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/GoogleAdsOnDeviceConversion/Frameworks -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/GoogleAppMeasurement/Frameworks -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/GoogleUserMessagingPlatform/Frameworks/Release -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/Google-Mobile-Ads-SDK -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleAdsOnDeviceConversion -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleAppMeasurement/Core -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleAppMeasurement/IdentitySupport -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleUserMessagingPlatform -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-26257891a6c027eb51374368541b8346.sdkstatcache -output-file-map /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/VideoFrames-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/VideoCollage.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/VideoFrames_const_extract_protocols.json -Xcc -iquote -Xcc /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-generated-files.hmap -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-own-target-headers.hmap -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames-285f83fddc3563d2b96d4d8a3b44ed75-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-project-headers.hmap -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Appirater/Appirater.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/BAShimmerButton/BAShimmerButton.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CMPopTipView/CMPopTipView.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/DXPopover/DXPopover.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseABTesting/FirebaseABTesting.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreExtension/FirebaseCoreExtension.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreInternal/FirebaseCoreInternal.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCrashlytics/FirebaseCrashlytics.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseDynamicLinks/FirebaseDynamicLinks.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseInstallations/FirebaseInstallations.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfig/FirebaseRemoteConfig.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfigInterop/FirebaseRemoteConfigInterop.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSessions/FirebaseSessions.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSharedSwift/FirebaseSharedSwift.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Google-Mobile-Ads-SDK/Google_Mobile_Ads_SDK.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleDataTransport/GoogleDataTransport.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleUtilities/GoogleUtilities.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PopoverView/PopoverView.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesObjC/FBLPromises.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesSwift/Promises.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PureLayout/PureLayout.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/REFrostedViewController/REFrostedViewController.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SBJson4/SBJson4.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SWSnapshotStackView/SWSnapshotStackView.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/THLabel/THLabel.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/TYCyclePagerView/TYCyclePagerView.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/WCAlertView/WCAlertView.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/nanopb/nanopb.framework/Headers -Xcc -I/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/libxml2 -Xcc -I/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/CTAssetsPickerController -Xcc -I/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/RSColorPicker -Xcc -I/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources-normal/x86_64 -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/x86_64 -Xcc -I/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources -Xcc -DDEBUG\=1 -Xcc -DCOCOAPODS\=1 -Xcc -DDEBUG\=1 -Xcc -DPB_FIELD_32BIT\=1 -Xcc -DPB_NO_PACKED_STRUCTS\=1 -Xcc -DPB_ENABLE_MALLOC\=1 -Xcc -DVideoCollage -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/x86_64/VideoCollage-Swift.h -import-objc-header /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/VideoFrames-Bridging-Header.h -working-directory /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6 -experimental-emit-module-separately -disable-cmo
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/GeneratedAssetSymbols.swift:1084:14: warning: The "emoji_1" image asset name resolves to the symbol "emoji1" which already exists. Try renaming the asset.
+    #warning("The \"emoji_1\" image asset name resolves to the symbol \"emoji1\" which already exists. Try renaming the asset.")
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ (in target 'VideoFrames' from project 'VideoFrames')
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/GeneratedAssetSymbols.swift:1974:14: warning: The "pattern_2" image asset name resolves to the symbol "pattern2" which already exists. Try renaming the asset.
+    #warning("The \"pattern_2\" image asset name resolves to the symbol \"pattern2\" which already exists. Try renaming the asset.")
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ (in target 'VideoFrames' from project 'VideoFrames')
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/GeneratedAssetSymbols.swift:2306:14: warning: The "star_Image" image asset name resolves to the symbol "star" which already exists. Try renaming the asset.
+    #warning("The \"star_Image\" image asset name resolves to the symbol \"star\" which already exists. Try renaming the asset.")
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ (in target 'VideoFrames' from project 'VideoFrames')
+
+CompileC /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AppDelegate.o /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.m normal arm64 objective-c com.apple.compilers.llvm.clang.1_0.compiler (in target 'VideoFrames' from project 'VideoFrames')
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    
+    Using response file: /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp
+    
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-26257891a6c027eb51374368541b8346.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-implicit-atomic-properties -Wno-objc-interface-ivars -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -index-store-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Index.noindex/DataStore @/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp -include /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/15299219082300005813/VideoFrames-Prefix.pch -MMD -MT dependencies -MF /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AppDelegate.d --serialize-diagnostics /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AppDelegate.dia -c /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.m -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AppDelegate.o -index-unit-output-path /VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AppDelegate.o
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.m:9:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.h:15:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/WCAlertView/WCAlertView.framework/Headers/WCAlertView.h:46:26: warning: 'UIAlertView' is deprecated: first deprecated in iOS 9.0 - UIAlertView is deprecated. Use UIAlertController with a preferredStyle of UIAlertControllerStyleAlert instead [-Wdeprecated-declarations]
+   46 | @interface WCAlertView : UIAlertView
+      |                          ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIAlertView.h:27:12: note: 'UIAlertView' has been explicitly marked deprecated here
+   27 | @interface UIAlertView : UIView
+      |            ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.m:9:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.h:16:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/BackgroundSliderViewController.h:16:62: warning: 'GADCustomEventInterstitial' is deprecated: Use GADMediationInterstitialAd and GADMediationAdapter instead. [-Wdeprecated-declarations]
+   16 | @interface BackgroundSliderViewController : UIViewController<GADCustomEventInterstitial>
+      |                                                              ^
+In module 'GoogleMobileAds' imported from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/BackgroundSliderViewController.h:10:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/Google-Mobile-Ads-SDK/GoogleMobileAds.framework/Headers/GADCustomEventInterstitial.h:14:1: note: 'GADCustomEventInterstitial' has been explicitly marked deprecated here
+   14 | GAD_DEPRECATED_MSG_ATTRIBUTE("Use GADMediationInterstitialAd and GADMediationAdapter instead.")
+      | ^
+In module 'GoogleMobileAds' imported from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/BackgroundSliderViewController.h:10:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/Google-Mobile-Ads-SDK/GoogleMobileAds.framework/Headers/GoogleMobileAdsDefines.h:10:56: note: expanded from macro 'GAD_DEPRECATED_MSG_ATTRIBUTE'
+   10 | #define GAD_DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+      |                                                        ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.m:9:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.h:17:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/InAppNewClasses/SRSubscriptionModel.h:38:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/InAppNewClasses/SimpleSubscriptionView.h:11:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:13:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Utilities/Utils/Utility.h:14:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Frame.h:12:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:41:38: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   41 | @property(nonatomic,assign) ssivView *view;
+      |                                      ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:41:38: note: insert '_Nullable' if the pointer may be null
+   41 | @property(nonatomic,assign) ssivView *view;
+      |                                      ^
+      |                                        _Nullable 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:41:38: note: insert '_Nonnull' if the pointer should never be null
+   41 | @property(nonatomic,assign) ssivView *view;
+      |                                      ^
+      |                                        _Nonnull 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:4: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |    ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:4: note: insert '_Nullable' if the pointer may be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |    ^ 
+      |       _Nullable 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:4: note: insert '_Nonnull' if the pointer should never be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |    ^ 
+      |       _Nonnull 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:55: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |                                                       ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:55: note: insert '_Nullable' if the pointer may be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |                                                       ^
+      |                                                        _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:55: note: insert '_Nonnull' if the pointer should never be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |                                                       ^
+      |                                                        _Nonnull
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:70:32: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   70 | -(void)setEditedImage:(UIImage *)image;
+      |                                ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:70:32: note: insert '_Nullable' if the pointer may be null
+   70 | -(void)setEditedImage:(UIImage *)image;
+      |                                ^
+      |                                 _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:70:32: note: insert '_Nonnull' if the pointer should never be null
+   70 | -(void)setEditedImage:(UIImage *)image;
+      |                                ^
+      |                                 _Nonnull
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.m:9:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.h:17:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/InAppNewClasses/SRSubscriptionModel.h:38:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/InAppNewClasses/SimpleSubscriptionView.h:11:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:11: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |           ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:11: note: insert '_Nullable' if the pointer may be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |           ^
+      |            _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:11: note: insert '_Nonnull' if the pointer should never be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |           ^
+      |            _Nonnull
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:38: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |                                      ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:38: note: insert '_Nullable' if the pointer may be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |                                      ^
+      |                                       _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:38: note: insert '_Nonnull' if the pointer should never be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |                                      ^
+      |                                       _Nonnull
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/AppDelegate.m:271:71: warning: 'UILocalNotification' is deprecated: first deprecated in iOS 10.0 - Use UserNotifications Framework's UNNotificationRequest [-Wdeprecated-declarations]
+  271 | -(void)application: (UIApplication *)app didReceiveLocalNotification:(UILocalNotification *) notif
+      |                                                                       ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UILocalNotification.h:18:12: note: 'UILocalNotification' has been explicitly marked deprecated here
+   18 | @interface UILocalNotification : NSObject<NSCopying, NSCoding>
+      |            ^
+9 warnings generated.
+
+CompileC /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m normal arm64 objective-c com.apple.compilers.llvm.clang.1_0.compiler (in target 'VideoFrames' from project 'VideoFrames')
+    cd /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6
+    
+    Using response file: /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp
+    
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-26257891a6c027eb51374368541b8346.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-implicit-atomic-properties -Wno-objc-interface-ivars -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -index-store-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Index.noindex/DataStore @/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/e6072d4f65d7061329687fe24e3d63a7-common-args.resp -include /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/15299219082300005813/VideoFrames-Prefix.pch -MMD -MT dependencies -MF /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.d --serialize-diagnostics /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.dia -c /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o -index-unit-output-path /VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:12:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Frame.h:12:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:41:38: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   41 | @property(nonatomic,assign) ssivView *view;
+      |                                      ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:41:38: note: insert '_Nullable' if the pointer may be null
+   41 | @property(nonatomic,assign) ssivView *view;
+      |                                      ^
+      |                                        _Nullable 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:41:38: note: insert '_Nonnull' if the pointer should never be null
+   41 | @property(nonatomic,assign) ssivView *view;
+      |                                      ^
+      |                                        _Nonnull 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:4: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |    ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:4: note: insert '_Nullable' if the pointer may be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |    ^ 
+      |       _Nullable 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:4: note: insert '_Nonnull' if the pointer should never be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |    ^ 
+      |       _Nonnull 
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:55: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |                                                       ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:55: note: insert '_Nullable' if the pointer may be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |                                                       ^
+      |                                                        _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:63:55: note: insert '_Nonnull' if the pointer should never be null
+   63 | - (id)initWithFrame:(CGRect)frame withBgColor:(UIColor*)clr;
+      |                                                       ^
+      |                                                        _Nonnull
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:70:32: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   70 | -(void)setEditedImage:(UIImage *)image;
+      |                                ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:70:32: note: insert '_Nullable' if the pointer may be null
+   70 | -(void)setEditedImage:(UIImage *)image;
+      |                                ^
+      |                                 _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Photo.h:70:32: note: insert '_Nonnull' if the pointer should never be null
+   70 | -(void)setEditedImage:(UIImage *)image;
+      |                                ^
+      |                                 _Nonnull
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:43:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/PopupMenu/ImageSelectionHandler.h:26:169: warning: cannot find protocol definition for 'ModernImagePickerDelegate'
+   26 | @interface ImageSelectionHandler : NSObject <UINavigationControllerDelegate,UIImagePickerControllerDelegate,GADFullScreenContentDelegate,PHPickerViewControllerDelegate,ModernImagePickerDelegate>//CTAssetsPickerControllerDelegate
+      |                                                                                                                                                                         ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/PopupMenu/ImageSelectionHandler.h:24:11: note: protocol 'ModernImagePickerDelegate' has no definition
+   24 | @protocol ModernImagePickerDelegate;
+      |           ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:54:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/InAppNewClasses/SRSubscriptionModel.h:38:
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/InAppNewClasses/SimpleSubscriptionView.h:11:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:11: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |           ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:11: note: insert '_Nullable' if the pointer may be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |           ^
+      |            _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:11: note: insert '_Nonnull' if the pointer should never be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |           ^
+      |            _Nonnull
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:38: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |                                      ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:38: note: insert '_Nullable' if the pointer may be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |                                      ^
+      |                                       _Nullable
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/CommonSource/Store/InAppPurchaseManager.h:58:38: note: insert '_Nonnull' if the pointer should never be null
+   58 | -(NSString*)getCurrencyCode:(NSString*)productId;
+      |                                      ^
+      |                                       _Nonnull
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:22:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CMPopTipView/CMPopTipView.framework/Headers/CMPopTipView.h:120:33: warning: 'UITextAlignment' is deprecated: first deprecated in iOS 6.0 [-Wdeprecated-declarations]
+  120 | @property (nonatomic, assign)                   UITextAlignment                 titleAlignment;
+      |                                                 ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIStringDrawing.h:41:28: note: 'UITextAlignment' has been explicitly marked deprecated here
+   41 | typedef NS_ENUM(NSInteger, UITextAlignment) {
+      |                            ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:22:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CMPopTipView/CMPopTipView.framework/Headers/CMPopTipView.h:121:33: warning: 'UITextAlignment' is deprecated: first deprecated in iOS 6.0 [-Wdeprecated-declarations]
+  121 | @property (nonatomic, assign)                   UITextAlignment                 textAlignment;
+      |                                                 ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIStringDrawing.h:41:28: note: 'UITextAlignment' has been explicitly marked deprecated here
+   41 | typedef NS_ENUM(NSInteger, UITextAlignment) {
+      |                            ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:31:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/WCAlertView/WCAlertView.framework/Headers/WCAlertView.h:46:26: warning: 'UIAlertView' is deprecated: first deprecated in iOS 9.0 - UIAlertView is deprecated. Use UIAlertController with a preferredStyle of UIAlertControllerStyleAlert instead [-Wdeprecated-declarations]
+   46 | @interface WCAlertView : UIAlertView
+      |                          ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIAlertView.h:27:12: note: 'UIAlertView' has been explicitly marked deprecated here
+   27 | @interface UIAlertView : UIView
+      |            ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:37:
+In file included from /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers/GPUImage.h:4:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers/GPUImageContext.h:13:40: warning: 'EAGLContext' is deprecated: first deprecated in iOS 12.0 - OpenGLES API deprecated. (Define GLES_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   13 | @property(readonly, retain, nonatomic) EAGLContext *context;
+      |                                        ^
+In module 'OpenGLES':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/EAGL.h:70:12: note: 'EAGLContext' has been explicitly marked deprecated here
+   70 | @interface EAGLContext : NSObject 
+      |            ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:37:
+In file included from /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers/GPUImage.h:4:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers/GPUImageContext.h:36:24: warning: 'EAGLSharegroup' is deprecated: first deprecated in iOS 12.0 - OpenGLES API deprecated. (Define GLES_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]
+   36 | - (void)useSharegroup:(EAGLSharegroup *)sharegroup;
+      |                        ^
+In module 'OpenGLES':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/EAGL.h:54:12: note: 'EAGLSharegroup' has been explicitly marked deprecated here
+   54 | @interface EAGLSharegroup : NSObject
+      |            ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18168:1: error: duplicate declaration of method 'handlePhotoSlotSelected:'
+ 18168 | - (void)handlePhotoSlotSelected:(NSNotification *)notification
+       | ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:4652:1: note: previous declaration is here
+ 4652 | -(void)handlePhotoSlotSelected:(NSNotification *)notification
+      | ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:327:1: warning: autosynthesized property 'documentInteractionController' will use synthesized instance variable '_documentInteractionController', not existing instance variable 'documentInteractionController' [-Wobjc-autosynthesis-property-ivar-name-match]
+  327 | @implementation MainController
+      | ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:228:64: note: property declared here
+  228 | @property (nonatomic, strong) UIDocumentInteractionController *documentInteractionController;
+      |                                                                ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:85:38: note: instance variable is declared here
+   85 |     UIDocumentInteractionController *documentInteractionController;
+      |                                      ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:561:36: warning: assigning to 'id<UIPopoverPresentationControllerDelegate> _Nullable' from incompatible type 'MainController *const __strong'
+  561 |         popoverController.delegate = self; // Optional: Handle adaptive presentations
+      |                                    ^ ~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:676:12: warning: unused variable 'sze' [-Wunused-variable]
+  676 |     CGSize sze = CGSizeMake(width, height);
+      |            ^~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:2392:77: warning: 'keyWindow' is deprecated: first deprecated in iOS 13.0 - Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [-Wdeprecated-declarations]
+ 2392 |         UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+      |                                                                             ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h:108:51: note: 'keyWindow' has been explicitly marked deprecated here
+  108 | @property(nullable, nonatomic,readonly) UIWindow *keyWindow API_DEPRECATED("Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes", ios(2.0, 13.0)) API_UNAVAILABLE(visionos, watchos);
+      |                                                   ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:2821:20: warning: unused variable 'waterMarkRect' [-Wunused-variable]
+ 2821 |             CGRect waterMarkRect = CGRectMake(sess.frame.frame.size.width-width, sess.frame.frame.size.height-height, width, height);
+      |                    ^~~~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:2909:17: warning: unused variable 'heightRatio' [-Wunused-variable]
+ 2909 |         CGFloat heightRatio = newSession.size.height / oldSession.size.height;
+      |                 ^~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:3064:64: warning: 'keyWindow' is deprecated: first deprecated in iOS 13.0 - Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [-Wdeprecated-declarations]
+ 3064 |         UIViewController *vc = UIApplication.sharedApplication.keyWindow.rootViewController;
+      |                                                                ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h:108:51: note: 'keyWindow' has been explicitly marked deprecated here
+  108 | @property(nullable, nonatomic,readonly) UIWindow *keyWindow API_DEPRECATED("Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes", ios(2.0, 13.0)) API_UNAVAILABLE(visionos, watchos);
+      |                                                   ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:5186:18: warning: unused variable 'adjustImageView' [-Wunused-variable]
+ 5186 |     UIImageView *adjustImageView = (UIImageView *)[self.view viewWithTag:TAG_ADJUST_BG];
+      |                  ^~~~~~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:6413:66: warning: incompatible pointer types sending 'MainController *' to parameter of type 'NSDictionary * _Nullable' [-Wincompatible-pointer-types]
+ 6413 |                                                         userInfo:self];
+      |                                                                  ^~~~
+In module 'Foundation':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSNotification.h:45:119: note: passing argument to parameter 'aUserInfo' here
+   45 | - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject userInfo:(nullable NSDictionary *)aUserInfo;
+      |                                                                                                                       ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:6920:13: warning: unused variable 'selectAudio' [-Wunused-variable]
+ 6920 |     UIView *selectAudio = [self.view viewWithTag:TAG_AUDIO_CELL_SELECT_AUDIO_RECT];
+      |             ^~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:7598:18: warning: unused variable 'optOutVideoHelp' [-Wunused-variable]
+ 7598 |             BOOL optOutVideoHelp = [[[NSUserDefaults standardUserDefaults]objectForKey:@"optOutVideoGenerationHelp"]boolValue];
+      |                  ^~~~~~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:7882:18: warning: unused variable 'effect' [-Wunused-variable]
+ 7882 |         Effects *effect = [Effects alloc];
+      |                  ^~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8518:17: warning: unused variable 'activeTextView' [-Wunused-variable]
+ 8518 |     UITextView *activeTextView = [self findActiveTextView];
+      |                 ^~~~~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:9104:10: warning: unused variable 'intersects' [-Wunused-variable]
+ 9104 |     BOOL intersects = NO;
+      |          ^~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:9205:13: warning: unused variable 'tabBarHeight' [-Wunused-variable]
+ 9205 |     CGFloat tabBarHeight = 110.0;  // Your tab bar height
+      |             ^~~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:11092:21: warning: unused variable 'videoOffset' [-Wunused-variable]
+ 11092 |             CGPoint videoOffset = CGPointMake(poto.view.scrollView.contentOffset.x * upscaleFactor,poto.view.scrollView.contentOffset.y * upscaleFactor);
+       |                     ^~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:11442:14: warning: unused variable 'image' [-Wunused-variable]
+ 11442 |     UIImage *image = [self tiledImagetoCanvasSize:videoFrame.size];
+       |              ^~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:11838:25: warning: unused variable 'videoOffset' [-Wunused-variable]
+ 11838 |                 CGPoint videoOffset = CGPointMake(poto.view.scrollView.contentOffset.x * upscaleFactor,
+       |                         ^~~~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:13173:58: warning: 'keyWindow' is deprecated: first deprecated in iOS 13.0 - Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [-Wdeprecated-declarations]
+ 13173 |     UIWindow *window = [UIApplication sharedApplication].keyWindow;
+       |                                                          ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h:108:51: note: 'keyWindow' has been explicitly marked deprecated here
+  108 | @property(nullable, nonatomic,readonly) UIWindow *keyWindow API_DEPRECATED("Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes", ios(2.0, 13.0)) API_UNAVAILABLE(visionos, watchos);
+      |                                                   ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:13222:58: warning: 'keyWindow' is deprecated: first deprecated in iOS 13.0 - Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [-Wdeprecated-declarations]
+ 13222 |     UIWindow *window = [UIApplication sharedApplication].keyWindow;
+       |                                                          ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h:108:51: note: 'keyWindow' has been explicitly marked deprecated here
+  108 | @property(nullable, nonatomic,readonly) UIWindow *keyWindow API_DEPRECATED("Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes", ios(2.0, 13.0)) API_UNAVAILABLE(visionos, watchos);
+      |                                                   ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:13749:76: warning: 'keyWindow' is deprecated: first deprecated in iOS 13.0 - Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes [-Wdeprecated-declarations]
+ 13749 |     UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+       |                                                                            ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h:108:51: note: 'keyWindow' has been explicitly marked deprecated here
+  108 | @property(nullable, nonatomic,readonly) UIWindow *keyWindow API_DEPRECATED("Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes", ios(2.0, 13.0)) API_UNAVAILABLE(visionos, watchos);
+      |                                                   ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:14471:69: warning: 'unarchiveObjectWithData:' is deprecated: first deprecated in iOS 12.0 - Use +unarchivedObjectOfClass:fromData:error: instead [-Wdeprecated-declarations]
+ 14471 |         NSDictionary *videoInfo = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:myData];
+       |                                                                     ^
+In module 'Foundation':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSKeyedArchiver.h:154:1: note: 'unarchiveObjectWithData:' has been explicitly marked deprecated here
+  154 | + (nullable id)unarchiveObjectWithData:(NSData *)data API_DEPRECATED("Use +unarchivedObjectOfClass:fromData:error: instead", macosx(10.2,10.14), ios(2.0,12.0), watchos(2.0,5.0), tvos(9.0,12.0));
+      | ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:14482:52: warning: 'archivedDataWithRootObject:' is deprecated: first deprecated in iOS 12.0 - Use +archivedDataWithRootObject:requiringSecureCoding:error: instead [-Wdeprecated-declarations]
+ 14482 |             NSData *updatedData = [NSKeyedArchiver archivedDataWithRootObject:mutableVideoInfo];
+       |                                                    ^
+In module 'Foundation':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSKeyedArchiver.h:47:1: note: 'archivedDataWithRootObject:' has been explicitly marked deprecated here
+   47 | + (NSData *)archivedDataWithRootObject:(id)rootObject API_DEPRECATED("Use +archivedDataWithRootObject:requiringSecureCoding:error: instead", macosx(10.2,10.14), ios(2.0,12.0), watchos(2.0,5.0), tvos(9.0,12.0));
+      | ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:15816:19: warning: unused variable 'effectNo' [-Wunused-variable]
+ 15816 |         NSNumber *effectNo = [dictionaryOfEffectInfo objectForKey:[NSNumber numberWithInt:photoIndex]];
+       |                   ^~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:15811:14: warning: unused variable 'effects' [-Wunused-variable]
+ 15811 |     Effects *effects = [Effects alloc];
+       |              ^~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:16060:30: warning: sending 'GPUImagePicture *__strong' to parameter of incompatible type 'id<GPUImageInput>'
+ 16060 |             [group addTarget:grunge];
+       |                              ^~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:37:
+In file included from /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers/GPUImage.h:5:
+/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers/GPUImageOutput.h:80:38: note: passing argument to parameter 'newTarget' here
+   80 | - (void)addTarget:(id<GPUImageInput>)newTarget;
+      |                                      ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:16188:38: warning: capturing 'writer' strongly in this block is likely to lead to a retain cycle [-Warc-retain-cycles]
+ 16188 |             [toneFilter removeTarget:writer];
+       |                                      ^~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:16185:6: note: block will be retained by the captured object
+ 16185 |     [writer setCompletionBlock:^{
+       |      ^~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:16298:39: warning: 'statusBarFrame' is deprecated: first deprecated in iOS 13.0 - Use the statusBarManager property of the window scene instead. [-Wdeprecated-declarations]
+ 16298 |     [UIApplication sharedApplication].statusBarFrame.size.height;
+       |                                       ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIApplication.h:131:38: note: 'statusBarFrame' has been explicitly marked deprecated here
+  131 | @property(nonatomic,readonly) CGRect statusBarFrame API_DEPRECATED("Use the statusBarManager property of the window scene instead.", ios(2.0, 13.0)) API_UNAVAILABLE(tvos) API_UNAVAILABLE(visionos, watchos); // returns CGRectZero if the status bar is hidden
+      |                                      ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:16996:9: warning: 'UI_USER_INTERFACE_IDIOM' is deprecated: first deprecated in iOS 13.0 - Use -[UIDevice userInterfaceIdiom] directly. [-Wdeprecated-declarations]
+ 16996 |     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+       |         ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIDevice.h:77:36: note: 'UI_USER_INTERFACE_IDIOM' has been explicitly marked deprecated here
+   77 | static inline UIUserInterfaceIdiom UI_USER_INTERFACE_IDIOM(void) API_DEPRECATED("Use -[UIDevice userInterfaceIdiom] directly.", ios(2.0, 13.0), tvos(9.0, 11.0)) API_UNAVAILABLE(visionos, watchos) {
+      |                                    ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:17055:9: warning: 'UI_USER_INTERFACE_IDIOM' is deprecated: first deprecated in iOS 13.0 - Use -[UIDevice userInterfaceIdiom] directly. [-Wdeprecated-declarations]
+ 17055 |     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+       |         ^
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIDevice.h:77:36: note: 'UI_USER_INTERFACE_IDIOM' has been explicitly marked deprecated here
+   77 | static inline UIUserInterfaceIdiom UI_USER_INTERFACE_IDIOM(void) API_DEPRECATED("Use -[UIDevice userInterfaceIdiom] directly.", ios(2.0, 13.0), tvos(9.0, 11.0)) API_UNAVAILABLE(visionos, watchos) {
+      |                                    ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:17899:13: warning: unused variable 'rotation' [-Wunused-variable]
+ 17899 |     CGFloat rotation = atan2(currentTransform.b, currentTransform.a);
+       |             ^~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18096:13: warning: unused variable 'maxX' [-Wunused-variable]
+ 18096 |     CGFloat maxX = self.view.bounds.size.width - transformedSize.width;
+       |             ^~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18097:13: warning: unused variable 'maxY' [-Wunused-variable]
+ 18097 |     CGFloat maxY = self.view.bounds.size.height - transformedSize.height;
+       |             ^~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18152:12: warning: unused variable 'oldBounds' [-Wunused-variable]
+ 18152 |     CGRect oldBounds = container.bounds;
+       |            ^~~~~~~~~
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18199:32: error: receiver 'PhotoActionViewController' for class message is a forward declaration
+ 18199 |         self.photoActionVC = [[PhotoActionViewController alloc] init];
+       |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:71:8: note: forward declaration of class here
+   71 | @class PhotoActionViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18199:31: error: receiver type 'PhotoActionViewController' for instance message is a forward declaration
+ 18199 |         self.photoActionVC = [[PhotoActionViewController alloc] init];
+       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:71:8: note: forward declaration of class here
+   71 | @class PhotoActionViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18202:34: warning: incompatible pointer types sending 'PhotoActionViewController *' to parameter of type 'UIViewController * _Nonnull' [-Wincompatible-pointer-types]
+ 18202 |     [self addChildViewController:self.photoActionVC];
+       |                                  ^~~~~~~~~~~~~~~~~~
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIViewController.h:436:52: note: passing argument to parameter 'childController' here
+  436 | - (void)addChildViewController:(UIViewController *)childController API_AVAILABLE(ios(5.0));
+      |                                                    ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18203:53: error: property 'view' cannot be found in forward class object 'PhotoActionViewController'
+ 18203 |     [optionsView.view addSubview:self.photoActionVC.view];
+       |                                  ~~~~~~~~~~~~~~~~~~ ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:71:8: note: forward declaration of class here
+   71 | @class PhotoActionViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18204:24: error: property 'view' cannot be found in forward class object 'PhotoActionViewController'
+ 18204 |     self.photoActionVC.view.frame = optionsView.view.bounds;
+       |     ~~~~~~~~~~~~~~~~~~ ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:71:8: note: forward declaration of class here
+   71 | @class PhotoActionViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18205:6: error: receiver type 'PhotoActionViewController' for instance message is a forward declaration
+ 18205 |     [self.photoActionVC didMoveToParentViewController:self];
+       |      ^~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:71:8: note: forward declaration of class here
+   71 | @class PhotoActionViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18286:34: error: receiver 'AdjustOptionsViewController' for class message is a forward declaration
+ 18286 |         self.adjustOptionsVC = [[AdjustOptionsViewController alloc] init];
+       |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:72:8: note: forward declaration of class here
+   72 | @class AdjustOptionsViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18286:33: error: receiver type 'AdjustOptionsViewController' for instance message is a forward declaration
+ 18286 |         self.adjustOptionsVC = [[AdjustOptionsViewController alloc] init];
+       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:72:8: note: forward declaration of class here
+   72 | @class AdjustOptionsViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18289:34: warning: incompatible pointer types sending 'AdjustOptionsViewController *' to parameter of type 'UIViewController * _Nonnull' [-Wincompatible-pointer-types]
+ 18289 |     [self addChildViewController:self.adjustOptionsVC];
+       |                                  ^~~~~~~~~~~~~~~~~~~~
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIViewController.h:436:52: note: passing argument to parameter 'childController' here
+  436 | - (void)addChildViewController:(UIViewController *)childController API_AVAILABLE(ios(5.0));
+      |                                                    ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18290:55: error: property 'view' cannot be found in forward class object 'AdjustOptionsViewController'
+ 18290 |     [optionsView.view addSubview:self.adjustOptionsVC.view];
+       |                                  ~~~~~~~~~~~~~~~~~~~~ ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:72:8: note: forward declaration of class here
+   72 | @class AdjustOptionsViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18291:26: error: property 'view' cannot be found in forward class object 'AdjustOptionsViewController'
+ 18291 |     self.adjustOptionsVC.view.frame = optionsView.view.bounds;
+       |     ~~~~~~~~~~~~~~~~~~~~ ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:72:8: note: forward declaration of class here
+   72 | @class AdjustOptionsViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18292:6: error: receiver type 'AdjustOptionsViewController' for instance message is a forward declaration
+ 18292 |     [self.adjustOptionsVC didMoveToParentViewController:self];
+       |      ^~~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:72:8: note: forward declaration of class here
+   72 | @class AdjustOptionsViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18334:26: error: receiver 'SpeedViewController' for class message is a forward declaration
+ 18334 |         self.speedVC = [[SpeedViewController alloc] init];
+       |                          ^~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:73:8: note: forward declaration of class here
+   73 | @class SpeedViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18334:25: error: receiver type 'SpeedViewController' for instance message is a forward declaration
+ 18334 |         self.speedVC = [[SpeedViewController alloc] init];
+       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:73:8: note: forward declaration of class here
+   73 | @class SpeedViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18339:10: error: receiver type 'SpeedViewController' for instance message is a forward declaration
+ 18339 |         [self.speedVC setSpeed:pht.videoSpeed];
+       |          ^~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:73:8: note: forward declaration of class here
+   73 | @class SpeedViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18342:34: warning: incompatible pointer types sending 'SpeedViewController *' to parameter of type 'UIViewController * _Nonnull' [-Wincompatible-pointer-types]
+ 18342 |     [self addChildViewController:self.speedVC];
+       |                                  ^~~~~~~~~~~~
+In module 'UIKit':
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIViewController.h:436:52: note: passing argument to parameter 'childController' here
+  436 | - (void)addChildViewController:(UIViewController *)childController API_AVAILABLE(ios(5.0));
+      |                                                    ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18343:47: error: property 'view' cannot be found in forward class object 'SpeedViewController'
+ 18343 |     [optionsView.view addSubview:self.speedVC.view];
+       |                                  ~~~~~~~~~~~~ ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:73:8: note: forward declaration of class here
+   73 | @class SpeedViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18344:18: error: property 'view' cannot be found in forward class object 'SpeedViewController'
+ 18344 |     self.speedVC.view.frame = optionsView.view.bounds;
+       |     ~~~~~~~~~~~~ ^
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:73:8: note: forward declaration of class here
+   73 | @class SpeedViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18345:6: error: receiver type 'SpeedViewController' for instance message is a forward declaration
+ 18345 |     [self.speedVC didMoveToParentViewController:self];
+       |      ^~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:73:8: note: forward declaration of class here
+   73 | @class SpeedViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18370:25: error: receiver 'TrimViewController' for class message is a forward declaration
+ 18370 |         self.trimVC = [[TrimViewController alloc] init];
+       |                         ^~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:74:8: note: forward declaration of class here
+   74 | @class TrimViewController;
+      |        ^
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:18370:24: error: receiver type 'TrimViewController' for instance message is a forward declaration
+ 18370 |         self.trimVC = [[TrimViewController alloc] init];
+       |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m:8:
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.h:74:8: note: forward declaration of class here
+   74 | @class TrimViewController;
+      |        ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+49 warnings and 20 errors generated.
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -cc1 -Wundef-prefix\=TARGET_OS_ -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -ferror-limit 19 -serialize-diagnostic-file /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.dia -Wdeprecated-objc-isa-usage -Werror\=deprecated-objc-isa-usage -Werror\=implicit-function-declaration -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-implicit-atomic-properties -Wno-objc-interface-ivars -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -Wno-implicit-fallthrough -Wprotocol -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -index-store-path /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Index.noindex/DataStore -index-unit-output-path /VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/SystemConfiguration.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/CoreMedia.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UniformTypeIdentifiers.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/AVFoundation.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/SQLite3.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/StoreKit.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/MessageUI.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Photos.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/MetalKit.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/CoreMotion.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/PhotosUI.framework/Modules/module.modulemap -fmodule-map-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/Google-Mobile-Ads-SDK/GoogleMobileAds.framework/Modules/module.modulemap -fmodule-map-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Modules/module.modulemap -fmodule-map-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Modules/module.modulemap -fmodule-map-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/THLabel/THLabel.framework/Modules/module.modulemap -fmodule-map-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Modules/module.modulemap -fmodule-map-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/AVKit.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/MobileCoreServices.framework/Modules/module.modulemap -fmodule-map-file\=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/MediaPlayer.framework/Modules/module.modulemap -o /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o -disable-free -emit-obj -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation3-AW0UA7RW3672UBHARZANT04PV.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/UIKit-3MNDJ4PO922M98QVC94UBEYMR.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/QuartzCore-4270ZQUWCH5EW1TW59LESVVJ7.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Foundation-6P8E47FLGAG24AQS8W4R29R44.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreGraphics-DOO2KL53BZAWAJ3UC0P5MZ98E.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Metal-2AGO7X2IUAH8KXO4TC33E6KF3.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-7DTWM58POKBZFESMAI2IZIW15.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-BSSBWX0PSMPWCHVG2LFVJAFFT.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-B08BOB9U2MXU9HIEXR7F4PV62.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-CFF4FDZNZKI52R1DYU9JP277R.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreFoundation-52HPNRIWDH2NMOXM9C819QLN8.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ObjectiveC-VEDDMQZ05VG025O0V1GMI5XV.pcm -fmodule-file\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/OpenGLES-84QREMPV2FAIWBLH8CMFPOH17.pcm -x objective-c /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m -target-abi darwinpcs -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -triple arm64-apple-ios15.0.0-simulator -target-linker-version 1221.4 -target-sdk-version\=26.0 -fmodules-validate-system-headers -fno-modulemap-allow-subdirectory-search -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -fmodule-format\=obj -fmodule-file\=AVFoundation\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/AVFoundation-BMP2DQHWQNTXQH24CZU95FAMK.pcm -fmodule-file\=AVKit\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/AVKit-E2R3JH4SL1WLO553VPNN8ATMM.pcm -fmodule-file\=CTAssetsPickerController\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/CTAssetsPickerController-4VCGJT1JNHU7H8XQSBHS332YM.pcm -fmodule-file\=CoreMedia\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreMedia-9M2WCT75I35C9ROF3UYCWNF0.pcm -fmodule-file\=CoreMotion\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreMotion-AQW8XVCUU7O8BH2UE6FSWMK.pcm -fmodule-file\=FirebaseAnalytics\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/FirebaseAnalytics-7J7JQX4FC8Q3KRJZW30UGCS02.pcm -fmodule-file\=FirebaseCore\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/FirebaseCore-A32UFNEHDJVHVPA9L6BXKCNG7.pcm -fmodule-file\=GoogleMobileAds\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/GoogleMobileAds-3APJ683YE2RIW6NC1IKF07M2R.pcm -fmodule-file\=Lottie\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Lottie-2M7XYFHVA7TIWJTM2GLARQ4EO.pcm -fmodule-file\=MediaPlayer\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/MediaPlayer-1CFUU8YVXAD6NCTFQ6AU8GDMX.pcm -fmodule-file\=MessageUI\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/MessageUI-8JYBWRHAYP6B1VGCJYPM1BKME.pcm -fmodule-file\=MetalKit\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/MetalKit-F2FFRLI7JIQTNRJSJJRONAP50.pcm -fmodule-file\=MobileCoreServices\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/MobileCoreServices-1MDPGXOX7NW7ZSN4LDDBLXFWZ.pcm -fmodule-file\=Photos\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Photos-9AVSGPMBELBE1B7R4IMI9JN20.pcm -fmodule-file\=PhotosUI\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/PhotosUI-669JN25IUCV2FPI3VM9E9200S.pcm -fmodule-file\=SQLite3\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/SQLite3-9MQYONDQRH43EPJXWG89R2V82.pcm -fmodule-file\=StoreKit\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/StoreKit-6SBBPH8V42XLSRWBBV6TMBS5D.pcm -fmodule-file\=SystemConfiguration\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/SystemConfiguration-7PCCKXC2Y4AJI0SGYZX7LDLOA.pcm -fmodule-file\=THLabel\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/THLabel-2EOLKSU61GPKX11J91DMUQU7R.pcm -fmodule-file\=UniformTypeIdentifiers\=/Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/UniformTypeIdentifiers-3LPGU3DN8BQ9ZEM4TVDR2BDER.pcm -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-own-target-headers.hmap -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-all-non-framework-target-headers.hmap -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/include -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Appirater/Appirater.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/BAShimmerButton/BAShimmerButton.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CMPopTipView/CMPopTipView.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/DXPopover/DXPopover.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseABTesting/FirebaseABTesting.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreExtension/FirebaseCoreExtension.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreInternal/FirebaseCoreInternal.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCrashlytics/FirebaseCrashlytics.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseDynamicLinks/FirebaseDynamicLinks.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseInstallations/FirebaseInstallations.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfig/FirebaseRemoteConfig.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfigInterop/FirebaseRemoteConfigInterop.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSessions/FirebaseSessions.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSharedSwift/FirebaseSharedSwift.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage/GPUImage.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Google-Mobile-Ads-SDK/Google_Mobile_Ads_SDK.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleDataTransport/GoogleDataTransport.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleUtilities/GoogleUtilities.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PopoverView/PopoverView.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesObjC/FBLPromises.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesSwift/Promises.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PureLayout/PureLayout.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/REFrostedViewController/REFrostedViewController.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SBJson4/SBJson4.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SWSnapshotStackView/SWSnapshotStackView.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/THLabel/THLabel.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/TYCyclePagerView/TYCyclePagerView.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/WCAlertView/WCAlertView.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/nanopb/nanopb.framework/Headers -I /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/libxml2 -I /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/CTAssetsPickerController -I /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/RSColorPicker -I /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources-normal/arm64 -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/arm64 -I /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Appirater -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/BAShimmerButton -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CMPopTipView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/CTAssetsPickerController -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/DXPopover -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseABTesting -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCore -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreExtension -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCoreInternal -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseCrashlytics -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseDynamicLinks -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseInstallations -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseMessaging -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfig -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseRemoteConfigInterop -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSessions -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/FirebaseSharedSwift -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GPUImage -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/Google-Mobile-Ads-SDK -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleDataTransport -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/GoogleUtilities -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PopoverView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesObjC -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PromisesSwift -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/PureLayout -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/REFrostedViewController -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SBJson4 -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/SWSnapshotStackView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/THLabel -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/TYCyclePagerView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/WCAlertView -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/lottie-ios -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/nanopb -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseAnalytics/Frameworks -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/GoogleAdsOnDeviceConversion/Frameworks -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/GoogleAppMeasurement/Frameworks -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/GoogleUserMessagingPlatform/Frameworks/Release -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/Google-Mobile-Ads-SDK -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleAdsOnDeviceConversion -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleAppMeasurement/Core -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleAppMeasurement/IdentitySupport -F /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/GoogleUserMessagingPlatform -F /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6 -iquote /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-generated-files.hmap -iquote /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/VideoCollage-project-headers.hmap -isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/local/include -isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/Library/Frameworks -ivfsstatcache /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.0-23A339-26257891a6c027eb51374368541b8346.sdkstatcache -ivfsoverlay /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames-285f83fddc3563d2b96d4d8a3b44ed75-VFS-iphonesimulator/all-product-headers.yaml -std\=gnu99 -fexceptions -fskip-odr-check-in-gmf -fmodules -fmodule-name\=VideoCollage -fno-implicit-modules -fobjc-exceptions -fmax-type-align\=16 -fpascal-strings -fvisibility-inlines-hidden-static-local-var -mdarwin-stkchk-strong-link -fno-odr-hash-protocols -pic-level 2 -fencode-extended-block-signature -stack-protector 1 -fmodule-related-to-pch -fobjc-runtime\=ios-15.0.0 -fobjc-arc -fobjc-runtime-has-weak -fobjc-weak -fgnuc-version\=4.2.1 -fblocks -ffp-contract\=on -fclang-abi-compat\=4.0 -fno-experimental-relative-c++-abi-vtables -fno-file-reproducible -clang-vendor-feature\=+disableNonDependentMemberExprInCurrentInstantiation -clang-vendor-feature\=+enableAggressiveVLAFolding -clang-vendor-feature\=+revert09abecef7bbf -clang-vendor-feature\=+thisNoAlignAttr -clang-vendor-feature\=+thisNoNullAttr -clang-vendor-feature\=+disableAtImportPrivateFrameworkInImplementationError -O0 -fno-assume-unique-vtables -fdebug-compilation-dir\=/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6 -fcoverage-compilation-dir\=/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6 -fcommon -fobjc-msgsend-selector-stubs -fregister-global-dtors-with-atexit -fno-strict-return -dwarf-version\=4 -debugger-tuning\=lldb -disable-llvm-verifier -dwarf-ext-refs -funwind-tables\=1 -clear-ast-before-backend -discard-value-names -main-file-name MainController.m -mframe-pointer\=non-leaf -debug-info-kind\=standalone -fdiagnostics-hotness-threshold\=0 -fdiagnostics-misexpect-tolerance\=0 -include-pch /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/15299219082300005813/VideoFrames-Prefix.pch.gch -D COCOAPODS\=1 -D DEBUG\=1 -D OBJC_OLD_DISPATCH_PROTOTYPES\=1 -D PB_ENABLE_MALLOC\=1 -D PB_FIELD_32BIT\=1 -D PB_NO_PACKED_STRUCTS\=1 -D VideoCollage -D __GCC_HAVE_DWARF2_CFI_ASM\=1 -fdefine-target-os-macros -MT dependencies -dependency-file /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.d -skip-unused-modulemap-deps
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrauth-4IXXCKQHVBYQSGXELC0NTVTSF.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrauth-4IXXCKQHVBYQSGXELC0NTVTSF.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_AvailabilityInternal-74RHXZG1X37HBIP5DITTFP2Y1.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_AvailabilityInternal-74RHXZG1X37HBIP5DITTFP2Y1.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrcheck-8P9E68V3I63USEFG0Z6ORTQWV.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrcheck-8P9E68V3I63USEFG0Z6ORTQWV.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-713IV2A9WISL9BGADV27JSCS7.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-713IV2A9WISL9BGADV27JSCS7.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_float-7QZPLN6JA1OBY0CSCIXKET71D.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_float-7QZPLN6JA1OBY0CSCIXKET71D.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-SOH59WY26BGH63SLNO2UQAJ.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-SOH59WY26BGH63SLNO2UQAJ.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdarg-CF62JCVIE7169Y64DOMVF52Z3.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdarg-CF62JCVIE7169Y64DOMVF52Z3.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrcheck-1VJALHM77Y057AJTJCAMWSZGK.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrcheck-1VJALHM77Y057AJTJCAMWSZGK.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_float-6RJUW6B17QJDFED5KFAE2XFYP.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_float-6RJUW6B17QJDFED5KFAE2XFYP.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-DTXLF4YRFVGLVLIH1BSX9GUZR.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-DTXLF4YRFVGLVLIH1BSX9GUZR.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrauth-6WMIQ2ERRY1A8ZFNZDVM9UWEX.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrauth-6WMIQ2ERRY1A8ZFNZDVM9UWEX.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-85HIP9PTKAEZU5W1HZWFHWPMU.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-85HIP9PTKAEZU5W1HZWFHWPMU.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdarg-CKVRZ5VV27U6IUOONI9654IV0.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdarg-CKVRZ5VV27U6IUOONI9654IV0.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-1O4HF4BT94OOCY8WSXDDDVYNX.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-1O4HF4BT94OOCY8WSXDDDVYNX.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_AvailabilityInternal-1H2E29LSRDID6FPJNLZJN8P7H.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_AvailabilityInternal-1H2E29LSRDID6FPJNLZJN8P7H.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-37PQDRW8HIJNGJYV3QA4J3FWB.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-37PQDRW8HIJNGJYV3QA4J3FWB.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-AA7K7QROLCVO9ZYN9J93RU6BC.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-AA7K7QROLCVO9ZYN9J93RU6BC.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_limits-DYDKC5OLUJP59R4KN5USDOXF1.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_limits-DYDKC5OLUJP59R4KN5USDOXF1.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_limits-ATHSU62TJGJE81Y8W0WXJC9UY.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_limits-ATHSU62TJGJE81Y8W0WXJC9UY.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-DR364DGJOMF5DBGX8C18PKJK9.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-DR364DGJOMF5DBGX8C18PKJK9.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-BVIIU3M504EVK7YW1RUBAOEGX.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-BVIIU3M504EVK7YW1RUBAOEGX.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-6UB2A2KSOCEQFDY8H28WA9JUO.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-6UB2A2KSOCEQFDY8H28WA9JUO.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation3-19PHR0WAJWPWAG07N61EHZNRK.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation3-19PHR0WAJWPWAG07N61EHZNRK.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation3-6N4G148IM7I3TL6R4AJR47WZ1.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation3-6N4G148IM7I3TL6R4AJR47WZ1.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_inttypes-7ADV0C34JWOJAK5Q2RAVF6QW8.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_inttypes-7ADV0C34JWOJAK5Q2RAVF6QW8.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_inttypes-EW67KVQFMWNPCPYMMFLJRV6R1.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_inttypes-EW67KVQFMWNPCPYMMFLJRV6R1.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Darwin-CZRKEYDNP2SXF8AITVF0TY4QB.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Darwin-CZRKEYDNP2SXF8AITVF0TY4QB.scan
+
+PrecompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Darwin-3FRU74BP0VMLDY30B63Z9SXU1.scan
+    cd /
+    builtin-precompileModule /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/ExplicitPrecompiledModules/Darwin-3FRU74BP0VMLDY30B63Z9SXU1.scan
+
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesSwift' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'BAShimmerButton-BAShimmerButton' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesSwift-Promises_Privacy' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'THLabel' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'BAShimmerButton' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'TYCyclePagerView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'CTAssetsPickerController' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'lottie-ios' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'CTAssetsPickerController-CTAssetsPickerController' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'REFrostedViewController' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'DXPopover-DXPopover' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesObjC' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'Appirater-Appirater' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'GPUImage' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'Appirater' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'DXPopover' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'CMPopTipView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesObjC-FBLPromises_Privacy' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'SWSnapshotStackView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'SBJson4' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'WCAlertView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PopoverView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS Simulator deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PureLayout' from project 'Pods')
+** BUILD FAILED **
+
+
+The following build commands failed:
+	CompileC /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/MainController.o /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SideMenuClasses/MainController.m normal arm64 objective-c com.apple.compilers.llvm.clang.1_0.compiler (in target 'VideoFrames' from project 'VideoFrames')
+	Building workspace VideoFrames with scheme VideoFrames
+(2 failures)

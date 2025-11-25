@@ -48,9 +48,13 @@
 @property(nonatomic,readwrite)float colIndex;
 @property(nonatomic,readwrite)BOOL noTouchMode;
 @property(nonatomic,readwrite)BOOL effectTouchMode;
+@property(nonatomic,readwrite)BOOL photoSelectionMode;
 @property(nonatomic,readwrite)BOOL isContentTypeVideo;
 @property(nonatomic,readwrite)BOOL muteAudio;
 @property(nonatomic,readwrite)float videoVolume;
+@property(nonatomic,readwrite)float videoSpeed;
+@property(nonatomic,readwrite)double videoTrimStart;
+@property(nonatomic,readwrite)double videoTrimEnd;
 @property(nonatomic,readwrite)BOOL isSelected;
 @property(nonatomic,strong)UIImageView *addIconView;
 @property (nonatomic, strong, nullable) NSURL *videoURL; // Remove custom getter/setter if possible
@@ -64,4 +68,6 @@
 
 -(void)releaseAllResources;
 -(void)setEditedImage:(UIImage *)image;
+-(void)applyVideoSpeed:(float)speed;
+-(void)applyVideoTrimWithStart:(double)startTime end:(double)endTime;
 @end

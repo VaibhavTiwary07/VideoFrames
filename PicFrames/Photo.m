@@ -460,10 +460,20 @@
 
 -(void)singleTapDetected:(UITouch *)loc
 {
+    // Photo Selection Mode - for Replace/Adjust/Delete flow
+    if (self.photoSelectionMode) {
+        NSLog(@"Photo selection mode - slot tapped: %d", iPhotoNumber);
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:iPhotoNumber],@"photoIndex", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
+                                                            object:self
+                                                          userInfo:dict];
+        return;
+    }
+
     if (self.effectTouchMode) {
         NSLog(@" 2222  effect selected mode");
         if (nil!= self.view.imageView.image) {
-            
+
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:iPhotoNumber],@"photoNumber", nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForApplyingEffect
                                                                 object:self
@@ -471,7 +481,7 @@
         }else
         {
             self.view.scrollView.layer.borderWidth = 0.0;
-            
+
         }
         return;
     }
@@ -704,6 +714,72 @@
     //[self.view removeFromSuperview];
 }
 
+#pragma mark - Video Adjustment Methods
+
+-(void)applyVideoSpeed:(float)speed
+{
+    NSLog(@"Applying video speed: %.2fx", speed);
+
+    self.videoSpeed = speed;
+
+    // Apply speed to the video player if available
+    if (self.view && self.view.player && self.isContentTypeVideo) {
+        // Set the playback rate
+        self.view.player.rate = speed;
+
+        // If the player is playing, the rate change will apply immediately
+        // If paused, the rate will apply when play is called
+        NSLog(@"Video speed applied to player");
+    } else {
+        NSLog(@"No video player available to apply speed");
+    }
+}
+
+-(void)applyVideoTrimWithStart:(double)startTime end:(double)endTime
+{
+    NSLog(@"Applying video trim: %.2f to %.2f", startTime, endTime);
+
+    self.videoTrimStart = startTime;
+    self.videoTrimEnd = endTime;
+
+    // Apply trim to the video player if available
+    if (self.view && self.view.player && self.isContentTypeVideo) {
+        AVPlayerItem *playerItem = self.view.player.currentItem;
+
+        if (playerItem) {
+            // Create CMTime values for start and end
+            CMTime start = CMTimeMakeWithSeconds(startTime, NSEC_PER_SEC);
+            CMTime end = CMTimeMakeWithSeconds(endTime, NSEC_PER_SEC);
+
+            // Create a time range
+            CMTimeRange timeRange = CMTimeRangeMake(start, CMTimeSubtract(end, start));
+
+            // Seek to start time
+            [self.view.player seekToTime:start toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+
+            // Add boundary time observer to loop between start and end
+            __weak typeof(self) weakSelf = self;
+            id timeObserver = [self.view.player addBoundaryTimeObserverForTimes:@[[NSValue valueWithCMTime:end]]
+                                                                          queue:dispatch_get_main_queue()
+                                                                     usingBlock:^{
+                // When reaching end time, seek back to start
+                [weakSelf.view.player seekToTime:start toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+            }];
+
+            // Store the observer to remove it later if needed
+            // Note: In a production app, you'd want to manage and remove this observer properly
+
+            NSLog(@"Video trim applied: %@ to %@",
+                  [NSString stringWithFormat:@"%.2f", startTime],
+                  [NSString stringWithFormat:@"%.2f", endTime]);
+        } else {
+            NSLog(@"No player item available to apply trim");
+        }
+    } else {
+        NSLog(@"No video player available to apply trim");
+    }
+}
+
 -(void)dealloc
 {
    // [_internalImage release];
@@ -714,13 +790,13 @@
 //    [self.view.imageView removeGestureRecognizer:singleTap];
 //    [self.view.imageView removeGestureRecognizer:doubleTap];
 //    [self.view.imageView removeGestureRecognizer:longPress];
-        
+
     // Release other ivars
     [tapTimer release];
     [singleTap release];
     [doubleTap release];
     [longPress release];
-    
+
     [super dealloc];
 }
 

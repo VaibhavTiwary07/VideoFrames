@@ -126,6 +126,8 @@ typedef struct
 -(void)exitNoTouchMode;
 -(void)enterTouchModeForSlectingImage:(int)photoIndex;
 -(void)exitTouchModeForSlectingImage;
+-(void)enterPhotoSelectionMode:(int)photoIndex;
+-(void)exitPhotoSelectionMode;
 -(UIImage*)getImageAtIndex:(int)index;
 -(void)saveImageAfterApplyingEffect:(UIImage *)image atPhotoIndex:(int)photoIndex atFrameIndex:(int)frameIndex;
 -(void)saveImage:(UIImage*)img atIndex:(int)index;

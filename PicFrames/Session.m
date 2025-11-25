@@ -821,6 +821,43 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         }
     }
 }
+
+// MARK: - Photo Selection Mode (Green Outline)
+- (void)enterPhotoSelectionMode:(int)photoIndex
+{
+    for(int index = 0; index < self.frame.photoCount; index++)
+    {
+        Photo *pht = [self.frame getPhotoAtIndex:index];
+        if(nil != pht)
+        {
+            pht.view.imageView.image = [self getImageAtIndex:index];
+
+            if (index == photoIndex) {
+                // GREEN OUTLINE for photo selection
+                pht.view.scrollView.layer.borderColor = [UIColor greenColor].CGColor;
+                pht.view.scrollView.layer.borderWidth = 5.0;
+            } else {
+                pht.view.scrollView.layer.borderWidth = 0.0;
+            }
+
+            pht.photoSelectionMode = YES;
+        }
+    }
+}
+
+- (void)exitPhotoSelectionMode
+{
+    for(int index = 0; index < self.frame.photoCount; index++)
+    {
+        Photo *pht = [self.frame getPhotoAtIndex:index];
+        if(nil != pht)
+        {
+            pht.view.scrollView.layer.borderWidth = 0.0;
+            pht.photoSelectionMode = NO;
+        }
+    }
+}
+
 - (void)restoreFrameImages
 {
     int index = 0;

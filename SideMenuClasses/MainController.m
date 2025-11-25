@@ -87,8 +87,8 @@ typedef struct {
     //UIImage *_selectedImageBeforeEdit;dsl;vjsl;dighsl;idfh
     UIButton *_appoxeeBadge;
     BOOL removeWaterMark;
-    BOOL isInEditMode;
-    BOOL muteOptionActive;
+    // BOOL isInEditMode; // Removed - old popup system
+    // BOOL muteOptionActive; // Removed - old popup system
     UIView *curPopupViewParent;
     //   OT_TabBar *customTabBar,*customTabbarback;
     PopoverView *popOver;
@@ -129,10 +129,10 @@ typedef struct {
     // FBInterstitialAd * interstitial;
     // GADInterstitial *interstitialAds;
     GADInterstitialAd *interstitialAds;
-    
+
     BOOL PopUpShown;
-    BOOL DontShow;
-    
+    BOOL DontShow; // Still used in other parts
+
     NSString *firstsubscriptionPrice,*firstsubscriptionPriceYearly;
     long TrailPeriodDays;
     long TrailPeriodDaysYearly;
@@ -156,13 +156,13 @@ typedef struct {
     bool allowedAccessToMusic;
     NSInteger button_Index;
     PHAccessLevel accessLevel;
-    
-    
-    PopoverView *pv;
-    
-    BOOL photosOptionPresent;
-    float popoverWidth;
-    float popoverHeight;
+
+
+    // PopoverView *pv; // Removed - old popup system
+
+    BOOL photosOptionPresent; // Still used in other parts
+    // float popoverWidth; // Removed - old popup system
+    // float popoverHeight; // Removed - old popup system
     int alertShownCount;
     UIImageView *lockImageView;
     UIButton *framButtonType1;
@@ -202,8 +202,8 @@ typedef struct {
     NSLayoutConstraint *waterMarkWidthConstraints;
     UIColorPickerViewController *colorPicker;
     UIWindow *keyWindow;
-    BOOL dontShowOptionsUntilOldAssetsSaved;
-    int currentClickedPhotoFrameNumber;
+    BOOL dontShowOptionsUntilOldAssetsSaved; // Still used in other parts
+    int currentClickedPhotoFrameNumber; // Still used in other parts
     float upscaleFactor;
     CGFloat durationOftheVideo;
     BOOL changeTitle;
@@ -246,12 +246,7 @@ typedef struct {
 @property (nonatomic  , assign) int counterVariable;
 @property (nonatomic , assign) int currentSelectedPhotoNumberForEffect;
 
-@property (nonatomic, strong) DXPopover *dxpopover;
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *configs;
-@property (nonatomic, strong) NSTimer *timer;
-
-
+// Removed old popup properties: dxpopover, tableView, configs, timer
 
 @property (nonatomic, strong) UISlider *fontSizeSlider;
 @property (nonatomic, strong) UITextView *textBox;
@@ -338,7 +333,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
 @synthesize counterVariable;
 @synthesize  currentSelectedPhotoNumberForEffect;
 @synthesize removeWaterMark;
-@synthesize timer;
+// @synthesize timer; // Removed - old popup system
 @synthesize fontSizeSlider;
 @synthesize textBox;
 @synthesize maxWidth;
@@ -495,52 +490,6 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
 }
 
 
-
-- (void)updateConfigsArray:(int)photoIndex {
-    BOOL isMuted = [sess getAudioMuteValueForPhotoAtIndex:photoIndex];
-    NSLog(@"update Configs Array muted is %@",isMuted?@"YES":@"NO");
-    if (isMuted) {
-        self.configs = @[
-            @"SELECT PHOTO",
-            @"SELECT VIDEO",
-            @"REMOVE",
-            @"UNMUTE AUDIO"  // Changed to UNMUTE when audio is muted
-        ];
-    } else {
-        self.configs = @[
-            @"SELECT PHOTO",
-            @"SELECT VIDEO",
-            @"REMOVE",
-            @"MUTE AUDIO"    // Keep as MUTE when audio is unmuted
-        ];
-    }
-    
-    // Reload your table/collection view if needed
-    [self.tableView reloadData];
-}
-
-- (void)showPhotoOptions:(NSTimer*)t
-{
-    [sess.frame hideInfoTextView];
-    if(!dontShowOptionsUntilOldAssetsSaved){
-        currentClickedPhotoFrameNumber = [sess photoNumberOfCurrentSelectedPhoto];
-        Photo *pht = [sess.frame getPhotoAtIndex:currentClickedPhotoFrameNumber];
-        muteOptionActive = pht.isContentTypeVideo;
-        [self updateConfigsArray:currentClickedPhotoFrameNumber];
-        DontShow = NO;
-        if(!photosOptionPresent){
-            photosOptionPresent = YES;
-            float x = [[t.userInfo objectForKey:@"x_location"]floatValue];
-            float y = [[t.userInfo objectForKey:@"y_location"]floatValue];
-            UIImageView *v;
-            v = [t.userInfo objectForKey:@"view"];
-            NSLog(@"create popup menu");
-            [self doneBtnTapped];
-            [self.tableView reloadData];
-            pv = [PopoverView showPopoverAtPoint:CGPointMake(x, y) inView:v withContentView:self.tableView delegate:self];
-        }
-    }
-}
 
 
 - (void)presentPopoverFromSourceView:(UIView *)sourceView {
@@ -3506,16 +3455,18 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
 {
     if ([[notification name] isEqualToString:selectImageForSession])
     {
-        isInEditMode = NO;
-        [sess.frame hideInfoTextView];
-        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoOptions:) userInfo:notification.userInfo repeats:NO];
+        // Removed old popup menu - now using PhotoActionViewController
+        // isInEditMode = NO;
+        // [sess.frame hideInfoTextView];
+        // [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoOptions:) userInfo:notification.userInfo repeats:NO];
     }
     else if([[notification name] isEqualToString:editImageForSession])
     {
-        isInEditMode = YES;
-        self.imageForEdit = notification.object;
-        NSLog(@"edit Image For Session in main controller");
-        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoOptions:) userInfo:notification.userInfo repeats:NO];
+        // Removed old popup menu - now using PhotoActionViewController
+        // isInEditMode = YES;
+        // self.imageForEdit = notification.object;
+        // NSLog(@"edit Image For Session in main controller");
+        // [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showPhotoOptions:) userInfo:notification.userInfo repeats:NO];
     }
     
     else if([[notification name] isEqualToString:@"DoneApplyingfilter"])
@@ -4540,38 +4491,19 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllLocksHere) name:@"ClearAllLocksHere" object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePhotoSlotSelected:) name:@"photoSlotSelected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSelectImageForPhoto:) name:selectImageForPhoto object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleEditImageForPhoto:) name:editImageForPhoto object:nil];
 
-    self.configs = @[
-        @"SELECT PHOTO",
-        @"SELECT VIDEO",
-        @"REMOVE",
-        @"MUTE AUDIO"
-    ];
-    
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-    {
-        popoverWidth = 180;
-        popoverHeight = 140;//105;
-    }else
-    {
-        popoverWidth = 160;
-        popoverHeight = 140; //105;
-    }
-    
-    UITableView *blueView = [[UITableView alloc] init];
-    blueView.frame = CGRectMake(0, 0, popoverWidth, popoverHeight);
-    blueView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    blueView.dataSource = self;
-    blueView.delegate = self;
-    blueView.scrollEnabled = NO;
-    blueView.contentScaleFactor = 1;
-    blueView.layer.cornerRadius = 15;
-    blueView.rowHeight = UITableViewAutomaticDimension;
-    blueView.estimatedRowHeight = UITableViewAutomaticDimension;
-    self.tableView = blueView;
-    //    blueView = nil;
-    //  [blueView release];
-    self.tableView.backgroundView.backgroundColor = PHOTO_DEFAULT_COLOR;
+    // Photo Selection Feature Notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePhotoActionSelected:) name:@"photoActionSelected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAdjustActionSelected:) name:@"adjustActionSelected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAdjustOptionsBack:) name:@"adjustOptionsBack" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSpeedViewBack:) name:@"speedViewBack" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTrimViewBack:) name:@"trimViewBack" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSpeedChanged:) name:@"speedChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleVideoTrimmed:) name:@"videoTrimmed" object:nil];
+
+    // Removed old configs array and tableView initialization
     NSLog(@"end of the main controller view did load  ");
     
     // Adding the gesture recognizer
@@ -4638,21 +4570,6 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     //effeects Lock
     lockImageView.image = [UIImage imageNamed:@""];
 
-}
-
--(void)handlePhotoSlotSelected:(NSNotification *)notification
-{
-    Photo *selectedPhoto = notification.object;
-
-    // Deselect all other photos
-    for (int i = 0; i < sess.frame.photoCount; i++) {
-        Photo *photo = [sess.frame getPhotoAtIndex:i];
-        if (photo != selectedPhoto && photo.isSelected) {
-            photo.isSelected = NO;
-            photo.view.scrollView.layer.borderWidth = 0.0;
-            photo.view.scrollView.layer.borderColor = [UIColor clearColor].CGColor;
-        }
-    }
 }
 
 -(void)SessionExpired
@@ -14252,204 +14169,7 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
 
 
 
-- (void)popoverViewDidDismiss:(PopoverView *)popoverView
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    photosOptionPresent = NO;
-}
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor colorWithRed:(28/255.0f) green:(31.0f/255.0f) blue:(38.0f/255.0f) alpha:PHOTO_DEFAULT_COLOR_A];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    
-    if(indexPath.row == 3 && !muteOptionActive)
-    {
-       cell.userInteractionEnabled = NO;
-       cell.textLabel.textColor = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.65f];
-    }
-    else if((indexPath.row <= 1)||(isInEditMode == YES))
-    {
-        cell.userInteractionEnabled = YES;
-    }
-    else
-    {
-        cell.userInteractionEnabled = NO;
-        cell.textLabel.textColor = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.65f];
-    }
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.configs.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellId = @"cellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:cellId];
-    }
-    cell.textLabel.text = self.configs[indexPath.row];
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"asset selects option are in table view");
-    [self addWaterMarkToFrame];
-    [pv dismiss];
-    frameIsEdited = YES;
-    ish = [[ImageSelectionHandler alloc]initWithViewController:self];
-    int maximumNumberOfImage = 0;
-    for (int index= 0; index< sess.frame.photoCount; index++)
-    {
-        Photo *pht = [sess.frame getPhotoAtIndex:index ];
-        if (pht.image == nil) {
-            maximumNumberOfImage ++;
-        }
-    }
-    Photo *currentSelectedPhoto = [sess.frame getPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-    if (currentSelectedPhoto.image != nil ) {
-        maximumNumberOfImage++;
-    }
-    NSLog(@"Item selected %ld",indexPath.row);
-    NSLog(@"session photo count is %d",sess.frame.photoCount);
-    NSLog(@"maximum Number OfImage %d",maximumNumberOfImage);
-    switch(indexPath.row)
-    {
-        case 0:
-        {
-            if(currentSelectedPhoto.isContentTypeVideo)
-            {
-                [currentSelectedPhoto.view removePlayer]; //To remove video player
-                [sess deleteVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
-                [sess deleteEffectVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
-                currentSelectedPhoto.isContentTypeVideo = NO;
-                currentSelectedPhoto.image = nil;
-               // [self switchOffMasterAudio];
-            }
-            [self pauseAllPreviewPlayers];
-            [self CheckingAccessLevel:NO numberofimages:maximumNumberOfImage];
-            break;
-        }
-        case 1: // For video picking
-        {
-            if(![[SRSubscriptionModel shareKit]IsAppSubscribed])
-            {
-                NSString *title =@"Info";
-                NSString *message = @"Maximum video length supported is 30 seconds. Videos longer than 30 seconds will be automatically trimmed to first 30 seconds. To add video more than 30 seconds subscribe to premium version.";
-                UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-                // Add "OK" action
-                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Choose 30Sec"
-                                                                   style:UIAlertActionStyleCancel
-                                                                 handler:^(UIAlertAction * _Nonnull action) {
-                    [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoHelp"];
-                    NSLog(@" showAlertWithTitle Maximum video length supported is30");
-                    [self CheckingAccessLevel:YES numberofimages:0];
-                }];
-                [alertController addAction:okAction];
-                
-                //[alertController addAction:cancelAction];
-                
-                UIAlertAction *upgradeAction = [UIAlertAction actionWithTitle:@"Upgrade" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [self ShowSubscriptionView];
-                }];
-                [alertController addAction:upgradeAction];
-                [KeyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
-                
-                
-            }else
-            {
-                
-                alertShownCount++;
-                NSLog(@"count is %d",alertShownCount);
-                if (alertShownCount<3) {
-                    
-                    
-                    NSString *title =@"Info";
-                    NSString *message = @"Maximum video length supported is 120 seconds. Videos bigger than 120 seconds will be automatically trimmed to first 120 seconds";
-                    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-                    
-//                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//                        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoHelp"];
-//                        [self CheckingAccessLevel:YES numberofimages:0];
-//                    }];
-                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
-                                                                       style:UIAlertActionStyleCancel
-                                                                     handler:^(UIAlertAction * _Nonnull action) {
-                        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"optOutVideoHelp"];
-                        [self CheckingAccessLevel:YES numberofimages:0];
-                    }];
-                    [alertController addAction:okAction];
-                    [KeyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
-                }
-                else
-                {
-                    [self CheckingAccessLevel:YES numberofimages:0];
-                }
-            }
-            [self pauseAllPreviewPlayers];
-            break;
-        }
-        case 2:
-        {
-            [self clearPhotoData];
-            [self assignRightBarButtonItem];
-            break;
-        }
-        case 3:
-        {
-            [self toggleVideoMuteStatus:sess.photoNumberOfCurrentSelectedPhoto];
-            BOOL isMuted = [sess getAudioMuteValueForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-            Photo *photo = [sess.frame getPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-            
-            if(photo.isContentTypeVideo)
-            {
-                photo.view.isvideoMute = isMuted;
-                if(isMuted)
-                {
-                    [photo.view muteAudioPlayer];
-                }
-                else
-                {
-                    [photo.view unmuteAudioPlayer];
-                }
-                photo.view.isProgrammaticPlaybackChange = NO;
-            }
-            break;
-        }
-    }
-    //    [pv dismiss];
-}
-
--(void)clearPhotoData
-{
-    NSString *key     = [sess getVideoInfoKeyForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
-    [sess deleteCurrentAudioMix];
-    [sess deleteVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
-    
-    Photo *photo = [sess.frame getPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-    if(photo.isContentTypeVideo)
-    {
-        [photo.view removePlayer]; //To remove video player
-        photo.isContentTypeVideo = NO;
-        [sess deleteVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
-        [sess saveImage:[sess getOriginalImageAtIndex:sess.photoNumberOfCurrentSelectedPhoto] atIndex:sess.photoNumberOfCurrentSelectedPhoto];
-        [sess deleteEffectVideoAtPhototIndex:sess.photoNumberOfCurrentSelectedPhoto];
-       // [self switchOffMasterAudio];
-    }
-    [sess deleteVideoFramesForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-    [sess deleteVideoEffectFramesForPhotoAtIndex:sess.photoNumberOfCurrentSelectedPhoto];
-    [self playAllPreviewPlayers];
-    [self clearCurImage];
-    [self removeWaterMarkFromFrame];
-}
 
 - (void)toggleVideoMuteStatus:(int)photoIndex {
     frameIsEdited = YES;
@@ -14474,20 +14194,9 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
             [defaults setObject:updatedData forKey:key];
             [defaults synchronize];
             
-            // Update the configs array after toggling
-            [self updateConfigsArray:photoIndex];
+            NSLog(@"Video mute status toggled for photo index %d: %@", photoIndex, !isMuted ? @"MUTED" : @"UNMUTED");
         }
     }
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    float cellHeight = 30;
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-        cellHeight = 35;
-    else cellHeight = 35;
-    return cellHeight;
 }
 
 -(void)gettingInterestialCount
@@ -18152,6 +17861,381 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
     
     NSLog(@"Container frame after editing: %@", NSStringFromCGRect(container.frame));
     NSLog(@"Container bounds after editing: %@", NSStringFromCGRect(container.bounds));
+}
+
+#pragma mark - Photo Selection Feature
+
+- (void)handlePhotoSlotSelected:(NSNotification *)notification
+{
+    NSLog(@"Photo slot selected notification received");
+
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *photoIndexNum = [userInfo objectForKey:@"photoIndex"];
+
+    if (photoIndexNum) {
+        int photoIndex = [photoIndexNum intValue];
+        NSLog(@"Selected photo index: %d", photoIndex);
+
+        self.currentSelectedPhotoIndex = photoIndex;
+        self.isInPhotoSelectionMode = YES;
+
+        // Apply green outline
+        [sess enterPhotoSelectionMode:photoIndex];
+
+        // Show PhotoActionViewController
+        [self showPhotoActionViewController];
+    }
+}
+
+- (void)handleSelectImageForPhoto:(NSNotification *)notification
+{
+    NSLog(@"handleSelectImageForPhoto called");
+    Photo *photo = notification.object;
+    if (photo) {
+        int photoIndex = photo.photoNumber;
+        NSLog(@"Selected photo index from selectImageForPhoto: %d", photoIndex);
+
+        self.currentSelectedPhotoIndex = photoIndex;
+        self.isInPhotoSelectionMode = YES;
+
+        // Apply green border and enable selection mode
+        [sess enterPhotoSelectionMode:photoIndex];
+
+        // Show PhotoActionViewController
+        [self showPhotoActionViewController];
+    }
+}
+
+- (void)handleEditImageForPhoto:(NSNotification *)notification
+{
+    NSLog(@"handleEditImageForPhoto called");
+    Photo *photo = notification.object;
+    if (photo) {
+        int photoIndex = photo.photoNumber;
+        NSLog(@"Selected photo index from editImageForPhoto: %d", photoIndex);
+
+        self.currentSelectedPhotoIndex = photoIndex;
+        self.isInPhotoSelectionMode = YES;
+
+        // Apply green border and enable selection mode
+        [sess enterPhotoSelectionMode:photoIndex];
+
+        // Show PhotoActionViewController
+        [self showPhotoActionViewController];
+    }
+}
+
+- (void)showPhotoActionViewController
+{
+    NSLog(@"Showing PhotoActionViewController");
+
+    // CRITICAL FIX: Ensure optionsView is visible!
+    optionsView.view.hidden = NO;
+
+    // Remove existing child view controllers from options container
+    [self removeOptionsChildViewController];
+
+    // Create and add PhotoActionViewController
+    if (!self.photoActionVC) {
+        self.photoActionVC = [[PhotoActionViewController alloc] init];
+    }
+
+    // CORRECT: Add as child of optionsView, not self (MainController)
+    [optionsView addChildViewController:self.photoActionVC];
+    [optionsView.view addSubview:self.photoActionVC.view];
+    self.photoActionVC.view.frame = optionsView.view.bounds;
+    [self.photoActionVC didMoveToParentViewController:optionsView];
+}
+
+- (void)handlePhotoActionSelected:(NSNotification *)notification
+{
+    NSLog(@"Photo action selected notification received");
+
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *action = [userInfo objectForKey:@"action"];
+
+    if ([action isEqualToString:@"Replace"]) {
+        NSLog(@"Replace action selected");
+        [self handleReplaceAction];
+    }
+    else if ([action isEqualToString:@"Adjust"]) {
+        NSLog(@"Adjust action selected");
+        [self showAdjustOptionsViewController];
+    }
+    else if ([action isEqualToString:@"Delete"]) {
+        NSLog(@"Delete action selected");
+        [self handleDeleteAction];
+    }
+    else if ([action isEqualToString:@"Mute"]) {
+        NSLog(@"Mute action selected");
+        [self toggleVideoMuteStatus:self.currentSelectedPhotoIndex];
+    }
+}
+
+- (void)handleReplaceAction
+{
+    NSLog(@"Handling replace action for photo index: %d", self.currentSelectedPhotoIndex);
+
+    // Exit photo selection mode
+    [sess exitPhotoSelectionMode];
+    self.isInPhotoSelectionMode = NO;
+
+    // Set the current photo index for replacement
+    currentSelectedPhotoNumberForEffect = self.currentSelectedPhotoIndex;
+
+    // Trigger photo/video selection - post notification that existing code handles
+    [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForPhoto
+                                                        object:nil
+                                                      userInfo:nil];
+
+    // Go back to main options
+    [self showMainOptionsViewController];
+}
+
+- (void)handleDeleteAction
+{
+    NSLog(@"Handling delete action for photo index: %d", self.currentSelectedPhotoIndex);
+
+    // Get the photo at the selected index
+    Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
+    if (pht) {
+        // Clear the photo/video
+        [pht setTheImageToBlank];
+        [sess deleteImageOfFrame:self.currentSelectedPhotoIndex frame:0];
+
+        // If it's a video, delete video resources
+        if (pht.isContentTypeVideo) {
+            [sess deleteVideoAtPhototIndex:self.currentSelectedPhotoIndex];
+            [sess deleteVideoFramesForPhotoAtIndex:self.currentSelectedPhotoIndex];
+        }
+
+        NSLog(@"Photo/video deleted at index: %d", self.currentSelectedPhotoIndex);
+    }
+
+    // Exit photo selection mode
+    [sess exitPhotoSelectionMode];
+    self.isInPhotoSelectionMode = NO;
+
+    // Go back to main options
+    [self showMainOptionsViewController];
+}
+
+- (void)showAdjustOptionsViewController
+{
+    NSLog(@"Showing AdjustOptionsViewController");
+
+    // Remove current child view controller
+    [self removeOptionsChildViewController];
+
+    // Create and add AdjustOptionsViewController
+    if (!self.adjustOptionsVC) {
+        self.adjustOptionsVC = [[AdjustOptionsViewController alloc] init];
+    }
+
+    [self addChildViewController:self.adjustOptionsVC];
+    [optionsView.view addSubview:self.adjustOptionsVC.view];
+    self.adjustOptionsVC.view.frame = optionsView.view.bounds;
+    [self.adjustOptionsVC didMoveToParentViewController:self];
+}
+
+- (void)handleAdjustActionSelected:(NSNotification *)notification
+{
+    NSLog(@"Adjust action selected notification received");
+
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *action = [userInfo objectForKey:@"action"];
+
+    if ([action isEqualToString:@"Speed"]) {
+        NSLog(@"Speed action selected");
+        [self showSpeedViewController];
+    }
+    else if ([action isEqualToString:@"Trim"]) {
+        NSLog(@"Trim action selected");
+        [self showTrimViewController];
+    }
+}
+
+- (void)showSpeedViewController
+{
+    NSLog(@"Showing SpeedViewController");
+
+    // Check if selected slot has a video
+    Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
+    if (!pht || !pht.isContentTypeVideo) {
+        NSLog(@"Selected slot does not contain a video");
+        // Show alert
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Not a Video"
+                                                                        message:@"Speed adjustment only works for videos."
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+
+    // Remove current child view controller
+    [self removeOptionsChildViewController];
+
+    // Create and add SpeedViewController
+    if (!self.speedVC) {
+        self.speedVC = [[SpeedViewController alloc] init];
+    }
+
+    // Set current speed if available
+    if (pht.videoSpeed > 0) {
+        [self.speedVC setSpeed:pht.videoSpeed];
+    }
+
+    [self addChildViewController:self.speedVC];
+    [optionsView.view addSubview:self.speedVC.view];
+    self.speedVC.view.frame = optionsView.view.bounds;
+    [self.speedVC didMoveToParentViewController:self];
+}
+
+- (void)showTrimViewController
+{
+    NSLog(@"Showing TrimViewController");
+
+    // Check if selected slot has a video
+    Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
+    if (!pht || !pht.isContentTypeVideo) {
+        NSLog(@"Selected slot does not contain a video");
+        // Show alert
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Not a Video"
+                                                                        message:@"Trim only works for videos."
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+
+    // Remove current child view controller
+    [self removeOptionsChildViewController];
+
+    // Create and add TrimViewController
+    if (!self.trimVC) {
+        self.trimVC = [[TrimViewController alloc] init];
+    }
+
+    // Get video duration
+    double duration = [sess getVideoDurationForPhotoAtIndex:self.currentSelectedPhotoIndex];
+    [self.trimVC setVideoDuration:duration];
+
+    // Set current trim range if available
+    if (pht.videoTrimStart >= 0 && pht.videoTrimEnd > 0) {
+        [self.trimVC setTrimRangeWithStart:pht.videoTrimStart end:pht.videoTrimEnd];
+    }
+
+    [self addChildViewController:self.trimVC];
+    [optionsView.view addSubview:self.trimVC.view];
+    self.trimVC.view.frame = optionsView.view.bounds;
+    [self.trimVC didMoveToParentViewController:self];
+}
+
+- (void)handleAdjustOptionsBack:(NSNotification *)notification
+{
+    NSLog(@"Adjust options back button tapped");
+
+    // Go back to PhotoActionViewController
+    [self showPhotoActionViewController];
+}
+
+- (void)handleSpeedViewBack:(NSNotification *)notification
+{
+    NSLog(@"Speed view back button tapped");
+
+    // Go back to AdjustOptionsViewController
+    [self showAdjustOptionsViewController];
+}
+
+- (void)handleTrimViewBack:(NSNotification *)notification
+{
+    NSLog(@"Trim view back button tapped");
+
+    // Go back to AdjustOptionsViewController
+    [self showAdjustOptionsViewController];
+}
+
+- (void)handleSpeedChanged:(NSNotification *)notification
+{
+    NSLog(@"Speed changed notification received");
+
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *speedNum = [userInfo objectForKey:@"speed"];
+
+    if (speedNum) {
+        float speed = [speedNum floatValue];
+        NSLog(@"New speed: %.2fx", speed);
+
+        // Apply speed to the video
+        Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
+        if (pht && pht.isContentTypeVideo) {
+            pht.videoSpeed = speed;
+            [pht applyVideoSpeed:speed];
+            NSLog(@"Speed applied to video at index: %d", self.currentSelectedPhotoIndex);
+        }
+    }
+}
+
+- (void)handleVideoTrimmed:(NSNotification *)notification
+{
+    NSLog(@"Video trimmed notification received");
+
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *startTimeNum = [userInfo objectForKey:@"startTime"];
+    NSNumber *endTimeNum = [userInfo objectForKey:@"endTime"];
+
+    if (startTimeNum && endTimeNum) {
+        double startTime = [startTimeNum doubleValue];
+        double endTime = [endTimeNum doubleValue];
+        NSLog(@"Trim range: %.2f to %.2f", startTime, endTime);
+
+        // Apply trim to the video
+        Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
+        if (pht && pht.isContentTypeVideo) {
+            pht.videoTrimStart = startTime;
+            pht.videoTrimEnd = endTime;
+            [pht applyVideoTrimWithStart:startTime end:endTime];
+            NSLog(@"Trim applied to video at index: %d", self.currentSelectedPhotoIndex);
+        }
+    }
+}
+
+- (void)showMainOptionsViewController
+{
+    NSLog(@"Showing main OptionsViewController");
+
+    // Exit photo selection mode
+    if (self.isInPhotoSelectionMode) {
+        [sess exitPhotoSelectionMode];
+        self.isInPhotoSelectionMode = NO;
+    }
+
+    // Remove current child view controller
+    [self removeOptionsChildViewController];
+
+    // Re-add the main OptionsViewController
+    [self addChildViewController:optionsView];
+    [optionsView.view.superview addSubview:optionsView.view];
+    optionsView.view.frame = optionsView.view.superview.bounds;
+    [optionsView didMoveToParentViewController:self];
+}
+
+- (void)removeOptionsChildViewController
+{
+    // Remove all child view controllers from optionsView
+    for (UIViewController *childVC in [self.childViewControllers copy]) {
+        if ([childVC isKindOfClass:[PhotoActionViewController class]] ||
+            [childVC isKindOfClass:[AdjustOptionsViewController class]] ||
+            [childVC isKindOfClass:[SpeedViewController class]] ||
+            [childVC isKindOfClass:[TrimViewController class]] ||
+            [childVC isKindOfClass:NSClassFromString(@"OptionsViewController")] ||
+            [childVC isKindOfClass:NSClassFromString(@"EditOptionsViewController")]) {
+
+            [childVC willMoveToParentViewController:nil];
+            [childVC.view removeFromSuperview];
+            [childVC removeFromParentViewController];
+        }
+    }
 }
 
 @end

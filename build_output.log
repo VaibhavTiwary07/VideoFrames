@@ -1,0 +1,436 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -workspace VideoFrames.xcworkspace -scheme VideoFrames -configuration Debug clean build
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008132-000239A23439801C, name:My Mac }
+{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
+{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+{ platform:iOS Simulator, arch:arm64, id:FE468199-1AF2-4EBE-8F86-D38F88BFF064, OS:15.2, name:iPad (9th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:FE468199-1AF2-4EBE-8F86-D38F88BFF064, OS:15.2, name:iPad (9th generation) }
+{ platform:iOS Simulator, arch:arm64, id:CD7F9FE2-255C-4E72-8E42-4FAD59CDF247, OS:18.5, name:iPad (A16) }
+{ platform:iOS Simulator, arch:x86_64, id:CD7F9FE2-255C-4E72-8E42-4FAD59CDF247, OS:18.5, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:B98B3D46-4E2C-4AE5-B284-8F2E7F98457F, OS:26.0, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:912F9F78-7788-422F-B50A-2086A4CC80E6, OS:15.2, name:iPad Air (4th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:912F9F78-7788-422F-B50A-2086A4CC80E6, OS:15.2, name:iPad Air (4th generation) }
+{ platform:iOS Simulator, arch:arm64, id:15198F8E-F43B-4001-9273-09D913809941, OS:18.5, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:x86_64, id:15198F8E-F43B-4001-9273-09D913809941, OS:18.5, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:CFF14535-2C36-4EDC-B49C-CF2C2DA356AC, OS:26.0, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:1A1ACE24-6725-4296-802E-F7C39F52BF55, OS:18.5, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:x86_64, id:1A1ACE24-6725-4296-802E-F7C39F52BF55, OS:18.5, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:B97055B2-271E-4790-BA77-D8ABCE25DEFF, OS:26.0, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:3B2D793E-0C26-435B-BD52-4F868E704D47, OS:15.2, name:iPad Pro (9.7-inch) }
+{ platform:iOS Simulator, arch:x86_64, id:3B2D793E-0C26-435B-BD52-4F868E704D47, OS:15.2, name:iPad Pro (9.7-inch) }
+{ platform:iOS Simulator, arch:arm64, id:22012D75-D47A-4E4B-9A7C-58458514FF4A, OS:15.2, name:iPad Pro (11-inch) (3rd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:22012D75-D47A-4E4B-9A7C-58458514FF4A, OS:15.2, name:iPad Pro (11-inch) (3rd generation) }
+{ platform:iOS Simulator, arch:arm64, id:DF9290EB-C378-46CE-9340-F422A259C938, OS:15.2, name:iPad Pro (12.9-inch) (5th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:DF9290EB-C378-46CE-9340-F422A259C938, OS:15.2, name:iPad Pro (12.9-inch) (5th generation) }
+{ platform:iOS Simulator, arch:arm64, id:D11EBB54-9084-4734-B9CB-2B2142CE0081, OS:18.5, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:x86_64, id:D11EBB54-9084-4734-B9CB-2B2142CE0081, OS:18.5, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:478B3BA7-1954-4574-B5AD-9FAC619D395C, OS:26.0, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:A73CA73A-DF39-492F-AF83-5BF7A5AD4269, OS:18.5, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:x86_64, id:A73CA73A-DF39-492F-AF83-5BF7A5AD4269, OS:18.5, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:56F3B039-1D86-4261-874A-DA27FCAD867E, OS:26.0, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:F2BEB7AD-0B50-46E1-9D68-6516EF59D8FC, OS:15.2, name:iPad mini (6th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:F2BEB7AD-0B50-46E1-9D68-6516EF59D8FC, OS:15.2, name:iPad mini (6th generation) }
+{ platform:iOS Simulator, arch:arm64, id:83E50510-6E5C-4E19-AAB6-EC3EDCD6AABC, OS:18.5, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:x86_64, id:83E50510-6E5C-4E19-AAB6-EC3EDCD6AABC, OS:18.5, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:0D04964E-5BD4-4E8D-B627-28BBEEA840E8, OS:26.0, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:1E384D8E-FA1A-4821-8324-D81C88F1D3D5, OS:15.2, name:iPhone 13 }
+{ platform:iOS Simulator, arch:x86_64, id:1E384D8E-FA1A-4821-8324-D81C88F1D3D5, OS:15.2, name:iPhone 13 }
+{ platform:iOS Simulator, arch:arm64, id:5149C705-48E7-4730-A3D2-621388575B39, OS:15.2, name:iPhone 13 Pro }
+{ platform:iOS Simulator, arch:x86_64, id:5149C705-48E7-4730-A3D2-621388575B39, OS:15.2, name:iPhone 13 Pro }
+{ platform:iOS Simulator, arch:arm64, id:423472B5-5A34-4E2F-B2F5-8DDC8577B7DB, OS:15.2, name:iPhone 13 Pro Max }
+{ platform:iOS Simulator, arch:x86_64, id:423472B5-5A34-4E2F-B2F5-8DDC8577B7DB, OS:15.2, name:iPhone 13 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:39D35260-D3B3-4E78-AB52-5F32BD93C4AA, OS:15.2, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:x86_64, id:39D35260-D3B3-4E78-AB52-5F32BD93C4AA, OS:15.2, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:arm64, id:890E96DA-F239-4B3A-9E7B-BD1AC4E77ACE, OS:18.5, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:x86_64, id:890E96DA-F239-4B3A-9E7B-BD1AC4E77ACE, OS:18.5, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:arm64, id:169A27F0-3D06-423B-AE53-996369DFC656, OS:18.5, name:iPhone 16 }
+{ platform:iOS Simulator, arch:x86_64, id:169A27F0-3D06-423B-AE53-996369DFC656, OS:18.5, name:iPhone 16 }
+{ platform:iOS Simulator, arch:arm64, id:9782FB1E-02CE-49A6-8F4F-EE9F3FB13268, OS:18.5, name:iPhone 16 Plus }
+{ platform:iOS Simulator, arch:x86_64, id:9782FB1E-02CE-49A6-8F4F-EE9F3FB13268, OS:18.5, name:iPhone 16 Plus }
+{ platform:iOS Simulator, arch:arm64, id:E91CDB7E-14D6-4980-AB3F-96B5C4BD7517, OS:18.5, name:iPhone 16 Pro }
+{ platform:iOS Simulator, arch:x86_64, id:E91CDB7E-14D6-4980-AB3F-96B5C4BD7517, OS:18.5, name:iPhone 16 Pro }
+{ platform:iOS Simulator, arch:arm64, id:481DD558-F984-4AFF-A91F-26520B1E792C, OS:18.5, name:iPhone 16 Pro Max }
+{ platform:iOS Simulator, arch:x86_64, id:481DD558-F984-4AFF-A91F-26520B1E792C, OS:18.5, name:iPhone 16 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:02613826-F8FD-4874-BC6F-85A7C8517D2C, OS:18.5, name:iPhone 16e }
+{ platform:iOS Simulator, arch:x86_64, id:02613826-F8FD-4874-BC6F-85A7C8517D2C, OS:18.5, name:iPhone 16e }
+{ platform:iOS Simulator, arch:arm64, id:B475992E-2AB9-4D12-A851-78F9AC7A5C00, OS:26.0, name:iPhone 16e }
+{ platform:iOS Simulator, arch:arm64, id:DF759FFD-BBD1-4506-B446-D1583AE57714, OS:26.0, name:iPhone 17 }
+{ platform:iOS Simulator, arch:arm64, id:CA0E6195-4F38-462B-9654-29ABA2D0E4BE, OS:26.0, name:iPhone 17 Pro }
+{ platform:iOS Simulator, arch:arm64, id:C44AB877-70D4-42A2-B8F6-9F7264C21B17, OS:26.0, name:iPhone 17 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:9DD6F247-B809-4EC9-A115-193F418E0FF7, OS:26.0, name:iPhone Air }
+{ platform:iOS Simulator, arch:arm64, id:632568BF-7AE6-45CA-9299-D0EC570BB7E6, OS:15.2, name:iPhone SE (2nd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:632568BF-7AE6-45CA-9299-D0EC570BB7E6, OS:15.2, name:iPhone SE (2nd generation) }
+{ platform:iOS Simulator, arch:arm64, id:C40529AD-AB05-4FB4-9156-AE20B46CBC5C, OS:18.5, name:iPhone SE (3rd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:C40529AD-AB05-4FB4-9156-AE20B46CBC5C, OS:18.5, name:iPhone SE (3rd generation) }
+{ platform:iOS Simulator, arch:arm64, id:0C2EAA6B-8CE4-4113-BE01-D28AE103F3E5, OS:15.2, name:iPod touch (7th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:0C2EAA6B-8CE4-4113-BE01-D28AE103F3E5, OS:15.2, name:iPod touch (7th generation) }
+{ platform:iOS Simulator, arch:arm64, id:6EA7DEAA-3D4E-416E-90F5-944FF0F6AB68, OS:18.5, name:ipad 9 }
+{ platform:iOS Simulator, arch:x86_64, id:6EA7DEAA-3D4E-416E-90F5-944FF0F6AB68, OS:18.5, name:ipad 9 }
+{ platform:iOS Simulator, arch:arm64, id:F0FF30B7-9E07-420E-8E0C-4CBF87C1AAAF, OS:26.0, name:ipad m4 ios 26 }
+{ platform:iOS Simulator, arch:arm64, id:E29B6046-8D4D-4A93-B511-D00B6FE7E7C8, OS:15.2, name:iphone ios 15 }
+{ platform:iOS Simulator, arch:x86_64, id:E29B6046-8D4D-4A93-B511-D00B6FE7E7C8, OS:15.2, name:iphone ios 15 }
+{ platform:iOS Simulator, arch:arm64, id:D2A09EE0-FF95-4790-B4F8-45381DA5033D, OS:18.5, name:iphone se 2 }
+{ platform:iOS Simulator, arch:x86_64, id:D2A09EE0-FF95-4790-B4F8-45381DA5033D, OS:18.5, name:iphone se 2 }
+{ platform:iOS Simulator, arch:arm64, id:9B5782CC-843D-4F56-BF2E-79B5B9781223, OS:15.2, name:ipod 7th gen touch }
+{ platform:iOS Simulator, arch:x86_64, id:9B5782CC-843D-4F56-BF2E-79B5B9781223, OS:15.2, name:ipod 7th gen touch }
+{ platform:iOS Simulator, arch:arm64, id:61E96C5D-1F44-45D9-8A90-6FEB7745939C, OS:15.2, name:ipphone se1 }
+{ platform:iOS Simulator, arch:x86_64, id:61E96C5D-1F44-45D9-8A90-6FEB7745939C, OS:15.2, name:ipphone se1 }
+{ platform:iOS, arch:arm64, id:00008110-001C6C183E80A01E, name:Vaibhav }
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008132-000239A23439801C, name:My Mac }
+{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
+{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+{ platform:iOS Simulator, arch:arm64, id:FE468199-1AF2-4EBE-8F86-D38F88BFF064, OS:15.2, name:iPad (9th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:FE468199-1AF2-4EBE-8F86-D38F88BFF064, OS:15.2, name:iPad (9th generation) }
+{ platform:iOS Simulator, arch:arm64, id:CD7F9FE2-255C-4E72-8E42-4FAD59CDF247, OS:18.5, name:iPad (A16) }
+{ platform:iOS Simulator, arch:x86_64, id:CD7F9FE2-255C-4E72-8E42-4FAD59CDF247, OS:18.5, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:B98B3D46-4E2C-4AE5-B284-8F2E7F98457F, OS:26.0, name:iPad (A16) }
+{ platform:iOS Simulator, arch:arm64, id:912F9F78-7788-422F-B50A-2086A4CC80E6, OS:15.2, name:iPad Air (4th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:912F9F78-7788-422F-B50A-2086A4CC80E6, OS:15.2, name:iPad Air (4th generation) }
+{ platform:iOS Simulator, arch:arm64, id:15198F8E-F43B-4001-9273-09D913809941, OS:18.5, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:x86_64, id:15198F8E-F43B-4001-9273-09D913809941, OS:18.5, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:CFF14535-2C36-4EDC-B49C-CF2C2DA356AC, OS:26.0, name:iPad Air 11-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:1A1ACE24-6725-4296-802E-F7C39F52BF55, OS:18.5, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:x86_64, id:1A1ACE24-6725-4296-802E-F7C39F52BF55, OS:18.5, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:B97055B2-271E-4790-BA77-D8ABCE25DEFF, OS:26.0, name:iPad Air 13-inch (M3) }
+{ platform:iOS Simulator, arch:arm64, id:3B2D793E-0C26-435B-BD52-4F868E704D47, OS:15.2, name:iPad Pro (9.7-inch) }
+{ platform:iOS Simulator, arch:x86_64, id:3B2D793E-0C26-435B-BD52-4F868E704D47, OS:15.2, name:iPad Pro (9.7-inch) }
+{ platform:iOS Simulator, arch:arm64, id:22012D75-D47A-4E4B-9A7C-58458514FF4A, OS:15.2, name:iPad Pro (11-inch) (3rd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:22012D75-D47A-4E4B-9A7C-58458514FF4A, OS:15.2, name:iPad Pro (11-inch) (3rd generation) }
+{ platform:iOS Simulator, arch:arm64, id:DF9290EB-C378-46CE-9340-F422A259C938, OS:15.2, name:iPad Pro (12.9-inch) (5th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:DF9290EB-C378-46CE-9340-F422A259C938, OS:15.2, name:iPad Pro (12.9-inch) (5th generation) }
+{ platform:iOS Simulator, arch:arm64, id:D11EBB54-9084-4734-B9CB-2B2142CE0081, OS:18.5, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:x86_64, id:D11EBB54-9084-4734-B9CB-2B2142CE0081, OS:18.5, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:478B3BA7-1954-4574-B5AD-9FAC619D395C, OS:26.0, name:iPad Pro 11-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:A73CA73A-DF39-492F-AF83-5BF7A5AD4269, OS:18.5, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:x86_64, id:A73CA73A-DF39-492F-AF83-5BF7A5AD4269, OS:18.5, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:56F3B039-1D86-4261-874A-DA27FCAD867E, OS:26.0, name:iPad Pro 13-inch (M4) }
+{ platform:iOS Simulator, arch:arm64, id:F2BEB7AD-0B50-46E1-9D68-6516EF59D8FC, OS:15.2, name:iPad mini (6th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:F2BEB7AD-0B50-46E1-9D68-6516EF59D8FC, OS:15.2, name:iPad mini (6th generation) }
+{ platform:iOS Simulator, arch:arm64, id:83E50510-6E5C-4E19-AAB6-EC3EDCD6AABC, OS:18.5, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:x86_64, id:83E50510-6E5C-4E19-AAB6-EC3EDCD6AABC, OS:18.5, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:0D04964E-5BD4-4E8D-B627-28BBEEA840E8, OS:26.0, name:iPad mini (A17 Pro) }
+{ platform:iOS Simulator, arch:arm64, id:1E384D8E-FA1A-4821-8324-D81C88F1D3D5, OS:15.2, name:iPhone 13 }
+{ platform:iOS Simulator, arch:x86_64, id:1E384D8E-FA1A-4821-8324-D81C88F1D3D5, OS:15.2, name:iPhone 13 }
+{ platform:iOS Simulator, arch:arm64, id:5149C705-48E7-4730-A3D2-621388575B39, OS:15.2, name:iPhone 13 Pro }
+{ platform:iOS Simulator, arch:x86_64, id:5149C705-48E7-4730-A3D2-621388575B39, OS:15.2, name:iPhone 13 Pro }
+{ platform:iOS Simulator, arch:arm64, id:423472B5-5A34-4E2F-B2F5-8DDC8577B7DB, OS:15.2, name:iPhone 13 Pro Max }
+{ platform:iOS Simulator, arch:x86_64, id:423472B5-5A34-4E2F-B2F5-8DDC8577B7DB, OS:15.2, name:iPhone 13 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:39D35260-D3B3-4E78-AB52-5F32BD93C4AA, OS:15.2, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:x86_64, id:39D35260-D3B3-4E78-AB52-5F32BD93C4AA, OS:15.2, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:arm64, id:890E96DA-F239-4B3A-9E7B-BD1AC4E77ACE, OS:18.5, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:x86_64, id:890E96DA-F239-4B3A-9E7B-BD1AC4E77ACE, OS:18.5, name:iPhone 13 mini }
+{ platform:iOS Simulator, arch:arm64, id:169A27F0-3D06-423B-AE53-996369DFC656, OS:18.5, name:iPhone 16 }
+{ platform:iOS Simulator, arch:x86_64, id:169A27F0-3D06-423B-AE53-996369DFC656, OS:18.5, name:iPhone 16 }
+{ platform:iOS Simulator, arch:arm64, id:9782FB1E-02CE-49A6-8F4F-EE9F3FB13268, OS:18.5, name:iPhone 16 Plus }
+{ platform:iOS Simulator, arch:x86_64, id:9782FB1E-02CE-49A6-8F4F-EE9F3FB13268, OS:18.5, name:iPhone 16 Plus }
+{ platform:iOS Simulator, arch:arm64, id:E91CDB7E-14D6-4980-AB3F-96B5C4BD7517, OS:18.5, name:iPhone 16 Pro }
+{ platform:iOS Simulator, arch:x86_64, id:E91CDB7E-14D6-4980-AB3F-96B5C4BD7517, OS:18.5, name:iPhone 16 Pro }
+{ platform:iOS Simulator, arch:arm64, id:481DD558-F984-4AFF-A91F-26520B1E792C, OS:18.5, name:iPhone 16 Pro Max }
+{ platform:iOS Simulator, arch:x86_64, id:481DD558-F984-4AFF-A91F-26520B1E792C, OS:18.5, name:iPhone 16 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:02613826-F8FD-4874-BC6F-85A7C8517D2C, OS:18.5, name:iPhone 16e }
+{ platform:iOS Simulator, arch:x86_64, id:02613826-F8FD-4874-BC6F-85A7C8517D2C, OS:18.5, name:iPhone 16e }
+{ platform:iOS Simulator, arch:arm64, id:B475992E-2AB9-4D12-A851-78F9AC7A5C00, OS:26.0, name:iPhone 16e }
+{ platform:iOS Simulator, arch:arm64, id:DF759FFD-BBD1-4506-B446-D1583AE57714, OS:26.0, name:iPhone 17 }
+{ platform:iOS Simulator, arch:arm64, id:CA0E6195-4F38-462B-9654-29ABA2D0E4BE, OS:26.0, name:iPhone 17 Pro }
+{ platform:iOS Simulator, arch:arm64, id:C44AB877-70D4-42A2-B8F6-9F7264C21B17, OS:26.0, name:iPhone 17 Pro Max }
+{ platform:iOS Simulator, arch:arm64, id:9DD6F247-B809-4EC9-A115-193F418E0FF7, OS:26.0, name:iPhone Air }
+{ platform:iOS Simulator, arch:arm64, id:632568BF-7AE6-45CA-9299-D0EC570BB7E6, OS:15.2, name:iPhone SE (2nd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:632568BF-7AE6-45CA-9299-D0EC570BB7E6, OS:15.2, name:iPhone SE (2nd generation) }
+{ platform:iOS Simulator, arch:arm64, id:C40529AD-AB05-4FB4-9156-AE20B46CBC5C, OS:18.5, name:iPhone SE (3rd generation) }
+{ platform:iOS Simulator, arch:x86_64, id:C40529AD-AB05-4FB4-9156-AE20B46CBC5C, OS:18.5, name:iPhone SE (3rd generation) }
+{ platform:iOS Simulator, arch:arm64, id:0C2EAA6B-8CE4-4113-BE01-D28AE103F3E5, OS:15.2, name:iPod touch (7th generation) }
+{ platform:iOS Simulator, arch:x86_64, id:0C2EAA6B-8CE4-4113-BE01-D28AE103F3E5, OS:15.2, name:iPod touch (7th generation) }
+{ platform:iOS Simulator, arch:arm64, id:6EA7DEAA-3D4E-416E-90F5-944FF0F6AB68, OS:18.5, name:ipad 9 }
+{ platform:iOS Simulator, arch:x86_64, id:6EA7DEAA-3D4E-416E-90F5-944FF0F6AB68, OS:18.5, name:ipad 9 }
+{ platform:iOS Simulator, arch:arm64, id:F0FF30B7-9E07-420E-8E0C-4CBF87C1AAAF, OS:26.0, name:ipad m4 ios 26 }
+{ platform:iOS Simulator, arch:arm64, id:E29B6046-8D4D-4A93-B511-D00B6FE7E7C8, OS:15.2, name:iphone ios 15 }
+{ platform:iOS Simulator, arch:x86_64, id:E29B6046-8D4D-4A93-B511-D00B6FE7E7C8, OS:15.2, name:iphone ios 15 }
+{ platform:iOS Simulator, arch:arm64, id:D2A09EE0-FF95-4790-B4F8-45381DA5033D, OS:18.5, name:iphone se 2 }
+{ platform:iOS Simulator, arch:x86_64, id:D2A09EE0-FF95-4790-B4F8-45381DA5033D, OS:18.5, name:iphone se 2 }
+{ platform:iOS Simulator, arch:arm64, id:9B5782CC-843D-4F56-BF2E-79B5B9781223, OS:15.2, name:ipod 7th gen touch }
+{ platform:iOS Simulator, arch:x86_64, id:9B5782CC-843D-4F56-BF2E-79B5B9781223, OS:15.2, name:ipod 7th gen touch }
+{ platform:iOS Simulator, arch:arm64, id:61E96C5D-1F44-45D9-8A90-6FEB7745939C, OS:15.2, name:ipphone se1 }
+{ platform:iOS Simulator, arch:x86_64, id:61E96C5D-1F44-45D9-8A90-6FEB7745939C, OS:15.2, name:ipphone se1 }
+{ platform:iOS, arch:arm64, id:00008110-001C6C183E80A01E, name:Vaibhav }
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (59 targets)
+    Target 'VideoFrames' in project 'VideoFrames'
+        ➜ Implicit dependency on target 'Pods-VideoFrames' in project 'Pods' via file 'Pods_VideoFrames.framework' in build phase 'Link Binary'
+        ➜ Implicit dependency on target 'Appirater' in project 'Pods' via options '-framework Appirater' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'BAShimmerButton' in project 'Pods' via options '-framework BAShimmerButton' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CMPopTipView' in project 'Pods' via options '-framework CMPopTipView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CTAssetsPickerController' in project 'Pods' via options '-framework CTAssetsPickerController' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'DXPopover' in project 'Pods' via options '-framework DXPopover' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PromisesObjC' in project 'Pods' via options '-framework FBLPromises' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseABTesting' in project 'Pods' via options '-framework FirebaseABTesting' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCore' in project 'Pods' via options '-framework FirebaseCore' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCoreExtension' in project 'Pods' via options '-framework FirebaseCoreExtension' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCoreInternal' in project 'Pods' via options '-framework FirebaseCoreInternal' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCrashlytics' in project 'Pods' via options '-framework FirebaseCrashlytics' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseDynamicLinks' in project 'Pods' via options '-framework FirebaseDynamicLinks' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseInstallations' in project 'Pods' via options '-framework FirebaseInstallations' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseMessaging' in project 'Pods' via options '-framework FirebaseMessaging' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseRemoteConfig' in project 'Pods' via options '-framework FirebaseRemoteConfig' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods' via options '-framework FirebaseRemoteConfigInterop' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseSessions' in project 'Pods' via options '-framework FirebaseSessions' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseSharedSwift' in project 'Pods' via options '-framework FirebaseSharedSwift' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GPUImage' in project 'Pods' via options '-framework GPUImage' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GoogleDataTransport' in project 'Pods' via options '-framework GoogleDataTransport' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GoogleUtilities' in project 'Pods' via options '-framework GoogleUtilities' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'Google-Mobile-Ads-SDK' in project 'Pods' via options '-framework Google_Mobile_Ads_SDK' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'lottie-ios' in project 'Pods' via options '-framework Lottie' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PopoverView' in project 'Pods' via options '-framework PopoverView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PromisesSwift' in project 'Pods' via options '-framework Promises' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PureLayout' in project 'Pods' via options '-framework PureLayout' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'REFrostedViewController' in project 'Pods' via options '-framework REFrostedViewController' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'SBJson4' in project 'Pods' via options '-framework SBJson4' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'SWSnapshotStackView' in project 'Pods' via options '-framework SWSnapshotStackView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'THLabel' in project 'Pods' via options '-framework THLabel' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'TYCyclePagerView' in project 'Pods' via options '-framework TYCyclePagerView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'WCAlertView' in project 'Pods' via options '-framework WCAlertView' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'nanopb' in project 'Pods' via options '-framework nanopb' in build setting 'OTHER_LDFLAGS'
+    Target 'Pods-VideoFrames' in project 'Pods'
+        ➜ Explicit dependency on target 'Appirater' in project 'Pods'
+        ➜ Explicit dependency on target 'BAShimmerButton' in project 'Pods'
+        ➜ Explicit dependency on target 'CMPopTipView' in project 'Pods'
+        ➜ Explicit dependency on target 'CTAssetsPickerController' in project 'Pods'
+        ➜ Explicit dependency on target 'DXPopover' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseABTesting' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAnalytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCrashlytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseDynamicLinks' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseMessaging' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfig' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSessions' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSharedSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'GPUImage' in project 'Pods'
+        ➜ Explicit dependency on target 'Google-Mobile-Ads-SDK' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAdsOnDeviceConversion' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAppMeasurement' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PopoverView' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'PureLayout' in project 'Pods'
+        ➜ Explicit dependency on target 'REFrostedViewController' in project 'Pods'
+        ➜ Explicit dependency on target 'SBJson4' in project 'Pods'
+        ➜ Explicit dependency on target 'SWSnapshotStackView' in project 'Pods'
+        ➜ Explicit dependency on target 'THLabel' in project 'Pods'
+        ➜ Explicit dependency on target 'TYCyclePagerView' in project 'Pods'
+        ➜ Explicit dependency on target 'WCAlertView' in project 'Pods'
+        ➜ Explicit dependency on target 'lottie-ios' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'lottie-ios' in project 'Pods' (no dependencies)
+    Target 'WCAlertView' in project 'Pods' (no dependencies)
+    Target 'TYCyclePagerView' in project 'Pods' (no dependencies)
+    Target 'THLabel' in project 'Pods' (no dependencies)
+    Target 'SWSnapshotStackView' in project 'Pods' (no dependencies)
+    Target 'SBJson4' in project 'Pods' (no dependencies)
+    Target 'REFrostedViewController' in project 'Pods' (no dependencies)
+    Target 'PopoverView' in project 'Pods' (no dependencies)
+    Target 'Google-Mobile-Ads-SDK' in project 'Pods'
+        ➜ Explicit dependency on target 'Google-Mobile-Ads-SDK-GoogleMobileAdsResources' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'Pods'
+    Target 'GoogleUserMessagingPlatform' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform-UserMessagingPlatformResources' in project 'Pods'
+    Target 'GoogleUserMessagingPlatform-UserMessagingPlatformResources' in project 'Pods' (no dependencies)
+    Target 'Google-Mobile-Ads-SDK-GoogleMobileAdsResources' in project 'Pods' (no dependencies)
+    Target 'GPUImage' in project 'Pods' (no dependencies)
+    Target 'FirebaseRemoteConfig' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseABTesting' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfig-FirebaseRemoteConfig_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSharedSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'FirebaseSharedSwift' in project 'Pods' (no dependencies)
+    Target 'FirebaseRemoteConfig-FirebaseRemoteConfig_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseMessaging' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseMessaging-FirebaseMessaging_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'FirebaseMessaging-FirebaseMessaging_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseDynamicLinks' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseDynamicLinks-FirebaseDynamicLinks_Privacy' in project 'Pods'
+    Target 'FirebaseDynamicLinks-FirebaseDynamicLinks_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCrashlytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCrashlytics-FirebaseCrashlytics_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseRemoteConfigInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseSessions' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'FirebaseSessions' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'PromisesSwift' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesSwift-Promises_Privacy' in project 'Pods'
+    Target 'PromisesSwift-Promises_Privacy' in project 'Pods' (no dependencies)
+    Target 'GoogleDataTransport' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleDataTransport-GoogleDataTransport_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'GoogleDataTransport-GoogleDataTransport_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseRemoteConfigInterop' in project 'Pods' (no dependencies)
+    Target 'FirebaseCrashlytics-FirebaseCrashlytics_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension-FirebaseCoreExtension_Privacy' in project 'Pods'
+    Target 'FirebaseCoreExtension-FirebaseCoreExtension_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseAnalytics' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAppMeasurement' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'GoogleAppMeasurement' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleAdsOnDeviceConversion' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'GoogleAdsOnDeviceConversion' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb' in project 'Pods'
+    Target 'nanopb' in project 'Pods'
+        ➜ Explicit dependency on target 'nanopb-nanopb_Privacy' in project 'Pods'
+    Target 'nanopb-nanopb_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseInstallations' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseInstallations-FirebaseInstallations_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC' in project 'Pods'
+    Target 'PromisesObjC' in project 'Pods'
+        ➜ Explicit dependency on target 'PromisesObjC-FBLPromises_Privacy' in project 'Pods'
+    Target 'PromisesObjC-FBLPromises_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseInstallations-FirebaseInstallations_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseABTesting' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseABTesting-FirebaseABTesting_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+    Target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore-FirebaseCore_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal-FirebaseCoreInternal_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities-GoogleUtilities_Privacy' in project 'Pods'
+    Target 'GoogleUtilities-GoogleUtilities_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCoreInternal-FirebaseCoreInternal_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCore-FirebaseCore_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseABTesting-FirebaseABTesting_Privacy' in project 'Pods' (no dependencies)
+    Target 'DXPopover' in project 'Pods'
+        ➜ Explicit dependency on target 'DXPopover-DXPopover' in project 'Pods'
+    Target 'DXPopover-DXPopover' in project 'Pods' (no dependencies)
+    Target 'CTAssetsPickerController' in project 'Pods'
+        ➜ Explicit dependency on target 'CTAssetsPickerController-CTAssetsPickerController' in project 'Pods'
+        ➜ Explicit dependency on target 'PureLayout' in project 'Pods'
+    Target 'PureLayout' in project 'Pods' (no dependencies)
+    Target 'CTAssetsPickerController-CTAssetsPickerController' in project 'Pods' (no dependencies)
+    Target 'CMPopTipView' in project 'Pods' (no dependencies)
+    Target 'BAShimmerButton' in project 'Pods'
+        ➜ Explicit dependency on target 'BAShimmerButton-BAShimmerButton' in project 'Pods'
+    Target 'BAShimmerButton-BAShimmerButton' in project 'Pods' (no dependencies)
+    Target 'Appirater' in project 'Pods'
+        ➜ Explicit dependency on target 'Appirater-Appirater' in project 'Pods'
+    Target 'Appirater-Appirater' in project 'Pods' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk -x objective-c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -V
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk -x objective-c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFramesPatterns.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/LatestUI.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFrameShapes.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/NewUIVidFrames.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/VidFrameThumbNails.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Assets.xcassets /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Stickers.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 09be06179e8ab632c2b5308d0b5a92b2
+Build description path: /Users/vaibhavtiwary/Library/Developer/Xcode/DerivedData/VideoFrames-bmbhbywkqxoldjdpibnfmbckoukn/Build/Intermediates.noindex/XCBuildData/09be06179e8ab632c2b5308d0b5a92b2.xcbuilddata
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'CMPopTipView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'BAShimmerButton-BAShimmerButton' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/VideoFrames.xcodeproj: error: Provisioning profile "iOS Team Provisioning Profile: com.outthinking.vidframe" doesn't include the currently selected device "Vaibhav’s MacBook Air" (identifier 00008132-000239A23439801C). (in target 'VideoFrames' from project 'VideoFrames')
+warning: Run script build phase 'Run Script' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'VideoFrames' from project 'VideoFrames')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesSwift' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'Appirater' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'SWSnapshotStackView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'lottie-ios' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'CTAssetsPickerController' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesObjC' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'SBJson4' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'TYCyclePagerView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'GPUImage' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesSwift-Promises_Privacy' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PureLayout' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'WCAlertView' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'CTAssetsPickerController-CTAssetsPickerController' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'BAShimmerButton' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'THLabel' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PromisesObjC-FBLPromises_Privacy' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'DXPopover' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'REFrostedViewController' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'DXPopover-DXPopover' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'Appirater-Appirater' from project 'Pods')
+/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 8.0, but the range of supported deployment target versions is 12.0 to 26.0.99. (in target 'PopoverView' from project 'Pods')
+** BUILD FAILED **
+
+
+The following build commands failed:
+	Building workspace VideoFrames with scheme VideoFrames and configuration Debug
+(1 failure)
