@@ -3572,7 +3572,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
         NSLog(@"ViewController: New frame selected %ld",(long)[frame integerValue]);
         NSLog(@"after pick deleting-----3");
         selectedFrameNumber = (int)frame.integerValue;
-        sessionFrameColor = [UIColor whiteColor];
+        sessionFrameColor = [UIColor blackColor];
         if(sess == nil)
         {
             [self loadTheSession];
@@ -3582,6 +3582,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
             [self frameSelectedAtIndex:selectedFrameNumber ofGridView:nil];
             [self setTheDefaultOrderArray];
         }
+        [sess setColor:sessionFrameColor];
         [optionsView AnimateView];
     }
     else if([[notification name] isEqualToString:optionselected])
@@ -4275,7 +4276,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     // Hide the default back button
     self.navigationItem.hidesBackButton = YES;
     
-    sessionFrameColor = [UIColor whiteColor];
+    sessionFrameColor = [UIColor blackColor];
     
     // Navigation bar appearance (matching FrameSelectionController style)
     if (@available(iOS 13.0, *)) {
@@ -6157,7 +6158,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     sess .innerRadius = 0.0;
     sess .outerRadius = 0.0;
     [sess initAspectRatio:ASPECTRATIO_1_1];
-    sess.color = [UIColor whiteColor];
+
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(selectEditTab) userInfo:nil repeats:NO];
 }
 
@@ -13270,7 +13271,7 @@ CGRect CGRectMultiply(CGRect rect, CGFloat scale) {
 {
     separatedview = [[UIView alloc]init];
     separatedview.frame = CGRectMake(500,700 , 320, 320);
-    separatedview.backgroundColor = [UIColor greenColor];
+//    separatedview.backgroundColor = [UIColor greenColor];
     [self.view addSubview:separatedview];
     
     [LoadingClass addActivityIndicatotTo:separatedview withMessage:NSLocalizedString(@"GettingFrames",@"GettingFrames")];

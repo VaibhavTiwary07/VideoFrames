@@ -597,7 +597,7 @@ int intcmp(const void *aa, const void *bb)
     self.userInteractionEnabled = YES;
 
     /* Set the background color to default color */
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = clr;
    // self.backgroundColor = [UIColor greenColor];
 //checking for frames color
 
