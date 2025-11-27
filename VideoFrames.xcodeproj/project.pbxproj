@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -256,6 +256,8 @@
 		DB32AC6E2ED5B9FD0092447F /* TrimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB32AC6C2ED5B9FD0092447F /* TrimViewController.swift */; };
 		DB32AC6F2ED5B9FD0092447F /* PhotoActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB32AC6A2ED5B9FD0092447F /* PhotoActionViewController.swift */; };
 		DB32AC702ED5B9FD0092447F /* SpeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB32AC6B2ED5B9FD0092447F /* SpeedViewController.swift */; };
+		DB32AF172ED736D70092447F /* VideoTrimmingHostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB32AF142ED736D70092447F /* VideoTrimmingHostViewController.swift */; };
+		DB32AF1C2ED7BCCA0092447F /* PryntTrimmerView in Frameworks */ = {isa = PBXBuildFile; productRef = DB32AF1B2ED7BCCA0092447F /* PryntTrimmerView */; };
 		DB49E8872ECDA05900622782 /* FrameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB49E8862ECDA05900622782 /* FrameCell.m */; };
 		DB96A6062ECD83F8003D5BCC /* FrameItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DB96A6032ECD83F8003D5BCC /* FrameItem.m */; };
 		DB96A6072ECD83F8003D5BCC /* FrameSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB96A6052ECD83F8003D5BCC /* FrameSelectionController.m */; };
@@ -671,6 +673,7 @@
 		DB32AC6A2ED5B9FD0092447F /* PhotoActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoActionViewController.swift; sourceTree = "<group>"; };
 		DB32AC6B2ED5B9FD0092447F /* SpeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedViewController.swift; sourceTree = "<group>"; };
 		DB32AC6C2ED5B9FD0092447F /* TrimViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrimViewController.swift; sourceTree = "<group>"; };
+		DB32AF142ED736D70092447F /* VideoTrimmingHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTrimmingHostViewController.swift; sourceTree = "<group>"; };
 		DB49E8852ECDA05900622782 /* FrameCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameCell.h; sourceTree = "<group>"; };
 		DB49E8862ECDA05900622782 /* FrameCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameCell.m; sourceTree = "<group>"; };
 		DB96A6022ECD83F8003D5BCC /* FrameItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameItem.h; sourceTree = "<group>"; };
@@ -704,6 +707,7 @@
 				3C9CA553185AF56900DCC5B1 /* Security.framework in Frameworks */,
 				3C9CA554185AF56900DCC5B1 /* Accounts.framework in Frameworks */,
 				3C9CA556185AF56900DCC5B1 /* CFNetwork.framework in Frameworks */,
+				DB32AF1C2ED7BCCA0092447F /* PryntTrimmerView in Frameworks */,
 				3C9CA557185AF56900DCC5B1 /* PassKit.framework in Frameworks */,
 				53123FE12785A2A100AFB8F2 /* Photos.framework in Frameworks */,
 				3C9CA558185AF56900DCC5B1 /* OpenGLES.framework in Frameworks */,
@@ -1337,6 +1341,7 @@
 				18F02C742E17B25C0038974C /* WhatsAppShareManager.h */,
 				1889008F2E0BCAD8005DF059 /* CALayer+Additions.m */,
 				DB32AC692ED5B9FD0092447F /* AdjustOptionsViewController.swift */,
+				DB32AF142ED736D70092447F /* VideoTrimmingHostViewController.swift */,
 				DB32AC6A2ED5B9FD0092447F /* PhotoActionViewController.swift */,
 				DB32AC6B2ED5B9FD0092447F /* SpeedViewController.swift */,
 				DB32AC6C2ED5B9FD0092447F /* TrimViewController.swift */,
@@ -1592,6 +1597,9 @@
 				Base,
 			);
 			mainGroup = 9F250A3714FC6DDE00E14565;
+			packageReferences = (
+				DB32AF1A2ED7BCCA0092447F /* XCRemoteSwiftPackageReference "PryntTrimmerView" */,
+			);
 			productRefGroup = 9F250A4314FC6DDE00E14565 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1797,6 +1805,7 @@
 				CC11223344556677AABB0003 /* ModernImagePicker.swift in Sources */,
 				3C31667D187E6A9E009E01E8 /* OptionsViewController.m in Sources */,
 				53D31E1C2A16468300F915AC /* DGActivityIndicatorView.m in Sources */,
+				DB32AF172ED736D70092447F /* VideoTrimmingHostViewController.swift in Sources */,
 				3C9CA45C185AF56900DCC5B1 /* FrameDB.m in Sources */,
 				180FE7892D93625300FCA02D /* OptionsCell.swift in Sources */,
 				53152CBD26A6DFC400897A5B /* Resolution.m in Sources */,
@@ -1997,7 +2006,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollage/VideoFrames-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VideoCollage;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)/**";
 				MARKETING_VERSION = 3.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2063,7 +2075,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollage/VideoFrames-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VideoCollage;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)/**";
 				MARKETING_VERSION = 3.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2129,7 +2144,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/VideoCollage/VideoFrames-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = VideoCollage;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)/**";
 				MARKETING_VERSION = 3.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2293,6 +2311,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DB32AF1A2ED7BCCA0092447F /* XCRemoteSwiftPackageReference "PryntTrimmerView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/HHK1/PryntTrimmerView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DB32AF1B2ED7BCCA0092447F /* PryntTrimmerView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB32AF1A2ED7BCCA0092447F /* XCRemoteSwiftPackageReference "PryntTrimmerView" */;
+			productName = PryntTrimmerView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9F250A3914FC6DDE00E14565 /* Project object */;
 }

@@ -32,6 +32,10 @@
 @property (nonatomic) BOOL isProgrammaticMuteChange;
 @property (nonatomic, assign) BOOL isProgrammaticPause;
 @property(nonatomic,readwrite)BOOL isvideoMute;
+@property (nonatomic, assign) float playbackSpeed; // Speed for video playback (default 1.0)
+@property (nonatomic, assign) double videoTrimStart; // Trim start time in seconds (default 0)
+@property (nonatomic, assign) double videoTrimEnd; // Trim end time in seconds (0 = use full video)
+@property (nonatomic, strong) CAShapeLayer *shapeBorderLayer;
 +(UIImage*)imageForShape:(eShape)shp;
 -(void)setShape:(eShape)shape;
 -(void)previewShape:(eShape)shape;
@@ -48,4 +52,7 @@
 - (void)muteAudio;
 -(void)muteAudioPlayer;
 -(void)unmuteAudioPlayer;
+- (void)updateBorderForCurrentShape;
+- (void)setBorderStyle:(UIColor *)color lineWidth:(CGFloat)width dashPattern:(NSArray *)pattern;
+- (void)removeBorder;
 @end

@@ -1,0 +1,35 @@
+moduledependenciestarget: \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/ObjectiveC.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/Darwin.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/objc/NSObjCRuntime.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/DarwinFoundation1.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_AvailabilityInternal-ENZ3EAN3EY7P7SJ9J3N28U6UX.pcm \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrcheck-BODLOEVDA7FRHXM6X5OTCRS9T.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-7GP4V18U07RTPVGYYZBYQ94AU.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_limits-EANBEM05XOYT9197ZW1GJ2R5A.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/objc/objc.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/stdlib.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/DarwinFoundation3.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/DarwinFoundation2.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-BQUYKFER0XKRNZD7R0G07GJ5P.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdarg-19ZPFI9OWEQ6OB87G0WDIAX9N.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-9TRC4TUNXDYI8E0G8CWE2W642.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-7Y4M4SQJA42X4Y3E9BOBIIKLW.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation3-AXOP4AJO2V1PWTLKTINW107AT.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/objc/objc-api.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stddef.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/stddef.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-D4MJW3EBHP2V54NFNMTYTP7LU.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/objc/NSObject.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/objc/message.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/objc/runtime.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stdarg.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/objc/objc-auto.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/string.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/libkern/OSAtomic.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_inttypes-39D6KCM7FYZLXW668GCEQLW5H.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Darwin-EJWRYIBCS4KYPG6YBYLKTEQPD.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/malloc/malloc.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/objc/objc-exception.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/objc/objc-sync.h

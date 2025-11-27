@@ -1,0 +1,30 @@
+{
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PhotoActionViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/PhotoActionViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/PhotoActionViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/PhotoActionViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/PhotoActionViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/PhotoActionViewController.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SliderViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SliderViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SliderViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SliderViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SliderViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SliderViewController.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SpeedViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SpeedViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SpeedViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SpeedViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SpeedViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/SpeedViewController.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/TrimViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/TrimViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/TrimViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/TrimViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/TrimViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/TrimViewController.swiftdeps"
+  }
+}

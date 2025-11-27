@@ -1,0 +1,35 @@
+moduledependenciestarget: \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/ImageIO.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/ImageIO.framework/Headers/ImageIO.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/ImageIO.framework/Headers/ImageIOBase.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-3WTC2J5MLF2PVGH9YHCIEJV8W.pcm \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stddef.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/stddef.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-64VQN4VWMFXQOBP241YANWKKX.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/DarwinFoundation1.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_AvailabilityInternal-4BKOKR712G599Y7P0RAFT3FFQ.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrcheck-4FPP4B2Q4HKI3UREDF9D97ZCA.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-78OLZ9996OZ3E87JB6FMOI48F.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdarg-7HKOJT4D2DQNNA5TXBPY5PBA2.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-1RY9QL5PMSZCJZGB1JU7S3NTX.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-42UFH9PI8W4YRR9RG2OMGAWQ3.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_float-7D7KG9540KG3Z8BVL6HV64SKF.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/CoreFoundation.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_limits-40KK98INQM5I55EOZA2CIFRXM.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation3-5QB3AG0K5LO8WKO4K9M5QZMA7.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_inttypes-9F2KNDKGJZMMIEAKQEJ62PKZS.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Darwin-3OB3D4G5PSFFJ1ALP8184M9C6.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/ptrauth-8V9YVC2U4N3KSYYSMTD6ZDD5K.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/ObjectiveC-E42R9XVO6OPQOLFTAADTCKIRW.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/os_object-7YKWPWQ4KCU67D36J16ZJQNBD.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/os_workgroup-6TN2SD07MNCY1JX2Q9N3C811R.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Dispatch-4NXIK1Z081AUBRE41UKCUSTVF.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreFoundation-1F29Y48ZMCX2J5HSID47PME4W.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/ImageIO.framework/Headers/CGImageSource.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/CoreGraphics.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreGraphics-77I9NYXEEKMXZ283XO9CQ1L40.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/ImageIO.framework/Headers/CGImageMetadata.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/ImageIO.framework/Headers/CGImageDestination.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/ImageIO.framework/Headers/CGImageProperties.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/ImageIO.framework/Headers/CGImageAnimation.h

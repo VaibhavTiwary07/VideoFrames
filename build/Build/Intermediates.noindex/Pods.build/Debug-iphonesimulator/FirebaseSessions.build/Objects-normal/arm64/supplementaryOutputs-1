@@ -1,0 +1,23 @@
+{
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseSessions/FirebaseSessions/Sources/ApplicationInfo.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/ApplicationInfo.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/ApplicationInfo.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/ApplicationInfo.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/ApplicationInfo.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/ApplicationInfo.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseSessions/FirebaseSessions/Sources/Development/DevEventConsoleLogger.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/DevEventConsoleLogger.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/DevEventConsoleLogger.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/DevEventConsoleLogger.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/DevEventConsoleLogger.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/DevEventConsoleLogger.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseSessions/FirebaseSessions/Sources/EventGDTLogger.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/EventGDTLogger.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/EventGDTLogger.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/EventGDTLogger.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/EventGDTLogger.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseSessions.build/Objects-normal/arm64/EventGDTLogger.swiftdeps"
+  }
+}

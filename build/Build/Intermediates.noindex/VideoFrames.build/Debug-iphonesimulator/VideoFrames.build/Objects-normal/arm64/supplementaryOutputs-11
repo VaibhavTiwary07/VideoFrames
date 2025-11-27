@@ -1,0 +1,30 @@
+{
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/CustomCollectionViewCell.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/CustomCollectionViewCell.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/CustomCollectionViewCell.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/CustomCollectionViewCell.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/CustomCollectionViewCell.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/CustomCollectionViewCell.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/RoundedTopCorners+Shadow.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/RoundedTopCorners+Shadow.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/RoundedTopCorners+Shadow.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/RoundedTopCorners+Shadow.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/RoundedTopCorners+Shadow.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/RoundedTopCorners+Shadow.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/StickerViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StickerViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StickerViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StickerViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StickerViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StickerViewController.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/UIImage+withPadding.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/UIImage+withPadding.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/UIImage+withPadding.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/UIImage+withPadding.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/UIImage+withPadding.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/UIImage+withPadding.swiftdeps"
+  }
+}

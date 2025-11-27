@@ -645,28 +645,23 @@ int intcmp(const void *aa, const void *bb)
          [self addSubview:view1];
          [self addSubview:photo.view];
 
-        // Add dotted border to the photo's view
-        photo.view.layer.borderColor = [UIColor blackColor].CGColor;
-        photo.view.layer.borderWidth = 2.0f;
-        
-        CAShapeLayer *border = [CAShapeLayer layer];
-        border.strokeColor = [UIColor blackColor].CGColor;
-        border.fillColor = nil;
-        border.lineDashPattern = @[@2, @2];
-        border.frame = photo.view.bounds;
-        border.path = [UIBezierPath bezierPathWithRect:photo.view.bounds].CGPath;
-        [photo.view.layer addSublayer:border];
-        
-        
+        // Borders will be added by setShape method or during selection
+        if(SHAPE_NOSHAPE == PhotoInfo[iIndex].eFrameShape)
+        {
+            // No border by default for rectangular frames
+            photo.view.layer.borderWidth = 0.0f;
+        }
+        else
+        {
+            // Shaped frames: setShape adds black dotted border
+            [photo.view setShape:PhotoInfo[iIndex].eFrameShape];
+            // Ensure dark background color persists after shape is set
+            photo.view.backgroundColor = [UIColor colorWithRed:0.19 green:0.21 blue:0.25 alpha:1.0];
+        }
+
+
 //        [photo.view release];
 //        [view1 release];
-        
-        
-        
-        if(SHAPE_NOSHAPE != PhotoInfo[iIndex].eFrameShape)
-        {
-            [photo.view setShape:PhotoInfo[iIndex].eFrameShape];
-        }
         
         /* Add the photo to the photo array */
         [photos insertObject:photo atIndex:iIndex];
@@ -1344,63 +1339,89 @@ int intcmp(const void *aa, const void *bb)
 
 - (UIImage*)quickRenderToImageOfScale:(float)scale
 {
-    int index = 0;
-    static int i = 0;;
-//    NSLog(@"Start Img generation %d",i);
-    UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, scale);
-    
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
-    CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
-    
-//    NSLog(@"Start getImage %d",i);
-    /* Add masks to the context */
-    for(index = 0; index < self.photoCount; index++)
-    {
-        Photo *pht = [self getPhotoAtIndex:index];
-        if(nil != pht)
+    __block UIImage *image = nil;
+
+    // Ensure all UI operations happen on main thread
+    dispatch_block_t renderBlock = ^{
+        int index = 0;
+        static int i = 0;
+//        NSLog(@"Start Img generation %d",i);
+        UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, scale);
+
+        CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
+        CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
+
+//        NSLog(@"Start getImage %d",i);
+        /* Add masks to the context */
+        for(index = 0; index < self.photoCount; index++)
         {
-            
-            if(pht.view.curShape != SHAPE_NOSHAPE)
+            Photo *pht = [self getPhotoAtIndex:index];
+            if(nil != pht)
             {
-                UIImage *curShapeImage = [pht.view getCurrentAssignedShapeImage];
-                
-                NSAssert(nil != curShapeImage, @"quickRenderImageOfScale: shape is not noshape but shape image is nil");
-                
-                /* mask the shape */
-                CGContextClipToMask(UIGraphicsGetCurrentContext(),pht.view.frame,curShapeImage.CGImage);
-               
+
+                if(pht.view.curShape != SHAPE_NOSHAPE)
+                {
+                    UIImage *curShapeImage = [pht.view getCurrentAssignedShapeImage];
+
+                    NSAssert(nil != curShapeImage, @"quickRenderImageOfScale: shape is not noshape but shape image is nil");
+
+                    /* mask the shape */
+                    CGContextClipToMask(UIGraphicsGetCurrentContext(),pht.view.frame,curShapeImage.CGImage);
+
+                }
             }
         }
+//        NSLog(@"End getImage %d",i);
+
+        CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
+        CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
+
+        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *image1 = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        image = [UIImage imageWithCGImage:image1.CGImage];
+
+
+//        NSLog(@"End Img generation %d",i);
+        i++;
+    };
+
+    // Execute on main thread synchronously
+    if ([NSThread isMainThread]) {
+        renderBlock();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), renderBlock);
     }
-//    NSLog(@"End getImage %d",i);
-    
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
-    CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
-    
-    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image1 = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    UIImage *image = [UIImage imageWithCGImage:image1.CGImage];
-    
-    
-//    NSLog(@"End Img generation %d",i);
-    i++;
+
     return image;
 }
 
 - (UIImage*)renderToImageOfScale:(float)scale
 {
-    UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, scale);
-    NSDictionary *dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:scale] forKey:@"scale"];
-    
-    [[NSNotificationCenter defaultCenter]postNotificationName:ssiv_notification_snapshotmode_enter object:nil userInfo:dict];
-    
-    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image1 = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    UIImage *image = [UIImage imageWithCGImage:image1.CGImage];
-    
-    [[NSNotificationCenter defaultCenter]postNotificationName:ssiv_notification_snapshotmode_exit object:nil userInfo:dict];
+    __block UIImage *image = nil;
+
+    // Ensure all UI operations happen on main thread
+    dispatch_block_t renderBlock = ^{
+        UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, scale);
+        NSDictionary *dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:scale] forKey:@"scale"];
+
+        [[NSNotificationCenter defaultCenter]postNotificationName:ssiv_notification_snapshotmode_enter object:nil userInfo:dict];
+
+        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *image1 = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        image = [UIImage imageWithCGImage:image1.CGImage];
+
+        [[NSNotificationCenter defaultCenter]postNotificationName:ssiv_notification_snapshotmode_exit object:nil userInfo:dict];
+    };
+
+    // Execute on main thread synchronously
+    if ([NSThread isMainThread]) {
+        renderBlock();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), renderBlock);
+    }
+
     return image;
 }
 

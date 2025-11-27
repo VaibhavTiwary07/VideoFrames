@@ -72,6 +72,7 @@
 @class AdjustOptionsViewController;
 @class SpeedViewController;
 @class TrimViewController;
+@class VideoTrimmingHostViewController;
 
 @interface MainController : UIViewController
 
@@ -103,6 +104,7 @@
 @property (nonatomic, strong) AdjustOptionsViewController *adjustOptionsVC;
 @property (nonatomic, strong) SpeedViewController *speedVC;
 @property (nonatomic, strong) TrimViewController *trimVC;
+@property (nonatomic, strong) VideoTrimmingHostViewController *videoTrimVC;
 @property (nonatomic, assign) int currentSelectedPhotoIndex;
 @property (nonatomic, assign) BOOL isInPhotoSelectionMode;
 

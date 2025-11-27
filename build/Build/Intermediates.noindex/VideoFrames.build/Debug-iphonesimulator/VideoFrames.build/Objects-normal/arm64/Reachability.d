@@ -1,0 +1,12 @@
+dependencies: \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Darwin-3OB3D4G5PSFFJ1ALP8184M9C6.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreFoundation-1F29Y48ZMCX2J5HSID47PME4W.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Foundation-8L47BNQCI6JBKI73R7ES9DNXM.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Supporting\ Files/VideoFrames-Prefix.pch \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/DarwinFoundation1.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/ObjectiveC.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Reachability.m \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/PicFrames/Reachability.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/SystemConfiguration.framework/Modules/module.modulemap

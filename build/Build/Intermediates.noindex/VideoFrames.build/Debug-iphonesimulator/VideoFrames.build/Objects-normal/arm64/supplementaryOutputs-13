@@ -1,0 +1,23 @@
+{
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AspectRatioCell.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioCell.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioCell.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioCell.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioCell.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioCell.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AspectRatioViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/AspectRatioViewController.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Sticker.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/Sticker.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/Sticker.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/Sticker.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/Sticker.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/Sticker.swiftdeps"
+  }
+}

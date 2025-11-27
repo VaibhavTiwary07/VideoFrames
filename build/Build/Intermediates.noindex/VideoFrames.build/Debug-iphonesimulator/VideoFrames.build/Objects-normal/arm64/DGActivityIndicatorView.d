@@ -1,0 +1,45 @@
+dependencies: \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/UIKit-CG8CQL7MDTN9C0WKPTCA25AO.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Foundation-8L47BNQCI6JBKI73R7ES9DNXM.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Supporting\ Files/VideoFrames-Prefix.pch \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/DarwinFoundation1.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/ObjectiveC.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Animations/Anim/DGActivityIndicatorView.m \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Animations/Anim/DGActivityIndicatorView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorNineDotsAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/SupportingFiles/Animations/Anim/DGActivityIndicatorAnimationProtocol.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorTriplePulseAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorFiveDotsAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorRotatingSquaresAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorDoubleBounceAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorTwoDotsAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorThreeDotsAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallPulseAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallClipRotateAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallClipRotatePulseAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallClipRotateMultipleAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallRotateAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallZigZagAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallZigZagDeflectAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallTrianglePathAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallScaleAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorLineScaleAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorLineScalePartyAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallScaleMultipleAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallPulseSyncAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallBeatAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorLineScalePulseOutAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorLineScalePulseOutRapidAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallScaleRippleAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallScaleRippleMultipleAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorTriangleSkewSpinAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallGridBeatAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallGridPulseAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorRotatingSandglassAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorRotatingTrigonAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorTripleRingsAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorCookieTerminatorAnimation.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/AnimationClasses/DGActivityIndicatorBallSpinFadeLoader.h

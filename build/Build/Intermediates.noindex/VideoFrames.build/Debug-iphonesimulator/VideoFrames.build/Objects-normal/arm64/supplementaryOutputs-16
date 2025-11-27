@@ -1,0 +1,23 @@
+{
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/BackgroundSelectionViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/BackgroundSelectionViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/BackgroundSelectionViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/BackgroundSelectionViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/BackgroundSelectionViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/BackgroundSelectionViewController.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/StartViewController.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StartViewController.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StartViewController.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StartViewController.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StartViewController.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/StartViewController.swiftdeps"
+  },
+  "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/VideoFrames.build/Debug-iphonesimulator/VideoFrames.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  }
+}

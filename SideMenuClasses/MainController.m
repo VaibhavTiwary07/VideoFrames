@@ -4502,6 +4502,17 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTrimViewBack:) name:@"trimViewBack" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSpeedChanged:) name:@"speedChanged" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleVideoTrimmed:) name:@"videoTrimmed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTrimError:) name:@"showTrimError" object:nil];
+
+    // Note: backgroundImageSelected and backgroundVideoSelected are handled by existing notification handler at lines 3656-3699
+    // No need to register separate observers - they already exist in the notification handling chain
+
+    // CRITICAL FIX #1: Initialize ImageSelectionHandler for photo/video picker
+    // This was causing the $50,000 bug where picker wouldn't open after tapping Photo/Video
+    if (!ish) {
+        ish = [[ImageSelectionHandler alloc] initWithViewController:self];
+        NSLog(@"ImageSelectionHandler initialized successfully");
+    }
 
     // Removed old configs array and tableView initialization
     NSLog(@"end of the main controller view did load  ");
@@ -10176,29 +10187,67 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     }
     
     CGSize canvasSize = videoFrame.size;
-    
+
+    // Get Photo for trim/speed settings
+    Photo *pht = [sess.frame getPhotoAtIndex:index];
+
+    // Calculate trim range - default to full duration if not set
+    CMTime startTime = kCMTimeZero;
+    CMTime endTime = asset.duration;
+
+    if (pht.videoTrimStart > 0 || pht.videoTrimEnd > 0) {
+        double trimStart = pht.videoTrimStart;
+        double trimEnd = pht.videoTrimEnd > 0 ? pht.videoTrimEnd : CMTimeGetSeconds(asset.duration);
+
+        startTime = CMTimeMakeWithSeconds(trimStart, 600);
+        endTime = CMTimeMakeWithSeconds(trimEnd, 600);
+        NSLog(@"📐 Applying trim: %.2f - %.2f seconds", trimStart, trimEnd);
+    }
+
+    CMTime trimmedDuration = CMTimeSubtract(endTime, startTime);
+    CMTimeRange trimRange = CMTimeRangeMake(startTime, trimmedDuration);
+
+    // Get speed multiplier (default 1.0)
+    float speedMultiplier = pht.videoSpeed > 0 ? pht.videoSpeed : 1.0;
+    NSLog(@"⚡ Applying speed: %.2fx", speedMultiplier);
+
+    // Calculate final duration after speed adjustment
+    CMTime finalDuration = CMTimeMakeWithSeconds(CMTimeGetSeconds(trimmedDuration) / speedMultiplier, 600);
+
     AVMutableComposition *composition = [AVMutableComposition composition];
     AVMutableCompositionTrack *compositionTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-    [compositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+    [compositionTrack insertTimeRange:trimRange
                               ofTrack:track
                                atTime:kCMTimeZero
                                 error:nil];
-    
+
+    // Apply speed scaling to video track
+    if (speedMultiplier != 1.0) {
+        [compositionTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, trimmedDuration)
+                              toDuration:finalDuration];
+    }
+
     // Add audio track if available
     if (audioTrack) {
         AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-        [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+        [compositionAudioTrack insertTimeRange:trimRange
                                        ofTrack:audioTrack
                                         atTime:kCMTimeZero
                                          error:nil];
+
+        // Apply speed scaling to audio track
+        if (speedMultiplier != 1.0) {
+            [compositionAudioTrack scaleTimeRange:CMTimeRangeMake(kCMTimeZero, trimmedDuration)
+                                       toDuration:finalDuration];
+        }
     }
-    
+
     AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
     videoComposition.renderSize = canvasSize;
     videoComposition.frameDuration = CMTimeMake(1, 30);
-    
+
     AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-    instruction.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
+    instruction.timeRange = CMTimeRangeMake(kCMTimeZero, finalDuration);
     //instruction.backgroundColor = sessionFrameColor.CGColor;
     
     AVMutableVideoCompositionLayerInstruction *layerInstruction =
@@ -10222,16 +10271,16 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     CGFloat tx = (canvasSize.width - scaledWidth) / 2.0;
     CGFloat ty = (canvasSize.height - scaledHeight) / 2.0;
     NSLog(@"tx is %f ty is %f",tx,ty);
-    
-    Photo *pt = [sess.frame getPhotoAtIndex:index];
-    
-    CGFloat zoom = pt.view.scrollView.zoomScale - pt.view.scrollView.minimumZoomScale;
+
+    // Note: pht already retrieved earlier for trim/speed settings
+
+    CGFloat zoom = pht.view.scrollView.zoomScale - pht.view.scrollView.minimumZoomScale;
     // Step 1: Apply custom zoom scale
-    CGFloat zoomScale = scale + zoom ; //pt.view.scrollView.zoomScale; // from scrollView.zoomScale scale; //
-    CGFloat finalScale = pt.view.scrollView.zoomScale * upscaleFactor;
-    NSLog(@"zoom scale is %f zoomScale %f",pt.view.scrollView.zoomScale,zoomScale);
+    CGFloat zoomScale = scale + zoom ; //pht.view.scrollView.zoomScale; // from scrollView.zoomScale scale; //
+    CGFloat finalScale = pht.view.scrollView.zoomScale * upscaleFactor;
+    NSLog(@"zoom scale is %f zoomScale %f",pht.view.scrollView.zoomScale,zoomScale);
     // Step 2: Translate to apply content offset (pan)
-    CGPoint offset = pt.view.scrollView.contentOffset; // from scrollView.contentOffset
+    CGPoint offset = pht.view.scrollView.contentOffset; // from scrollView.contentOffset
     NSLog(@"offset x is %f offset y is %f",offset.x,offset.y);
     
     CGSize scaledVideoSize = CGSizeMake(transformedSize.width * finalScale,
@@ -17898,11 +17947,12 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         self.currentSelectedPhotoIndex = photoIndex;
         self.isInPhotoSelectionMode = YES;
 
-        // Apply green border and enable selection mode
-        [sess enterPhotoSelectionMode:photoIndex];
+        // Set photo selection mode for proper state
+        [sess enterTouchModeForSlectingImage:photoIndex];
 
-        // Show PhotoActionViewController
-        [self showPhotoActionViewController];
+        // CRITICAL FIX #6: Directly show picker for empty slots (plus button)
+        // Skip PhotoActionViewController and go straight to action sheet
+        [self handleReplaceAction];
     }
 }
 
@@ -17940,6 +17990,16 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         self.photoActionVC = [[PhotoActionViewController alloc] init];
     }
 
+    // Check if current slot is empty to show "Add" or "Replace" button
+    Photo *photo = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
+    BOOL isEmpty = (photo == nil || photo.image == nil ||
+                    [photo.image isEqual:[UIImage imageNamed:@"blank"]] ||
+                    photo.image.size.width == 0);
+
+    // Set the flag before showing - this determines if button says "Add" or "Replace"
+    self.photoActionVC.isEmptySlot = isEmpty;
+    NSLog(@"Photo slot %d is %@", self.currentSelectedPhotoIndex, isEmpty ? @"empty (showing Add)" : @"filled (showing Replace)");
+
     // CORRECT: Add as child of optionsView, not self (MainController)
     [optionsView addChildViewController:self.photoActionVC];
     [optionsView.view addSubview:self.photoActionVC.view];
@@ -17954,8 +18014,9 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
     NSDictionary *userInfo = notification.userInfo;
     NSString *action = [userInfo objectForKey:@"action"];
 
-    if ([action isEqualToString:@"Replace"]) {
-        NSLog(@"Replace action selected");
+    // Both "Add" and "Replace" do the same thing - open picker
+    if ([action isEqualToString:@"Add"] || [action isEqualToString:@"Replace"]) {
+        NSLog(@"%@ action selected", action);
         [self handleReplaceAction];
     }
     else if ([action isEqualToString:@"Adjust"]) {
@@ -17974,23 +18035,47 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
 
 - (void)handleReplaceAction
 {
-    NSLog(@"Handling replace action for photo index: %d", self.currentSelectedPhotoIndex);
+    NSLog(@"Handling replace/add action for photo index: %d", self.currentSelectedPhotoIndex);
 
-    // Exit photo selection mode
-    [sess exitPhotoSelectionMode];
-    self.isInPhotoSelectionMode = NO;
+    // Set photo selection mode so existing notification handlers (lines 3656-3699) work correctly
+    // They rely on sess.photoNumberOfCurrentSelectedPhoto which reads from photoFromFrame
+    [sess enterTouchModeForSlectingImage:self.currentSelectedPhotoIndex];
 
-    // Set the current photo index for replacement
-    currentSelectedPhotoNumberForEffect = self.currentSelectedPhotoIndex;
+    // CRITICAL FIX: Show action sheet to choose Photo or Video, then call picker directly
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Select Content"
+                                                                   message:@"Choose photo or video"
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
 
-    // Trigger photo/video selection - post notification that existing code handles
-    [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForPhoto
-                                                        object:nil
-                                                      userInfo:nil];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"User selected Photo - opening photo picker");
+        [ish pickImage:1];
+    }]];
 
-    // Go back to main options
-    [self showMainOptionsViewController];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"User selected Video - opening video picker");
+        [ish pickVideo];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSLog(@"User cancelled - going back to PhotoActionViewController");
+        [sess exitTouchModeForSlectingImage];
+        [self showPhotoActionViewController];  // Go back to action buttons
+    }]];
+
+    // For iPad - set source view for popover
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        alert.popoverPresentationController.sourceView = self.view;
+        alert.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2,
+                                                                     self.view.bounds.size.height / 2,
+                                                                     1, 1);
+    }
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
+
+// REMOVED: handleBackgroundImageSelected and handleBackgroundVideoSelected
+// These notifications are already handled by existing notification handler at lines 3656-3699
+// No duplicate handlers needed
 
 - (void)handleDeleteAction
 {
@@ -18032,10 +18117,11 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         self.adjustOptionsVC = [[AdjustOptionsViewController alloc] init];
     }
 
-    [self addChildViewController:self.adjustOptionsVC];
+    // CORRECT: Add as child of optionsView since view is added to optionsView
+    [optionsView addChildViewController:self.adjustOptionsVC];
     [optionsView.view addSubview:self.adjustOptionsVC.view];
     self.adjustOptionsVC.view.frame = optionsView.view.bounds;
-    [self.adjustOptionsVC didMoveToParentViewController:self];
+    [self.adjustOptionsVC didMoveToParentViewController:optionsView];
 }
 
 - (void)handleAdjustActionSelected:(NSNotification *)notification
@@ -18057,7 +18143,7 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
 
 - (void)showSpeedViewController
 {
-    NSLog(@"Showing SpeedViewController");
+    NSLog(@"Showing SpeedViewController - FULL SCREEN");
 
     // Check if selected slot has a video
     Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
@@ -18072,32 +18158,30 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         return;
     }
 
-    // Remove current child view controller
-    [self removeOptionsChildViewController];
+    // Create and present SpeedViewController as full-screen modal
+    self.speedVC = [[SpeedViewController alloc] init];
 
-    // Create and add SpeedViewController
-    if (!self.speedVC) {
-        self.speedVC = [[SpeedViewController alloc] init];
-    }
+    // NEW: Pass video data for preview
+    self.speedVC.photo = pht;
+    self.speedVC.videoURL = pht.videoURL;
 
     // Set current speed if available
     if (pht.videoSpeed > 0) {
         [self.speedVC setSpeed:pht.videoSpeed];
     }
 
-    [self addChildViewController:self.speedVC];
-    [optionsView.view addSubview:self.speedVC.view];
-    self.speedVC.view.frame = optionsView.view.bounds;
-    [self.speedVC didMoveToParentViewController:self];
+    // FULL SCREEN presentation
+    self.speedVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:self.speedVC animated:YES completion:nil];
 }
 
 - (void)showTrimViewController
 {
-    NSLog(@"Showing TrimViewController");
+    NSLog(@"Showing VideoTrimmingHostViewController - FULL SCREEN");
 
     // Check if selected slot has a video
     Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
-    if (!pht || !pht.isContentTypeVideo) {
+    if (!pht || !pht.isContentTypeVideo || !pht.videoURL) {
         NSLog(@"Selected slot does not contain a video");
         // Show alert
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Not a Video"
@@ -18108,27 +18192,16 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         return;
     }
 
-    // Remove current child view controller
-    [self removeOptionsChildViewController];
+    // Create and present VideoTrimmingHostViewController as full-screen modal
+    self.videoTrimVC = [[VideoTrimmingHostViewController alloc] init];
 
-    // Create and add TrimViewController
-    if (!self.trimVC) {
-        self.trimVC = [[TrimViewController alloc] init];
-    }
+    // Set photo and video URL (ViewModel will restore trim values)
+    self.videoTrimVC.photo = pht;
+    self.videoTrimVC.videoURL = pht.videoURL;
 
-    // Get video duration
-    double duration = [sess getVideoDurationForPhotoAtIndex:self.currentSelectedPhotoIndex];
-    [self.trimVC setVideoDuration:duration];
-
-    // Set current trim range if available
-    if (pht.videoTrimStart >= 0 && pht.videoTrimEnd > 0) {
-        [self.trimVC setTrimRangeWithStart:pht.videoTrimStart end:pht.videoTrimEnd];
-    }
-
-    [self addChildViewController:self.trimVC];
-    [optionsView.view addSubview:self.trimVC.view];
-    self.trimVC.view.frame = optionsView.view.bounds;
-    [self.trimVC didMoveToParentViewController:self];
+    // FULL SCREEN presentation
+    self.videoTrimVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:self.videoTrimVC animated:YES completion:nil];
 }
 
 - (void)handleAdjustOptionsBack:(NSNotification *)notification
@@ -18143,16 +18216,16 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
 {
     NSLog(@"Speed view back button tapped");
 
-    // Go back to AdjustOptionsViewController
-    [self showAdjustOptionsViewController];
+    // Dismiss the full-screen modal
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)handleTrimViewBack:(NSNotification *)notification
 {
     NSLog(@"Trim view back button tapped");
 
-    // Go back to AdjustOptionsViewController
-    [self showAdjustOptionsViewController];
+    // Dismiss the full-screen modal
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)handleSpeedChanged:(NSNotification *)notification
@@ -18174,29 +18247,65 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
             NSLog(@"Speed applied to video at index: %d", self.currentSelectedPhotoIndex);
         }
     }
+
+    // Dismiss the view and refresh video player to show changes
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self refreshVideoPlayerAtIndex:self.currentSelectedPhotoIndex];
+    }];
 }
 
 - (void)handleVideoTrimmed:(NSNotification *)notification
 {
     NSLog(@"Video trimmed notification received");
 
+    // Dismiss the view and refresh video player to show trimmed playback
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self refreshVideoPlayerAtIndex:self.currentSelectedPhotoIndex];
+    }];
+}
+
+- (void)handleTrimError:(NSNotification *)notification
+{
+    NSLog(@"Trim error notification received");
+
     NSDictionary *userInfo = notification.userInfo;
-    NSNumber *startTimeNum = [userInfo objectForKey:@"startTime"];
-    NSNumber *endTimeNum = [userInfo objectForKey:@"endTime"];
+    NSString *errorMessage = [userInfo objectForKey:@"message"];
 
-    if (startTimeNum && endTimeNum) {
-        double startTime = [startTimeNum doubleValue];
-        double endTime = [endTimeNum doubleValue];
-        NSLog(@"Trim range: %.2f to %.2f", startTime, endTime);
+    if (errorMessage) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Trim Error"
+                                                                       message:errorMessage
+                                                                preferredStyle:UIAlertControllerStyleAlert];
 
-        // Apply trim to the video
-        Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
-        if (pht && pht.isContentTypeVideo) {
-            pht.videoTrimStart = startTime;
-            pht.videoTrimEnd = endTime;
-            [pht applyVideoTrimWithStart:startTime end:endTime];
-            NSLog(@"Trim applied to video at index: %d", self.currentSelectedPhotoIndex);
-        }
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+        [alert addAction:okAction];
+
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void)refreshVideoPlayerAtIndex:(int)index
+{
+    NSLog(@"🎬 Refreshing video player at index: %d", index);
+
+    Photo *pht = [sess.frame getPhotoAtIndex:index];
+    if (pht && pht.isContentTypeVideo && pht.view) {
+        // CRITICAL: Set the playback speed BEFORE setupVideoPlayer!
+        float speed = pht.videoSpeed > 0 ? pht.videoSpeed : 1.0;
+        pht.view.playbackSpeed = speed;
+        NSLog(@"Set playbackSpeed to %.2fx for video at index: %d", speed, index);
+
+        // CRITICAL: Set the trim range BEFORE setupVideoPlayer!
+        pht.view.videoTrimStart = pht.videoTrimStart;
+        pht.view.videoTrimEnd = pht.videoTrimEnd;
+        NSLog(@"Set trim range to %.2fs - %.2fs for video at index: %d", pht.videoTrimStart, pht.videoTrimEnd, index);
+
+        // Now setup and play - it will use playbackSpeed and trim range
+        [pht.view setupVideoPlayer];
+        [pht.view playPlayer];
+
+        NSLog(@"Video player refreshed at index: %d with speed %.2fx, trim %.2fs-%.2fs", index, speed, pht.videoTrimStart, pht.videoTrimEnd);
     }
 }
 
@@ -18210,14 +18319,15 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         self.isInPhotoSelectionMode = NO;
     }
 
-    // Remove current child view controller
+    // Remove current child view controllers from options container
     [self removeOptionsChildViewController];
 
-    // Re-add the main OptionsViewController
-    [self addChildViewController:optionsView];
-    [optionsView.view.superview addSubview:optionsView.view];
-    optionsView.view.frame = optionsView.view.superview.bounds;
-    [optionsView didMoveToParentViewController:self];
+    // CRITICAL FIX: optionsView is already a child of MainController
+    // Don't re-add it - just ensure it's visible
+    optionsView.view.hidden = NO;
+
+    // Note: optionsView is already added as a child during initialization
+    // We only removed child view controllers FROM optionsView, not optionsView itself
 }
 
 - (void)removeOptionsChildViewController
@@ -18228,6 +18338,7 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
             [childVC isKindOfClass:[AdjustOptionsViewController class]] ||
             [childVC isKindOfClass:[SpeedViewController class]] ||
             [childVC isKindOfClass:[TrimViewController class]] ||
+            [childVC isKindOfClass:[VideoTrimmingHostViewController class]] ||
             [childVC isKindOfClass:NSClassFromString(@"OptionsViewController")] ||
             [childVC isKindOfClass:NSClassFromString(@"EditOptionsViewController")]) {
 
@@ -18235,6 +18346,11 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
             [childVC.view removeFromSuperview];
             [childVC removeFromParentViewController];
         }
+    }
+
+    // Also clean up the property reference
+    if (self.videoTrimVC && self.videoTrimVC.parentViewController == nil) {
+        self.videoTrimVC = nil;
     }
 }
 

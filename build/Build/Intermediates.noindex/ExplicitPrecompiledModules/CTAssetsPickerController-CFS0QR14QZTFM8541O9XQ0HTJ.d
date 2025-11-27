@@ -1,0 +1,31 @@
+moduledependenciestarget: \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/UIKit-CG8CQL7MDTN9C0WKPTCA25AO.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsPickerController-umbrella.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetCheckmark.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetCollectionViewCell.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/Photos.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetThumbnailStacks.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetThumbnailView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetCollectionViewController.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetItemViewController.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetPlayButton.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetScrollView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetSelectionButton.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetSelectionLabel.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsGridSelectedView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsGridView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsGridViewCell.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsGridViewController.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsGridViewFooter.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsGridViewLayout.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsNavigationController.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsPageView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsPageViewController.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsPickerAccessDeniedView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsPickerController.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsPickerDefines.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsPickerNoAssetsView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetsViewControllerTransition.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/CTAssetsPickerController/CTAssetsPickerController.framework/Headers/CTAssetThumbnailOverlay.h

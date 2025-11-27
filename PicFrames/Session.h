@@ -128,6 +128,12 @@ typedef struct
 -(void)exitTouchModeForSlectingImage;
 -(void)enterPhotoSelectionMode:(int)photoIndex;
 -(void)exitPhotoSelectionMode;
+
+// Production-grade state management methods
+-(void)deleteSelectedFrame;
+-(void)replaceSelectedFrameWithVideo:(NSURL *)videoURL;
+-(void)replaceSelectedFrameWithImage:(UIImage *)image;
+
 -(UIImage*)getImageAtIndex:(int)index;
 -(void)saveImageAfterApplyingEffect:(UIImage *)image atPhotoIndex:(int)photoIndex atFrameIndex:(int)frameIndex;
 -(void)saveImage:(UIImage*)img atIndex:(int)index;

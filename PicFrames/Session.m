@@ -791,7 +791,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 }
 - (void)enterTouchModeForSlectingImage:(int)photoIndex
 {
-    
+
     for(int index = 0; index < self.frame.photoCount; index++)
     {
         Photo *pht = [self.frame getPhotoAtIndex:index];
@@ -799,14 +799,26 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         {
             pht.view.imageView.image = [self getImageAtIndex:index];
             if (index ==photoIndex) {
-                pht.view.scrollView.layer.borderColor = [UIColor redColor].CGColor;
-                pht.view.scrollView.layer.borderWidth = 5.0;
+                if (pht.view.curShape == SHAPE_NOSHAPE) {
+                    pht.view.scrollView.layer.borderColor = [UIColor greenColor].CGColor;
+                    pht.view.scrollView.layer.borderWidth = 5.0;
+                } else {
+                    [pht.view setBorderStyle:[UIColor greenColor]
+                                   lineWidth:5.0f
+                                 dashPattern:nil];
+                    pht.view.scrollView.layer.borderWidth = 0.0;
+                }
             }
-            
+
             pht.effectTouchMode =YES;
-            
+
         }
     }
+
+    // CRITICAL FIX #2: Set photoFromFrame so photoNumberOfCurrentSelectedPhoto returns correct value
+    // This ensures existing notification handlers at lines 3656-3699 in MainController.m
+    // can determine which photo slot to update when photo/video is selected
+    photoFromFrame = [self.frame getPhotoAtIndex:photoIndex];
 }
 - (void)exitTouchModeForSlectingImage
 {
@@ -833,11 +845,27 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
             pht.view.imageView.image = [self getImageAtIndex:index];
 
             if (index == photoIndex) {
-                // GREEN OUTLINE for photo selection
-                pht.view.scrollView.layer.borderColor = [UIColor greenColor].CGColor;
-                pht.view.scrollView.layer.borderWidth = 5.0;
+                // SELECTED: Green solid border
+                if (pht.view.curShape == SHAPE_NOSHAPE) {
+                    // Rectangular: scrollView.layer border
+                    pht.view.scrollView.layer.borderColor = [UIColor greenColor].CGColor;
+                    pht.view.scrollView.layer.borderWidth = 5.0;
+                } else {
+                    // Shaped: shape-aware green solid border
+                    [pht.view setBorderStyle:[UIColor greenColor]
+                                   lineWidth:5.0f
+                                 dashPattern:nil];
+                    pht.view.scrollView.layer.borderWidth = 0.0;
+                }
+                pht.isSelected = YES;
             } else {
-                pht.view.scrollView.layer.borderWidth = 0.0;
+                // DESELECTED: Black dotted border or no border
+                if (pht.view.curShape == SHAPE_NOSHAPE) {
+                    pht.view.scrollView.layer.borderWidth = 0.0;
+                } else {
+                    [pht.view updateBorderForCurrentShape];  // Black dotted
+                }
+                pht.isSelected = NO;
             }
 
             pht.photoSelectionMode = YES;
@@ -852,8 +880,65 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         Photo *pht = [self.frame getPhotoAtIndex:index];
         if(nil != pht)
         {
-            pht.view.scrollView.layer.borderWidth = 0.0;
+            if (pht.view.curShape == SHAPE_NOSHAPE) {
+                pht.view.scrollView.layer.borderWidth = 0.0;
+            } else {
+                [pht.view updateBorderForCurrentShape];  // Black dotted
+            }
+
             pht.photoSelectionMode = NO;
+            pht.isSelected = NO;
+        }
+    }
+}
+
+// MARK: - Production-Grade State Management
+
+- (void)deleteSelectedFrame
+{
+    for (int index = 0; index < self.frame.photoCount; index++) {
+        Photo *photo = [self.frame getPhotoAtIndex:index];
+        if (photo && photo.isSelected) {
+            NSLog(@"Deleting content from selected frame at index %d", index);
+            [photo deleteContent];
+            [self exitPhotoSelectionMode];
+            break;
+        }
+    }
+}
+
+- (void)replaceSelectedFrameWithVideo:(NSURL *)videoURL
+{
+    if (!videoURL) {
+        NSLog(@"Cannot replace frame: video URL is nil");
+        return;
+    }
+
+    for (int index = 0; index < self.frame.photoCount; index++) {
+        Photo *photo = [self.frame getPhotoAtIndex:index];
+        if (photo && photo.isSelected) {
+            NSLog(@"Replacing content in selected frame at index %d with video: %@", index, videoURL);
+            [photo replaceWithVideo:videoURL];
+            [self exitPhotoSelectionMode];
+            break;
+        }
+    }
+}
+
+- (void)replaceSelectedFrameWithImage:(UIImage *)image
+{
+    if (!image) {
+        NSLog(@"Cannot replace frame: image is nil");
+        return;
+    }
+
+    for (int index = 0; index < self.frame.photoCount; index++) {
+        Photo *photo = [self.frame getPhotoAtIndex:index];
+        if (photo && photo.isSelected) {
+            NSLog(@"Replacing content in selected frame at index %d with image", index);
+            [photo replaceWithImage:image];
+            [self exitPhotoSelectionMode];
+            break;
         }
     }
 }

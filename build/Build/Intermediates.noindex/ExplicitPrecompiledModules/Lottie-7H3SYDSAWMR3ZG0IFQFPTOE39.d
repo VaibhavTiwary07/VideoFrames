@@ -1,0 +1,25 @@
+moduledependenciestarget: \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/UIKit-CG8CQL7MDTN9C0WKPTCA25AO.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Foundation-8L47BNQCI6JBKI73R7ES9DNXM.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreGraphics-77I9NYXEEKMXZ283XO9CQ1L40.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-78OLZ9996OZ3E87JB6FMOI48F.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/Foundation.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/DarwinFoundation1.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/CoreGraphics.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/lottie-ios-umbrella.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTAnimatedControl.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTAnimatedSwitch.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTAnimationCache.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTAnimationTransitionController.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTAnimationView.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTAnimationView_Compat.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTComposition.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTKeypath.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTValueDelegate.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTBlockCallback.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTCacheProvider.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTInterpolatorCallback.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/Lottie.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.framework/Headers/LOTValueCallback.h

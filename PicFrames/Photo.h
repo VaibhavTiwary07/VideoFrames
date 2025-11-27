@@ -70,4 +70,10 @@
 -(void)setEditedImage:(UIImage *)image;
 -(void)applyVideoSpeed:(float)speed;
 -(void)applyVideoTrimWithStart:(double)startTime end:(double)endTime;
+
+// Production-grade state management methods
+-(void)deleteContent;
+-(void)replaceWithVideo:(NSURL *)newVideoURL;
+-(void)replaceWithImage:(UIImage *)newImage;
+
 @end

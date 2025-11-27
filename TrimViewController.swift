@@ -157,8 +157,7 @@ class TrimViewController: UIViewController {
         containerView.addSubview(endSlider)
         containerView.addSubview(applyButton)
 
-        let containerHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 220 : 180
-        let buttonHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 50 : 44
+        let buttonHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 44 : 40
 
         NSLayoutConstraint.activate([
             // Back button
@@ -171,15 +170,15 @@ class TrimViewController: UIViewController {
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: backButton.centerYAnchor),
 
-            // Duration label
-            durationLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 10),
+            // Duration label - REDUCED SPACING
+            durationLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 5),
             durationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            // Container view
+            // Container view - FLEXIBLE HEIGHT
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            containerView.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 20),
-            containerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-            containerView.heightAnchor.constraint(equalToConstant: containerHeight),
+            containerView.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 8),
+            containerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
 
             // Start label
             startLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
@@ -189,29 +188,32 @@ class TrimViewController: UIViewController {
             startTimeLabel.centerYAnchor.constraint(equalTo: startLabel.centerYAnchor),
             startTimeLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
 
-            // Start slider
-            startSlider.topAnchor.constraint(equalTo: startLabel.bottomAnchor, constant: 8),
+            // Start slider - REDUCED SPACING
+            startSlider.topAnchor.constraint(equalTo: startLabel.bottomAnchor, constant: 4),
             startSlider.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             startSlider.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
 
-            // End label
-            endLabel.topAnchor.constraint(equalTo: startSlider.bottomAnchor, constant: 20),
+            // End label - REDUCED SPACING
+            endLabel.topAnchor.constraint(equalTo: startSlider.bottomAnchor, constant: 10),
             endLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
 
             // End time label
             endTimeLabel.centerYAnchor.constraint(equalTo: endLabel.centerYAnchor),
             endTimeLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
 
-            // End slider
-            endSlider.topAnchor.constraint(equalTo: endLabel.bottomAnchor, constant: 8),
+            // End slider - REDUCED SPACING
+            endSlider.topAnchor.constraint(equalTo: endLabel.bottomAnchor, constant: 4),
             endSlider.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             endSlider.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
 
-            // Apply button
-            applyButton.topAnchor.constraint(equalTo: endSlider.bottomAnchor, constant: 25),
+            // Apply button - REDUCED SPACING
+            applyButton.topAnchor.constraint(equalTo: endSlider.bottomAnchor, constant: 8),
             applyButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             applyButton.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.5),
-            applyButton.heightAnchor.constraint(equalToConstant: buttonHeight)
+            applyButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+
+            // Pin apply button to bottom to ensure everything fits
+            applyButton.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor)
         ])
     }
 

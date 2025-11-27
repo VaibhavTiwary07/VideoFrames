@@ -1,0 +1,22 @@
+moduledependenciestarget: \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/UIKit-CG8CQL7MDTN9C0WKPTCA25AO.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/Foundation-8L47BNQCI6JBKI73R7ES9DNXM.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-42UFH9PI8W4YRR9RG2OMGAWQ3.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stddef-64VQN4VWMFXQOBP241YANWKKX.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdbool-3WTC2J5MLF2PVGH9YHCIEJV8W.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation2-1RY9QL5PMSZCJZGB1JU7S3NTX.pcm \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/Foundation.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/usr/include/DarwinFoundation2.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FirebaseAnalytics-umbrella.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FIRAnalytics+AppDelegate.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FIRAnalytics.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FIREventNames.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FIRParameterNames.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FIRUserPropertyNames.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FIRAnalytics+Consent.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FIRAnalytics+OnDevice.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FirebaseAnalytics.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Products/Debug-iphonesimulator/XCFrameworkIntermediates/FirebaseAnalytics/Default/FirebaseAnalytics.framework/Headers/FirebaseAnalytics-Swift.h

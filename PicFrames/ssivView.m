@@ -143,7 +143,13 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
     
     alphaLayer.contents = (id)imgAlpha;
     self.layer.mask = alphaLayer;
-    
+
+    // Maintain dark background for empty frames
+    self.backgroundColor = [UIColor colorWithRed:0.19 green:0.21 blue:0.25 alpha:1.0];
+
+    // Add shape-specific border after masking
+    [self updateBorderForCurrentShape];
+
     return;
 }
 
@@ -301,34 +307,44 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
     //static int count  = 0;
     //count++;
     //NSLog(@"Begin %d (%f,%f) scale %f",count,self.frame.size.width,self.frame.size.height,scale);
-    
-    UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, scale);
-    self.bgclr = self.backgroundColor;
-    self.backgroundColor = [UIColor clearColor];
-    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationNone);
-    NSString *imgName = [NSString stringWithFormat:@"%s",shape_imagenamemaping[self.curShape].imageName];
-    NSString *img_Name = [imgName stringByAppendingString:@".png"];
-    //NSLog(@"shape img_Name  %@",img_Name);
-    
-    UIImage * shapeImage = [UIImage imageNamed:img_Name];
-    // UIImage *shapeImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:imgName ofType:@"png"]];
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
-    CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
-    
-    CGContextClipToMask(UIGraphicsGetCurrentContext(),CGRectMake(0, 0, self.frame.size.width, self.frame.size.height),shapeImage.CGImage);
-    
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
-    CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
-    
-    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    
-    self.image = UIGraphicsGetImageFromCurrentImageContext();
-    
-    // self.scrollView.hidden = YES; //uncomment again
-    // self.imageView.hidden = YES; //uncomment again
-    
-    UIGraphicsEndImageContext();
-    //NSLog(@"End %d",count);
+
+    // Ensure all UI operations happen on main thread
+    dispatch_block_t renderBlock = ^{
+        UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, scale);
+        self.bgclr = self.backgroundColor;
+        self.backgroundColor = [UIColor clearColor];
+        CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationNone);
+        NSString *imgName = [NSString stringWithFormat:@"%s",shape_imagenamemaping[self.curShape].imageName];
+        NSString *img_Name = [imgName stringByAppendingString:@".png"];
+        //NSLog(@"shape img_Name  %@",img_Name);
+
+        UIImage * shapeImage = [UIImage imageNamed:img_Name];
+        // UIImage *shapeImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:imgName ofType:@"png"]];
+        CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
+        CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
+
+        CGContextClipToMask(UIGraphicsGetCurrentContext(),CGRectMake(0, 0, self.frame.size.width, self.frame.size.height),shapeImage.CGImage);
+
+        CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height);
+        CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1, -1);
+
+        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+
+        self.image = UIGraphicsGetImageFromCurrentImageContext();
+
+        // self.scrollView.hidden = YES; //uncomment again
+        // self.imageView.hidden = YES; //uncomment again
+
+        UIGraphicsEndImageContext();
+        //NSLog(@"End %d",count);
+    };
+
+    // Execute on main thread synchronously
+    if ([NSThread isMainThread]) {
+        renderBlock();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), renderBlock);
+    }
 }
 -(void)receiveNotification:(NSNotification*)notification
 {
@@ -503,10 +519,33 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
     AVAssetTrack *videoTrack = [[videoAsset tracksWithMediaType:AVMediaTypeVideo] firstObject];
     if (!videoTrack) return;
 
-    // 3. Set 30-second limit
-    CMTime maxDuration = CMTimeMakeWithSeconds(30, 600);
+    // 3. Calculate time range based on trim settings
     CMTime videoDuration = videoAsset.duration;
-    CMTimeRange timeRange = CMTimeRangeMake(kCMTimeZero, CMTimeMinimum(videoDuration, maxDuration));
+    double videoDurationSeconds = CMTimeGetSeconds(videoDuration);
+
+    // Determine start and end times based on trim properties
+    CMTime startTime = kCMTimeZero;
+    CMTime endTime = videoDuration;
+
+    // Apply trim range if set (videoTrimEnd > 0 means trim was applied)
+    if (self.videoTrimEnd > 0) {
+        double trimStart = MAX(0, self.videoTrimStart);
+        double trimEnd = MIN(self.videoTrimEnd, videoDurationSeconds);
+
+        startTime = CMTimeMakeWithSeconds(trimStart, 600);
+        endTime = CMTimeMakeWithSeconds(trimEnd, 600);
+
+        NSLog(@"🎬 Applying trim range: %.2fs - %.2fs", trimStart, trimEnd);
+    }
+
+    // Calculate duration and apply 30-second max limit
+    CMTime maxDuration = CMTimeMakeWithSeconds(30, 600);
+    CMTime duration = CMTimeSubtract(endTime, startTime);
+    if (CMTimeCompare(duration, maxDuration) > 0) {
+        duration = maxDuration;
+    }
+
+    CMTimeRange timeRange = CMTimeRangeMake(startTime, duration);
 
     // 4. Create composition
     AVMutableComposition *composition = [AVMutableComposition composition];
@@ -593,7 +632,9 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
                      queue:[NSOperationQueue mainQueue]
                 usingBlock:^(NSNotification *note) {
                     [weakSelf.player seekToTime:kCMTimeZero];
-                    [weakSelf.player play];
+                    // Play at the configured speed (default 1.0)
+                    float speed = weakSelf.playbackSpeed > 0 ? weakSelf.playbackSpeed : 1.0;
+                    weakSelf.player.rate = speed;
                 }];
 
     // Add observer for play/pause state
@@ -603,8 +644,9 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
                 context:nil];
     if(self.isvideoMute)
         [self muteAudio];
-    // 11. Start playback
-    [_player play];
+    // 11. Start playback at configured speed
+    float speed = self.playbackSpeed > 0 ? self.playbackSpeed : 1.0;
+    _player.rate = speed;
 }
 
 
@@ -626,7 +668,9 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
 
 - (void)playPlayer {
     self.isProgrammaticPlaybackChange = YES;
-    [self.player play];    // Start video first
+    // Start video at configured speed
+    float speed = self.playbackSpeed > 0 ? self.playbackSpeed : 1.0;
+    self.player.rate = speed;
     //[self muteAudio];   // Then unmute audio
     if(self.isvideoMute)
         [self muteAudioPlayer];
@@ -1071,6 +1115,157 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
 
 - (void)stop {
     [self removePlayer];
+}
+
+#pragma mark - Shape Border Methods
+
+- (CGPathRef)createBorderPathForShape:(eShape)shape withSize:(CGSize)size {
+    // For SHAPE_NOSHAPE, return rectangular path
+    if (shape == SHAPE_NOSHAPE) {
+        UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, size.width, size.height)];
+        return CGPathRetain(rectPath.CGPath);
+    }
+
+    // For circle, use bezierPathWithOvalInRect for perfect circle
+    if (shape == SHAPE_CIRCLE) {
+        UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, size.width, size.height)];
+        return CGPathRetain(circlePath.CGPath);
+    }
+
+    // For other shapes, extract path from PNG alpha channel
+    UIImage *shapeImage = [ssivView imageForShape:shape];
+    if (!shapeImage) {
+        // Fallback to rectangle if shape image not found
+        UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, size.width, size.height)];
+        return CGPathRetain(rectPath.CGPath);
+    }
+
+    // Scale the image to match the view size for accurate border
+    CGFloat scale = [UIScreen mainScreen].scale;
+    UIGraphicsBeginImageContextWithOptions(size, NO, scale);
+    [shapeImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    // Extract path from alpha channel using edge detection
+    CGImageRef cgImage = scaledImage.CGImage;
+    size_t width = CGImageGetWidth(cgImage);
+    size_t height = CGImageGetHeight(cgImage);
+
+    // Create bitmap context to read pixel data
+    unsigned char *pixelData = (unsigned char *)calloc(width * height * 4, sizeof(unsigned char));
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(pixelData, width, height, 8, width * 4, colorSpace, kCGImageAlphaPremultipliedLast);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
+
+    // Create path by tracing the edge of non-transparent pixels
+    UIBezierPath *borderPath = [UIBezierPath bezierPath];
+    BOOL foundFirstPoint = NO;
+
+    // Simple edge detection: find pixels where alpha > 0 and neighbor has alpha == 0
+    for (size_t y = 0; y < height; y++) {
+        for (size_t x = 0; x < width; x++) {
+            size_t index = (y * width + x) * 4;
+            unsigned char alpha = pixelData[index + 3];
+
+            // Check if this pixel is visible (alpha > 128)
+            if (alpha > 128) {
+                // Check if any neighbor is transparent (edge pixel)
+                BOOL isEdge = NO;
+
+                // Check 4-connected neighbors
+                if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
+                    isEdge = YES;
+                } else {
+                    // Check left neighbor
+                    if (pixelData[((y * width + (x-1)) * 4) + 3] <= 128) isEdge = YES;
+                    // Check right neighbor
+                    if (pixelData[((y * width + (x+1)) * 4) + 3] <= 128) isEdge = YES;
+                    // Check top neighbor
+                    if (pixelData[(((y-1) * width + x) * 4) + 3] <= 128) isEdge = YES;
+                    // Check bottom neighbor
+                    if (pixelData[(((y+1) * width + x) * 4) + 3] <= 128) isEdge = YES;
+                }
+
+                if (isEdge) {
+                    CGFloat pointX = (x / (CGFloat)width) * size.width;
+                    CGFloat pointY = (y / (CGFloat)height) * size.height;
+
+                    if (!foundFirstPoint) {
+                        [borderPath moveToPoint:CGPointMake(pointX, pointY)];
+                        foundFirstPoint = YES;
+                    } else {
+                        [borderPath addLineToPoint:CGPointMake(pointX, pointY)];
+                    }
+                }
+            }
+        }
+    }
+
+    [borderPath closePath];
+
+    // Cleanup
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    free(pixelData);
+
+    return CGPathRetain(borderPath.CGPath);
+}
+
+- (void)updateBorderForCurrentShape {
+    // Default: black dotted border for unselected state
+    [self setBorderStyle:[UIColor blackColor]
+              lineWidth:2.0f
+            dashPattern:@[@2, @2]];
+}
+
+- (void)setBorderStyle:(UIColor *)color lineWidth:(CGFloat)width dashPattern:(NSArray *)pattern {
+    // Remove existing border
+    if (self.shapeBorderLayer) {
+        [self.shapeBorderLayer removeFromSuperlayer];
+        self.shapeBorderLayer = nil;
+    }
+
+    // Skip for SHAPE_NOSHAPE (handled by scrollView.layer)
+    if (self.curShape == SHAPE_NOSHAPE) {
+        return;
+    }
+
+    // Calculate border size (matching mask layer)
+    CGSize borderSize;
+    if (self.frame.size.height >= self.frame.size.width) {
+        borderSize = CGSizeMake(self.frame.size.width, self.frame.size.width);
+    } else {
+        borderSize = CGSizeMake(self.frame.size.height, self.frame.size.height);
+    }
+
+    // Create border path
+    CGPathRef borderPath = [self createBorderPathForShape:self.curShape withSize:borderSize];
+
+    // Create border layer with specified style
+    CAShapeLayer *border = [CAShapeLayer layer];
+    border.path = borderPath;
+    border.strokeColor = color.CGColor;
+    border.fillColor = nil;
+    border.lineWidth = width;
+    border.lineDashPattern = pattern;  // nil = solid, @[@2, @2] = dotted
+
+    // Position to match mask layer
+    border.bounds = CGRectMake(0, 0, borderSize.width, borderSize.height);
+    border.position = CGPointMake(self.center.x - self.frame.origin.x,
+                                  self.center.y - self.frame.origin.y);
+
+    [self.layer addSublayer:border];
+    self.shapeBorderLayer = border;
+
+    CGPathRelease(borderPath);
+}
+
+- (void)removeBorder {
+    if (self.shapeBorderLayer) {
+        [self.shapeBorderLayer removeFromSuperlayer];
+        self.shapeBorderLayer = nil;
+    }
 }
 
 @end

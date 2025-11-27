@@ -15,17 +15,21 @@ class PhotoActionViewController: UIViewController, UICollectionViewDelegate, UIC
     let topAnchorConstant: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 12 : 8
     let viewHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 70
 
-    private func loadData() {
+    // Property to determine if slot is empty (shows "Add") or filled (shows "Replace")
+    @objc var isEmptySlot: Bool = false
+
+    private func loadData(isEmptySlot: Bool = false) {
         let customColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
 
-        // Photo Action TabBar: Replace, Adjust, Delete
+        // Photo Action TabBar: Add/Replace, Adjust, Delete, Mute
 
-        // Replace - circular arrows
+        // First button - "Add" if empty slot, "Replace" if filled slot
+        let firstButtonTitle = isEmptySlot ? "Add" : "Replace"
         if let systemImage = UIImage(systemName: "arrow.triangle.2.circlepath", withConfiguration: config) {
             let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
             let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
-            optionsList.append(Option(name: "Replace", image: whiteImage, selectedImage: selectedImage))
+            optionsList.append(Option(name: firstButtonTitle, image: whiteImage, selectedImage: selectedImage))
         }
 
         // Adjust - sliders
@@ -65,7 +69,7 @@ class PhotoActionViewController: UIViewController, UICollectionViewDelegate, UIC
                                                selector: #selector(handleNotification(_:)),
                                                name: NSNotification.Name("resetSelectedItems"),
                                                object: nil)
-        loadData()
+        loadData(isEmptySlot: self.isEmptySlot)
         setupCollectionViews()
     }
 

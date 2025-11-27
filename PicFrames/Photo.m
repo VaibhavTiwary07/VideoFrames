@@ -135,10 +135,19 @@
         return;
     }
 
-    // Add green selection border
+    // Add green selection border (shape-aware)
     self.isSelected = YES;
-    self.view.scrollView.layer.borderWidth = 3.0;
-    self.view.scrollView.layer.borderColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0].CGColor;
+    UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
+
+    if (self.view.curShape == SHAPE_NOSHAPE) {
+        self.view.scrollView.layer.borderWidth = 3.0;
+        self.view.scrollView.layer.borderColor = greenColor.CGColor;
+    } else {
+        [self.view setBorderStyle:greenColor
+                       lineWidth:3.0f
+                     dashPattern:nil];
+        self.view.scrollView.layer.borderWidth = 0.0;
+    }
 
     // Notify to deselect other photos
     [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
@@ -177,10 +186,19 @@
         NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
         NSLog(@" single tap");
 
-        // Set green selection border
+        // Set green selection border (shape-aware)
         self.isSelected = YES;
-        self.view.scrollView.layer.borderWidth = 3.0;
-        self.view.scrollView.layer.borderColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0].CGColor;
+        UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
+
+        if (self.view.curShape == SHAPE_NOSHAPE) {
+            self.view.scrollView.layer.borderWidth = 3.0;
+            self.view.scrollView.layer.borderColor = greenColor.CGColor;
+        } else {
+            [self.view setBorderStyle:greenColor
+                           lineWidth:3.0f
+                         dashPattern:nil];
+            self.view.scrollView.layer.borderWidth = 0.0;
+        }
 
         // Post notification to deselect other photos
         [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
@@ -338,15 +356,19 @@
         // Initialization code
         ssivView *iv = [[ssivView alloc]initWithFrame:frame];
         self.view = iv;
-       
+
         //[iv release];
-        
+
+        // Set dark background color for empty frames (app-consistent theme)
+        UIColor *darkBackgroundColor = [UIColor colorWithRed:0.19 green:0.21 blue:0.25 alpha:1.0];
+        self.view.backgroundColor = darkBackgroundColor;
+
         //self.view.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
-        
+
         self.view.scrollView.scrollEnabled = YES;
         self.view.scrollView.showsVerticalScrollIndicator = NO;
         self.view.scrollView.showsHorizontalScrollIndicator = NO;
-        self.view.scrollView.backgroundColor = [UIColor blackColor];
+        self.view.scrollView.backgroundColor = darkBackgroundColor;
         self.view.scrollView.layer.masksToBounds=YES;
         
         // Allocate image view 
@@ -778,6 +800,92 @@
     } else {
         NSLog(@"No video player available to apply trim");
     }
+}
+
+// MARK: - Production-Grade State Management
+
+-(void)deleteContent
+{
+    NSLog(@"Deleting content from frame");
+
+    // Stop and remove video player if exists
+    if (self.isContentTypeVideo) {
+        [self.view stopPlayer];
+        [self.view removePlayer];
+    }
+
+    // Clear image
+    self.image = nil;
+    self.view.imageView.image = nil;
+    self._internalImage = nil;
+
+    // Reset video properties
+    self.videoURL = nil;
+    self.videoTrimStart = 0.0;
+    self.videoTrimEnd = 0.0;
+    self.videoSpeed = 1.0;
+    self.videoVolume = 1.0;
+    self.muteAudio = NO;
+    self.isContentTypeVideo = NO;
+
+    // Reset to empty state with dark background
+    UIColor *darkBackgroundColor = [UIColor colorWithRed:0.19 green:0.21 blue:0.25 alpha:1.0];
+    self.view.backgroundColor = darkBackgroundColor;
+    self.view.scrollView.backgroundColor = darkBackgroundColor;
+
+    // Show add icon if available
+    if (self.addIconView) {
+        self.addIconView.hidden = NO;
+    }
+
+    NSLog(@"Content deleted successfully");
+}
+
+-(void)replaceWithVideo:(NSURL *)newVideoURL
+{
+    NSLog(@"Replacing content with new video: %@", newVideoURL);
+
+    // Clean up existing content
+    [self deleteContent];
+
+    // Set new video
+    self.videoURL = newVideoURL;
+    self.isContentTypeVideo = YES;
+
+    // Reset trim to full duration (will be set when video loads)
+    self.videoTrimStart = 0.0;
+    self.videoTrimEnd = 0.0;
+
+    // Setup new video player
+    [self.view setupVideoPlayer];
+
+    // Hide add icon
+    if (self.addIconView) {
+        self.addIconView.hidden = YES;
+    }
+
+    NSLog(@"Video replacement complete");
+}
+
+-(void)replaceWithImage:(UIImage *)newImage
+{
+    NSLog(@"Replacing content with new image");
+
+    // Clean up existing content
+    [self deleteContent];
+
+    // Set new image
+    self.image = newImage;
+    self._internalImage = newImage;
+    self.view.imageView.image = newImage;
+    self.isContentTypeVideo = NO;
+
+    // Hide add icon
+    if (self.addIconView) {
+        self.addIconView.hidden = YES;
+    }
+
+    NSLog(@"Image replacement complete");
 }
 
 -(void)dealloc

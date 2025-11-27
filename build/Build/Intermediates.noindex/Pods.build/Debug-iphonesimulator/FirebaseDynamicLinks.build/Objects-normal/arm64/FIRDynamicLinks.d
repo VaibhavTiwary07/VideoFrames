@@ -1,0 +1,31 @@
+dependencies: \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseDynamicLinks.build/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDynamicLinks.m \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/DarwinFoundation1.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/Public/FirebaseDynamicLinks/FIRDynamicLinks.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/Public/FirebaseDynamicLinks/FIRDynamicLink.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/Public/FirebaseDynamicLinks/FIRDynamicLinksCommon.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Modules/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FirebaseCoreInternal.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCore.build/module.modulemap \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FIRAppInternal.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FIRComponent.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FIRComponentContainer.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FIRComponentType.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FIRHeartbeatLogger.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FIRLibrary.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseCore/Extension/FIRLogger.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDLScionLogging.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/Interop/Analytics/Public/FIRAnalyticsInterop.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FDLURLComponents/FDLURLComponents+Private.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/Public/FirebaseDynamicLinks/FDLURLComponents.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDLRetrievalProcessFactory.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDLRetrievalProcessProtocols.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDLRetrievalProcessResult.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDynamicLink+Private.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDynamicLinkNetworking.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDynamicLinks+FirstParty.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDynamicLinks+Private.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/Logging/FDLLogging.h \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/Pods/FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/Utilities/FDLUtilities.h

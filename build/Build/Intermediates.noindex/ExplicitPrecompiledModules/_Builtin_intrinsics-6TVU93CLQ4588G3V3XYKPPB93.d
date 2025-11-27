@@ -1,0 +1,2 @@
+moduledependenciestarget: \
+  /Users/vaibhavtiwary/Desktop/VideoCollage_17th_Sept_V3_6_B6/build/Build/Intermediates.noindex/ExplicitPrecompiledModules/_Builtin_stdint-7Y4M4SQJA42X4Y3E9BOBIIKLW.pcm

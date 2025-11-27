@@ -1,0 +1,601 @@
+{
+  "categories": [
+    {
+      "categoryName": "emoji",
+      "stickers": [
+        "emoji_1_brokenheart",
+        "emoji_2_birthdaycelebrating",
+        "emoji_3_awesome",
+        "emoji_4_inloveroseredhearteye",
+        "emoji_5_cheerfulblacksunglasses",
+        "emoji_6_excited",
+        "emoji_7_partyhatbirthday",
+        "emoji_8_inloveredheartsmiling",
+        "emoji_9_vomitting",
+        "emoji_10_laughing",
+        "emoji_11_frowning",
+        "emoji_12_foodiehungry",
+        "emoji_13_loveheart",
+        "emoji_14_angry",
+        "emoji_15_thumbsdown",
+        "emoji_16_hungry",
+        "emoji_17_groupselfie",
+        "emoji_18_laughingfunny",
+        "emoji_19_selfie",
+        "emoji_20_laughing",
+        "emoji_21_angryscreming",
+        "emoji_22_funnylaughing",
+        "emoji_23_sadcrying",
+        "emoji_24_angry"
+      ]
+    },
+    {
+      "categoryName": "wishes",
+      "stickers": [
+        "wishes_1_goodmorningsunlightcoffee",
+        "wishes_2_susunglassessmillinggoodmorning",
+        "wishes_3_sleeingpandaundermoongoodnight",
+        "wishes_4_sleepinggoodnight",
+        "wishes_5._halfmoonkissingstargoodnight",
+        "wishes_6_teddysleepingonhalfmoongoodnight",
+        "wishes_7_goodnight",
+        "wishes_8_cofeecuohaveagoodday",
+        "wishes_9_hotcoffeecupsassur",
+        "wishes_10_coffeecup",
+        "wishes_11_sunholdigcoffeecupinhand",
+        "wishes_12_great",
+        "wishes_13_cool",
+        "wishes_14_seeya",
+        "wishes_15_yeah",
+        "wishes_16_thankyou",
+        "wishes_17_lovewithredheart",
+        "wishes_18_sorry",
+        "wishes_19_hello",
+        "wishes_20_beyourself",
+        "wishes_21_youcandoit",
+        "wishes_22_nevergiveup",
+        "wishes_23_goodvibes",
+        "wishes_24_thanks",
+        "wishes_25_omg",
+        "wishes_26_lovely",
+        "wishes_27_hello",
+        "wishes_28_smile",
+        "wishes_29_fun",
+        "wishes_30_bye",
+        "wishes_31_love",
+        "wishes_32_goodthingstaketime",
+        "wishes_33_behappybebrightbeyou",
+        "wishes_34_positivemind",
+        "wishes_35_keepsmiling",
+        "wishes_36_emptydecorativeflowerbottom",
+        "wishes_37_emptyboardwithflowers",
+        "wishes_38_emptyboard",
+        "wishes_39_emptyboard",
+        "wishes_40_welcome",
+        "wishes_41_happywedding",
+        "wishes_42_savethedate",
+        "wishes_43_thankyou"
+      ]
+    },
+    {
+      "categoryName": "animals",
+      "stickers": [
+        "animals_1_panda",
+        "animals_2_bearwithredhearteyesmiling",
+        "animals_3_mouse",
+        "animals_4_rabbit",
+        "animals_5_pig",
+        "animals_6_cat",
+        "animals_7_angrybear",
+        "animals_8_cowwithblackspects",
+        "animals_9_frog"
+      ]
+    },
+    {
+      "categoryName": "beach",
+      "stickers": [
+        "beach_1_watermelon",
+        "beach_2_tree",
+        "beach_3_pineapplewithredheartsunglasses",
+        "beach_4_yellowUmbrella",
+        "beach_5_blackhearteyesunglasses",
+        "beach_6_chocolateicecreame",
+        "beach_7_slippers",
+        "beach_8_tendercoconutwithstrawflower",
+        "beach_9_duckballon",
+        "beach_10_lemonadeinglassjarwithstraw",
+        "beach_11_tendercoconutwithstrawumbrella",
+        "beach_12_pineapplewithsunglassescartoon"
+      ]
+    },
+    {
+      "categoryName": "bunny",
+      "stickers": [
+        "bunny_1_happyeastereggbunny'",
+        "bunny_2_withcarrot",
+        "bunny_3_happyeasterboard",
+        "bunny_4_bunnyinhappyeastereggcell",
+        "bunny_5_2happybunnieshidingbehindesteregg",
+        "bunny_6_happybunnylyingoneasteregg",
+        "bunny_7_happybunnywith2eastereggsinbothhands",
+        "bunny_8_happybunnyinsideeastereggsbasket",
+        "bunny_9_witheastergiftinhand",
+        "bunny_10_happymaskedbunnysurroundedbyeastereggs",
+        "bunny_11_happymaskedbunnywitheastereggans phonesinnothhands",
+        "bunny_12_happybunnywithpinkhearteasteregginhandsitting",
+        "bunny_13_happybunnyholdingeastereggsinhandsstanding",
+        "bunny_14_happybunnyholdingeasteregssbasketinhand",
+        "bunny_15_happyeasterbunnysitting"
+      ]
+    },
+    {
+      "categoryName": "7Wonders",
+      "stickers": [
+        "7Wonders_1_ChichenItzaMexico",
+        "7Wonders_2_MachuPicchuPeru",
+        "7Wonders_3_Colosseumtaly",
+        "7Wonders_4_petraJordan",
+        "7Wonders_5_GreatWallofChina",
+        "7Wonders_6_TajMahalndia",
+        "7Wonders_7_ChristRedeemerBrazil"
+      ]
+    },
+    {
+      "categoryName": "alphabets",
+      "stickers": [
+        "alphabets_1_a",
+        "alphabets_2_b",
+        "alphabets_3_c",
+        "alphabets_4_d",
+        "alphabets_5_e",
+        "alphabets_6_f",
+        "alphabets_7_g",
+        "alphabets_8_h",
+        "alphabets_9_i",
+        "alphabets_10_j",
+        "alphabets_11_k",
+        "alphabets_12_l",
+        "alphabets_13_m",
+        "alphabets_14_n",
+        "alphabets_15_o",
+        "alphabets_16_p",
+        "alphabets_17_q",
+        "alphabets_18_r",
+        "alphabets_19_s",
+        "alphabets_20_t",
+        "alphabets_21_u",
+        "alphabets_22_v",
+        "alphabets_23_w",
+        "alphabets_24_x",
+        "alphabets_25_y",
+        "alphabets_26_z"
+      ]
+    },
+    {
+      "categoryName": "baby",
+      "stickers": [
+        "baby_1_helobabydolphin",
+        "baby_2_babyshower",
+        "baby_3_welcomebaby",
+        "baby_4_babyshowerelement",
+        "baby_5_welcomebbabysocks",
+        "baby_6_welcomebaby",
+        "baby_7_hellobaby",
+        "baby_8_babyshower",
+        "baby_9_itsaboybaby",
+        "baby_10_welcomebaby",
+        "baby_11_welcomebaby",
+        "baby_12_welcomebaby",
+        "baby_13_welcomeboybaby",
+        "baby_14_itsagirlbaby",
+        "baby_15_itsaboybaby",
+        "baby_16_welcomegirlbaby",
+        "baby_17_welcomebaby",
+        "baby_18_welcomebaby",
+        "baby_19_hellobaby",
+        "baby_20_itsagirl",
+        "baby_21_babyshower"
+      ]
+    },
+    {
+      "categoryName": "nature",
+      "stickers": [
+        "nature_1_tree ",
+        "nature_2_flowers",
+        "nature_3_flowers",
+        "nature_4_hill",
+        "nature_5_flowers",
+        "nature_6_sun",
+        "nature_7_orange",
+        "nature_8_cloud",
+        "nature_9_flowersrose",
+        "nature_10_heartrainbowcloud",
+        "nature_11_mushrooms",
+        "nature_12_skyrainbowclouds"
+      ]
+    },
+    {
+      "categoryName": "neon",
+      "stickers": [
+        "neon_1_hello",
+        "neon_2_welcome",
+        "neon_3_love",
+        "neon_4_iloveyou",
+        "neon_5_cheers",
+        "neon_6_hello",
+        "neon_7_thankyou",
+        "neon_8_awesome",
+        "neon_9_pride",
+        "neon_10_happybirthday",
+        "neon_11_girlpower"
+      ]
+    },
+    {
+      "categoryName": "night",
+      "stickers": [
+        "night_1_crescentmoon",
+        "night_2_fullmoon",
+        "night_3_crescentmoon",
+        "night_4_moonsky",
+        "night_5_crescentmoonskyclouds",
+        "night_6_mooncloudssky",
+        "night_8_moonsun",
+        "night_7_moonsleeping"
+      ]
+    },
+    {
+      "categoryName": "pet",
+      "stickers": [
+        "pet_1_loveyourpets",
+        "pet_2_hamster",
+        "pet_3_duck",
+        "pet_4_ilovemypets",
+        "pet_5_goldfishnemo",
+        "pet_6_sinngwithmebird",
+        "pet_7_catmeow",
+        "pet_8_ilovemydog"
+      ]
+    },
+    {
+      "categoryName": "piraate",
+      "stickers": [
+        "pirate_1_treasurechest",
+        "pirate_2_viking",
+        "pirate_3_vikingpirate",
+        "pirate_4_pirate",
+        "pirate_5_pirate",
+        "pirate_6_pirateskullsword",
+        "pirate_7_piratecaptain",
+        "pirate_8_pirate",
+        "pirate_9_pirate",
+        "pirate_10_pirate",
+        "pirate_11_pirate",
+        "pirate_12_canonball",
+        "pirate_13_piratehok",
+        "pirate_14_piratehat",
+        "pirate_15_treasuremap",
+        "pirate_17_pirateship",
+        "pirate_18_piratecanon"
+      ]
+    },
+    {
+      "categoryName": "pride",
+      "stickers": [
+        "pride_1_lightinningbolt",
+        "pride_2_unicorn",
+        "pride_3_priderainbow",
+        "pride_4_fist",
+        "pride_5_prideflag",
+        "pride_6_pridetransgenderflag",
+        "pride_7_pridesymbol",
+        "pride_8_pridestar",
+        "pride_9_pridestasr",
+        "pride_10_loveislove",
+        "pride_11_lgbt",
+        "pride_12_rainbowheart",
+        "pride_13_peacepride",
+        "pride_14_prideheart"
+      ]
+    },
+    {
+      "categoryName": "puja",
+      "stickers": [
+        "puja_1_offerings",
+        "puja_2_fireworkscrackersfestival",
+        "puja_3_lanterndiya",
+        "puja_4_punjabi",
+        "puja_5_prayer",
+        "puja_6_festivalladyhousewifemommother",
+        "puja_7_lantercandlelight",
+        "puja_8_pot",
+        "puja_9_festivalgift"
+      ]
+    },
+    {
+      "categoryName": "rakhi",
+      "stickers": [
+        "rakhi_1_rakshabanndhan",
+        "rakhi_2_rakshabandhan",
+        "rakhi_3_rakshabandhan",
+        "rakhi_4_rakshabandhan"
+      ]
+    },
+    {
+      "categoryName": "butterfly",
+      "stickers": [
+        "butterfly_1",
+        "butterfly_2",
+        "butterfly_3",
+        "butterfly_4",
+        "butterfly_5",
+        "butterfly_6",
+        "butterfly_7",
+        "butterfly_8",
+        "butterfly_9"
+      ]
+    },
+    {
+      "categoryName": "cat",
+      "stickers": [
+        "cat_1_cute",
+        "cat_2_icecream",
+        "cat_3_sleeping",
+        "cat_4_cute",
+        "cat_5",
+        "cat_6",
+        "cat_7_heart",
+        "cat_8_icecream",
+        "cat_9_hearticecrem",
+        "cat_10_sitting"
+      ]
+    },
+    {
+      "categoryName": "celebrations",
+      "stickers": [
+        "celebrations_1_bottle",
+        "celebrations_2_cap",
+        "celebrations_3_blower",
+        "celebrations_4_musicspeaker",
+        "celebrations_5_rocket",
+        "celebrations_6_cheers",
+        "celebrations_7_sparkler",
+        "celebrations_8_sparkler",
+        "celebrations_9_balloons"
+      ]
+    },
+    {
+      "categoryName": "christmas",
+      "stickers": [
+        "christmas_1_deer",
+        "christmas_2_gift",
+        "christmas_3_snowman",
+        "christmas_4_snowflake",
+        "christmas_5_christmastree",
+        "christmas_6_dressedsnowman",
+        "christmas_7_santahat"
+      ]
+    },
+    {
+      "categoryName": "colors",
+      "stickers": [
+        "colors_1_red",
+        "colors_2_orange",
+        "colors_3_yellow",
+        "colors_4_pista",
+        "colors_5_green",
+        "colors_6_blue",
+        "colors_7_purplestar",
+        "colors_8_pinkstar",
+        "colors_9_pistaround",
+        "colors_10_yellowstar",
+        "colors_11_orangestar",
+        "colors_12_redstar",
+        "colors_13_pinkround",
+        "colors_14_purple",
+        "colors_15_bluestar",
+        "colors_16_greenstar"
+      ]
+    },
+    {
+      "categoryName": "couple",
+      "stickers": [
+        "couple_1_angry",
+        "couple_2_romanticonabench",
+        "couple_3_feelinginlove",
+        "couple_4_proposeredrose",
+        "couple_5_kissing",
+        "couple_6_manholdingwomaninarm",
+        "couple_7_watchingmovieinblanket",
+        "couple_8_travelling",
+        "couple_9_studentsinlove",
+        "couple_10_mansurpisewoman",
+        "couple_11_hugging",
+        "couple_12_proposemarrymering",
+        "couple_13_inrainunderumbrellaromantic",
+        "couple_14_cycleride",
+        "couple_15_inlove",
+        "couple_16_hugging",
+        "couple_17_withbookcoffee",
+        "couple_18_chill",
+        "couple_19_hugging",
+        "couple_20_inlove",
+        "couple_21_kissing",
+        "couple_22_romantic",
+        "couple_23_inlove"
+      ]
+    },
+    {
+      "categoryName": "crown",
+      "stickers": [
+        "crown_1",
+        "crown_2",
+        "crown_3",
+        "crown_4",
+        "crown_5",
+        "crown_6",
+        "crown_7",
+        "crown_8"
+      ]
+    },
+    {
+      "categoryName": "easter",
+      "stickers": [
+        "easter_1_happyeasterflowergrass",
+        "easter_2_happyeasteregg",
+        "easter_3_happyeasterhen",
+        "easter_4_happyeastereggsgrass",
+        "easter_5_easterdayegg",
+        "easter_6_celebratehenbasketofeggs",
+        "easter_7_happyeasterbunny",
+        "easter_8_eggwithpinkheart",
+        "easter_9_eastereggflowers"
+      ]
+    },
+    {
+      "categoryName": "flowers",
+      "stickers": [
+        "flowers_1_purplerose",
+        "flowers_2_yellow",
+        "flowers_3_lavender",
+        "flowers_4_sunflower",
+        "flowers_5_redrose",
+        "flowers_6_pinklotus",
+        "flowers_7_pinktulip",
+        "flowers_8_daisyflower",
+        "flowers_9_orchidpurple",
+        "flowers_10_orange",
+        "flowers_11",
+        "flowers_12",
+        "flowers_13",
+        "flowers_14",
+        "flowers_15_tulip",
+        "flowers_16",
+        "flowers_17",
+        "flowers_18_daisyflower",
+        "flowers_19",
+        "flowers_20"
+      ]
+    },
+    {
+      "categoryName": "frienship",
+      "stickers": [
+        "frienship_1",
+        "frienship_2",
+        "frienship_3",
+        "frienship_4",
+        "frienship_5",
+        "frienship_6",
+        "frienship_7",
+        "frienship_8",
+        "frienship_9"
+      ]
+    },
+    {
+      "categoryName": "gifts",
+      "stickers": [
+        "gifts_1",
+        "gifts_2",
+        "gifts_3",
+        "gifts_4",
+        "gifts_5",
+        "gifts_6",
+        "gifts_7",
+        "gifts_8",
+        "gifts_9"
+      ]
+    },
+    {
+      "categoryName": "hats",
+      "stickers": [
+        "hats_1",
+        "hats_2",
+        "hats_3",
+        "hats_4",
+        "hats_5",
+        "hats_6",
+        "hats_7",
+        "hats_8",
+        "hats_9",
+        "hats_10",
+        "hats_11",
+        "hats_12",
+        "hats_13",
+        "hats_14",
+        "hats_15",
+        "hats_16",
+        "hats_17"
+      ]
+    },
+    {
+      "categoryName": "sunglasses",
+      "stickers": [
+        "sunglasses_1_rectangular",
+        "sunglasses_2_round",
+        "sunglasses_3_star",
+        "sunglasses_4_pentagon",
+        "sunglasses_5_roundmulticolor",
+        "sunglasses_6_round",
+        "sunglasses_7_round",
+        "sunglasses_8_round",
+        "sunglasses_9_star",
+        "sunglasses_10_heart",
+        "sunglasses_11_flower"
+      ]
+    },
+    {
+      "categoryName": "icecream",
+      "stickers": [
+        "icecream_1_cup",
+        "icecream_2_candy",
+        "icecream_3_cup",
+        "icecream_4_conewow",
+        "icecream_5_popsiclesadsleeping",
+        "icecream_6_evilcone",
+        "icecream_7_conestick"
+      ]
+    },
+    {
+      "categoryName": "joker",
+      "stickers": [
+        "joker_1_red",
+        "joker_2_blue",
+        "joker_3_multicolor",
+        "joker_4_orange",
+        "joker_5_green",
+        "joker_6_orange"
+      ]
+    },
+    {
+      "categoryName": "mothersday",
+      "stickers": [
+        "mothersday_10_bestmommomandkid",
+        "mothersday_1_purpleheart",
+        "mothersday_2_happymothersdayflowers",
+        "mothersday_3_iloveyoumom",
+        "mothersday_4_bestmomeverbokhe",
+        "mothersday_5_thanksmomflowers",
+        "mothersday_6_mymomismyheroflowers",
+        "mothersday_7_iloveyoumomgreetingcard",
+        "mothersday_8_flowerpinkheart",
+        "mothersday_9_ilovemom"
+      ]
+    },
+    {
+      "categoryName": "mothersday",
+      "stickers": [
+        "music_1_violin",
+        "music_2_mandolin",
+        "music_3_saxophone",
+        "music_4_walkman",
+        "music_5_microphone",
+        "music_6_drum",
+        "music_7_headphone",
+        "music_8_musicplayer",
+        "music_9_guitar",
+        "music_10_accordion",
+        "music_11_compactdisc",
+        "music_12_piano"
+      ]
+    }
+  ]
+}
