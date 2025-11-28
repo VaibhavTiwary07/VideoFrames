@@ -15,13 +15,8 @@ extension MainController: FrameSelectionDelegate {
         let settings = Settings.instance()
         settings?.currentFrameNumber = Int32(frame.frameNumber)
 
-        // Post notification to trigger full flow in MainController
-        // This will call loadTheSession, selectEditTab, etc.
-        NotificationCenter.default.post(
-            name: NSNotification.Name("newframeselected"),
-            object: nil,
-            userInfo: ["FrameNumber": frame.frameNumber]
-        )
+        // Direct call to MainController method
+        self.applyNewFrameSelection(Int(frame.frameNumber))
 
         // Log for debugging
         print("Frame selected: \(frame.frameNumber) at index: \(index)")

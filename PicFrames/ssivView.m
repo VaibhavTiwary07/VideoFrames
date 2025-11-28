@@ -1119,98 +1119,48 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
 
 #pragma mark - Shape Border Methods
 
-- (CGPathRef)createBorderPathForShape:(eShape)shape withSize:(CGSize)size {
-    // For SHAPE_NOSHAPE, return rectangular path
-    if (shape == SHAPE_NOSHAPE) {
-        UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, size.width, size.height)];
-        return CGPathRetain(rectPath.CGPath);
-    }
-
-    // For circle, use bezierPathWithOvalInRect for perfect circle
-    if (shape == SHAPE_CIRCLE) {
-        UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, size.width, size.height)];
-        return CGPathRetain(circlePath.CGPath);
-    }
-
-    // For other shapes, extract path from PNG alpha channel
+// Helper to create a green hollow border image for custom shapes
+- (UIImage *)createBorderImageForShape:(eShape)shape withSize:(CGSize)size color:(UIColor *)color lineWidth:(CGFloat)lineWidth {
     UIImage *shapeImage = [ssivView imageForShape:shape];
-    if (!shapeImage) {
-        // Fallback to rectangle if shape image not found
-        UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, size.width, size.height)];
-        return CGPathRetain(rectPath.CGPath);
-    }
+    if (!shapeImage) return nil;
 
-    // Scale the image to match the view size for accurate border
     CGFloat scale = [UIScreen mainScreen].scale;
     UIGraphicsBeginImageContextWithOptions(size, NO, scale);
-    [shapeImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    CGContextRef context = UIGraphicsGetCurrentContext();
 
-    // Extract path from alpha channel using edge detection
-    CGImageRef cgImage = scaledImage.CGImage;
-    size_t width = CGImageGetWidth(cgImage);
-    size_t height = CGImageGetHeight(cgImage);
+    // 1. Draw the "Stroke" (Background)
+    // Use AlwaysTemplate to ensure the shape is drawn in the specified 'color'
+    UIImage *templateImage = [shapeImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [color setFill]; // Set the fill color for the context
 
-    // Create bitmap context to read pixel data
-    unsigned char *pixelData = (unsigned char *)calloc(width * height * 4, sizeof(unsigned char));
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(pixelData, width, height, 8, width * 4, colorSpace, kCGImageAlphaPremultipliedLast);
-    CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
-
-    // Create path by tracing the edge of non-transparent pixels
-    UIBezierPath *borderPath = [UIBezierPath bezierPath];
-    BOOL foundFirstPoint = NO;
-
-    // Simple edge detection: find pixels where alpha > 0 and neighbor has alpha == 0
-    for (size_t y = 0; y < height; y++) {
-        for (size_t x = 0; x < width; x++) {
-            size_t index = (y * width + x) * 4;
-            unsigned char alpha = pixelData[index + 3];
-
-            // Check if this pixel is visible (alpha > 128)
-            if (alpha > 128) {
-                // Check if any neighbor is transparent (edge pixel)
-                BOOL isEdge = NO;
-
-                // Check 4-connected neighbors
-                if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
-                    isEdge = YES;
-                } else {
-                    // Check left neighbor
-                    if (pixelData[((y * width + (x-1)) * 4) + 3] <= 128) isEdge = YES;
-                    // Check right neighbor
-                    if (pixelData[((y * width + (x+1)) * 4) + 3] <= 128) isEdge = YES;
-                    // Check top neighbor
-                    if (pixelData[(((y-1) * width + x) * 4) + 3] <= 128) isEdge = YES;
-                    // Check bottom neighbor
-                    if (pixelData[(((y+1) * width + x) * 4) + 3] <= 128) isEdge = YES;
-                }
-
-                if (isEdge) {
-                    CGFloat pointX = (x / (CGFloat)width) * size.width;
-                    CGFloat pointY = (y / (CGFloat)height) * size.height;
-
-                    if (!foundFirstPoint) {
-                        [borderPath moveToPoint:CGPointMake(pointX, pointY)];
-                        foundFirstPoint = YES;
-                    } else {
-                        [borderPath addLineToPoint:CGPointMake(pointX, pointY)];
-                    }
-                }
-            }
-        }
+    // Draw offsets (8 directions for smoother corners)
+    // This creates a dilated version of the shape, forming the "thick" part of the outline
+    CGFloat offset = lineWidth;
+    int steps = 8;
+    for (int i = 0; i < steps; i++) {
+        CGFloat angle = (i * 2 * M_PI) / steps;
+        CGFloat dx = cos(angle) * offset;
+        CGFloat dy = sin(angle) * offset;
+        
+        CGRect drawRect = CGRectMake(dx, dy, size.width, size.height);
+        [templateImage drawInRect:drawRect]; // Draws the template image tinted with 'color'
     }
 
-    [borderPath closePath];
+    // 2. Punch out the center
+    // Set blend mode to DestinationOut to erase pixels where the source is opaque.
+    // This removes the inner part of the dilated shape, leaving only the hollow outline.
+    CGContextSetBlendMode(context, kCGBlendModeDestinationOut);
+    
+    // Draw the original shape again to define the area to be punched out
+    // The original shapeImage defines the exact inner region to clear.
+    [shapeImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
 
-    // Cleanup
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    free(pixelData);
+    UIImage *borderImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 
-    return CGPathRetain(borderPath.CGPath);
+    return borderImage;
 }
+
 
 - (void)updateBorderForCurrentShape {
     // Default: black dotted border for unselected state
@@ -1219,53 +1169,85 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
             dashPattern:@[@2, @2]];
 }
 
+
 - (void)setBorderStyle:(UIColor *)color lineWidth:(CGFloat)width dashPattern:(NSArray *)pattern {
-    // Remove existing border
-    if (self.shapeBorderLayer) {
-        [self.shapeBorderLayer removeFromSuperlayer];
-        self.shapeBorderLayer = nil;
+    // Remove any existing overlay border layer
+    if (self._overlayBorderLayer) {
+        [self._overlayBorderLayer removeFromSuperlayer];
+        self._overlayBorderLayer = nil; // Nil out to release reference
     }
 
-    // Skip for SHAPE_NOSHAPE (handled by scrollView.layer)
+    // Determine the frame of ssivView in its superview's coordinate space
+    // This is where the overlay border will be placed to avoid being masked by self.layer.mask
+    CGRect frameInSuperview = [self.superview convertRect:self.bounds fromView:self];
+    
+    CALayer *newBorderLayer = nil;
+
     if (self.curShape == SHAPE_NOSHAPE) {
-        return;
-    }
-
-    // Calculate border size (matching mask layer)
-    CGSize borderSize;
-    if (self.frame.size.height >= self.frame.size.width) {
-        borderSize = CGSizeMake(self.frame.size.width, self.frame.size.width);
+        // Use CAShapeLayer for Rectangular border to support dashes
+        CAShapeLayer *rectStrokeLayer = [CAShapeLayer layer];
+        rectStrokeLayer.frame = frameInSuperview;
+        UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:self.bounds];
+        rectStrokeLayer.path = rectPath.CGPath;
+        rectStrokeLayer.strokeColor = color.CGColor;
+        rectStrokeLayer.lineWidth = width;
+        rectStrokeLayer.lineDashPattern = pattern;
+        rectStrokeLayer.fillColor = [UIColor clearColor].CGColor;
+        newBorderLayer = rectStrokeLayer;
+    } else if (self.curShape == SHAPE_CIRCLE) {
+        // For circles, use a CAShapeLayer for a perfect vector stroke
+        CAShapeLayer *circleStrokeLayer = [CAShapeLayer layer];
+        circleStrokeLayer.frame = frameInSuperview; // Position in superview's coords
+        // The path needs to be relative to the layer's own bounds (frameInSuperview's origin is 0,0 relative to itself)
+        // Actually layer.bounds origin is 0,0.
+        UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:self.bounds]; 
+        circleStrokeLayer.path = circlePath.CGPath;
+        circleStrokeLayer.strokeColor = color.CGColor;
+        circleStrokeLayer.lineWidth = width;
+        circleStrokeLayer.lineDashPattern = pattern;
+        circleStrokeLayer.fillColor = [UIColor clearColor].CGColor; // Strokes only
+        newBorderLayer = circleStrokeLayer;
     } else {
-        borderSize = CGSizeMake(self.frame.size.height, self.frame.size.height);
+        // For custom shapes, generate an image-based border
+        CGSize borderImageSize = self.bounds.size; // Size for image generation matches self bounds
+
+        UIImage *borderImage = [self createBorderImageForShape:self.curShape
+                                                      withSize:borderImageSize
+                                                         color:color
+                                                     lineWidth:width];
+        
+        CALayer *imageBorderLayer = [CALayer layer];
+        imageBorderLayer.frame = frameInSuperview; // Position in superview's coords
+        imageBorderLayer.contents = (id)borderImage.CGImage;
+        newBorderLayer = imageBorderLayer;
     }
 
-    // Create border path
-    CGPathRef borderPath = [self createBorderPathForShape:self.curShape withSize:borderSize];
-
-    // Create border layer with specified style
-    CAShapeLayer *border = [CAShapeLayer layer];
-    border.path = borderPath;
-    border.strokeColor = color.CGColor;
-    border.fillColor = nil;
-    border.lineWidth = width;
-    border.lineDashPattern = pattern;  // nil = solid, @[@2, @2] = dotted
-
-    // Position to match mask layer
-    border.bounds = CGRectMake(0, 0, borderSize.width, borderSize.height);
-    border.position = CGPointMake(self.center.x - self.frame.origin.x,
-                                  self.center.y - self.frame.origin.y);
-
-    [self.layer addSublayer:border];
-    self.shapeBorderLayer = border;
-
-    CGPathRelease(borderPath);
+    // Add the new border layer to the superview to ensure it's not masked by self.layer.mask
+    if (newBorderLayer) {
+        // Check if superview exists, otherwise add to self.layer (which might get masked)
+        if (self.superview) {
+            [self.superview.layer addSublayer:newBorderLayer];
+        } else {
+            // Fallback: add to self.layer. This border might get masked depending on self.layer.mask
+            [self.layer addSublayer:newBorderLayer];
+        }
+        self._overlayBorderLayer = newBorderLayer; // Retain reference
+    }
+    
+    // Ensure scrollView border is clear as its role is taken over by the overlay
+    self.scrollView.layer.borderColor = [UIColor clearColor].CGColor;
+    self.scrollView.layer.borderWidth = 0.0;
 }
 
+
 - (void)removeBorder {
-    if (self.shapeBorderLayer) {
-        [self.shapeBorderLayer removeFromSuperlayer];
-        self.shapeBorderLayer = nil;
+    if (self._overlayBorderLayer) {
+        [self._overlayBorderLayer removeFromSuperlayer];
+        self._overlayBorderLayer = nil; // Nil out to release reference
     }
+    // Also clear scrollView borders, just in case
+    self.scrollView.layer.borderColor = [UIColor clearColor].CGColor;
+    self.scrollView.layer.borderWidth = 0.0;
 }
 
 @end

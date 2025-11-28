@@ -35,7 +35,7 @@
 @property (nonatomic, assign) float playbackSpeed; // Speed for video playback (default 1.0)
 @property (nonatomic, assign) double videoTrimStart; // Trim start time in seconds (default 0)
 @property (nonatomic, assign) double videoTrimEnd; // Trim end time in seconds (0 = use full video)
-@property (nonatomic, strong) CAShapeLayer *shapeBorderLayer;
+@property (nonatomic, strong) CALayer *_overlayBorderLayer; // New property for the actual overlay border
 +(UIImage*)imageForShape:(eShape)shp;
 -(void)setShape:(eShape)shape;
 -(void)previewShape:(eShape)shape;

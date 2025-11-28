@@ -118,6 +118,7 @@
 -(void)ShareAction;
 -(void)ChangeAspectRatio:(NSString *)aspectStr;
 - (BOOL)isiPod;
+- (void)applyNewFrameSelection:(NSInteger)frameNumber;
 @end
 
 

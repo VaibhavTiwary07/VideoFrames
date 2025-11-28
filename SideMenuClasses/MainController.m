@@ -3486,55 +3486,13 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     }
     else if([[notification name] isEqualToString:newframeselected])
     {
-        [self finishEffectProcessing];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes) {
-                if (windowScene.activationState == UISceneActivationStateForegroundActive) {
-                    keyWindow = windowScene.windows.firstObject;
-                    break;
-                }
-            }
-            optionsView.view.hidden = NO;
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-            self.navigationItem.leftBarButtonItem.enabled = YES;
-            self.navigationController.navigationBar.hidden = NO;
-        });
-        [userDefault setInteger:0 forKey:@"FirstVideoSelected"];
-        NSLog(@" fra_me Selected %@",sess);
-        // To reset to original music
-        [[NSUserDefaults standardUserDefaults]setInteger:0 forKey:@"MasterAudioPlayerSet"];
-        [self switchOffMasterAudio];
-        dontShowOptionsUntilOldAssetsSaved = NO;
-        if([[SRSubscriptionModel shareKit]IsAppSubscribed])
-        {
-            
-            UIButton *removeWaterMark = (UIButton*)[self.view viewWithTag:TAG_WATERMARK_BUTTON];
-            if(nil != removeWaterMark)
-            {
-                [removeWaterMark removeFromSuperview];
-            }
-        }
         if(notification.userInfo == nil)
         {
             NSLog(@"Invalid new frame selected Event, No frame number is passed");
             return;
         }
         NSNumber *frame = [notification.userInfo objectForKey:@"FrameNumber"];
-        NSLog(@"ViewController: New frame selected %ld",(long)[frame integerValue]);
-        NSLog(@"after pick deleting-----3");
-        selectedFrameNumber = (int)frame.integerValue;
-        sessionFrameColor = [UIColor blackColor];
-        if(sess == nil)
-        {
-            [self loadTheSession];
-        }
-        else
-        {
-            [self frameSelectedAtIndex:selectedFrameNumber ofGridView:nil];
-            [self setTheDefaultOrderArray];
-        }
-        [sess setColor:sessionFrameColor];
-        [optionsView AnimateView];
+        [self applyNewFrameSelection:[frame integerValue]];
     }
     else if([[notification name] isEqualToString:optionselected])
     {
@@ -18352,6 +18310,63 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
     if (self.videoTrimVC && self.videoTrimVC.parentViewController == nil) {
         self.videoTrimVC = nil;
     }
+}
+
+- (void)applyNewFrameSelection:(NSInteger)frameNumber {
+    [self finishEffectProcessing];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *keyWindow = nil;
+        for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes) {
+            if (windowScene.activationState == UISceneActivationStateForegroundActive) {
+                keyWindow = windowScene.windows.firstObject;
+                break;
+            }
+        }
+        if(optionsView != nil) {
+            optionsView.view.hidden = NO;
+        }
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        self.navigationController.navigationBar.hidden = NO;
+    });
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:0 forKey:@"FirstVideoSelected"];
+    NSLog(@" fra_me Selected %@",sess);
+    
+    // To reset to original music
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"MasterAudioPlayerSet"];
+    [self switchOffMasterAudio];
+    
+    dontShowOptionsUntilOldAssetsSaved = NO;
+    
+    if([[SRSubscriptionModel shareKit] IsAppSubscribed])
+    {
+        UIButton *removeWaterMark = (UIButton*)[self.view viewWithTag:TAG_WATERMARK_BUTTON];
+        if(nil != removeWaterMark)
+        {
+            [removeWaterMark removeFromSuperview];
+        }
+    }
+
+    NSLog(@"ViewController: New frame selected %ld",(long)frameNumber);
+    NSLog(@"after pick deleting-----3");
+    
+    selectedFrameNumber = (int)frameNumber;
+    sessionFrameColor = [UIColor blackColor];
+    
+    if(sess == nil)
+    {
+        [self loadTheSession];
+    }
+    else
+    {
+        [self frameSelectedAtIndex:selectedFrameNumber ofGridView:nil];
+        [self setTheDefaultOrderArray];
+    }
+    [sess setColor:sessionFrameColor];
+    [optionsView AnimateView];
 }
 
 @end

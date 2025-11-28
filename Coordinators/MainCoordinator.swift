@@ -70,12 +70,8 @@ extension MainCoordinator: FrameSelectionCoordinatorDelegate {
         let settings = Settings.instance()
         settings?.currentFrameNumber = Int32(frame.frameNumber)
 
-        // Post notification to trigger full flow in MainController
-        NotificationCenter.default.post(
-            name: NSNotification.Name("newframeselected"),
-            object: nil,
-            userInfo: ["FrameNumber": frame.frameNumber]
-        )
+        // Direct call
+        mainController?.applyNewFrameSelection(Int(frame.frameNumber))
 
         // Pop back to MainController
         navigationController.popViewController(animated: true)
