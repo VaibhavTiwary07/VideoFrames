@@ -19,7 +19,7 @@ class PhotoActionViewController: UIViewController, UICollectionViewDelegate, UIC
     @objc var isEmptySlot: Bool = false
 
     private func loadData(isEmptySlot: Bool = false) {
-        let customColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        let customColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
 
         // Photo Action TabBar: Add/Replace, Adjust, Delete, Mute
@@ -37,6 +37,13 @@ class PhotoActionViewController: UIViewController, UICollectionViewDelegate, UIC
             let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
             let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
             optionsList.append(Option(name: "Adjust", image: whiteImage, selectedImage: selectedImage))
+        }
+
+        // Filter
+        if let systemImage = UIImage(systemName: "camera.filters", withConfiguration: config) {
+            let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+            let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
+            optionsList.append(Option(name: "Filter", image: whiteImage, selectedImage: selectedImage))
         }
 
         // Delete - trash icon

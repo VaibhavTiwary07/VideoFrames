@@ -176,7 +176,7 @@ import UserMessagingPlatform
         lbl.numberOfLines = 0
         lbl.text = "Start"
         lbl.font = UIFont(name: "Gilroy-Medium", size: 26) // Adjust the size as per your needs
-        lbl.textColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        lbl.textColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()

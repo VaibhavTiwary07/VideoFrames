@@ -6245,8 +6245,8 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     swit.tag = TAG_AUDIO_CELL_SWITCH;
     //[swit setOnTintColor: [UIColor blueColor]];
     // 25, 184, 250
-    swit.tintColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];
-    swit.onTintColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];
+    swit.tintColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0];
+    swit.onTintColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0];
     
     [cell addSubview:swit];
     
@@ -6283,8 +6283,8 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     swit.on = enableStatus;
     swit.tag = TAG_SQUENTIAL_CELL_SWITCH;
     // swit.tintColor = [UIColor colorWithRed:25/255 green:184/255 blue:250/255 alpha:1.0];
-    swit.tintColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];
-    swit.onTintColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];
+    swit.tintColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0];
+    swit.onTintColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0];
     /* Add action to switch */
     [swit addTarget:self
              action:@selector(handleUpdateFromSquentialPlaySwitchStatus:)
@@ -6348,8 +6348,8 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
         [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:swt.on]
                                                  forKey:KEY_USE_SEQUENTIAL_Play_STATUS];
         
-        swt.tintColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];
-        swt.onTintColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];
+        swt.tintColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0];
+        swt.onTintColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0];
         isSequentialPlay = TRUE;
         [self setTheDefaultOrderArray];
         UIImageView *settingImageView = (UIImageView *)[self.view viewWithTag:TAG_VIDEOSETTINGS_BGPAD];
@@ -10419,7 +10419,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     progressView.center = self.view.center;
 
     // Customize appearance
-    progressView.progressColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0]; //[UIColor systemBlueColor];
+    progressView.progressColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0]; //[UIColor systemBlueColor];
     progressView.trackColor = [[UIColor whiteColor] colorWithAlphaComponent:1];
     progressView.lineWidth = 8.0;
     progressView.bottomText = msgText;
@@ -16662,7 +16662,7 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
     button.backgroundColor = [UIColor whiteColor];
     if([title  isEqual: @"Remove Watermark and Ads"])
     {
-        button.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:184.0/255.0 blue:250.0/255.0 alpha:1.0];
+        button.backgroundColor = [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0];
         UIButtonConfiguration *config = [UIButtonConfiguration plainButtonConfiguration];
         config.imagePadding = 20; // Set your desired spacing
         config.imagePlacement = NSDirectionalRectEdgeLeading;

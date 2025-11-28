@@ -63,7 +63,7 @@ class TrimViewController: UIViewController {
         let label = UILabel()
         label.text = "0:00"
         label.font = UIFont(name: "Gilroy-Bold", size: (UIDevice.current.userInterfaceIdiom == .pad) ? 16 : 14)
-        label.textColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        label.textColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -74,7 +74,7 @@ class TrimViewController: UIViewController {
         slider.minimumValue = 0.0
         slider.maximumValue = 1.0
         slider.value = 0.0
-        slider.minimumTrackTintColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        slider.minimumTrackTintColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         slider.maximumTrackTintColor = UIColor.darkGray
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
@@ -94,7 +94,7 @@ class TrimViewController: UIViewController {
         let label = UILabel()
         label.text = "0:00"
         label.font = UIFont(name: "Gilroy-Bold", size: (UIDevice.current.userInterfaceIdiom == .pad) ? 16 : 14)
-        label.textColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        label.textColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -105,7 +105,7 @@ class TrimViewController: UIViewController {
         slider.minimumValue = 0.0
         slider.maximumValue = 1.0
         slider.value = 1.0
-        slider.minimumTrackTintColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        slider.minimumTrackTintColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         slider.maximumTrackTintColor = UIColor.darkGray
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
@@ -116,7 +116,7 @@ class TrimViewController: UIViewController {
         btn.setTitle("Apply", for: .normal)
         btn.titleLabel?.font = UIFont(name: "Gilroy-Bold", size: (UIDevice.current.userInterfaceIdiom == .pad) ? 18 : 16)
         btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        btn.backgroundColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         btn.layer.cornerRadius = (UIDevice.current.userInterfaceIdiom == .pad) ? 12 : 10
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn

@@ -40,7 +40,7 @@ import PryntTrimmerView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0.19, green: 0.21, blue: 0.25, alpha: 1.0)
+        view.backgroundColor = .black
 
         setupAsset()
         setupUI()
@@ -109,7 +109,7 @@ import PryntTrimmerView
         // Duration label
         durationLabel.text = "Duration: 0:00"
         durationLabel.font = UIFont(name: "Gilroy-Medium", size: 16)
-        durationLabel.textColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+        durationLabel.textColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
         durationLabel.textAlignment = .center
 
         // Video preview container
@@ -124,7 +124,7 @@ import PryntTrimmerView
 
         startTimeLabel.text = "0:00"
         startTimeLabel.font = UIFont(name: "Gilroy-Bold", size: 16)
-        startTimeLabel.textColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+        startTimeLabel.textColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
 
         endLabel.text = "End"
         endLabel.font = UIFont(name: "Gilroy-Medium", size: 12)
@@ -132,12 +132,12 @@ import PryntTrimmerView
 
         endTimeLabel.text = "0:00"
         endTimeLabel.font = UIFont(name: "Gilroy-Bold", size: 16)
-        endTimeLabel.textColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+        endTimeLabel.textColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
 
         // Apply button with gradient
         applyButton.setTitle("Apply", for: .normal)
         applyButton.titleLabel?.font = UIFont(name: "Gilroy-Bold", size: 16)
-        applyButton.setTitleColor(.white, for: .normal)
+        applyButton.setTitleColor(.black, for: .normal)
         applyButton.backgroundColor = .clear
         applyButton.layer.cornerRadius = 8
         applyButton.layer.masksToBounds = false
@@ -146,8 +146,8 @@ import PryntTrimmerView
         // Add gradient layer
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
-            UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0).cgColor,
-            UIColor(red: 0/255, green: 150/255, blue: 220/255, alpha: 1.0).cgColor
+            UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0).cgColor,
+            UIColor(red: 20/255, green: 249/255, blue: 245/255, alpha: 1.0).cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
@@ -157,7 +157,7 @@ import PryntTrimmerView
         applyButton.layer.insertSublayer(gradientLayer, at: 0)
 
         // Shadow
-        applyButton.layer.shadowColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0).cgColor
+        applyButton.layer.shadowColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0).cgColor
         applyButton.layer.shadowOpacity = 0.3
         applyButton.layer.shadowOffset = CGSize(width: 0, height: 4)
         applyButton.layer.shadowRadius = 8
@@ -187,7 +187,7 @@ import PryntTrimmerView
         trimmerView.asset = asset
         trimmerView.delegate = self
         trimmerView.handleColor = .white
-        trimmerView.mainColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+        trimmerView.mainColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
         trimmerView.positionBarColor = .white
 
         // Note: PryntTrimmerView's startTime/endTime are read-only

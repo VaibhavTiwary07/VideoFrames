@@ -13,7 +13,7 @@ import UIKit
 @objcMembers
 class OptionsCell: UICollectionViewCell {
     static let identifier = "OptionsCell"
-    let customColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+    let customColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
     let offset : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 15 : -8
     let multiplier : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 0.85 : 0.75
     let topAnchorConstant : CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 12 : 3

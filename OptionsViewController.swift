@@ -19,7 +19,7 @@ class OptionsViewController: UIViewController, UICollectionViewDelegate, UIColle
     private func loadData() {
 
         // Apply custom RGB color
-        let customColor = UIColor(red: 25.0/255.0, green: 184.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        let customColor = UIColor(red: 184.0/255.0, green: 234.0/255.0, blue: 112.0/255.0, alpha: 1.0)
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
 
         // Main TabBar: Ratio, Edit, Volume, Background, Music

@@ -61,7 +61,7 @@ class SpeedViewController: UIViewController {
     private let scrubberSlider: UISlider = {
         let slider = UISlider()
         slider.minimumValue = 0
-        slider.minimumTrackTintColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+        slider.minimumTrackTintColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
         slider.maximumTrackTintColor = UIColor.white.withAlphaComponent(0.3)
         return slider
     }()
@@ -90,7 +90,7 @@ class SpeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 28/255, green: 32/255, blue: 38/255, alpha: 1.0)
+        view.backgroundColor = .black
 
         setupAsset()
         setupViews()
@@ -192,7 +192,7 @@ class SpeedViewController: UIViewController {
 
     private func setupViews() {
         // Container
-        containerView.backgroundColor = UIColor(red: 28/255, green: 32/255, blue: 38/255, alpha: 1.0)
+        containerView.backgroundColor = .black
         view.addSubview(containerView)
 
         // Back Button
@@ -221,7 +221,7 @@ class SpeedViewController: UIViewController {
         // Speed Display
         speedDisplayLabel.text = "1.0x"
         speedDisplayLabel.font = UIFont(name: "Gilroy-Bold", size: 32)
-        speedDisplayLabel.textColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+        speedDisplayLabel.textColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
         speedDisplayLabel.textAlignment = .center
         containerView.addSubview(speedDisplayLabel)
 
@@ -241,7 +241,7 @@ class SpeedViewController: UIViewController {
         speedSlider.minimumValue = 0.25
         speedSlider.maximumValue = 2.0
         speedSlider.value = 1.0
-        speedSlider.minimumTrackTintColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+        speedSlider.minimumTrackTintColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
         speedSlider.maximumTrackTintColor = UIColor.white.withAlphaComponent(0.3)
         speedSlider.setThumbImage(createThumbImage(), for: .normal)
         containerView.addSubview(speedSlider)
@@ -261,7 +261,7 @@ class SpeedViewController: UIViewController {
         // Apply Button (Gradient)
         applyButton.setTitle("Apply", for: .normal)
         applyButton.titleLabel?.font = UIFont(name: "Gilroy-Bold", size: 16)
-        applyButton.setTitleColor(.white, for: .normal)
+        applyButton.setTitleColor(.black, for: .normal)
         applyButton.backgroundColor = .clear
         applyButton.layer.cornerRadius = 8
         applyButton.layer.masksToBounds = false
@@ -269,8 +269,8 @@ class SpeedViewController: UIViewController {
         // Add gradient layer
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
-            UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0).cgColor,
-            UIColor(red: 0/255, green: 150/255, blue: 220/255, alpha: 1.0).cgColor
+            UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0).cgColor,
+            UIColor(red: 20/255, green: 249/255, blue: 245/255, alpha: 1.0).cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
@@ -280,7 +280,7 @@ class SpeedViewController: UIViewController {
         applyButton.layer.insertSublayer(gradientLayer, at: 0)
 
         // Shadow
-        applyButton.layer.shadowColor = UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0).cgColor
+        applyButton.layer.shadowColor = UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0).cgColor
         applyButton.layer.shadowOpacity = 0.3
         applyButton.layer.shadowOffset = CGSize(width: 0, height: 4)
         applyButton.layer.shadowRadius = 8
@@ -423,7 +423,7 @@ class SpeedViewController: UIViewController {
         UIColor.white.setFill()
         circle.fill()
 
-        UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0).setStroke()
+        UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0).setStroke()
         circle.lineWidth = 2
         circle.stroke()
 
@@ -439,7 +439,7 @@ class SpeedViewController: UIViewController {
             let isSelected = abs(buttonSpeed - currentSpeed) < 0.01
 
             button.backgroundColor = isSelected
-                ? UIColor(red: 25/255, green: 184/255, blue: 250/255, alpha: 1.0)
+                ? UIColor(red: 184/255, green: 234/255, blue: 112/255, alpha: 1.0)
                 : UIColor.white.withAlphaComponent(0.1)
 
             button.setTitleColor(isSelected ? .white : .white.withAlphaComponent(0.7), for: .normal)

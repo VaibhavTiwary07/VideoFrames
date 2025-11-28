@@ -63,9 +63,8 @@
     float    buttonWidth  = self.frame.size.width;
     float  buttonHeight = self.frame.size.height;
     _assigntext = [[UILabel alloc] initWithFrame:CGRectMake(x, y+buttonHeight-20, buttonWidth, 20)];
-    _assigntext = [[UILabel alloc] initWithFrame:CGRectMake(x, y+buttonHeight-20, buttonWidth, 20)];
    
-    _assigntext.textColor=[UIColor colorWithRed:25/255 green:184/255 blue:250/255 alpha:1.0];
+    _assigntext.textColor=[UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
     _assigntext.textAlignment=NSTextAlignmentCenter;
     if (UIUserInterfaceIdiomPad == [UIDevice currentDevice].userInterfaceIdiom)
     {
