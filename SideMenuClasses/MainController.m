@@ -18038,29 +18038,22 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
 - (void)handleDeleteAction
 {
     NSLog(@"Handling delete action for photo index: %d", self.currentSelectedPhotoIndex);
-
-    // Get the photo at the selected index
-    Photo *pht = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
-    if (pht) {
-        // Clear the photo/video
-        [pht setTheImageToBlank];
-        [sess deleteImageOfFrame:self.currentSelectedPhotoIndex frame:0];
-
-        // If it's a video, delete video resources
-        if (pht.isContentTypeVideo) {
-            [sess deleteVideoAtPhototIndex:self.currentSelectedPhotoIndex];
-            [sess deleteVideoFramesForPhotoAtIndex:self.currentSelectedPhotoIndex];
-        }
-
-        NSLog(@"Photo/video deleted at index: %d", self.currentSelectedPhotoIndex);
+    
+    // Get the photo object and update UI state first
+    Photo *photo = [sess.frame getPhotoAtIndex:self.currentSelectedPhotoIndex];
+    if (photo) {
+        [photo deleteContent];
     }
-
-    // Exit photo selection mode
-    [sess exitPhotoSelectionMode];
-    self.isInPhotoSelectionMode = NO;
-
-    // Go back to main options
-    [self showMainOptionsViewController];
+    
+    // Correctly delete the main image (and original) associated with this slot
+    [sess deleteMainImageAtIndex:self.currentSelectedPhotoIndex];
+    
+    // If it's a video, delete video resources
+    [sess deleteVideoAtPhototIndex:self.currentSelectedPhotoIndex];
+    [sess deleteVideoFramesForPhotoAtIndex:self.currentSelectedPhotoIndex];
+    [sess deleteVideoEffectFramesForPhotoAtIndex:self.currentSelectedPhotoIndex];
+    
+    NSLog(@"Photo/video deleted at index: %d", self.currentSelectedPhotoIndex);
 }
 
 - (void)showAdjustOptionsViewController

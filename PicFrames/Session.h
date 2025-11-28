@@ -150,6 +150,7 @@ typedef struct
 - (void)deleteVideoEffectFramesForPhotoAtIndex:(int)photoIndex;
 - (NSString*)pathToEffectVideoAtIndex:(int)photoindex;
 - (void)deleteEffectVideoAtPhototIndex:(int)photoIndex;
+- (void)deleteMainImageAtIndex:(int)index;
 - (void)muteMasterAudio;
 - (void)unmuteMasterAudio;
 - (void)removeAudioPlayer;

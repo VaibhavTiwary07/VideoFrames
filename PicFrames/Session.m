@@ -1058,23 +1058,62 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 - (void)deleteVideoAtPhototIndex:(int)photoIndex
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    NSString * videoName = [NSString stringWithFormat:@"video_%d_%d.mp4",iSessionId,photoFromFrame.photoNumber];
-    //changed recently mp4 to mov
-    NSString *videoPath = [documentsDirectory stringByAppendingPathComponent:videoName];
+    NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSLog(@"Trying to delete video at path :%@", videoPath);
-    
-    if([[NSFileManager defaultManager]fileExistsAtPath:videoPath])
-    {
-        NSError *error;
-        BOOL folderDeleted = [[NSFileManager defaultManager]removeItemAtPath:videoPath error:&error];
-        NSAssert(YES == folderDeleted, @"deleteVideoeffectFramesForPhotoAtIndex: Failed to delete %@, error %@",videoPath,error.localizedDescription);
-        NSLog(@" FINISHED");
+    // 1. Try to get path from stored metadata first
+    NSURL *storedUrl = [self getVideoUrlForPhotoAtIndex:photoIndex];
+    if (storedUrl) {
+        [[NSFileManager defaultManager] removeItemAtURL:storedUrl error:nil];
     }
-    return;
+    
+    // 2. Fallback cleanup: Check for both .mp4 and .mov patterns using the correct photoIndex
+    NSString *mp4Name = [NSString stringWithFormat:@"video_%d_%d.mp4", iSessionId, photoIndex];
+    NSString *movName = [NSString stringWithFormat:@"video_%d_%d.mov", iSessionId, photoIndex];
+    
+    NSString *mp4Path = [documentsDirectory stringByAppendingPathComponent:mp4Name];
+    NSString *movPath = [documentsDirectory stringByAppendingPathComponent:movName];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:mp4Path]) {
+        [[NSFileManager defaultManager] removeItemAtPath:mp4Path error:nil];
+    }
+    if ([[NSFileManager defaultManager] fileExistsAtPath:movPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:movPath error:nil];
+    }
+    
+    // 3. CRITICAL: Clear persistent state to prevent "ghosting"
+    [self saveVideoInfo:nil atIndex:photoIndex];
+    [self saveFrameResourceType:FRAME_RESOURCE_TYPE_PHOTO atIndex:photoIndex];
+    
+    NSLog(@"Video deleted and metadata cleared for index %d", photoIndex);
 }
 
+- (void)deleteMainImageAtIndex:(int)index
+{
+    // 1. Delete the processed/session image
+    [Session deleteSessionImageFromHdOfId:iSessionId atIndex:index];
+    
+    // 2. Delete the original image
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [paths objectAtIndex:0];
+    NSString *filename = [NSString stringWithFormat:@"original_%d_%d.png", iSessionId, index];
+    NSString *path = [docDirectory stringByAppendingPathComponent:filename];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSError *error;
+        BOOL success = [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        if (!success) {
+            NSLog(@"Failed to delete original image: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Deleted original image at path: %@", path);
+        }
+    }
+    
+    // 3. Clear DB size info to indicate empty slot
+    [SessionDB updateImageSizeInDBWith:CGSizeZero atIndex:index forSession:iSessionId];
+    
+    // 4. Clear Frame Resource Type
+    [self saveFrameResourceType:FRAME_RESOURCE_TYPE_PHOTO atIndex:index];
+}
 
 - (void)deleteImageOfFrame:(int)photoIndex frame:(int)frameIndex
 {
