@@ -908,4 +908,31 @@
     [super dealloc];
 }
 
+- (void)exitPhotoSelectionMode
+{
+    NSLog(@"[Photo] exitPhotoSelectionMode for index %d", self.photoNumber);
+    if (self.view.curShape == SHAPE_NOSHAPE) {
+        self.view.scrollView.layer.borderWidth = 0.0;
+    } else {
+        [self.view removeBorder];
+    }
+    self.isSelected = NO;
+    self.photoSelectionMode = NO;
+}
+
+- (void)enterPhotoSelectionMode:(int)targetIndex
+{
+    NSLog(@"[Photo] enterPhotoSelectionMode for index %d", self.photoNumber);
+    
+    UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
+    if (self.view.curShape == SHAPE_NOSHAPE) {
+        self.view.scrollView.layer.borderColor = greenColor.CGColor;
+        self.view.scrollView.layer.borderWidth = 5.0;
+    } else {
+        [self.view setBorderStyle:greenColor lineWidth:5.0f dashPattern:nil];
+    }
+    self.isSelected = YES;
+    self.photoSelectionMode = YES;
+}
+
 @end

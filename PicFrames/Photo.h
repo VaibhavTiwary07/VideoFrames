@@ -76,4 +76,7 @@
 -(void)replaceWithVideo:(NSURL *)newVideoURL;
 -(void)replaceWithImage:(UIImage *)newImage;
 
+- (void)enterPhotoSelectionMode:(int)photoIndex;
+- (void)exitPhotoSelectionMode;
+
 @end

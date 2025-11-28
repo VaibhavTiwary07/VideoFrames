@@ -4448,7 +4448,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllLocksHere) name:@"ClearAllLocksHere" object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePhotoSlotSelected:) name:@"photoSlotSelected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePhotoSlotSelectedRobust:) name:@"photoSlotSelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSelectImageForPhoto:) name:selectImageForPhoto object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleEditImageForPhoto:) name:editImageForPhoto object:nil];
 
@@ -5047,7 +5047,42 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    // Handle deselection when tapping background
+    UITouch *touchObj = [touches anyObject];
+    BOOL touchedPhoto = NO;
+    if (sess && sess.frame) {
+        for (int i = 0; i < sess.frame.photoCount; i++) {
+            Photo *pht = [sess.frame getPhotoAtIndex:i];
+            if (pht) {
+                CGPoint phtLoc = [touchObj locationInView:pht.view];
+                if ([pht.view pointInside:phtLoc withEvent:event]) {
+                    touchedPhoto = YES;
+                    break;
+                }
+            }
+        }
+    }
     
+    if (!touchedPhoto && self.isInPhotoSelectionMode) {
+        for (int i = 0; i < sess.frame.photoCount; i++) {
+            Photo *pht = [sess.frame getPhotoAtIndex:i];
+            if (pht) {
+                // Deselect
+                pht.isSelected = NO;
+                pht.photoSelectionMode = NO;
+                
+                if (pht.view.curShape == SHAPE_NOSHAPE) {
+                    pht.view.scrollView.layer.borderWidth = 0.0;
+                } else {
+                    [pht.view removeBorder];
+                }
+            }
+        }
+        self.isInPhotoSelectionMode = NO;
+        self.currentSelectedPhotoIndex = -1;
+        [self hidePhotoActionViewController];
+    }
+
     UITouch *touch;
     CGPoint location;
     
@@ -17886,8 +17921,25 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         self.currentSelectedPhotoIndex = photoIndex;
         self.isInPhotoSelectionMode = YES;
 
-        // Apply green outline
-        [sess enterPhotoSelectionMode:photoIndex];
+        // Iterate through ALL photos to ensure mutual exclusivity
+        for(int i = 0; i < sess.frame.photoCount; i++)
+        {
+            Photo *pht = [sess.frame getPhotoAtIndex:i];
+            if(pht)
+            {
+                if(i == photoIndex)
+                {
+                    // This is the selected one, apply selection
+                    [pht enterPhotoSelectionMode:i];
+                }
+                else
+                {
+                    // This is NOT the selected one, deselect it!
+                    [pht exitPhotoSelectionMode];
+                    pht.isSelected = NO;
+                }
+            }
+        }
 
         // Show PhotoActionViewController
         [self showPhotoActionViewController];
@@ -18360,6 +18412,72 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
     }
     [sess setColor:sessionFrameColor];
     [optionsView AnimateView];
+}
+
+- (void)handlePhotoSlotSelectedRobust:(NSNotification *)notification
+{
+    NSLog(@"Photo slot selected notification received (Robust Inline)");
+
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *photoIndexNum = [userInfo objectForKey:@"photoIndex"];
+
+    if (photoIndexNum) {
+        int photoIndex = [photoIndexNum intValue];
+        NSLog(@"Selected photo index: %d", photoIndex);
+
+        self.currentSelectedPhotoIndex = photoIndex;
+        self.isInPhotoSelectionMode = YES;
+
+        // Iterate through ALL photos to ensure mutual exclusivity
+        for(int i = 0; i < sess.frame.photoCount; i++)
+        {
+            Photo *pht = [sess.frame getPhotoAtIndex:i];
+            if(pht)
+            {
+                if(i == photoIndex)
+                {
+                    // Select
+                    pht.isSelected = YES;
+                    pht.photoSelectionMode = YES;
+                    
+                    UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
+                    if (pht.view.curShape == SHAPE_NOSHAPE) {
+                        pht.view.scrollView.layer.borderColor = greenColor.CGColor;
+                        pht.view.scrollView.layer.borderWidth = 5.0;
+                    } else {
+                        [pht.view setBorderStyle:greenColor lineWidth:5.0f dashPattern:nil];
+                    }
+                }
+                else
+                {
+                    // Deselect
+                    pht.isSelected = NO;
+                    pht.photoSelectionMode = NO;
+                    
+                    if (pht.view.curShape == SHAPE_NOSHAPE) {
+                        pht.view.scrollView.layer.borderWidth = 0.0;
+                    } else {
+                        [pht.view removeBorder];
+                    }
+                }
+            }
+        }
+
+        [self showPhotoActionViewController];
+    }
+}
+
+- (void)hidePhotoActionViewController
+{
+    if (self.photoActionVC) {
+        [self.photoActionVC willMoveToParentViewController:nil];
+        [self.photoActionVC.view removeFromSuperview];
+        [self.photoActionVC removeFromParentViewController];
+        self.photoActionVC = nil;
+    }
+    if (optionsView) {
+        optionsView.view.hidden = YES;
+    }
 }
 
 @end

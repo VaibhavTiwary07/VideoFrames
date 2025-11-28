@@ -349,9 +349,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // Update done button
     [self updateDoneButtonAppearance];
 
-    // Save selection to Settings
-    Settings *settings = [Settings Instance];
-    settings.currentFrameNumber = (int)self.selectedFrameIndex;
+    // Note: We DO NOT save to Settings here. Selection is only committed on "Done".
+    // Settings *settings = [Settings Instance];
+    // settings.currentFrameNumber = (int)self.selectedFrameIndex;
 
     NSLog(@"Frame selected: %ld", (long)self.selectedFrameIndex);
 }
