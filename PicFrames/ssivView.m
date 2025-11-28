@@ -1128,32 +1128,39 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
     UIGraphicsBeginImageContextWithOptions(size, NO, scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    // 1. Draw the "Stroke" (Background)
-    // Use AlwaysTemplate to ensure the shape is drawn in the specified 'color'
-    UIImage *templateImage = [shapeImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [color setFill]; // Set the fill color for the context
+    // Flip context for Core Graphics operations (CGContextDrawImage / ClipToMask)
+    CGContextTranslateCTM(context, 0, size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
 
-    // Draw offsets (8 directions for smoother corners)
-    // This creates a dilated version of the shape, forming the "thick" part of the outline
+    // 1. Draw the Dilated Silhouette (Green)
+    [color setFill]; // Green
+
     CGFloat offset = lineWidth;
     int steps = 8;
+    
     for (int i = 0; i < steps; i++) {
         CGFloat angle = (i * 2 * M_PI) / steps;
         CGFloat dx = cos(angle) * offset;
-        CGFloat dy = sin(angle) * offset;
+        CGFloat dy = sin(angle) * offset; // In flipped coords, this moves appropriately
         
-        CGRect drawRect = CGRectMake(dx, dy, size.width, size.height);
-        [templateImage drawInRect:drawRect]; // Draws the template image tinted with 'color'
+        CGRect maskRect = CGRectMake(dx, dy, size.width, size.height);
+        
+        CGContextSaveGState(context);
+        // Clip to the shape mask at the offset position
+        CGContextClipToMask(context, maskRect, shapeImage.CGImage);
+        // Fill the clipped area with the solid color
+        CGContextFillRect(context, CGRectMake(-lineWidth, -lineWidth, size.width + 2*lineWidth, size.height + 2*lineWidth));
+        CGContextRestoreGState(context);
     }
 
     // 2. Punch out the center
-    // Set blend mode to DestinationOut to erase pixels where the source is opaque.
-    // This removes the inner part of the dilated shape, leaving only the hollow outline.
     CGContextSetBlendMode(context, kCGBlendModeDestinationOut);
     
-    // Draw the original shape again to define the area to be punched out
-    // The original shapeImage defines the exact inner region to clear.
-    [shapeImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    // Draw the original shape image to erase the center
+    // CGContextDrawImage uses the alpha of the image to define "what to draw"
+    // Combined with DestinationOut, it erases based on that alpha.
+    CGRect centerRect = CGRectMake(0, 0, size.width, size.height);
+    CGContextDrawImage(context, centerRect, shapeImage.CGImage);
 
     UIImage *borderImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
