@@ -29,9 +29,19 @@
 @synthesize rowIndex;
 @synthesize colIndex;
 @synthesize noTouchMode;
-@synthesize effectTouchMode;
+// REMOVED: @synthesize effectTouchMode; - property deleted
 @synthesize _internalImage;
 @synthesize isContentTypeVideo;
+@synthesize videoVolume = _videoVolume;
+
+-(void)setVideoVolume:(float)volume
+{
+    _videoVolume = volume;
+    if (self.view && self.isContentTypeVideo) {
+        [self.view setPlayerVolume:volume];
+        NSLog(@"Photo: Set video volume to %.2f", volume);
+    }
+}
 
 -(float)scale
 {
@@ -118,36 +128,15 @@
     tapTimer = nil;
     // handling code
     self.view.imageView.alpha = 1.0;
-    if (self.effectTouchMode) {
-        NSLog(@" 111111 effect selected mode");
-        if (nil!= self.view.imageView.image) {
-            self.view.scrollView.layer.borderWidth = 5.0;
-            self.view.scrollView.layer.borderColor = [UIColor redColor].CGColor;
-        }else
-        {
-            self.view.scrollView.layer.borderWidth = 0.0;
-            
-        }
-        return;
-    }
+    
+    // REMOVED: effectTouchMode check - mode is now managed by MainController
+    
     if(self.noTouchMode)
     {
         return;
     }
 
-    // Add green selection border (shape-aware)
-    self.isSelected = YES;
-    UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
-
-    if (self.view.curShape == SHAPE_NOSHAPE) {
-        self.view.scrollView.layer.borderWidth = 3.0;
-        self.view.scrollView.layer.borderColor = greenColor.CGColor;
-    } else {
-        [self.view setBorderStyle:greenColor
-                       lineWidth:3.0f
-                     dashPattern:nil];
-        self.view.scrollView.layer.borderWidth = 0.0;
-    }
+    // REMOVED: Manual drawing.
 
     // Notify to deselect other photos
     [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
@@ -174,10 +163,7 @@
 {     
     if (sender.state == UIGestureRecognizerStateEnded)     
     {
-        if (effectTouchMode) {
-            NSLog(@" effect touch mode");
-            return;
-        }
+        // REMOVED: effectTouchMode check - mode is now managed by MainController
         CGPoint p = [sender locationInView:self.view.imageView];
         NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view.imageView, self.view, nil];
         /// To maintain same view size for slect photo options menu
@@ -186,21 +172,9 @@
         NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
         NSLog(@" single tap");
 
-        // Set green selection border (shape-aware)
-        self.isSelected = YES;
-        UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
+        // REMOVED: Manual drawing. MainController handles selection visualization.
 
-        if (self.view.curShape == SHAPE_NOSHAPE) {
-            self.view.scrollView.layer.borderWidth = 3.0;
-            self.view.scrollView.layer.borderColor = greenColor.CGColor;
-        } else {
-            [self.view setBorderStyle:greenColor
-                           lineWidth:3.0f
-                         dashPattern:nil];
-            self.view.scrollView.layer.borderWidth = 0.0;
-        }
-
-        // Post notification to deselect other photos
+        // Post notification to deselect other photos and trigger MainController logic
         [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
                                                             object:self
                                                           userInfo:nil];
@@ -482,53 +456,25 @@
 
 -(void)singleTapDetected:(UITouch *)loc
 {
-    // Photo Selection Mode - for Replace/Adjust/Delete flow
-    if (self.photoSelectionMode) {
-        NSLog(@"Photo selection mode - slot tapped: %d", iPhotoNumber);
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:iPhotoNumber],@"photoIndex", nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"photoSlotSelected"
-                                                            object:self
-                                                          userInfo:dict];
-        return;
-    }
-
-    if (self.effectTouchMode) {
-        NSLog(@" 2222  effect selected mode");
-        if (nil!= self.view.imageView.image) {
-
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:iPhotoNumber],@"photoNumber", nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForApplyingEffect
-                                                                object:self
-                                                              userInfo:dict];
-        }else
-        {
-            self.view.scrollView.layer.borderWidth = 0.0;
-
-        }
-        return;
-    }
-
+    // Simplified: No mode checks here -  MainController decides what to do
+    // REMOVED: photoSelectionMode check
+    // REMOVED: effectTouchMode check
+    
     if(self.noTouchMode)
     {
         return;
     }
    
-    CGPoint p = [loc locationInView:self.view.imageView];
-    NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view.imageView, self.view, nil];
-    /// To maintain same view size for slect photo options menu
-//    NSArray *coordinates = [NSArray arrayWithObjects:[NSNumber numberWithFloat:p.x],[NSNumber numberWithFloat:p.y],self.view, self.view, nil];
-    NSArray *keys = [NSArray arrayWithObjects:@"x_location",@"y_location",@"view",@"scrollview", nil];
-    NSDictionary *location = [NSDictionary dictionaryWithObjects:coordinates forKeys:keys];
-    
+    // Always post the same notification - let MainController decide the behavior
     if(nil == self.view.imageView.image)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:selectImageForPhoto
-                         object:self userInfo:location];
+                         object:self userInfo:nil];
     }
     else
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:editImageForPhoto
-                object:self  userInfo:location];
+                object:self  userInfo:nil];
     }
 }
 
@@ -917,22 +863,12 @@
         [self.view removeBorder];
     }
     self.isSelected = NO;
-    self.photoSelectionMode = NO;
+    // REMOVED: self.photoSelectionMode = NO; - property deleted
 }
 
-- (void)enterPhotoSelectionMode:(int)targetIndex
-{
-    NSLog(@"[Photo] enterPhotoSelectionMode for index %d", self.photoNumber);
-    
-    UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
-    if (self.view.curShape == SHAPE_NOSHAPE) {
-        self.view.scrollView.layer.borderColor = greenColor.CGColor;
-        self.view.scrollView.layer.borderWidth = 5.0;
-    } else {
-        [self.view setBorderStyle:greenColor lineWidth:5.0f dashPattern:nil];
-    }
-    self.isSelected = YES;
-    self.photoSelectionMode = YES;
-}
+
+// REMOVED: enterPhotoSelectionMode and exitPhotoSelectionMode methods
+// These were duplicates of Session.m methods and caused state sync issues
+// Selection state is now managed exclusively by Session.m and MainController
 
 @end

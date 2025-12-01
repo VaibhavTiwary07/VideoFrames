@@ -810,7 +810,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 }
             }
 
-            pht.effectTouchMode =YES;
+            // REMOVED: pht.effectTouchMode =YES; - property deleted
 
         }
     }
@@ -829,7 +829,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         {
             //pht.view.imageView.image = [self getImageAtIndex:index];
             //pht.view.scrollView.layer.borderWidth = 0.0;
-            pht.effectTouchMode = NO;
+            // REMOVED: pht.effectTouchMode = NO; - property deleted
         }
     }
 }
@@ -837,6 +837,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 // MARK: - Photo Selection Mode (Green Outline)
 - (void)enterPhotoSelectionMode:(int)photoIndex
 {
+    // Use consistent green color - single definition
+    UIColor *greenColor = OT_SELECTION_BORDER_COLOR;  // Defined in Config.h
+    
     for(int index = 0; index < self.frame.photoCount; index++)
     {
         Photo *pht = [self.frame getPhotoAtIndex:index];
@@ -848,11 +851,11 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 // SELECTED: Green solid border
                 if (pht.view.curShape == SHAPE_NOSHAPE) {
                     // Rectangular: scrollView.layer border
-                    pht.view.scrollView.layer.borderColor = [UIColor greenColor].CGColor;
+                    pht.view.scrollView.layer.borderColor = greenColor.CGColor;
                     pht.view.scrollView.layer.borderWidth = 5.0;
                 } else {
                     // Shaped: shape-aware green solid border
-                    [pht.view setBorderStyle:[UIColor greenColor]
+                    [pht.view setBorderStyle:greenColor
                                    lineWidth:5.0f
                                  dashPattern:nil];
                     pht.view.scrollView.layer.borderWidth = 0.0;
@@ -868,7 +871,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 pht.isSelected = NO;
             }
 
-            pht.photoSelectionMode = YES;
+            // REMOVED: pht.photoSelectionMode = YES; - flag deleted
         }
     }
 }
@@ -886,7 +889,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                 [pht.view updateBorderForCurrentShape];  // Black dotted
             }
 
-            pht.photoSelectionMode = NO;
+            // REMOVED: pht.photoSelectionMode = NO; - flag deleted
             pht.isSelected = NO;
         }
     }

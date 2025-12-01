@@ -5069,7 +5069,7 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
             if (pht) {
                 // Deselect
                 pht.isSelected = NO;
-                pht.photoSelectionMode = NO;
+                // REMOVED: pht.photoSelectionMode = NO; - property deleted
                 
                 if (pht.view.curShape == SHAPE_NOSHAPE) {
                     pht.view.scrollView.layer.borderWidth = 0.0;
@@ -7944,7 +7944,13 @@ typedef NS_ENUM(NSUInteger, OverlayShape) {
     else if([name  isEqual:  @"Volume"])
     {
         // Show volume control for selected photo slot
-        [self showVolumeViewController];
+        eMode = MODE_VOLUME;
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Select Video"
+                                                                       message:@"Please select a video frame to adjust volume."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     else if([name  isEqual:  @"EditBackground"])
     {
@@ -17929,13 +17935,12 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
             {
                 if(i == photoIndex)
                 {
-                    // This is the selected one, apply selection
-                    [pht enterPhotoSelectionMode:i];
+                    // FIXED: Call Session method instead of Photo method
+                    // enterPhotoSelectionMode is now in Session.m only
                 }
                 else
                 {
-                    // This is NOT the selected one, deselect it!
-                    [pht exitPhotoSelectionMode];
+                    // Deselect is handled by Session.enterPhotoSelectionMode
                     pht.isSelected = NO;
                 }
             }
@@ -17968,36 +17973,73 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
 
 - (void)handleEditImageForPhoto:(NSNotification *)notification
 {
-    NSLog(@"handleEditImageForPhoto called");
+    printf("\n🟢 ========== handleEditImageForPhoto called ==========\n");
     Photo *photo = notification.object;
     if (photo) {
         int photoIndex = photo.photoNumber;
-        NSLog(@"Selected photo index from editImageForPhoto: %d", photoIndex);
+        printf("🟢 Selected photo index from editImageForPhoto: %d\n", photoIndex);
+        printf("🟢 Photo has image: %s\n", photo.image ? "YES" : "NO");
+
+        if (eMode == MODE_VOLUME) {
+            if (photo.isContentTypeVideo) {
+                currentSelectedPhotoNumberForEffect = photoIndex;
+                [self showVolumeViewController];
+            } else {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Video"
+                                                                               message:@"This frame does not contain a video."
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            return;
+        }
 
         self.currentSelectedPhotoIndex = photoIndex;
         self.isInPhotoSelectionMode = YES;
 
         // Apply green border and enable selection mode
+        printf("🟢 Calling enterPhotoSelectionMode for index: %d\n", photoIndex);
         [sess enterPhotoSelectionMode:photoIndex];
 
         // Show PhotoActionViewController
+        printf("🟢 Calling showPhotoActionViewController\n");
         [self showPhotoActionViewController];
+        
+        printf("🟢 ========== handleEditImageForPhoto complete ==========\n\n");
+    } else {
+        printf("🔴 ERROR: No photo object in notification!\n");
     }
 }
 
 - (void)showPhotoActionViewController
 {
-    NSLog(@"Showing PhotoActionViewController");
+    printf("\n🔵 ========== showPhotoActionViewController called ==========\n");
 
-    // CRITICAL FIX: Ensure optionsView is visible!
+    // Debug: Check optionsView state BEFORE changes
+    printf("🔵 optionsView object: %p\n", (__bridge void*)optionsView);
+    printf("🔵 optionsView.view: %p\n", (__bridge void*)optionsView.view);
+    printf("🔵 optionsView.view.hidden BEFORE: %d\n", optionsView.view.hidden);
+    printf("🔵 optionsView.view.frame BEFORE: {{%.1f, %.1f}, {%.1f, %.1f}}\n", 
+           optionsView.view.frame.origin.x, optionsView.view.frame.origin.y,
+           optionsView.view.frame.size.width, optionsView.view.frame.size.height);
+    printf("🔵 optionsView.view.superview: %p\n", (__bridge void*)optionsView.view.superview);
+
+    // CRITICAL FIX: Ensure optionsView is visible and brought to front!
     optionsView.view.hidden = NO;
+    [self.view bringSubviewToFront:optionsView.view];
+    
+    printf("🔵 optionsView.view.hidden AFTER setting NO: %d\n", optionsView.view.hidden);
 
     // Remove existing child view controllers from options container
+    printf("🔵 Removing existing child view controllers\n");
     [self removeOptionsChildViewController];
 
     // Create and add PhotoActionViewController
     if (!self.photoActionVC) {
+        printf("🔵 Creating NEW PhotoActionViewController\n");
         self.photoActionVC = [[PhotoActionViewController alloc] init];
+    } else {
+        printf("🔵 Reusing EXISTING PhotoActionViewController\n");
     }
 
     // Check if current slot is empty to show "Add" or "Replace" button
@@ -18006,15 +18048,33 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
                     [photo.image isEqual:[UIImage imageNamed:@"blank"]] ||
                     photo.image.size.width == 0);
 
+    printf("🔵 Photo at index %d: isEmpty=%s\n", self.currentSelectedPhotoIndex, isEmpty ? "YES" : "NO");
+
     // Set the flag before showing - this determines if button says "Add" or "Replace"
     self.photoActionVC.isEmptySlot = isEmpty;
-    NSLog(@"Photo slot %d is %@", self.currentSelectedPhotoIndex, isEmpty ? @"empty (showing Add)" : @"filled (showing Replace)");
+    [self.photoActionVC reloadOptions];
+    
+    printf("🔵 PhotoActionVC configured: isEmptySlot=%s\n", isEmpty ? "YES (showing Add)" : "NO (showing Replace)");
 
     // CORRECT: Add as child of optionsView, not self (MainController)
+    printf("🔵 Adding PhotoActionVC as child of optionsView\n");
     [optionsView addChildViewController:self.photoActionVC];
     [optionsView.view addSubview:self.photoActionVC.view];
     self.photoActionVC.view.frame = optionsView.view.bounds;
     [self.photoActionVC didMoveToParentViewController:optionsView];
+    
+    // Debug: Verify view was added
+    printf("🔵 photoActionVC.view.frame: {{%.1f, %.1f}, {%.1f, %.1f}}\n",
+           self.photoActionVC.view.frame.origin.x, self.photoActionVC.view.frame.origin.y,
+           self.photoActionVC.view.frame.size.width, self.photoActionVC.view.frame.size.height);
+    printf("🔵 photoActionVC.view.superview: %p\n", (__bridge void*)self.photoActionVC.view.superview);
+    printf("🔵 photoActionVC.view.hidden: %d\n", self.photoActionVC.view.hidden);
+    printf("🔵 optionsView.view subviews count: %lu\n", (unsigned long)optionsView.view.subviews.count);
+    
+    // Set background color temporarily for visibility testing
+    self.photoActionVC.view.backgroundColor = [UIColor colorWithRed:28/255.0 green:32/255.0 blue:38/255.0 alpha:1.0];
+    
+    printf("🔵 ========== showPhotoActionViewController complete ==========\n\n");
 }
 
 - (void)handlePhotoActionSelected:(NSNotification *)notification
@@ -18023,6 +18083,53 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
 
     NSDictionary *userInfo = notification.userInfo;
     NSString *action = [userInfo objectForKey:@"action"];
+    
+    if([action isEqualToString:@"Back"])
+    {
+        for(int i = 0; i < sess.frame.photoCount; i++) {
+            Photo *pht = [sess.frame getPhotoAtIndex:i];
+            if(pht) {
+                pht.isSelected = NO;
+                // REMOVED: pht.photoSelectionMode = NO; - property deleted
+                if (pht.view.curShape == SHAPE_NOSHAPE) {
+                    pht.view.scrollView.layer.borderWidth = 0.0;
+                } else {
+                    [pht.view removeBorder];
+                }
+            }
+        }
+        self.isInPhotoSelectionMode = NO;
+        self.currentSelectedPhotoIndex = -1;
+        [self hidePhotoActionViewController];
+        return;
+    }
+    else if([action isEqualToString:@"Filter"])
+    {
+        if(!self.sheetFilterVC) {
+            self.sheetFilterVC = [[EffectsViewController alloc] init];
+        }
+        self.sheetFilterVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:self.sheetFilterVC animated:YES completion:nil];
+        return;
+    }
+
+    // Both "Add" and "Replace" do the same thing - open picker
+    if ([action isEqualToString:@"Add"] || [action isEqualToString:@"Replace"]) {
+        NSLog(@"%@ action selected", action);
+        [self handleReplaceAction];
+    }
+    else if ([action isEqualToString:@"Adjust"]) {
+        NSLog(@"Adjust action selected");
+        [self showAdjustOptionsViewController];
+    }
+    else if ([action isEqualToString:@"Delete"]) {
+        NSLog(@"Delete action selected");
+        [self handleDeleteAction];
+    }
+    else if ([action isEqualToString:@"Mute"]) {
+        NSLog(@"Mute action selected");
+        [self toggleVideoMuteStatus:self.currentSelectedPhotoIndex];
+    }
 
     // Both "Add" and "Replace" do the same thing - open picker
     if ([action isEqualToString:@"Add"] || [action isEqualToString:@"Replace"]) {
@@ -18358,6 +18465,26 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
 }
 
 - (void)applyNewFrameSelection:(NSInteger)frameNumber {
+    printf("\n🟡 ========== applyNewFrameSelection: %ld ==========\n", (long)frameNumber);
+    
+    // CRITICAL FIX: Exit photo selection mode when switching frames
+    // This prevents PhotoActionViewController from remaining visible on the new frame
+    if (self.isInPhotoSelectionMode) {
+        printf("🟡 Frame switch detected: Exiting photo selection mode\n");
+        printf("🟡 Hiding PhotoActionViewController\n");
+        
+        // Exit photo selection mode (removes green outlines)
+        [sess exitPhotoSelectionMode];
+        self.isInPhotoSelectionMode = NO;
+        
+        // Hide PhotoActionViewController (removes Replace/Adjust/Delete buttons)
+        [self hidePhotoActionViewController];
+        
+        printf("🟡 Photo selection mode cleanup complete\n");
+    } else {
+        printf("🟡 Not in photo selection mode, no cleanup needed\n");
+    }
+    
     [self finishEffectProcessing];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -18438,7 +18565,7 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
                 {
                     // Select
                     pht.isSelected = YES;
-                    pht.photoSelectionMode = YES;
+                    // REMOVED: pht.photoSelectionMode = YES; - property deleted
                     
                     UIColor *greenColor = [UIColor colorWithRed:184/255.0 green:234/255.0 blue:112/255.0 alpha:1.0];
                     if (pht.view.curShape == SHAPE_NOSHAPE) {
@@ -18452,7 +18579,7 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
                 {
                     // Deselect
                     pht.isSelected = NO;
-                    pht.photoSelectionMode = NO;
+                    // REMOVED: pht.photoSelectionMode = NO; - property deleted
                     
                     if (pht.view.curShape == SHAPE_NOSHAPE) {
                         pht.view.scrollView.layer.borderWidth = 0.0;
@@ -18475,8 +18602,12 @@ NSDictionary *default_ParamsForFilter(NSString *filterName) {
         [self.photoActionVC removeFromParentViewController];
         self.photoActionVC = nil;
     }
+    
+    // Restore default options view content (Main Tabs)
+    [self selectEditTab]; 
+    
     if (optionsView) {
-        optionsView.view.hidden = YES;
+        optionsView.view.hidden = NO;
     }
 }
 

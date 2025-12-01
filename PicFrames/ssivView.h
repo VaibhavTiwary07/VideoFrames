@@ -55,4 +55,5 @@
 - (void)updateBorderForCurrentShape;
 - (void)setBorderStyle:(UIColor *)color lineWidth:(CGFloat)width dashPattern:(NSArray *)pattern;
 - (void)removeBorder;
+- (void)setPlayerVolume:(float)volume;
 @end

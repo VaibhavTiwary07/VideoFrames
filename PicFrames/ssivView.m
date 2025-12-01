@@ -803,6 +803,29 @@ static tShapeMap shape_imagenamemaping[SHAPE_LAST] = {
     self.isProgrammaticMuteChange = NO;
 }
 
+-(void)setPlayerVolume:(float)volume
+{
+    AVPlayerItem *playerItem = self.player.currentItem;
+    if (!playerItem) return;
+    
+    NSMutableArray *newParameters = [NSMutableArray array];
+    NSArray<AVAssetTrack *> *audioTracks = [playerItem.asset tracksWithMediaType:AVMediaTypeAudio];
+    
+    for (AVAssetTrack *track in audioTracks) {
+        AVMutableAudioMixInputParameters *params =
+            [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:track];
+        [params setVolume: volume atTime:kCMTimeZero];
+        [newParameters addObject:params];
+    }
+    
+    AVMutableAudioMix *newAudioMix = [AVMutableAudioMix audioMix];
+    newAudioMix.inputParameters = newParameters;
+    playerItem.audioMix = newAudioMix;
+    
+    self.audioMix = newAudioMix;
+    self.audioMixInputParameters = newParameters;
+}
+
 
 - (void)muteAudio {
     NSLog(@"mute %@ isAudioMuted %@", self.isvideoMute ? @"YES" : @"NO", self.isAudioMuted ? @"YES" : @"NO");

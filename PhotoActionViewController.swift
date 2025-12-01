@@ -24,6 +24,13 @@ class PhotoActionViewController: UIViewController, UICollectionViewDelegate, UIC
 
         // Photo Action TabBar: Add/Replace, Adjust, Delete, Mute
 
+        // Back
+        if let systemImage = UIImage(systemName: "chevron.left", withConfiguration: config) {
+            let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+            let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
+            optionsList.append(Option(name: "Back", image: whiteImage, selectedImage: selectedImage))
+        }
+
         // First button - "Add" if empty slot, "Replace" if filled slot
         let firstButtonTitle = isEmptySlot ? "Add" : "Replace"
         if let systemImage = UIImage(systemName: "arrow.triangle.2.circlepath", withConfiguration: config) {
@@ -37,13 +44,6 @@ class PhotoActionViewController: UIViewController, UICollectionViewDelegate, UIC
             let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
             let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
             optionsList.append(Option(name: "Adjust", image: whiteImage, selectedImage: selectedImage))
-        }
-
-        // Filter
-        if let systemImage = UIImage(systemName: "camera.filters", withConfiguration: config) {
-            let whiteImage = systemImage.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
-            let selectedImage = systemImage.withTintColor(customColor, renderingMode: .alwaysOriginal)
-            optionsList.append(Option(name: "Filter", image: whiteImage, selectedImage: selectedImage))
         }
 
         // Delete - trash icon
@@ -89,6 +89,14 @@ class PhotoActionViewController: UIViewController, UICollectionViewDelegate, UIC
             for indexPath in selectedIndexPaths {
                 optionsCollectionView.deselectItem(at: indexPath, animated: true)
             }
+        }
+    }
+
+    @objc func reloadOptions() {
+        optionsList.removeAll()
+        loadData(isEmptySlot: self.isEmptySlot)
+        if let collectionView = optionsCollectionView {
+            collectionView.reloadData()
         }
     }
 

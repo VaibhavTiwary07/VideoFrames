@@ -47,8 +47,8 @@
 @property(nonatomic,readwrite)float rowIndex;
 @property(nonatomic,readwrite)float colIndex;
 @property(nonatomic,readwrite)BOOL noTouchMode;
-@property(nonatomic,readwrite)BOOL effectTouchMode;
-@property(nonatomic,readwrite)BOOL photoSelectionMode;
+// REMOVED: effectTouchMode - now managed by MainController.isInEffectMode
+// REMOVED: photoSelectionMode - redundant, isSelected is sufficient
 @property(nonatomic,readwrite)BOOL isContentTypeVideo;
 @property(nonatomic,readwrite)BOOL muteAudio;
 @property(nonatomic,readwrite)float videoVolume;
@@ -76,7 +76,7 @@
 -(void)replaceWithVideo:(NSURL *)newVideoURL;
 -(void)replaceWithImage:(UIImage *)newImage;
 
-- (void)enterPhotoSelectionMode:(int)photoIndex;
-- (void)exitPhotoSelectionMode;
+// REMOVED: enterPhotoSelectionMode and exitPhotoSelectionMode
+// These methods are now in Session.m only (single source of truth)
 
 @end

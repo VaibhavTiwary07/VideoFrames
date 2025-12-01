@@ -500,5 +500,8 @@ blue:((float)((rgbValue & 0xFF)>>21 ))/255.0 alpha:1.0]
 
 #define kStringArray [NSArray arrayWithObjects:@"Select Photo", @"Select Video",@"Remove", nil]
 
+#define OT_SELECTION_BORDER_COLOR [UIColor colorWithRed:184.0/255.0 green:234.0/255.0 blue:112.0/255.0 alpha:1.0]
+#define OT_ERROR_BORDER_COLOR [UIColor redColor]
+
 #endif
 

@@ -107,6 +107,7 @@ typedef enum
     MODE_SIZES,
     MODE_STICKERS,
     MODE_TEXT,
+    MODE_VOLUME,
     MODE_MAX
 }eAppMode;
 #endif
